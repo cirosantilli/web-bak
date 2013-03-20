@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!--c like syntax, focus on differences from c syntax-->
+<html>
+<head>
+<script>
+//scripts are executed in the order they are seen
+//therefore head scripts are executed before body ones
+    function defined_in_head(){}
+</script>
+</head>
+<body>
+<script>
+
+function assert_true( tf )
+{
+    if ( ! tf )
+    {
+        document.write("<h1>ASSERT FAILED</h1>");
+        exit();
+    }
+}
+
+function maybe_return( b )
+{
+    if ( b )
+    {
+        return 0;
+    }
+}
+
+assert_true( true );
+
+//#use script
+
+    //definitions of previous <script> blocks can be used in later script blocks:
+        defined_in_head();
+
+//#string
+
+        var s = "abc";
+        var s = 'abc';
+        var s = "\n";
+        var s = '\n';
+        var s = "'";
+        var s = '"';
+
+    //#escape
+        
+        //url encode
+
+            assert_true( escape( " " ) === "%20" );
+            assert_true( unescape( escape( " " ) ) === " " );
+
+    //#replace
+
+        //perl-like regex replace
+
+            assert_true( "a0ba1b".replace( /a(.)b/g, "$1" ) === "01"  );
+
+//#if
+
+        if ( false )
+        {
+            assert_true( false );
+        }
+
+        if ( true )
+        {
+            assert_true( true );
+        }
+
+//#function
+    
+    //return is optional:
+        assert_true( maybe_return( true  ) == 0    );
+        assert_true( maybe_return( false ) == null );
+
+    //TODO default positional arguments
+    //TODO named arguments?
+
+//#Date
+
+    //new Date() // current date and time
+    //new Date(milliseconds) //milliseconds since 1970/01/01
+    //new Date(dateString)
+
+        var d = new Date( 2000, 1, 2, 3, 4, 5, 6 );
+        assert_true( d.getFullYear()     === 2000 );
+        assert_true( d.getMonth()        === 1 );
+        assert_true( d.getDate()         === 2 ); //day of the month
+        assert_true( d.getHours()        === 3 );
+        assert_true( d.getMinutes()      === 4 );
+        assert_true( d.getSeconds()      === 5 );
+        assert_true( d.getMilliseconds() === 6 );
+
+//#dialogs
+
+    //a bit too invasive
+
+    //user must respond before he can do anything else
+
+        //alert( "an alert" );
+        //var v = prompt( "what:", "default" );
+
+//#cookies
+
+    //a way of storing small data strings on user's computer hard disk
+
+    //view all cookies on firefox:
+        //firefox chrome://browser/content/preferences/cookies.xul
+
+    //part of DOM
+
+    //cookies can be set/get only for current domain.
+
+    //WARNING: some browsers may not keep cookies for local files (file://)
+    //so these tests may fail. current firefox does keep the cookies.
+
+    //each browser stores its own cookies
+
+    //#path
+
+        //cookies can be set only for current **path** and its parents
+
+        //Ex: in ``www.abc.com/a/b.html``, the path is ``a/a.html``.
+        //so ``a.html`` can set cookies for ``/``, ``/a/`` and ``/a/a.html`` from ``/a/a.html``
+
+        //If the location is a directory, then all subdirs can also get the cookies.
+        //Ex: cookies set for ``/`` can be seen on ``/a/`` and on ``/b/``
+
+    //#js interface
+
+        //browser parses given strings
+
+        //example:
+            document.cookie = "key=val;";
+            document.cookie = "key=val2;";
+        //only val2 is kept
+
+        //BAD:
+            document.cookie = "key2=val2;key3=val3";
+        //only key2 is set
+
+    //#properties
+
+        //are special key/value pairs that automatically tell the browser to do things
+
+        //#expires
+
+            //previous key is deleted by broser at given utc stringe date:
+                var now = new Date();
+                var later = now;
+                later.setMinutes( now.getMinutes() + 1 );
+                document.cookie += "keyExp=valExp;expires=" + later.toUTCString();
+
+        //#path
+
+            //cookie path
+
+            //defaults to current file/dir
+
+            //can only be set for parent dirs of current path
+
+            //TODO example
+
+        //#safe
+
+            //if set to exactly ``= safe``, this cookie will only be sent over ``https``, not ``http``
+
+            //TODO example
+
+    //#higher level js interface
+
+        //c_name: string
+        //value: string
+        //exdays: integer
+        function setCookie ( c_name, value, exdays )
+        {
+            var exdate = new Date();
+            exdate.setDate( exdate.getDate() + exdays );
+            var c_value = escape( value ) + ( (exdays==null) ? "" : "; expires=" + exdate.toUTCString() );
+            document.cookie = c_name + "=" + c_value;
+        }
+
+        //c_name: string
+        //@return: null if not found, value if found
+        function getCookie(c_name)
+        {
+            var i, x, y, ARRcookies = document.cookie.split(";");
+            for ( i = 0; i < ARRcookies.length; i++ )
+            {
+                x = ARRcookies[i].substr( 0, ARRcookies[i].indexOf("=") );
+                y = ARRcookies[i].substr( ARRcookies[i].indexOf("=") + 1 );
+                x = x.replace( /^\s+|\s+$/g, "" );
+                if ( x == c_name )
+                {
+                    return unescape( y );
+                }
+            }
+        }
+
+        function delCookie( name, path, domain ) 
+        {
+            if ( Get_Cookie( name ) )
+                document.cookie=name+"="+((path) ? ";path="+path:"")+((domain)?";domain="+domain:"") +
+                                            ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
+        }
+
+        document.write( "<h1>cookies</h1>" + document.cookie + "<br>");
+
+//#jquery
+    
+    //$('[a]')
+    //attribute is set
+   
+    //$('e f')
+    //f descendant of e
+ 
+    //$('e > f')
+    //f child of e
+    //
+    //E + F an F element immediately preceded by an E element
+    //E ~ F an F element preceded by an E element
+    //E,F,G select all E elements, F elements, and G elements 
+
+    //$(e + ' ' + f)
+    //selector from variables: must cat
+
+//hot apps/plugins
+  //http://datatables.net
+  //  table filter, sort and pagination
+  //
+  //http://loopj.com/jquery-tokeninput/
+  //  user selects multiple values from dropdown list with autocomplete
+  //  can click on item to remove
+  //
+  //http://jqueryui.com
+  //enourmous ui project
+  //
+      //http://jqueryui.com/autocomplete/#multiple
+      //  idem, but added as text
+
+document.write("<h1>ALL ASSERST PASSED</h1>");
+
+</script>
+
+<!--events-->
+
+    <div onload="alert('onload')" ></div>
+    <div onclick="alert('onclick')" >click me</div>
+
+<!--attributes-->
+
+    <!--double or single quotes are ok-->
+        <div val="attr"></div>
+        <div val='attr'></div>
+        <div val='"'></div>
+        <div val="&quot;"></div>
+        <div val="'"></div>
+        <div val="&apos;"></div>
+
+</body>
+</html> 
