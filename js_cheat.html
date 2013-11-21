@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+
+<!--
+Javascript is a toy language that runs in a browser.
+
+It can be embedded on the HTML given by the server to the browser inside `script` tags.
+It can also be given in separate `.js` files which are then included in the HTML header.
+
+Only body and head tags can contain `script` tags.
+
+One of the goals of javascript is to restrict what the language can do to prevent
+malicious attacks.
+
+Therefore, by design choice javascript does not allows dangerous operations
+such as file io.
+
+Official language name: ECMA-262
+
+Free language specification at: <http://www.ecma-international.org/publications/standards/Ecma-262.htm>
+-->
+
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<!-- events -->
+
+    <div onload="alert('onload')" ></div>
+    <div onclick="alert('onclick')" >click me</div>
+
+<!--
+#multiple script blocks
+
+    Scripts are executed in the order which they appear on the file
+    therefore head scripts are executed before body ones
+
+    Definitions from previous scripts blocks are kept for future script blocks.
+
+    Errors (e.g. undefined variables) only stop execution of the current script block:
+    further blocks are still executed.
+-->
+
+    <script>
+        var i = 1
+    </script>
+
+    <script>
+        assert(i === 2)
+    </script>
+
+<!--
+#src
+
+    Source a script from a separate .js file.
+-->
+    <script src="external.js" />
+
+    <script>
+        assert(external === 1)
+    </script>
+
+<!--
+#src
+
+    It is possible to run external scripts asynchronously.
+
+    Of course, this makes script run other unpredictable.
+
+    The async attribute can only be used for external scripts.
+-->
+    <script src="external.js" async />
+
+<script>
+/*
+#script type
+
+    Before HTML5 it was mandatory to specify the language of the script as an attribute
+    to the script tag:
+
+        type="text/javascript"
+
+    After HTML5 js became the default, so the attribute is not needed anymore.
+*/
+
+function assert(tf) {
+    if (!tf) {
+        document.write("<h1>ASSERT FAILED</h1>")
+        exit()
+    }
+}
+
+assert(true)
+
+//#exit
+
+    // Stop interpreting the current script block now.
+
+        //exit()
+
+//#semicolon #;
+
+    // Separates statements. Optional if there is a newline.
+
+        var i = 1; i = 2;
+        assert(i === 2);
+
+        var i = 1
+        i = 2
+        assert(i === 2)
+
+//#comments
+
+    // Like C++.
+
+        // Single line.
+
+        /* Multi
+           line.
+         */
+
+//#case
+
+    // Javascript is case sensitive
+
+        var i = 1
+        var I = 2
+        assert(i === 1)
+        assert(I === 2)
+
+/*
+#identifiers
+
+    JS identifiers can contain very weird characters.
+    <http://stackoverflow.com/questions/1661197/valid-characters-for-javascript-variable-names>
+
+    The first character is more restricted than the following ones, for example it cannot be a number.
+
+    Some JS libraries make extensive use of that,
+    for example JQuery and the dollar sign `$`.
+
+    Make sure you have head > meta > UTF-8 if you really want to use non ASCII identifier chars.
+*/
+
+        var $ = 1
+        assert($ === 1)
+
+        var ᾏ = 1
+        assert(ᾏ === 1)
+
+//#var
+
+    // Create a new variable in current scope instead of using existing variables in outer scopes.
+
+    // It is a good practice to always use var, unless you explicitly expect the variable
+    // to refer to something on the outter scope.
+
+        function incr_var() {
+            var i
+            i += 1
+        }
+
+        function incr_novar() {
+            i += 1
+        }
+
+        i = 1
+        incr_var()
+        assert(i === 1)
+
+        i = 1
+        incr_novar()
+        assert(i === 2)
+
+//#string
+
+        var s = "abc"
+        var s = 'abc'
+        var s = "\n"
+        var s = '\n'
+        var s = "'"
+        var s = '"'
+
+    //#escape
+
+        // URL encode:
+
+            assert(escape(" ") === "%20")
+            assert(unescape(escape(" ")) === " ")
+
+    //#replace
+
+        // Perl-like regex replace
+
+            assert("a0ba1b".replace(/a(.)b/g, "$1") === "01")
+
+    //#concat #+
+
+        // Creates new string that is the concatenation of two others.
+
+            var s = "a"
+            assert(s + "b" === "ab")
+            assert(s === "a")
+
+            var s = "a"
+            assert(s.concat("b") === "ab")
+            assert(s === "a")
+
+            assert("a".concat("b").concat("c") === "abc")
+
+    //#concat
+
+        // Modify string inline.
+
+            var s = "a"
+            s += "b"
+            assert(s === "ab")
+
+//#if
+
+        if (false) {
+            assert(false)
+        }
+
+        if (true) {
+            assert(true)
+        }
+
+//#function
+
+    //return is optional:
+
+        function maybe_return(b) {
+            if (b) {
+                return 0
+            }
+        }
+
+        assert(maybe_return(true)  == 0   )
+        assert(maybe_return(false) == null)
+
+    //TODO default positional arguments
+    //TODO named arguments?
+
+    // It is possible to assign functions to variables:
+
+            function f() {
+                return 1
+            }
+            var vf = f
+            assert(vf() === 1)
+
+    //#anonymous function
+
+            var f = function() {return 1}
+            assert(f() === 1)
+
+    //call before definition
+
+        // Unlike variables, functions can be defined after usage.
+
+        // At call functions are searched for forwards.
+
+        // This is called hoisting.
+
+            assert(to_be_defined() == 1)
+            function to_be_defined() {
+                return 1
+            }
+
+        // The lookahead only works for `function` statements.
+
+        // It does not work for function expressions in anonymous functions for example:
+
+            //assert(to_be_defined_anon() == 1) //ERROR
+            var to_be_defined_anon = function() {
+                return 1
+            }
+
+//#Date
+
+    //new Date() // current date and time
+    //new Date(milliseconds) //milliseconds since 1970/01/01
+    //new Date(dateString)
+
+        var d = new Date(2000, 1, 2, 3, 4, 5, 6)
+        assert(d.getFullYear()     === 2000)
+        assert(d.getMonth()        === 1)
+        assert(d.getDate()         === 2); //day of the month
+        assert(d.getHours()        === 3)
+        assert(d.getMinutes()      === 4)
+        assert(d.getSeconds()      === 5)
+        assert(d.getMilliseconds() === 6)
+
+//#dialogs
+
+    //a bit too invasive
+
+    //user must respond before he can do anything else
+
+        //alert("an alert")
+        //var v = prompt("what:", "default")
+
+//#cookies
+
+    //a way of storing small data strings on user's computer hard disk
+
+    //view all cookies on firefox:
+        //firefox chrome://browser/content/preferences/cookies.xul
+
+    //Cookies are accessible through DOM
+
+    //cookies can be set/get only for current domain.
+
+    //WARNING: some browsers may not keep cookies for local files (file://)
+    //so these tests may fail. current firefox does keep the cookies.
+
+    //each browser stores its own cookies
+
+    //#nonjs
+
+        //cookies can also be set via headers using the ``Set-Cookie`` header key.
+
+        //cookies are automatically sent to servers by browsers via the ``Cookie`` header value.
+
+        //cookies are sent from servers to cgi scripts via the ``HTTP_COOKIE`` env var.
+
+        //these are the most reliable methods, there is no need to use js for cookies.
+
+    //#session cookies
+
+        //a way to maintain user logged in
+
+        //1) username/password is sent to server encrypted in some way (HTTP Basic + SSL, POST + SSL)
+
+        //2) server authenticates, and creates a large random number, sotores it,
+            //and sends it as a non persistent cookie that is an unique number
+
+        //3) whenever the user hits another url, this large number is sent to server.
+            //and user is logged in.
+
+        //TODO: how to avoid getting the session highjacked?
+
+    //#path
+
+        //cookies can be set only for current **path** and its parents
+
+        //Ex: in ``www.abc.com/a/b.html``, the path is ``a/a.html``.
+        //so ``a.html`` can set cookies for ``/``, ``/a/`` and ``/a/a.html`` from ``/a/a.html``
+
+        //If the location is a directory, then all subdirs can also get the cookies.
+        //Ex: cookies set for ``/`` can be seen on ``/a/`` and on ``/b/``
+
+    //#js interface
+
+        //browser parses given strings
+
+        //example:
+
+            document.cookie = "key=val;"
+            document.cookie = "key=val2;"
+
+        //only val2 is kept
+
+        //BAD:
+
+            document.cookie = "key2=val2;key3=val3"
+
+        //only key2 is set
+
+    //#properties
+
+        //are special key/value pairs that automatically tell the browser to do things
+
+        //#expires
+
+            //previous key is deleted by broser at given utc stringe date:
+
+                var now = new Date()
+                var later = now
+                later.setMinutes(now.getMinutes() + 1)
+                document.cookie += "keyExp=valExp;expires=" + later.toUTCString()
+
+            //if expires is not given, then cookies expire when the brower is closed!
+
+            //it is not possible to make a cookie that neveer expires,
+            //only one with a huge expiry date
+
+        //#path
+
+            //cookie path
+
+            //defaults to current file/dir
+
+            //can only be set for parent dirs of current path
+
+
+        //#safe
+
+            //if set to exactly ``= safe``, this cookie will only be sent over ``https``, not ``http``
+
+                document.cookie = "keySafe=v;safe"
+
+            //TODO confirm usage correct
+
+        //#HttpOnly
+
+            //instructs server not to pass the cookie to cgi scripts.
+
+            //this can increase security of session cookies
+
+            //<http://www.codinghorror.com/blog/2008/08/protecting-your-cookies-httponly.html>
+
+                document.cookie = "keySafe=v;HttpOnly"
+
+    //#higher level js interface
+
+        //c_name: string
+        //value: string
+        //exdays: integer
+        //
+        function setCookie (c_name, value, exdays)
+        {
+            var exdate = new Date()
+            exdate.setDate(exdate.getDate() + exdays)
+            var c_value = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toUTCString())
+            document.cookie = c_name + "=" + c_value
+        }
+
+        //c_name: string
+        //@return: null if not found, value if found
+        //
+        function getCookie(c_name)
+        {
+            var i, x, y, ARRcookies = document.cookie.split(";")
+            for (i = 0; i < ARRcookies.length; i++)
+            {
+                x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="))
+                y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1)
+                x = x.replace(/^\s+|\s+$/g, "")
+                if (x == c_name)
+                {
+                    return unescape(y)
+                }
+            }
+        }
+
+        function delCookie(name, path, domain)
+        {
+            if (Get_Cookie(name))
+                document.cookie=name+"="+((path) ? ";path="+path:"")+((domain)?";domain="+domain:"") +
+                                            ";expires=Thu, 01 Jan 1970 00:00:01 GMT"
+        }
+
+        document.write("<h1>cookies</h1>" + document.cookie + "<br>")
+
+//#XMLHttpRquest #ajax
+
+    // Make a server request without reloading the entire page.
+
+        var xmlhttp=new XMLHttpRequest()
+
+    //#open
+
+        // Set basic request info. Does not send the request yet.
+
+        // Open signature: `open(method,url,async)
+
+            xmlhttp.open("GET", "ajax/url", true)
+            xmlhttp.open("GET", "ajax/url?a=1&b=2", true)
+            xmlhttp.open("POST", "ajax/url", true)
+            xmlhttp.open("POST", "ajax/url", true)
+
+        // Post data is set at `send`.
+
+    //#setRequestHeader
+
+        // Allows full control over the HTTP headers.
+
+        // Many JS libraries add the following to the header:
+
+            // xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+
+    // #response #onreadystatechange
+
+        // Response should be used from a callback function on asynchronous mode.
+
+        // `onreadystatechange` callback is called every time the readyState property changes.
+
+        // Its possible values are:
+
+        // - 0: request not initialized
+        // - 1: server connection established
+        // - 2: request received
+        // - 3: processing request
+        // - 4: request finished and response is ready
+
+        // It is typical for the state to go through all of those states.
+
+        // TODO how does the server inform which state we are currently on?
+
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                    //#responseText
+
+                        // Field always present.
+
+                        // If the response is known to be plain text,
+                        // it should be retreived via the responseText attribute.
+
+                            document.getElementById("myDiv").innerHTML = xmlhttp.responseText
+
+                    //#responseXML
+
+                        // Field only present if the response type is specified XML on the HTTP headers.
+
+                            //xmlDoc = xmlhttp.responseXML
+                            //x = xmlDoc.getElementsByTagName("ARTIST")
+                            //for (i = 0; i < x.length; i++) {
+                                //txt=txt + x[i].childNodes[0].nodeValue + "<br>"
+                            //}
+                }
+            }
+
+    //#send
+
+        // Send the request.
+
+        // Can also send data for post requests:
+
+            //xmlhttp.send()
+            //xmlhttp.send("fname=Henry&lname=Ford")
+
+//#jquery
+
+    //$('[a]')
+    //attribute is set
+
+    //$('e f')
+    //f descendant of e
+
+    //$('e > f')
+    //f child of e
+    //
+    //E + F an F element immediately preceded by an E element
+    //E ~ F an F element preceded by an E element
+    //E,F,G select all E elements, F elements, and G elements
+
+    //$(e + ' ' + f)
+    //selector from variables: must cat
+
+/*
+#hot apps/plugins
+
+    http://datatables.net
+      table filter, sort and pagination
+
+    http://loopj.com/jquery-tokeninput/
+      user selects multiple values from dropdown list with autocomplete
+      can click on item to remove
+
+    http://jqueryui.com
+    enourmous ui project
+
+    http://jqueryui.com/autocomplete/#multiple
+      idem, but added as text
+*/
+
+document.write("<h1>ALL ASSERST PASSED</h1>")
+</script>
+</body>
+</html>
