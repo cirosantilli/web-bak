@@ -10,52 +10,71 @@ HTML4 has others.
 -->
 <html>
 <head>
-    <title>title0</title>
+    <title>cheat</title>
     <meta name="description" content="Free Web tutorials">
     <meta name="keywords" content="HTML,CSS,XML,JavaScript">
     <meta name="author" content="Ståle Refsnes">
     <meta charset="UTF-8">
 </head>
 <body>
-<h1>link</h1>
+<h1>#anchor #link</h1>
 
-<a href="#href">content</a>
+    <a href="#href">link to destination</a>
+    <p id="href">link destination</p>
 
-<p id="href">link here</p>
+    <!--
+    #nofollow
 
-<h1>img</h1>
+        Has no special semantics to browsers,
+        but may instruct users and search engines not to follow links.
+    -->
+    <a href="cheat2.html" rel="nofollow">rel="nofollow"</a>
 
-<img src="_out/png.png" height="100" width="200" />
+    <!--
+    HTML anchors can contain any other html elements.
 
-<h3>alt</h3>
+    Everything inside those elements is clickable.
+    -->
+    <a href="cheat2.html">
+        <p>p inside anchor</p>
+        <img src="png.png" height="10" width="20" />
+        <!-- The innermost anchor wins the link direction: -->
+        <a href="cheat3.html">cheat3.html</a>
+    </a>
 
-<p>if:</p>
+<h1>#img</h1>
 
-<ul>
-    <li>an image does not exist</li>
-    <li>the format is not supported by the browser (<a href="http://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support">support list</a>)</li>
-</ul>
+    <img src="png.png" height="100" width="200" />
 
-<p>the alt text will be shown</p>
+    <h2>#alt</h2>
 
-<p>no alt text:</p>
+        <p>if:</p>
 
-<img src="i_dont_exist.format_not_supported" />
+        <ul>
+            <li>an image does not exist</li>
+            <li>the format is not supported by the browser (<a href="http://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support">support list</a>)</li>
+        </ul>
 
-<p>with alt text:</p>
+        <p>the alt text will be shown</p>
 
-<img src="i_dont_exist.format_not_supported" alt="alt text" />
+        <p>no alt text:</p>
 
-<!-- attributes -->
+        <img src="i_dont_exist.format_not_supported" />
 
-    <!-- double or single quotes are ok -->
+        <p>with alt text:</p>
 
-        <div val="attr"></div>
-        <div val='attr'></div>
-        <div val='"'></div>
-        <div val="&quot;"></div>
-        <div val="'"></div>
-        <div val="&apos;"></div>
+        <img src="i_dont_exist.format_not_supported" alt="alt text" />
+
+        <!-- attributes -->
+
+            <!-- double or single quotes are ok -->
+
+                <div val="attr"></div>
+                <div val='attr'></div>
+                <div val='"'></div>
+                <div val="&quot;"></div>
+                <div val="'"></div>
+                <div val="&apos;"></div>
 
 </body>
 </html>

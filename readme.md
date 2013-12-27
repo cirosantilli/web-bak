@@ -1,3 +1,5 @@
-simple and general web design stuff that didin't fit anywhere else.
+Web design cheats and info.
 
-larger projects/cheats may be in their own repo, or under a language specific repo (ex: django stuff under a python repo)
+Includes mostly HTML and JS.
+
+Server side languages and frameworks like Python, Django, Ruby, Ror are not here.
