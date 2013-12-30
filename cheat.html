@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+
+<!--
+Main HTML cheat.
+
+This only considers versions of HTML which are valid XML.
+Features which are inherited from XML shall not be discussed here.
+-->
+
 <!--
 The first line determines the document type.
 
@@ -10,13 +18,30 @@ HTML4 has others.
 -->
 <html>
 <head>
-    <title>cheat</title>
+    <!--
+        The favicon.ico will show on the tab before the title.
+        It is like an icon of a desktop application.
+    -->
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <title>cheat title</title>
     <meta name="description" content="Free Web tutorials">
     <meta name="keywords" content="HTML,CSS,XML,JavaScript">
     <meta name="author" content="Ståle Refsnes">
     <meta charset="UTF-8">
 </head>
 <body>
+
+<!-- attributes -->
+
+<!-- double or single quotes are ok -->
+
+    <div val="attr"></div>
+    <div val='attr'></div>
+    <div val='"'></div>
+    <div val="&quot;"></div>
+    <div val="'"></div>
+    <div val="&apos;"></div>
+
 <h1>#anchor #link</h1>
 
     <a href="#href">link to destination</a>
@@ -36,45 +61,111 @@ HTML4 has others.
     Everything inside those elements is clickable.
     -->
     <a href="cheat2.html">
-        <p>p inside anchor</p>
-        <img src="png.png" height="10" width="20" />
+        <p>p</p>
+        <p>img: <img src="png.png" height="20" width="20"/><p>
         <!-- The innermost anchor wins the link direction: -->
-        <a href="cheat3.html">cheat3.html</a>
+        <p><a href="cheat3.html">cheat3.html</a><p>
     </a>
 
 <h1>#img</h1>
 
-    <img src="png.png" height="100" width="200" />
+    <img src="png.png" height="100" width="200"/>
 
-    <h2>#alt</h2>
+    <h2>alt</h2>
 
-        <p>if:</p>
-
+        <p>If:</p>
         <ul>
             <li>an image does not exist</li>
             <li>the format is not supported by the browser (<a href="http://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support">support list</a>)</li>
         </ul>
+        <p>then alt the browser can show the alt text instead of the image.</p>
+        <p>
+            As of 2013, chrome replaces a missing image with a dummy image, therefore ignoring alt
+            therefore don't rely on alt being shown in your app logic: alt should only be shown
+            in case of error. If an image should not present, replace it with something else explicitly.
+        </p>
+        <p>No alt text:</p>
+        <img src="i_dont_exist.format_not_supported"/>
+        <p>With alt text:</p>
+        <img src="i_dont_exist.format_not_supported" alt="alt text"/>
 
-        <p>the alt text will be shown</p>
+    <h2>legend caption</h2>
 
-        <p>no alt text:</p>
+        <p>
+            fig + figcaption is good practice in HTML5.
 
-        <img src="i_dont_exist.format_not_supported" />
+            figcaption has no special display,
+            it is only semantic and the real work must be done with css.
 
-        <p>with alt text:</p>
+            Browsers may however place it in a sensible place such as the bottom if no style data is found.
+        </p>
 
-        <img src="i_dont_exist.format_not_supported" alt="alt text" />
+        <figure>
+            <img src="png.png" height="50" width="50"/>
+            <figcaption>caption 0</figcaption>
+        </figure>
 
-        <!-- attributes -->
+<h1>#table</h1>
 
-            <!-- double or single quotes are ok -->
+    <p>Header with th:</p>
+    <table>
+        <tr>
+            <th>head 0</th>
+            <th>head 1</th>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>5</td>
+        </tr>
+    </table>
 
-                <div val="attr"></div>
-                <div val='attr'></div>
-                <div val='"'></div>
-                <div val="&quot;"></div>
-                <div val="'"></div>
-                <div val="&apos;"></div>
+    <p>thead, tbody and tfoot. Order is changed:</p>
+    <table>
+        <tfoot>
+            <tr>
+                <td>foot 0</td>
+                <td>foot 1</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr>
+                <td>body 0</td>
+                <td>body 1</td>
+            </tr>
+        </tbody>
+        <thead>
+            <tr>
+                <th>head 0</th>
+                <th>head 1</th>
+            </tr>
+        </thead>
+    </table>
+
+    <p>Caption default position:</p>
+    <table>
+        <tr>
+            <td>body 0</td>
+            <td>body 1</td>
+        </tr>
+        <caption>caption 0</caption>
+    </table>
+
+    <p>Caption bottom:</p>
+    <table>
+        <tr>
+            <td>body 0</td>
+            <td>body 1</td>
+        </tr>
+        <caption align="bottom">caption 0</caption>
+    </table>
 
 </body>
 </html>
