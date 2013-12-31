@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<!--
+Main CSS cheat.
+-->
+
+<html>
+<head>
+    <title>css cheat</title>
+    <meta charset="UTF-8"/>
+    <!-- #external style -->
+    <link rel="stylesheet" href="css.css"/>
+    <!--
+    #internal style
+
+        Affects a single file.
+
+        Usually placed in the header, although HTML5 scoped attribute
+        is a possible use case for style tags in the body.
+
+        The type="txt/css" used to be mandatory, but became the default
+        on HTML5 since CSS prevailed.
+    -->
+    <style>
+        .internal { color:red; }
+        .pseudo:first-letter { color:red; }
+    </style>
+</head>
+<body>
+<h1>Selectors</h1>
+
+    <p>There are 3 ways to use CSS:</p>
+    <ul>
+        <li class="external">#external</li>
+        <li class="internal">#internal</li>
+        <li style="color:red;">#inline</li>
+    </ul>
+
+    <!--<p>#inline</p>-->
+    <!--<p>Outside. <p style="display:inline;">This paragraph is inline.</p> Outside.</p>-->
+
+    <h2>#pseudo element</h2>
+
+        <p>
+            Pseudo elements are selectors for things that are not real HTML elements, such as the first letter
+            of the content of a paragraph.
+        </p>
+
+        <p>
+            Pseudo elements are specified as <code>tag:pseudo-element</code>.
+        </p>
+
+        <p>
+            Pseudo element styles cannot be specified inline.
+        </p>
+
+        <p class="pseudo">first letter</p>
+
+    <h2>#pseudo classes</h2>
+
+        <p>Classes that are not really classes such as <code>a:visited</code>, <code>a:link</code>
+            for links.
+        </p>
+
+    <h2>#asterisk #*</h2>
+
+        <p>*: all elements recursively</p>
+
+    <h2>#scoped</h2>
+
+        <p>
+            Very low browser support as of 2013 but great thing: sets scope of a style block
+            in the body to only the parent element.
+        </p>
+
+        <div>
+            <div>
+                <style scoped>* {color:red}</style>
+                In scope.
+            </div>
+            <div>
+                Outside scope.
+            </div>
+        </div>
+</body>
+</html>

@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 
 <!--
-Main HTML cheat.
-
-This only considers versions of HTML which are valid XML.
-Features which are inherited from XML shall not be discussed here.
--->
-
-<!--
 The first line determines the document type.
 
 HTML5 has one single possibility:
@@ -19,17 +12,52 @@ HTML4 has others.
 <html>
 <head>
     <!--
-        The favicon.ico will show on the tab before the title.
-        It is like an icon of a desktop application.
+    #link
+
+        The link element links to different types of external documents.
+
+        The `rel` attribute specifies what is the type.
+
+        One notable exception of external document that is not referred to via
+        link ref are scripts such as javascript, which must be referred to with
+        script href [for some reason](http://stackoverflow.com/questions/2631635/can-i-load-javascript-code-using-link-tag).
     -->
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
+        <!--
+        #stylesheet
+
+            Links to external stylesheet files such as CSS.
+        -->
+
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
+        <!--
+        #shortcut icon
+
+            The favicon.ico will show on the tab before the title.
+            It is like an icon of a desktop application.
+        -->
+
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
     <title>cheat title</title>
-    <meta name="description" content="Free Web tutorials">
-    <meta name="keywords" content="HTML,CSS,XML,JavaScript">
-    <meta name="author" content="Ståle Refsnes">
-    <meta charset="UTF-8">
+    <meta name="description" content="Free Web tutorials"/>
+    <meta name="keywords" content="HTML,CSS,XML,JavaScript"/>
+    <meta name="author" content="Ståle Refsnes"/>
+    <meta charset="UTF-8"/>
 </head>
 <body>
+
+    <p>Main HTML cheat.</p>
+
+    <p>
+        This only considers versions of HTML which are valid XML.
+        Features which are inherited from XML shall not be discussed here.
+    </p>
+
+    <p>
+        <a href="http://www.w3.org/TR/html5/">HTML5 standard</a>
+    <p>
 
 <!-- attributes -->
 
@@ -166,6 +194,59 @@ HTML4 has others.
         </tr>
         <caption align="bottom">caption 0</caption>
     </table>
+
+<h1>#code</h1>
+
+    <p>Inline element for computer code.</p>
+
+    <p>Does not imply whitespace preservation:</p>
+
+    <p><code>a
+b</code></p>
+
+    <p>Common combo with <code>pre</code> to preserve spaces and make it a block element:</p>
+
+    <pre><code>a
+b</code></pre>
+
+    <p>My preferred solution: just use <code>code</code> and CSS:</p>
+
+    <code style="white-space:pre;display:block">a
+b</code>
+
+    <code style="white-space:pre;display:block">a
+b</code>
+
+<h1>#pre</h1>
+
+    <p>White spaces are taken into consideration when rendering.</p>
+
+    <p>
+        I think that this is a bad tag because it implies style rather than meaning
+        and style should be left for CSS, and it can in this case via <code>white-space:pre</code>.
+        The only difference is that <code>pre</code> ignores the first character if it is a newline,
+        while <code>white-space:pre</code> does not.
+    </p>
+
+    <p><code>pre</code> :</p>
+
+    <pre>a
+ b
+    </pre>
+
+    <p>Same as:</p>
+
+    <pre>
+a
+ b
+    </pre>
+
+    <p><code>white-space:pre</code> :</p>
+
+    <div style="white-space:pre">
+a
+ b
+    </div>
 
 </body>
 </html>
