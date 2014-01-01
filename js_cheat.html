@@ -30,6 +30,18 @@ Free language specification at: <http://www.ecma-international.org/publications/
     <div onload="alert('onload')" ></div>
     <div onclick="alert('onclick')" >click me</div>
 
+<script>
+    function assert(tf) {
+        if (!tf) {
+            document.write("<h1>ASSERT FAILED</h1>")
+            var err = new Error('AssertFailed')
+            document.write("<pre>" + err.stack + "</pre>")
+            throw err
+        }
+    }
+    assert(true)
+</script>
+
 <!--
 #multiple script blocks
 
@@ -38,8 +50,7 @@ Free language specification at: <http://www.ecma-international.org/publications/
 
     Definitions from previous scripts blocks are kept for future script blocks.
 
-    Errors (e.g. undefined variables) only stop execution of the current script block:
-    further blocks are still executed.
+    Errors and uncaught exceptions (e.g. undefined variables) stop execution of all future script blocks.
 -->
 
     <script>
@@ -47,15 +58,19 @@ Free language specification at: <http://www.ecma-international.org/publications/
     </script>
 
     <script>
-        assert(i === 2)
+        assert(i === 1)
+        //undefined_var
     </script>
 
 <!--
 #src
 
-    Source a script from a separate .js file.
+    Source a script from a separate `.js` file.
+
+    In HTML5, the `script` tag *cannot* be self closing because it is neither `void`
+    nor `foreign`:
 -->
-    <script src="external.js"/>
+    <script src="external.js"></script>
 
     <script>
         assert(external === 1)
@@ -70,7 +85,7 @@ Free language specification at: <http://www.ecma-international.org/publications/
 
     The async attribute can only be used for external scripts.
 -->
-    <script src="external.js" async />
+    <script src="external.js" async /></script>
 
 <script>
 /*
@@ -83,15 +98,6 @@ Free language specification at: <http://www.ecma-international.org/publications/
 
     After HTML5 js became the default, so the attribute is not needed anymore.
 */
-
-function assert(tf) {
-    if (!tf) {
-        document.write("<h1>ASSERT FAILED</h1>")
-        exit()
-    }
-}
-
-assert(true)
 
 //#exit
 
@@ -128,7 +134,6 @@ assert(true)
         var I = 2
         assert(i === 1)
         assert(I === 2)
-
 /*
 #identifiers
 
@@ -154,7 +159,7 @@ assert(true)
     // Create a new variable in current scope instead of using existing variables in outer scopes.
 
     // It is a good practice to always use var, unless you explicitly expect the variable
-    // to refer to something on the outter scope.
+    // to refer to something on the outer scope.
 
         function incr_var() {
             var i
@@ -256,7 +261,7 @@ assert(true)
             var f = function() {return 1}
             assert(f() === 1)
 
-    //call before definition
+    //call before definition #hoisting
 
         // Unlike variables, functions can be defined after usage.
 
@@ -277,6 +282,31 @@ assert(true)
             var to_be_defined_anon = function() {
                 return 1
             }
+
+//#dict #object
+
+    // There is no dict in javascript, but objects behave just like dicts.
+
+    // Attributes can be accessed either via `.` or `[]`.
+
+    // `[]` is more flexible, as it can take any string,
+    // while `.` can only take attributes that follow certain rules
+    // (TODO which), including not starting with digits.
+
+        var o = {a: 0, "b": 1, 2: 2}
+
+        assert(o.a == 0)
+        assert(o['a'] == 0)
+
+        assert(o.b == 1)
+        assert(o['b'] == 1)
+
+    // ERROR: attribute cannot start with digit for dot `.` notation.
+
+        //assert(o.2 == 2)
+
+        assert(o[2] == 2)
+        assert(o['2'] == 2)
 
 //#Date
 
@@ -482,23 +512,25 @@ assert(true)
 
             // xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
 
-    // #response #onreadystatechange
+    /*
+    #response #onreadystatechange
 
-        // Response should be used from a callback function on asynchronous mode.
+        Response should be used from a callback function on asynchronous mode.
 
-        // `onreadystatechange` callback is called every time the readyState property changes.
+        `onreadystatechange` callback is called every time the readyState property changes.
 
-        // Its possible values are:
+        Its possible values are:
 
-        // - 0: request not initialized
-        // - 1: server connection established
-        // - 2: request received
-        // - 3: processing request
-        // - 4: request finished and response is ready
+        - 0: request not initialized
+        - 1: server connection established
+        - 2: request received
+        - 3: processing request
+        - 4: request finished and response is ready
 
-        // It is typical for the state to go through all of those states.
+        It is typical for the state to go through all of those states.
 
-        // TODO how does the server inform which state we are currently on?
+        TODO how does the server inform which state we are currently on?
+    */
 
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {

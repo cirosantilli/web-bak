@@ -49,15 +49,85 @@ HTML4 has others.
 <body>
 
     <p>Main HTML cheat.</p>
-
     <p>
         This only considers versions of HTML which are valid XML.
         Features which are inherited from XML shall not be discussed here.
     </p>
 
+<h1>Standards</h1>
+
     <p>
-        <a href="http://www.w3.org/TR/html5/">HTML5 standard</a>
+        HTML is standardized by the Word Wide Web Consortium (W3C),
+        homepage <a href="http://www.w3.com">http://www.w3.com</a>
+    </p>
     <p>
+        The <a href="http://www.w3schools.com/">w3schools</a> website is not affiliated in any way to W3C.
+        It is said that it contains many errors, and its certification is worthless:
+        it is the cplusplus.com of the web.
+    </p>
+    <p>
+        W3C has many important member organizations including companies, universities and others such as
+        Microsoft, Apple, IBM, Google, Facebook, Twitter, Adobe.
+    </p>
+    <p>W3C specifies many of the key web standards including:</p>
+    <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>DOM</li>
+        <li>XML</li>
+        <li>CGI</li>
+    </ul>
+    <p>One important standard that they do <em>not</em> specify is Javascript.</p>
+    <p>
+        W3C have several levels of endorsement.
+        The lowest level of endorsement of public material are Working Drafts (WD),
+        and the highest level is Recommendation (REC).
+        Later revisions are also possible (NOTES).
+    </p>
+
+    <h2>HTML5</h2>
+
+        <p>
+            WD of 2008, expected REC for 2014: <a href="http://www.w3.org/TR/html5/">HTML5 standard</a>
+            The huge time lapse is in part due to wars on the future of Flash replacement.
+        <p>
+        <p>HTML5 is not XML, just pretty close to it.<p>
+        <p>HTML5 is not SGML, but it was influenced by it. HTML 4 is SGML.</p>
+
+    <h2>XHTML5</h2>
+
+        <p>XHTML5 is a strictly XML version of HTML5.</p>
+        <p>The standard is developed together with HTML5.</p>
+        <p>
+            Browsers differentiate between the two based on the HTTP content type:
+            <code>text/html</code> is for HTML5 and <code>application/xhtml+xml</code> is for XHTML5.
+            The <code>DOCTYPE</code> is not used to differentiate between HTML and XHTML.
+        <p>
+
+        <h3>XHTML5 vs HTML5</h3>
+
+            <h4>End tags</h4>
+
+                <p>
+                    In XHTML5 all tags can be self-closing (e.g. <code>&lt;br&gt;</code>).
+                    TODO can all tags be not self-closing?
+                    All tags must be closed (self or not).
+                <p>
+                <p>In HTML5 things are much messier:</p>
+                <ul>
+                    <li>
+                        Void elements cannot have a separate end tag,
+                        but they may have a meaningless slash <code>/</code>
+                        added to them (<a href="http://www.w3.org/html/wg/drafts/html/master/single-page.html#void-elements">spec</a>)
+                        so the following are all valid: <code>&lt;br&gt;</code>, <code>&lt;br/&gt;</code> and <code>&lt;br /&gt;</code>.
+                    </li>
+                    <li>
+                        Foreign elements can be self closing.
+                    </li>
+                    <li>
+                        The other elements <em>cannot</em> be self closing.
+                    </li>
+                </ul>
 
 <!-- attributes -->
 
