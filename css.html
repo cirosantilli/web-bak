@@ -2,6 +2,9 @@
 
 <!--
 Main CSS cheat.
+
+The following types of CSS may affect a document:
+
 -->
 
 <html>
@@ -10,34 +13,242 @@ Main CSS cheat.
     <meta charset="UTF-8"/>
     <!-- #external style -->
     <link rel="stylesheet" href="css.css"/>
-    <!--
-    #internal style
+    <style>
+    /*
+    #internal style #embedded
 
         Affects a single file.
 
-        Usually placed in the header, although HTML5 scoped attribute
-        is a possible use case for style tags in the body.
+        Before HTML5, must in theory be placed on the head element, and affect only current file.
 
-        The type="txt/css" used to be mandatory, but became the default
-        on HTML5 since CSS prevailed.
-    -->
-    <style>
+        Many browsers supported it in the body anyways, In both cases, the style affects the entire body.
+        This however may make the browser rerender things it has already rendered because of a change in style.
+
+        http://stackoverflow.com/questions/1303416/does-style-have-to-be-in-the-head-of-an-html-document
+
+        In HTML5, `style` tags with `scoped` attribute can be placed on the body, and affect only child elements.
+
+        The type="txt/css" used to be mandatory, but became the default on HTML5 since CSS prevailed.
+    */
+
+        /*
+            Comments can only be of the `/ * * /` type: // does *not* work!
+        */
+
         .internal { color:red; }
-        .pseudo:first-letter { color:red; }
+
+        /* Selectors */
+        .pseudo-first-letter:first-letter { color:red; }
+        .pseudo-hover:hover { color:red; }
+        .pseudo-hover-left:hover + .pseudo-hover-right { color:red; }
+        .pseudo-hover-out:hover + .pseudo-hover-in { color:red; }
+        .plus0 + .plus1 { color:red; }
+        .tilde0 ~ .tilde2 { color:red; }
+
+        /* Attributes */
+        .content-before:before { content: "before"; }
+        .content-after:after { content: "after"; }
+        /* Does not work: */
+        .content { content: "content"; }
+        .padding1px td { padding:1px; border:1px solid black; }
+
+        /*
+        #comma
+            Maps multiple selectors to single style
+            Lower precedence than any other selector combination.
+            SAME:
+
+                a, b c { asdf }
+                a { asdf }
+                b c { asdf }
+
+           To make tests more visible:
+        */
+        .border { border:1px solid black; }
+        .red { color:red; }
+        .blue { color:blue; }
+
     </style>
 </head>
 <body>
-<h1>Selectors</h1>
 
-    <p>There are 3 ways to use CSS:</p>
+<h1>Standards</h1>
+
+    <p>CSS is specified by W3C <a href="http://www.w3.org/TR/#tr_CSS">here</a></p>
+
+    <p>CSS versions are called levels.</p>
+
+    <p>
+        Versions 1 and 2 were monolithic specs. Versions 3 and 4 were split up into modules
+        that can evolve and be versioned and implemented separately,
+        but it is still common to refer to all modules of a given level as CSS3 or CSS4.
+    </p>
+
+    <p>
+        As of early 2014
+        - CSS2 is all REC
+        - almost all modules of CSS3 are REC and have wide browser support.
+        - some level 4 modules exist and are WD, without much browser support.
+    </p>
+
+<h1>#Vendor prefixes</h1>
+
+    <p>
+        Vendor prefixes are prefixes added before new properties, standard or not, while they are still in test phase.
+        Once they leave test phase, they may be removed by the browser developers.
+    </p>
+
+    <p>
+        Vendor prefixes used by the main modern browsers are:
+    </p>
+
+    <pre>
+        Firefox: -moz-
+        Internet Explorer: -ms-
+        iOS: -webkit-
+        Opera: -o-
+        Chrome/Safari/iOS: -webkit-
+    </pre>
+
+    <p>
+        Most of them are quite obvious, except maybe for <code>webkit</code>, which is the
+        <a href="http://stackoverflow.com/questions/3468154/what-is-webkit-and-how-is-it-related-to-css">
+            rendering engine
+        </a>
+        for both Safari and Chrome.
+    </p>
+
+<h1>location</h1>
+
+    <p>The following CSSs affect a document:</p>
     <ul>
-        <li class="external">#external</li>
-        <li class="internal">#internal</li>
-        <li style="color:red;">#inline</li>
+        <li>
+            author: rules written by the webdesigner. They can be either:
+            <ul>
+                <li style="color:red;">#inline: put directly on the element it will affect</li>
+                <li class="internal">#internal / #embedded: put on the header or body. Affect only current document.</li>
+                <li class="external">#external: put on external files, used via the `link` tag.</li>
+            </ul>
+        </li>
+        <li>user: a local stylesheet that the browser's user tells the browser where to find in the HD.</li>
+        <li>user agent (most often the browser): a default internal stylesheet for the browser</li>
     </ul>
 
-    <!--<p>#inline</p>-->
-    <!--<p>Outside. <p style="display:inline;">This paragraph is inline.</p> Outside.</p>-->
+<h1>#Precedence #Specificity</h1>
+
+    <p>This describes how user agents should decide the value of a property when multiple values may apply.</p>
+
+    <p>First read this <a href="http://css-tricks.com/specifics-on-css-specificity/">good tutorial</a> to get the general idea.</p>
+    <p>
+        Next attack the <a href="www.w3.org/TR/CSS21/cascade.html">official CSS2 docs</a> (quite readable),
+        and in particular <a href="http://www.w3.org/TR/CSS21/cascade.html#cascading-order">the cascade part</a>.
+    </p>
+
+    <pre>
+    Slightly paraphrasing the standard to make it more readable:
+
+    - If the cascade results in a value, use it. See below for what the cascade is.
+
+    - Otherwise, if the property is inherited and the element is not the root of the document tree,
+        use the computed value of the parent element.
+
+        Not all properties are inherited.
+
+    - Otherwise use the property's default value.
+
+    #cascade
+
+    The cascade works as follows:
+
+    - Find all declarations that apply to the element in question.
+
+    - Sort according to importance (normal or important) and origin (author, user, or user agent). In ascending order of precedence:
+
+        - user agent declarations
+        - user normal declarations
+        - author normal declarations
+        - author important declarations
+        - user important declarations
+
+        Note how insanely user normal and important declarations are split across author declarations.
+
+    - Sort rules with the same importance and origin by specificity of selector:
+        more specific selectors will override more general ones.
+
+        Pseudo-elements and pseudo-classes are counted as normal elements and classes, respectively.
+
+        More on specificity below.
+
+    - Finally, sort by order specified: if two declarations have the same weight, origin and specificity, the latter specified wins.
+        Declarations in imported style sheets are considered to be before any declarations in the style sheet itself. 
+
+    #specificity
+
+    Specificity is a quadruple (a,b,c,d) where each letter is the number of:
+
+    - a: inline (inside `style`) declarations of the property
+    - b: matching ID selectors
+    - c: matching (class + attribute + pseudo-class count) selectors
+    - d: matching (type + pseudo-element count) selectors
+
+    The larger quadruple has higher specificity.
+
+    Note about the counts:
+
+    - Combinators: +, >, ~ don't count by themselves. Selectors on both of their sides do count equally.
+    - The universal selector * does not count.
+    - `:not` itself does not count, only what is inside of it.
+
+    Example:
+
+    On the stylesheet:
+
+        #id0.class0
+
+    </pre>
+
+<h1>#Selectors</h1>
+
+    <p>Space, descendant: <code>a b</code>: <code>b</code> is any descendant of <code>a</code></p>
+
+    <p><code>a &gt; b</code>: <code>b</code> is a child of <code>a</code></p>
+
+    <p>Star, universal: <code>*</code>: all elements. Bad idea because of performance and logic.</p>
+    <p><code>a *</code>: any descendant of <code>a</code></p>
+    <p><code>a * b</code>: <code>b</code> that is a descendant of <code>a</code> of level 2 or more</p>
+    <p>
+        <a href="http://stackoverflow.com/questions/1014861/is-there-a-css-parent-selector">There is not parent selector as of CSS3</a>
+        Probable rationale: such selector requires the browser to parse backwards in order to make a change,
+        meaning that browsers may have to render an element twice.
+    </p>
+
+    <p>
+        Plus, adjacent selector: first next sibling. Acts on the 1 one element:
+        <span class="border plus0">0</span>
+        <span class="border plus1">1</span>
+        <span class="border plus2">2</span>
+        <span class="border plus1">1</span>
+    </p>
+
+    <p>
+        tilde ~: any next sibling
+        <span class="border tilde0">0</span>
+        <span class="border tilde1">1</span>
+        <span class="border tilde2">2</span>
+    </p>
+
+    <p>
+        <a href="http://stackoverflow.com/questions/1817792/css-previous-sibling-selector">
+            There is no selector for previous siblings as of CSS3. It will be possible via Selectors level 4 via the exclamation mark.
+        </a>.
+        Probable rationale: such selector requires the browser to parse backwards in order to make a change,
+        meaning that browsers may have to render an element twice.
+    </p>
+
+    <p>
+        #comma: has very low precedence. It is necessary to repeat both sides fully.
+        Only current solution are SASS-like languages.
+    </p>
 
     <h2>#pseudo element</h2>
 
@@ -45,22 +256,32 @@ Main CSS cheat.
             Pseudo elements are selectors for things that are not real HTML elements, such as the first letter
             of the content of a paragraph.
         </p>
-
         <p>
             Pseudo elements are specified as <code>tag:pseudo-element</code>.
         </p>
-
         <p>
             Pseudo element styles cannot be specified inline.
         </p>
-
-        <p class="pseudo">first letter</p>
+        <p class="pseudo-first-letter">first letter</p>
+        <p>hover can be used for any element, not just anchors: <span class="pseudo-hover border">hover me to make me red!<span></p>
+        <p>Possible to select elements based on hover status of another.</p>
+        <p>
+            Siblings:
+            <span class="pseudo-hover-left border">Hover me!</span>
+            <span class="pseudo-hover-right border">to make me red</span>
+        </p>
+        <p>
+            First child:
+            <span class="pseudo-hover-out border" style="position: relative; margin-left: 100px;">
+                Hover me!
+                <span class="pseudo-hover-in border" style="position: absolute; right: 100%;">to make me red</span>
+            </span>
+        </p>
 
     <h2>#pseudo classes</h2>
 
         <p>
-            Classes that are not really classes such as <code>a:visited</code>, <code>a:link</code>
-            for links.
+            Classes that are not really classes such as <code>a:visited</code>, <code>a:link</code> for links.
         </p>
 
     <h2>#asterisk #*</h2>
@@ -71,9 +292,8 @@ Main CSS cheat.
 
         <p>
             Very low browser support as of 2013 but great thing: sets scope of a style block
-            in the body to only the parent element.
+            in the body to only the parent element. Example (turned off because of low support):
         </p>
-
         <div>
             <div>
                 <!--<style scoped>* {color:red}</style>-->
@@ -83,5 +303,140 @@ Main CSS cheat.
                 Outside scope.
             </div>
         </div>
+
+<h1>#properties</h1>
+
+    <h2>#display</h2>
+
+        <p>Transform block elements into inline ones, vice versa and more.</p>
+
+        <span class="border" style="display: block; width: 300px;">block span0</span>
+        <span class="border" style="display: block; width: 300px;">block span1</span>
+
+        <div>
+            <div class="border" style="display:inline; height:100px;">inline div0</div>
+            <div class="border" style="display:inline; height:100px;">inline div1</div>
+        </div>
+
+        <p>
+            Even if you transform the "inlineliness" of an element with CSS,
+            you still *cannot* put block elements inside inline ones and have valid HTML5.
+        </p>
+
+        <h3>inline-block</h3>
+
+        <div class="border" style="width:250px;">
+            asdf qwer
+            <span class="border" style="display: inline-block; height:100px;">inline-block</span>
+            asdf qwer asdf qwer asdf qwer adsf qwer adsf qwer
+        </div>
+
+        <div class="border" style="width:250px;">
+            asdf qwer asdf qwer asdf qwer
+            <span class="border" style="display: inline-block; height:100px;">inline-block asdf qwer asdf qwer asdf qwer</span>
+            qwer asdf qwer asdf qwer adsf qwer adsf qwer
+        </div>
+
+        <p>
+            Empty inline-block with fixed width: when there is no content for the default vertical-align: baseline
+            alignment is done at the bottom of the element: http://stackoverflow.com/questions/8215638/difference-between-baseline-of-empty-and-non-empty-inline-blocks
+        </p>
+        <div class="border" style="width:250px;">asdf <span class="border" style="display: inline-block; width:100px; height:100px;"></span> qwer asdf qwer asdf qwer adsf qwer adsf qwer</div>
+
+        <p>Empty inline-block with fixed width + vertical-align top:</p>
+        <div class="border" style="width:250px;">asdf <span class="border" style="display: inline-block; width:100px; height:100px; vertical-align: top;"></span> qwer asdf qwer asdf qwer adsf qwer adsf qwer</div>
+
+    <h2>#font-weight</h2>
+        <p style="font-weight:bold;">font-weight bold</p>
+        <p style="font-weight:normal;">font-weight normal</p>
+        <p style="font-weight:900;">font-weight 900</p>
+
+    <h2>#background</h2>
+
+        <h3>#background-image</h3>
+            <p style="background-image:url('png.png');">background image png.png</p>
+            <p>
+                In many situations such as Icons, CSS background images are used instead of img tags. Discussion:
+                <a href="http://stackoverflow.com/questions/492809/when-to-use-img-vs-css-background-image">CSS background images vs img</a>
+            </p>
+            <p>CSS sprites: put many smaller images on a single image to make less HTTP requests</p>
+            <p>
+                quotes are optional but if you don't use them you have to escape many special chars, so just use them always:
+                <a href="http://stackoverflow.com/questions/851724/css-background-image-what-is-the-correct-usage">http://stackoverflow.com/questions/851724/css-background-image-what-is-the-correct-usage</a>
+            </p>
+
+        <h3>#background-color</h3>
+            <div style="background-color: red;  width: 100px; height: 10px;"></div>
+            <div style="background-color: blue; width: 100px; height: 10px;"></div>
+
+        <h3>#gradient</h3>
+            <p>There are linear and radial gradients, repeating or not, on modern browsers.</p>
+            <p>Linear red blue: <span style="display: inline-block; width: 50px; height: 50px; background: linear-gradient(red, blue);"></span></p>
+            <p>Linear to left top red blue: <span style="display: inline-block; width: 50px;  height: 50px; background: linear-gradient(to left top, red, blue);"></span> </p>
+
+    <h2>#content</h2>
+        <p>Modifies tag content.</p>
+        <p>
+            While it shows on the page, it is not part of the DOM, so it may not be selectable by Javascript,
+            or found on browser page searches.
+        </p>
+        <p class="content-before content-after"> inner </p>
+        <p class="content">Does not work without :before or :after.</p>
+
+    <h2>#width #height</h2>
+
+        <div class="border" style="width: 5px;">width: 5px</div>
+        <!--if width > max-width use max-width-->
+        <!--if max-width > width use width-->
+        <div class="border" style="width: 50px; max-width: 5px;">width: 50; max-width: 5px</div>
+
+        <p>
+            Inline elements ignore width and height properties.
+            One solution is to use the `display` property, in particular the `inline-block` value.
+        </p>
+
+    <h2>#positioning</h2>
+
+        <p>http://www.barelyfitz.com/screencast/html-training/css/positioning/</p>
+
+        <p>
+            Relative and absolute:
+
+            - object is moved to a new location relative to the first non static positioned parent,
+                above or below whatever is there depending on the Z indexes
+
+            Relative:
+
+            - space that would be occupied remains occupied.
+
+            Absolute:
+
+            - element is completely removed from normal flow, it is as if it were not there.
+        </p>
+
+        <div style="margin-left: 100px; width: 50px; height: 50px; background-color: red; position: relative;">
+            <div style="display: inline-block; width: 20px; height: 20px; background-color: blue; position: absolute; left: -20px;"></div>
+        </div>
+
+        <p>Place outside without knowing the dimension of the inner element: use 100 %:</p>
+
+        <div style="margin-left: 100px; width: 50px; height: 50px; background-color: red; position: relative;">
+            <div style="display: inline-block; width: 20px; height: 20px; background-color: blue; position: absolute; right: 100%;"></div>
+        </div>
+
+<h1>#tables</h1>
+
+    <p >Padding 1px:</p>
+    <table class="padding1px">
+        <tr>
+            <td>0</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>3</td>
+        </tr>
+    </table>
+
 </body>
 </html>

@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-
-<!--
-The first line determines the document type.
-
-HTML5 has one single possibility:
-
-    <!DOCTYPE html>
-
-HTML4 has others.
--->
 <html>
 <head>
+    <meta charset="UTF-8"/>
+    <!--
+    #charset
+
+        Indicates the document's encoding.
+
+        Very important document wide, so it must be within the first 512 bytes of the document.
+
+        Keep your sanity and use UTF-8 *everywhere*.
+    -->
+
+    <!--
+    The first line determines the document type.
+
+    HTML5 has one single possibility:
+
+        <!DOCTYPE html>
+
+    HTML4 has others.
+    -->
+
     <!--
     #link
 
@@ -44,7 +55,6 @@ HTML4 has others.
     <meta name="description" content="Free Web tutorials"/>
     <meta name="keywords" content="HTML,CSS,XML,JavaScript"/>
     <meta name="author" content="Ståle Refsnes"/>
-    <meta charset="UTF-8"/>
 </head>
 <body>
 
@@ -80,21 +90,26 @@ HTML4 has others.
     <p>One important standard that they do <em>not</em> specify is Javascript.</p>
     <p>
         W3C have several levels of endorsement.
-        The lowest level of endorsement of public material are Working Drafts (WD),
-        and the highest level is Recommendation (REC).
-        Later revisions are also possible (NOTES).
+        - WD (Working Draf) is the lowest level of endorsement of material available to the public
+        - REC (Recommendation) is the highest level, for stable and widely accepted features.
+        - NOTES are possible to make small later revisions.
+        - retired is for standards that have been deprecated
     </p>
 
-    <h2>HTML5</h2>
+    <h2>#HTML5</h2>
 
         <p>
             WD of 2008, expected REC for 2014: <a href="http://www.w3.org/TR/html5/">HTML5 standard</a>
             The huge time lapse is in part due to wars on the future of Flash replacement.
         <p>
-        <p>HTML5 is not XML, just pretty close to it.<p>
+        <p>
+            Not all HTML5 is not XML, just pretty close to it.
+            It is however possible to write HTML5 code that is valid XML.
+            XHTML5 is a version of HTML5 which is always XML.
+        <p>
         <p>HTML5 is not SGML, but it was influenced by it. HTML 4 is SGML.</p>
 
-    <h2>XHTML5</h2>
+    <h2>#XHTML5</h2>
 
         <p>XHTML5 is a strictly XML version of HTML5.</p>
         <p>The standard is developed together with HTML5.</p>
@@ -110,8 +125,8 @@ HTML4 has others.
 
                 <p>
                     In XHTML5 all tags can be self-closing (e.g. <code>&lt;br&gt;</code>).
-                    TODO can all tags be not self-closing?
                     All tags must be closed (self or not).
+                    All tags can be either self-closing or not.
                 <p>
                 <p>In HTML5 things are much messier:</p>
                 <ul>
@@ -129,45 +144,101 @@ HTML4 has others.
                     </li>
                 </ul>
 
-<!-- attributes -->
+    <h2>#validation</h2>
 
-<!-- double or single quotes are ok -->
+        <p>W3C offers an HTML validation service at: http://validator.w3.org/</p>
+        <p>You can either upload your file, or give it an URL.</p>
+        <p>
+            There are also tools that make it faster to validate a page,
+            for example the Firefox Web Developer extension.
+        </p>
 
-    <div val="attr"></div>
-    <div val='attr'></div>
-    <div val='"'></div>
-    <div val="&quot;"></div>
-    <div val="'"></div>
-    <div val="&apos;"></div>
+<h1>#debugging</h1>
+
+    <p>In order to understand what is going on, you will want to use browser tools.</p>
+
+    <h2>#firefox</h2>
+
+        <p>Firefox has the built-in Web developers tool which is quite good.</p>
+
+        <p>
+            To validate HTML easily, try: https://addons.mozilla.org/en-US/firefox/addon/web-developer/
+            Shortcut: Ctrl + Alt + L
+        </p>
+
+<h1>#entities</h1>
+
+    <p>Escape sequences for characters that are hard to input or forbidden such as the less than which is reserved for tags.</p>
+    <p>nbsp: non breaking whitespace: a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b</p>
+    <p>lt, gt: &lt; &gt;</p>
+
+<h1>#attributes</h1>
+
+    <p>
+        <a href="http://stackoverflow.com/questions/1735230/can-i-add-custom-attribute-to-html-tag">Using non standard tags makes your document invalid</a>.
+        It is still likely to render correctly on all browsers.
+        You can also cheat this by referencing a custom !DOCTYPE declaration, but this is really overkill.
+        HTML allows you to use any attribute prefixed by `data-`. Great addition!
+    </p>
+
+    <p>Double or single quotes are both OK:</p>
+
+    <div data-val="attr"></div>
+    <div data-val='attr'></div>
+    <div data-val='"'></div>
+    <div data-val="&quot;"></div>
+    <div data-val="'"></div>
+    <div data-val="&apos;"></div>
+
+    <p>Id attributes must be unique across the entire document: http://programmers.stackexchange.com/questions/127178/two-html-elements-with-same-id-attribute-how-bad-is-it-really</p>
+
+    <p>Multiple classes are space separated as in: <code>"class0 class1 class2"</code></p>
+
+<h1>#block vs #inline vs #inline-block #replaced elements</h1>
+
+    <p>http://www.impressivewebs.com/difference-block-inline-css/</p>
+
+    <p>You cannot put block elements inside inline elements, even if you use the CSS display property.</p>
+
+    <p>
+        Inline replaced elements such as images which behave like elements with CSS `display:inline-block` property.
+        They can be put inside other inline elements.
+    </p>
 
 <h1>#anchor #link</h1>
 
     <a href="#href">link to destination</a>
     <p id="href">link destination</p>
 
-    <!--
+    <p>
     #nofollow
 
         Has no special semantics to browsers,
         but may instruct users and search engines not to follow links.
-    -->
-    <a href="cheat2.html" rel="nofollow">rel="nofollow"</a>
 
-    <!--
-    HTML anchors can contain any other html elements.
+        <a href="html2.html" rel="nofollow">rel="nofollow"</a>
+    </p>
 
-    Everything inside those elements is clickable.
-    -->
-    <a href="cheat2.html">
-        <p>p</p>
-        <p>img: <img src="png.png" height="20" width="20"/><p>
+    <p>You cannot put one `a` inside another `a` in valid HTML5.</p>
+
+    <div><div></div></div>
+
+    <a href="html2.html">
+        <span>p</span>
+        <p>img: <img src="png.png" height="20" width="20" alt=""/></p>
         <!-- The innermost anchor wins the link direction: -->
-        <p><a href="cheat3.html">cheat3.html</a><p>
     </a>
 
-<h1>#img</h1>
+<h1>#img #images</h1>
 
-    <img src="png.png" height="100" width="200"/>
+    <p>img elements are neither inline nor block: they are replaced inline elements.</p>
+
+    <img src="png.png" height="100" width="200" alt=""/>
+
+    <p>
+        What is the best way to set image size: CSS (width and height apply to replaced inline elements) or HTML?
+        http://stackoverflow.com/questions/2414506/should-image-size-be-defined-in-the-img-tag-height-width-attributes-or-in-css
+    </p>
 
     <h2>alt</h2>
 
@@ -178,12 +249,17 @@ HTML4 has others.
         </ul>
         <p>then alt the browser can show the alt text instead of the image.</p>
         <p>
-            As of 2013, chrome replaces a missing image with a dummy image, therefore ignoring alt
-            therefore don't rely on alt being shown in your app logic: alt should only be shown
-            in case of error. If an image should not present, replace it with something else explicitly.
+            As of 2013, chrome replaces a missing image with a dummy image, therefore ignoring alt.
+            Therefore don't rely on alt being shown in your app logic: alt should only be shown
+            in case of error.
+            If an image should not present, replace it with something else explicitly.
         </p>
-        <p>No alt text:</p>
-        <img src="i_dont_exist.format_not_supported"/>
+        <p>
+            According to the HTML5 validator, alt is mandatory except under certain conditions,
+            so just use it always for your sanity.
+        </p>
+        <!--INVALID:-->
+        <!--<img src="i_dont_exist.format_not_supported"/>-->
         <p>With alt text:</p>
         <img src="i_dont_exist.format_not_supported" alt="alt text"/>
 
@@ -225,45 +301,50 @@ HTML4 has others.
         </tr>
     </table>
 
-    <p>thead, tbody and tfoot. Order is changed:</p>
-    <table>
-        <tfoot>
-            <tr>
-                <td>foot 0</td>
-                <td>foot 1</td>
-            </tr>
-        </tfoot>
-        <tbody>
+    <h2>#thead, #tbody and #tfoot</h2>
+        <p>thead must come *before* tbody and tfoot in valid HTML, as any sane programmer should do.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>head 0</th>
+                    <th>head 1</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td>foot 0</td>
+                    <td>foot 1</td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr>
+                    <td>body 0</td>
+                    <td>body 1</td>
+                </tr>
+            </tbody>
+        </table>
+
+    <h2>#caption</h2>
+
+        <p>Caption must be the first child of table.</p>
+
+        <p>Caption default position:</p>
+        <table>
+            <caption>caption 0</caption>
             <tr>
                 <td>body 0</td>
                 <td>body 1</td>
             </tr>
-        </tbody>
-        <thead>
+        </table>
+
+        <p>Caption on bottom. The `align` attribute is not in HTML5 (deprecated in 4.01). Use CSS `caption-side` instead.</p>
+        <table>
+            <caption style="caption-side:bottom;">caption 0</caption>
             <tr>
-                <th>head 0</th>
-                <th>head 1</th>
+                <td>body 0</td>
+                <td>body 1</td>
             </tr>
-        </thead>
-    </table>
-
-    <p>Caption default position:</p>
-    <table>
-        <tr>
-            <td>body 0</td>
-            <td>body 1</td>
-        </tr>
-        <caption>caption 0</caption>
-    </table>
-
-    <p>Caption bottom:</p>
-    <table>
-        <tr>
-            <td>body 0</td>
-            <td>body 1</td>
-        </tr>
-        <caption align="bottom">caption 0</caption>
-    </table>
+        </table>
 
 <h1>#code</h1>
 
@@ -319,4 +400,5 @@ a
     </div>
 
 </body>
+<!--Only comments are allowed here.-->
 </html>

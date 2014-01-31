@@ -12,7 +12,7 @@ One of the goals of javascript is to restrict what the language can do to preven
 malicious attacks.
 
 Therefore, by design choice javascript does not allows dangerous operations
-such as file io.
+such as file IO.
 
 Official language name: ECMA-262
 
@@ -23,12 +23,19 @@ Free language specification at: <http://www.ecma-international.org/publications/
 <head>
     <meta charset="UTF-8"/>
 </head>
-<body>
+<body onload="document.getElementById('onload').innerHTML = 'onload'">
 
-<!-- events -->
+<!--
+#script location
 
-    <div onload="alert('onload')" ></div>
-    <div onclick="alert('onclick')" >click me</div>
+    `script` tags can appear either inside the head or of the body.
+
+    The most commonly recommended place is load all scripts just before the /body tag,
+    so that the page can load before long scripts do, so it seems more responsive.
+
+    It is not valid to put scripts after the /body tag, as HTML specifies that only
+    comments can be put there.
+-->
 
 <script>
     function assert(tf) {
@@ -86,6 +93,64 @@ Free language specification at: <http://www.ecma-international.org/publications/
     The async attribute can only be used for external scripts.
 -->
     <script src="external.js" async /></script>
+
+
+<h1>Events</h1>
+
+    <!--
+    #onload
+
+        onload can only be used on <code>body</code> or elements that load remote sources such as
+        <code>img</code>, <code>link</code> or remote <code>script</code> tags.
+        It cannot be used on other elements such as <code>div</code>.
+
+        Never use this, use `addEventListener` instead, since it allows to add multiple callbacks for a single event.
+
+    #window.onload
+
+        Exact same as `<body onload="">`.
+
+        Only one of them can be used at a time: whichever is used last wins.
+    -->
+
+        <div id="onload"></div>
+        <div id="window-onload"></div>
+        <script>window.onload = function(){ document.getElementById('window-onload').innerHTML = 'window-onload'; }</script>
+
+    <!--
+    #addEventListener
+
+        Allows to add an unlimited amount of handlers per event. Better choice than `onload`.
+    -->
+
+        <div id="addEventListener"></div>
+        <script>
+            document.getElementsByTagName("body")[0].addEventListener(
+                'load', // Same as onload, but without `on`.
+                function() {
+                    document.getElementById('addEventListener').innerHTML = 'addEventListener';
+                },
+                true
+            )
+        </script>
+
+    <div id="onclick" style="border:1px solid black;" onclick="onclick_func(event)">onclick. Click here. Click positions: </div>
+    <script>
+        function onclick_func(even) {
+            document.getElementById("onclick").innerHTML += "(" + even.screenX + "," + even.screenY + ") "
+        }
+    </script>
+
+    <!--
+    #addEventListener
+
+        Allows to add an unlimited amount of handlers per event. Better choice than `onload`.
+    -->
+
+<h1>Canvas</h1>
+
+    <canvas id="canvas" width="200" height="100" style="border:1px solid black;"></canvas>
+    <div onclick="canvas_onclick()">canvas_onclick</div>
 
 <script>
 /*
@@ -269,6 +334,8 @@ Free language specification at: <http://www.ecma-international.org/publications/
 
         // This is called hoisting.
 
+        // Hoisting only works within a single script tag, not across them.
+
             assert(to_be_defined() == 1)
             function to_be_defined() {
                 return 1
@@ -331,6 +398,20 @@ Free language specification at: <http://www.ecma-international.org/publications/
 
         //alert("an alert")
         //var v = prompt("what:", "default")
+
+/*
+#document
+
+    Object that implements the DOM interface: <www.w3.org/DOM/DOMTR>
+*/
+
+    // Write at the current script location:
+
+        //document.write('here')
+
+    // Write at the current script location:
+
+        //document.getelementbyid('id')
 
 //#cookies
 
@@ -564,6 +645,18 @@ Free language specification at: <http://www.ecma-international.org/publications/
 
             //xmlhttp.send()
             //xmlhttp.send("fname=Henry&lname=Ford")
+
+/*
+#canvas drawing
+
+    The HTML canvas element was made to be drawn with Javascript and destroy Flash.
+*/
+
+    function canvas_onclick() {
+        var b_canvas = document.getElementById("canvas");
+        var b_context = b_canvas.getContext("2d");
+        b_context.fillRect(50, 25, 150, 100);
+    }
 
 //#jquery
 
