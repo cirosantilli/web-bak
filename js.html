@@ -30,7 +30,7 @@ Free language specification at: <http://www.ecma-international.org/publications/
 
     `script` tags can appear either inside the head or of the body.
 
-    The most commonly recommended place is load all scripts just before the /body tag,
+    The most commonly recommended place is load all scripts just before the </body> tag,
     so that the page can load before long scripts do, so it seems more responsive.
 
     It is not valid to put scripts after the /body tag, as HTML specifies that only
@@ -74,8 +74,9 @@ Free language specification at: <http://www.ecma-international.org/publications/
 
     Source a script from a separate `.js` file.
 
-    In HTML5, the `script` tag *cannot* be self closing because it is neither `void`
-    nor `foreign`:
+    In HTML5, the `script` tag *cannot* be self closing because it is neither `void` nor `foreign`:
+
+    In HTML5 you cannot have src and a non empty block: <http://stackoverflow.com/questions/6528325/what-does-a-script-tag-with-src-and-content-mean>
 -->
     <script src="external.js"></script>
 

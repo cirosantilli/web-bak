@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="utf-8"/>
   <!--
   #charset
 
@@ -274,7 +274,7 @@
 
   <a href="html2.html">
     <span>p</span>
-    <p>img: <img src="png.png" height="20" width="20" alt=""/></p>
+    <p>img: <img src="flower.jpg" height="20" width="20" alt=""/></p>
     <!-- The innermost anchor wins the link direction: -->
   </a>
 
@@ -282,12 +282,18 @@
 
   <p>img elements are neither inline nor block: they are replaced inline elements.</p>
 
-  <img src="png.png" height="100" width="200" alt=""/>
+  <h2>Size</h2>
 
-  <p>
-    What is the best way to set image size: CSS (width and height apply to replaced inline elements) or HTML?
-    http://stackoverflow.com/questions/2414506/should-image-size-be-defined-in-the-img-tag-height-width-attributes-or-in-css
-  </p>
+    <p>It is possible to set width and hight and the browser will resize as requested. height="100" width="200":</p>
+    <img src="flower.jpg" height="100" width="300" alt=""/>
+
+    <p>Setting only width or height makes browser keep proportion. `width=300`</p>
+    <img src="flower.jpg" width="300" alt=""/>
+
+    <p>
+      What is the best way to set image size: CSS (width and height apply to replaced inline elements) or HTML?
+      http://stackoverflow.com/questions/2414506/should-image-size-be-defined-in-the-img-tag-height-width-attributes-or-in-css
+    </p>
 
   <h2>alt</h2>
 
@@ -324,8 +330,8 @@
     </p>
 
     <figure>
-      <img src="png.png" height="50" width="50"/>
       <figcaption>caption 0</figcaption>
+      <img src="flower.jpg" height="50" width="50"/>
     </figure>
 
   <h2>base64</h2>
