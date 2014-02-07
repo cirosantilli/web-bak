@@ -2,12 +2,11 @@
 <html>
 <head>
   <meta charset="UTF-8"/>
+  <title>css cheat</title>
 
   <!--
   Main CSS cheat.
   -->
-
-  <title>css cheat</title>
 
   <!-- #external style -->
   <link rel="stylesheet" href="css.css"/>
@@ -31,7 +30,11 @@
   */
 
     /*
-      Comments can only be of the `/ * * /` type: // does *not* work!
+    #comments
+
+      Comments can only be of the `/ * * /` type.
+
+      `//` does *not* work!
     */
 
     .internal { color:red; }
@@ -50,10 +53,10 @@
       .hover-out:hover > .hover-in { color:red; }
 
     /* Attributes */
-    .content-before:before { content: "before"; }
-    .content-after:after { content: "after"; }
-    /* Does not work: */
-    .content { content: "content"; }
+    .content-before:before { content:"before"; }
+    .content-after:after { content:"after"; }
+    /* Does not work:*/
+    .content { content:"content"; }
     .padding1px td { padding:1px; border:1px solid black; }
 
     /*
@@ -107,11 +110,11 @@
   </p>
 
   <pre>
-    Firefox: -moz-
-    Internet Explorer: -ms-
-    iOS: -webkit-
-    Opera: -o-
-    Chrome/Safari/iOS: -webkit-
+    Firefox:-moz-
+    Internet Explorer:-ms-
+    iOS:-webkit-
+    Opera:-o-
+    Chrome/Safari/iOS:-webkit-
   </pre>
 
   <p>
@@ -127,15 +130,15 @@
   <p>The following CSSs affect a document:</p>
   <ul>
     <li>
-      author: rules written by the webdesigner. They can be either:
+      author:rules written by the webdesigner. They can be either:
       <ul>
-        <li style="color:red;">#inline: put directly on the element it will affect</li>
-        <li class="internal">#internal / #embedded: put on the header or body. Affect only current document.</li>
-        <li class="external">#external: put on external files, used via the `link` tag.</li>
+        <li style="color:red;">#inline:put directly on the element it will affect</li>
+        <li class="internal">#internal / #embedded:put on the header or body. Affect only current document.</li>
+        <li class="external">#external:put on external files, used via the `link` tag.</li>
       </ul>
     </li>
-    <li>user: a local stylesheet that the browser's user tells the browser where to find in the HD.</li>
-    <li>user agent (most often the browser): a default internal stylesheet for the browser</li>
+    <li>user:a local stylesheet that the browser's user tells the browser where to find in the HD.</li>
+    <li>user agent (most often the browser):a default internal stylesheet for the browser</li>
   </ul>
 
 <h1>#Precedence #Specificity</h1>
@@ -183,23 +186,23 @@
 
     More on specificity below.
 
-  - Finally, sort by order specified: if two declarations have the same weight, origin and specificity, the latter specified wins.
+  - Finally, sort by order specified:if two declarations have the same weight, origin and specificity, the latter specified wins.
     Declarations in imported style sheets are considered to be before any declarations in the style sheet itself. 
 
   #specificity
 
   Specificity is a quadruple (a,b,c,d) where each letter is the number of:
 
-  - a: inline (inside `style`) declarations of the property
-  - b: matching ID selectors
-  - c: matching (class + attribute + class count) selectors
-  - d: matching (type + element count) selectors
+  - a:inline (inside `style`) declarations of the property
+  - b:matching ID selectors
+  - c:matching (class + attribute + class count) selectors
+  - d:matching (type + element count) selectors
 
   The larger quadruple has higher specificity.
 
   Note about the counts:
 
-  - Combinators: +, >, ~ don't count by themselves. Selectors on both of their sides do count equally.
+  - Combinators:+, >, ~ don't count by themselves. Selectors on both of their sides do count equally.
   - The universal selector * does not count.
   - `:not` itself does not count, only what is inside of it.
 
@@ -213,21 +216,21 @@
 
 <h1>#Selectors</h1>
 
-  <p>Space, descendant: <code>a b</code>: <code>b</code> is any descendant of <code>a</code></p>
+  <p>Space, descendant:<code>a b</code>:<code>b</code> is any descendant of <code>a</code></p>
 
-  <p><code>a &gt; b</code>: <code>b</code> is a child of <code>a</code></p>
+  <p><code>a &gt; b</code>:<code>b</code> is a child of <code>a</code></p>
 
-  <p>Star, universal: <code>*</code>: all elements. Bad idea because of performance and logic.</p>
-  <p><code>a *</code>: any descendant of <code>a</code></p>
-  <p><code>a * b</code>: <code>b</code> that is a descendant of <code>a</code> of level 2 or more</p>
+  <p>Star, universal:<code>*</code>:all elements. Bad idea because of performance and logic.</p>
+  <p><code>a *</code>:any descendant of <code>a</code></p>
+  <p><code>a * b</code>:<code>b</code> that is a descendant of <code>a</code> of level 2 or more</p>
   <p>
     <a href="http://stackoverflow.com/questions/1014861/is-there-a-css-parent-selector">There is not parent selector as of CSS3</a>
-    Probable rationale: such selector requires the browser to parse backwards in order to make a change,
+    Probable rationale:such selector requires the browser to parse backwards in order to make a change,
     meaning that browsers may have to render an element twice.
   </p>
 
   <p>
-    Plus, adjacent selector: first next sibling. Acts on the 1 one element:
+    Plus, adjacent selector:first next sibling. Acts on the 1 one element:
     <span class="border plus0">0</span>
     <span class="border plus1">1</span>
     <span class="border plus2">2</span>
@@ -235,7 +238,7 @@
   </p>
 
   <p>
-    tilde ~: any next sibling
+    tilde ~:any next sibling
     <span class="border tilde0">0</span>
     <span class="border tilde1">1</span>
     <span class="border tilde2">2</span>
@@ -245,12 +248,12 @@
     <a href="http://stackoverflow.com/questions/1817792/css-previous-sibling-selector">
       There is no selector for previous siblings as of CSS3. It will be possible via Selectors level 4 via the exclamation mark.
     </a>.
-    Probable rationale: such selector requires the browser to parse backwards in order to make a change,
+    Probable rationale:such selector requires the browser to parse backwards in order to make a change,
     meaning that browsers may have to render an element twice.
   </p>
 
   <p>
-    #comma: has very low precedence. It is necessary to repeat both sides fully.
+    #comma:has very low precedence. It is necessary to repeat both sides fully.
     Only current solution are SASS-like languages.
   </p>
 
@@ -279,7 +282,7 @@
     </p>
 
     <h3>#hover</h3>
-      <p>`hover` can be used for any element, not just anchors: <span class="hover border">hover me to make me red!<span></p>
+      <p>`hover` can be used for any element, not just anchors:<span class="hover border">hover me to make me red!</span></p>
       <p>Possible to select elements based on hover status of another.</p>
       <p>
         Siblings:
@@ -288,11 +291,17 @@
       </p>
       <p>
         First child:
-        <span class="hover-out border" style="position: relative; margin-left: 100px;">
+        <span class="hover-out border" style="position:relative; margin-left:100px;">
           Hover me!
-          <span class="hover-in border" style="position: absolute; right: 100%;">to make me red</span>
+          <span class="hover-in border" style="position:absolute; right:100%;">to make me red</span>
         </span>
       </p>
+
+    <h3>#content</h3>
+    <p>
+      As of CSS3 it is not possible to select by content:http://stackoverflow.com/questions/1520429/css-3-content-selector.
+      It does however appear in some CCS3 drafts, so maybe in CSS4...
+    </p>
 
   <h2>#pseudo classes</h2>
 
@@ -302,12 +311,12 @@
 
   <h2>#asterisk #*</h2>
 
-    <p>*: all elements recursively</p>
+    <p>*:all elements recursively</p>
 
   <h2>#scoped</h2>
 
     <p>
-      Very low browser support as of 2013 but great thing: sets scope of a style block
+      Very low browser support as of 2013 but great thing:sets scope of a style block
       in the body to only the parent element. Example (turned off because of low support):
     </p>
     <div>
@@ -322,52 +331,45 @@
 
 <h1>#properties</h1>
 
-  <h2>#display</h2>
+  <h2>#initial</h2>
+    <p>Any property can be set to its default CSS value by the `initial` special value.</p>
 
-    <p>Transform block elements into inline ones, vice versa and more.</p>
-
-    <span class="border" style="display: block; width: 300px;">block span0</span>
-    <span class="border" style="display: block; width: 300px;">block span1</span>
-
-    <div>
-      <div class="border" style="display:inline; height:100px;">inline div0</div>
-      <div class="border" style="display:inline; height:100px;">inline div1</div>
-    </div>
-
-    <p>
-      Even if you transform the "inlineliness" of an element with CSS,
-      you still *cannot* put block elements inside inline ones and have valid HTML5.
-    </p>
-
-    <h3>inline-block</h3>
-
-      <div class="border" style="width:250px;">
-        asdf qwer
-        <span class="border" style="display: inline-block; height:100px;">inline-block</span>
-        asdf qwer asdf qwer asdf qwer adsf qwer adsf qwer
-      </div>
-
-      <div class="border" style="width:250px;">
-        asdf qwer asdf qwer asdf qwer
-        <span class="border" style="display: inline-block; height:100px;">inline-block asdf qwer asdf qwer asdf qwer</span>
-        qwer asdf qwer asdf qwer adsf qwer adsf qwer
-      </div>
-
-      <p>
-        Empty inline-block with fixed width: when there is no content for the default vertical-align: baseline
-        alignment is done at the bottom of the element: http://stackoverflow.com/questions/8215638/difference-between-baseline-of-empty-and-non-empty-inline-blocks
-      </p>
-      <div class="border" style="width:250px;">asdf <span class="border" style="display: inline-block; width:100px; height:100px;"></span> qwer asdf qwer asdf qwer adsf qwer adsf qwer</div>
-
-      <p>Empty inline-block with fixed width + vertical-align top:</p>
-      <div class="border" style="width:250px;">asdf <span class="border" style="display: inline-block; width:100px; height:100px; vertical-align: top;"></span> qwer asdf qwer asdf qwer adsf qwer adsf qwer</div>
-
-  <h2>#vertical-align</h2>
+  <h2>#line-height</h2>
+    <p>TODO why does it also center vertically?</p>
+    <div class="border" style="line-height:50px;">50px</div>
+    <div class="border" style="line-height:100px;">100px</div>
 
   <h2>#font-weight</h2>
     <p style="font-weight:bold;">font-weight bold</p>
     <p style="font-weight:normal;">font-weight normal</p>
     <p style="font-weight:900;">font-weight 900</p>
+
+  <h2>#font-family</h2>
+    <p>Fall back list of fonts.</p>
+    <p>
+      Fonts can either be precise font names, or generic families.
+      Start with the more specific and then let fall back to more general ones.
+    </p>
+    <p style='font-family:"Courier New",Courier,monospace;"Times New Roman",Georgia,Serif;'>font-family Courier New</p>
+
+  <h2>#text-decoration</h2>
+    <div style="text-decoration:none;">none</div>
+    <div style="text-decoration:overline;">overline</div>
+    <div style="text-decoration:line-through;">line-through</div>
+    <div style="text-decoration:underline;">underline</div>
+
+  <h2>#text-align</h2>
+    <p>Set the horizontal alignment for the text.</p>
+    <div class="border" style="width:100px; height:100px; text-align:left;">left</div>
+    <div class="border" style="width:100px; height:100px; text-align:center;">center</div>
+    <div class="border" style="width:100px; height:100px; text-align:right;">right</div>
+
+    <h3>Center text vertically</h3>
+      <p>To center vertically also see:http://stackoverflow.com/questions/8865458/how-to-align-text-vertical-center-in-div-with-css</p>
+      <p>Best solution forgetting IE7 support. Also makes divs like inline-block.</p>
+      <div class="border" style="width:100px; height:100px; text-align:left;   display:table-cell; vertical-align:middle;">left</div>
+      <div class="border" style="width:100px; height:100px; text-align:center; display:table-cell; vertical-align:middle;">center</div>
+      <div class="border" style="width:100px; height:100px; text-align:right;  display:table-cell; vertical-align:middle;">right</div>
 
   <h2>#background</h2>
 
@@ -376,28 +378,28 @@
       <p>
         In many situations such as Icons, CSS background images are used instead of img tags. Discussion:
         <a href="http://stackoverflow.com/questions/492809/when-to-use-img-vs-css-background-image">CSS background images vs img</a>
-        If you are going to use CSS, then you will likely to use `background-size: contain; background-repeat: no-repeat;` to control well the image size.
+        If you are going to use CSS, then you will likely to use `background-size:contain; background-repeat:no-repeat;` to control well the image size.
       </p>
-      <p>CSS sprites: put many smaller images on a single image to make less HTTP requests</p>
+      <p>CSS sprites:put many smaller images on a single image to make less HTTP requests</p>
       <p>
         quotes are optional but if you don't use them you have to escape many special chars, so just use them always:
         <a href="http://stackoverflow.com/questions/851724/css-background-image-what-is-the-correct-usage">http://stackoverflow.com/questions/851724/css-background-image-what-is-the-correct-usage</a>
       </p>
 
-      <p>base64 background image: http://stackoverflow.com/questions/1124149/is-embedding-background-image-data-into-css-as-base64-good-or-bad-practice</p>
-      <div style="width: 50px; height:50px;
-        background-image: url(data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7);
+      <p>base64 background image:http://stackoverflow.com/questions/1124149/is-embedding-background-image-data-into-css-as-base64-good-or-bad-practice</p>
+      <div style="width:50px; height:50px;
+        background-image:url(data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7);
       ">
       </div>
 
     <h3>#background-color</h3>
-      <div style="background-color: red; width: 100px; height: 10px;"></div>
-      <div style="background-color: blue; width: 100px; height: 10px;"></div>
+      <div style="background-color:red; width:100px; height:10px;"></div>
+      <div style="background-color:blue; width:100px; height:10px;"></div>
 
     <h3>#gradient</h3>
       <p>There are linear and radial gradients, repeating or not, on modern browsers.</p>
-      <p>Linear red blue: <span style="display: inline-block; width: 50px; height: 50px; background: linear-gradient(red, blue);"></span></p>
-      <p>Linear to left top red blue: <span style="display: inline-block; width: 50px; height: 50px; background: linear-gradient(to left top, red, blue);"></span> </p>
+      <p>Linear red blue:<span style="display:inline-block; width:50px; height:50px; background:linear-gradient(red, blue);"></span></p>
+      <p>Linear to left top red blue:<span style="display:inline-block; width:50px; height:50px; background:linear-gradient(to left top, red, blue);"></span> </p>
 
   <h2>#content</h2>
     <p>Modifies tag content.</p>
@@ -410,15 +412,104 @@
 
   <h2>#width #height</h2>
 
-    <div class="border" style="width: 5px;">width: 5px</div>
+    <div class="border" style="width:5px;">width:5px</div>
     <!--if width > max-width use max-width-->
     <!--if max-width > width use width-->
-    <div class="border" style="width: 50px; max-width: 5px;">width: 50; max-width: 5px</div>
+    <div class="border" style="width:50px; max-width:5px;">width:50; max-width:5px</div>
 
     <p>
       Inline elements ignore width and height properties.
       One solution is to use the `display` property, in particular the `inline-block` value.
     </p>
+
+  <h2>#display</h2>
+
+    <p>Transform block elements into inline ones, vice versa and more.</p>
+
+    <span class="border" style="display:block; width:300px;">block span0</span>
+    <span class="border" style="display:block; width:300px;">block span1</span>
+
+    <div>
+      <div class="border" style="display:inline; height:100px;">inline div0</div>
+      <div class="border" style="display:inline; height:100px;">inline div1</div>
+    </div>
+
+    <p>
+      Even if you transform the "inlineliness" of an element with CSS,
+      you still *cannot* put block elements inside inline ones and have valid HTML5.
+    </p>
+
+    <h3>#inline-block</h3>
+
+      <div class="border" style="width:250px;">
+        asdf qwer
+        <span class="border" style="display:inline-block; height:100px;">inline-block</span>
+        asdf qwer asdf qwer asdf qwer adsf qwer adsf qwer
+      </div>
+
+      <div class="border" style="width:250px;">
+        asdf qwer asdf qwer asdf qwer
+        <span class="border" style="display:inline-block; height:100px;">inline-block asdf qwer asdf qwer asdf qwer</span>
+        qwer asdf qwer asdf qwer adsf qwer adsf qwer
+      </div>
+
+      <p>
+        Empty inline-block with fixed width:when there is no content for the default vertical-align:baseline
+        alignment is done at the bottom of the element:http://stackoverflow.com/questions/8215638/difference-between-baseline-of-empty-and-non-empty-inline-blocks
+      </p>
+      <div class="border" style="width:250px;">asdf <span class="border" style="display:inline-block; width:100px; height:100px;"></span> qwer asdf qwer asdf qwer adsf qwer adsf qwer</div>
+
+      <p>Empty inline-block with fixed width + vertical-align top:</p>
+      <div class="border" style="width:250px;">asdf <span class="border" style="display:inline-block; width:100px; height:100px; vertical-align:top;"></span> qwer asdf qwer asdf qwer adsf qwer adsf qwer</div>
+
+    <h3>#table-cell</h3>
+      <p>Element behaves like a table cell:centered vertically and inline-block like.</p>
+      <div class="border" style="width:100px; height:100px; text-align:left;   display:table-cell; vertical-align:middle;">left</div>
+      <div class="border" style="width:100px; height:100px; text-align:center; display:table-cell; vertical-align:middle;">center</div>
+      <div class="border" style="width:100px; height:100px; text-align:right;  display:table-cell; vertical-align:middle;">right</div>
+
+  <h2>#vertical-align</h2>
+
+    <p>Does very different things on tables and on inline elements:http://phrogz.net/CSS/vertical-align/</p>
+    <p>TODO</p>
+
+  <h2>#box model</h2>
+
+    <p>Describes what are margins, borders and paddings.</p>
+    <p>
+      `margin` and `padding` can take 1, 2, 3 or 4 arguments:http://www.htmldog.com/reference/cssproperties/margin/. 
+      They are just shorthands for setting the four margins at once.
+    </p>
+
+    <h3>#collapse margins</h3>
+
+      <p>If two vertical margins are adjacent, only the largest one is used:http://www.w3.org/TR/CSS2/box.html</p>
+      <p>TODO make example work. First need to better understand vertical align...</p>
+      <div style="vertical-align:top;">
+        <div class="border" style="display:table-cell; width:100px; height:100px; margin:0px; text-align:center;">
+          200x200
+        </div>
+        <div style="display:table-cell; vertical-align:top;">
+          <div class="border" style="width:100px; height:40; margin:0px 0px 200px; vertical-align:top;">
+            200x80 margin 0 0 40
+          </div>
+          <div class="border" style="width:100px; height:40; margin-top:20px 0px 0px; vertical-align:top;">
+            200x80 margin 20 0 0
+          </div>
+        </div>
+      </div>
+
+      <p>Only works for vertical margins. Does *not* work for horizontal margins nor padding + margin. (TODO what to do on those cases).</p>
+
+    <h3>#border</h3>
+
+      <h3>duplicate border problem</h3>
+
+        <p>Borders side by size will both appear:<span class="border">a</span><span class="border">b</span></p>
+        <p>For tables, the border collapse property solves this. For other elements, see some workarounds here:http://stackoverflow.com/questions/5737693/simulating-border-collapse-in-lists-no-tables</p>
+        <p>-1px margin trick seems to be the only alternative to manually setting either one border or another.
+          <span style="border-right:1px solid black;">a</span><span style="border-left:1px solid black; margin-left:-1px;">b</span>
+        </p>
 
   <h2>#positioning</h2>
 
@@ -439,24 +530,28 @@
       - element is completely removed from normal flow, it is as if it were not there.
     </p>
 
-    <div style="margin-left: 100px; width: 50px; height: 50px; background-color: red; position: relative;">
-      <div style="display: inline-block; width: 20px; height: 20px; background-color: blue; position: absolute; left: -20px;"></div>
+    <div style="margin-left:100px; width:50px; height:50px; background-color:red; position:relative;">
+      <div style="display:inline-block; width:20px; height:20px; background-color:blue; position:absolute; left:-20px;"></div>
     </div>
 
-    <p>Place outside without knowing the dimension of the inner element: use 100 %:</p>
+    <p>Place outside without knowing the dimension of the inner element:use 100 %:</p>
 
-    <div style="margin-left: 100px; width: 50px; height: 50px; background-color: red; position: relative;">
-      <div style="display: inline-block; width: 20px; height: 20px; background-color: blue; position: absolute; right: 100%;"></div>
+    <div style="margin-left:100px; width:50px; height:50px; background-color:red; position:relative;">
+      <div style="display:inline-block; width:20px; height:20px; background-color:blue; position:absolute; right:100%;"></div>
+    </div>
+
+    <p>Center horizontally: margin auto technique:</p>
+    <div style="width:50px; height:20px; background-color:red; margin:0px auto;">
     </div>
 
     <p>
-      Place in center: http://stackoverflow.com/questions/7720730/how-to-align-the-absolute-position-to-center
+      Center vertically and horizontally: http://stackoverflow.com/questions/7720730/how-to-align-the-absolute-position-to-center
     </p>
     <p>
       Negative margin technique (not DRY, needs to know size of the element):
     </p>
-    <div style="width: 50px; height: 50px; background-color: red; position: relative;">
-      <div style="display: inline-block; width: 20px; height: 20px; margin-top: -10px; margin-left: -10px; background-color: blue; position: absolute; top: 50%; left: 50%;"></div>
+    <div style="width:50px; height:50px; background-color:red; position:relative;">
+      <div style="display:inline-block; width:20px; height:20px; margin-top:-10px; margin-left:-10px; background-color:blue; position:absolute; top:50%; left:50%;"></div>
     </div>
 
     <p>
@@ -464,27 +559,33 @@
       its width is undetermined, and you have to set it with the width property (TODO check):
     </p>
 
-    <div style="margin-left: 300px; width: 50px; height: 50px; background-color: red; position: relative;">
-      <div class="border" style="display: inline-block; position: absolute; right: 100%;">no fixed width</div>
+    <div style="margin-left:300px; width:50px; height:50px; background-color:red; position:relative;">
+      <div class="border" style="display:inline-block; position:absolute; right:100%;">no fixed width</div>
     </div>
     <br/>
-    <div style="margin-left: 300px; width: 50px; height: 50px; background-color: red; position: relative;">
-      <div class="border" style="display: inline-block; width: 200px; position: absolute; right: 100%;">with fixed width</div>
+    <div style="margin-left:300px; width:50px; height:50px; background-color:red; position:relative;">
+      <div class="border" style="display:inline-block; width:200px; position:absolute; right:100%;">with fixed width</div>
     </div>
 
-<h1>#tables</h1>
+<h1>#common style combos</h1>
 
-  <p >Padding 1px:</p>
-  <table class="padding1px">
-    <tr>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>3</td>
-    </tr>
-  </table>
+  <h2>#links</h2>
+
+    <p>Make div into link:http://stackoverflow.com/questions/796087/make-a-div-into-a-link</p>
+
+  <h2>#tables</h2>
+
+    <p >Padding 1px:</p>
+    <table class="padding1px">
+      <tr>
+        <td>0</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>3</td>
+      </tr>
+    </table>
 
 </body>
 </html>

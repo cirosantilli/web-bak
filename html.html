@@ -90,23 +90,24 @@
   -->
 
     <!--
-    #stylesheet
+    #style
 
       Links to external stylesheet files such as CSS.
-    -->
 
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+      See CSS cheat.
+    -->
 
     <!--
     #shortcut icon
 
-      The favicon.ico will show on the tab before the title.
+      The favicon.ico will show on most browsers on the tab before the title.
+
       It is like an icon of a desktop application.
     -->
 
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+      <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 
-  <title>cheat title</title>
+  <title>html cheat title</title>
 </head>
 <body>
 
@@ -239,7 +240,13 @@
   <div data-val="'"></div>
   <div data-val="&apos;"></div>
 
-  <p>`id` attributes must be unique across the entire document: http://programmers.stackexchange.com/questions/127178/two-html-elements-with-same-id-attribute-how-bad-is-it-really</p>
+  <h2>#id</h2>
+
+    <p>
+      Before HTML5, id attributes must start with `a-zA-Z`. In particular, no digits.
+      This restriction was lifted with HTML5, but it is still recommended to follow it for backwards compatibility.
+    </p>
+    <p>`id` attributes must be unique across the entire document: http://programmers.stackexchange.com/questions/127178/two-html-elements-with-same-id-attribute-how-bad-is-it-really</p>
 
   <p>Multiple classes are space separated as in: <code>"class0 class1 class2"</code></p>
 
@@ -483,6 +490,17 @@ a
 a
  b
   </div>
+
+<h1>#mathml</h1>
+
+  <p>Standard way to represent mathematics.</p>
+
+  <p>
+    Uses an XML like language not suitable for direct user input, not Latex.
+    A converter from Latex to MathML such as blahtexml or itex2mml or is inescapable content writers.
+  </p>
+
+  TODO
 
 </body>
 <!--Only comments are allowed here.-->
