@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <title>css cheat</title>
+  <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
 
   <!--
   Main CSS cheat.
@@ -47,10 +48,10 @@
       .plus0 + .plus1 { color:red; }
       .first-letter:first-letter { color:red; }
       .last-child :last-child { border:1px solid black; }
-      .hover:hover { color:red; }
-      .hover-left:hover + .hover-right { color:red; }
-      .hover-out:hover > .hover-in { color:red; }
-      .hover-out:hover > .hover-in { color:red; }
+      .hover:hover { background-color:red; }
+      .hover-left:hover + .hover-right { background-color:red; }
+      .hover-out:hover > .hover-in { background-color:red; }
+      .hover-out:hover > .hover-in { background-color:red; }
 
     /* Attributes */
     .content-before:before { content:"before"; }
@@ -72,8 +73,29 @@
       To make tests more visible:
     */
     .border { border:1px solid black; }
+    .wide { width:300px; }
+    .strip { height:10px; width:300px; }
     .red { color:red; }
+    .red-back { background-color:red; }
     .blue { color:blue; }
+
+    /* #table
+
+      Minimal table sane format.
+
+    */
+      div.table table {
+        border-collapse: collapse;
+        border: 1px solid black;
+        text-align: left;
+      }
+      div.table td, div.table th {
+        border: 1px solid black;
+        padding: 2px;
+      }
+      div.table th {
+        font-weight: bold;
+      }
 
   </style>
 </head>
@@ -282,7 +304,8 @@
     </p>
 
     <h3>#hover</h3>
-      <p>`hover` can be used for any element, not just anchors:<span class="hover border">hover me to make me red!</span></p>
+      <div>`hover` can be used for any element, not just anchors:</div>
+      <div class="hover border">hover me to make me red!</div>
       <p>Possible to select elements based on hover status of another.</p>
       <p>
         Siblings:
@@ -329,10 +352,35 @@
       </div>
     </div>
 
+<h1>#color specification</h1>
+
+  <p>Colors are used in many places across CSS, but all of them can take the same values:</p>
+  <pre>
+    - named: `red`, `BurlyWood`, `transparent`
+    - 6 digit hex: `#RRGGBB`, `#0088FF`
+    - 3 digit hex: `#RGB`, `#08F`, same as `#RRGGBB`
+    - rgb function: `rgb(0, 128, 256)`
+    - rgba function for the transparency: `rgb(0, 128, 256, 0.3)`
+  </pre>
+
+  <h2>#alpha #transparency</h2>
+
+    <div style="background-color:red;" class="border">
+      red
+      <div style="background-color:rgba(0, 255, 0, 0.0);" class="wide border">green 0.0</div>
+      <div style="background-color:rgba(0, 255, 0, 0.5);" class="wide border">green 0.5</div>
+      <div style="background-color:rgba(0, 255, 0, 1.0);" class="wide border">green 1.0</div>
+    </div>
+
 <h1>#properties</h1>
 
   <h2>#initial</h2>
     <p>Any property can be set to its default CSS value by the `initial` special value.</p>
+
+  <h2>#inherit</h2>
+    <div>Not all properties are inherited, but if you give the `inherit` value to a property it will be inherited.</div>
+    <div class="border">ab<span>c</span></div>
+    <div class="border">ab<span style="border:inherit;">c</span></div>
 
   <h2>#line-height</h2>
     <p>TODO why does it also center vertically?</p>
@@ -359,10 +407,12 @@
     <div style="text-decoration:underline;">underline</div>
 
   <h2>#text-align</h2>
-    <p>Set the horizontal alignment for the text.</p>
-    <div class="border" style="width:100px; height:100px; text-align:left;">left</div>
-    <div class="border" style="width:100px; height:100px; text-align:center;">center</div>
-    <div class="border" style="width:100px; height:100px; text-align:right;">right</div>
+    <p>Set the horizontal alignment for inner text and inline elments.</p>
+    <div class="border" style="width:300px; height:50px; text-align:left;">left</div>
+    <div class="border" style="width:300px; height:50px; text-align:center;">center</div>
+    <div class="border" style="width:300px; height:50px; text-align:right;">right</div>
+    <div class="border" style="width:300px; height:50px; text-align:right;"><span>right in span</span></div>
+    <div class="border" style="width:300px; height:50px; text-align:right;"><div>right in div</div></div>
 
     <h3>Center text vertically</h3>
       <p>To center vertically also see:http://stackoverflow.com/questions/8865458/how-to-align-text-vertical-center-in-div-with-css</p>
@@ -410,6 +460,47 @@
     <p class="content-before content-after"> inner </p>
     <p class="content">Does not work without :before or :after.</p>
 
+  <h2>#box model</h2>
+
+    <p>Describes what are margins, borders and paddings.</p>
+    <p>
+      `margin` and `padding` can take 1, 2, 3 or 4 arguments:http://www.htmldog.com/reference/cssproperties/margin/. 
+      They are just shorthands for setting the four margins at once.
+    </p>
+
+    <h3>#collapse margins</h3>
+
+      <p>If two vertical margins are adjacent, only the largest one is used:http://www.w3.org/TR/CSS2/box.html</p>
+      <p>TODO make example work. First need to better understand vertical align...</p>
+      <div style="vertical-align:top;">
+        <div class="border" style="display:table-cell; width:100px; height:100px; margin:0px; text-align:center;">
+          200x200
+        </div>
+        <div style="display:table-cell; vertical-align:top;">
+          <div class="border" style="width:100px; height:40; margin:0px 0px 200px; vertical-align:top;">
+            200x80 margin 0 0 40
+          </div>
+          <div class="border" style="width:100px; height:40; margin-top:20px 0px 0px; vertical-align:top;">
+            200x80 margin 20 0 0
+          </div>
+        </div>
+      </div>
+
+      <p>Only works for vertical margins. Does *not* work for horizontal margins nor padding + margin. (TODO what to do on those cases).</p>
+
+    <h3>#border</h3>
+
+      <h3>duplicate border problem</h3>
+        <p>Borders side by size will both appear:<span class="border">a</span><span class="border">b</span></p>
+        <p>For tables, the border collapse property solves this. For other elements, see some workarounds here:http://stackoverflow.com/questions/5737693/simulating-border-collapse-in-lists-no-tables</p>
+        <p>-1px margin trick seems to be the only alternative to manually setting either one border or another.
+          <span style="border-right:1px solid black;">a</span><span style="border-left:1px solid black; margin-left:-1px;">b</span>
+        </p>
+
+      <h3>#border-radius</h3>
+        <div class="border" style="width:100px; height:100px; border-radius:10px;">10px</div>
+        <div class="border" style="width:100px; height:100px; border-radius:50px;">50px</div>
+
   <h2>#width #height</h2>
 
     <div class="border" style="width:5px;">width:5px</div>
@@ -421,6 +512,50 @@
       Inline elements ignore width and height properties.
       One solution is to use the `display` property, in particular the `inline-block` value.
     </p>
+
+  <h2>#overflow #scroll</h2>
+
+    <p>See content that is larger than parent.</p>
+
+    <p>overflow-y:scroll: always show scrollbar. Only activate if inner larger.</p>
+    <div style="width:200px; height:100px; padding:5px; overflow-y:scroll;" class="border">
+      200x100
+      <div style="width:100px; height:50px; backgroud:linear-gradient(red,blue);" class="border">
+        100x50
+      </div>
+    </div>
+    <div style="width:200px; height:100px; padding:5px; overflow-y:scroll;" class="border">
+      200x100
+      <div style="width:100px; height:200px; backgroud:linear-gradient(red,blue);" class="border">
+        100x200
+      </div>
+    </div>
+
+    <p>overflow-y:auto: only show scroll if inner larger</p>
+    <div style="width:200px; height:100px; padding:5px; overflow-y:auto;" class="border">
+      200x100
+      <div style="width:100px; height:50px; backgroud:linear-gradient(red,blue);" class="border">
+        100x50
+      </div>
+    </div>
+    <div style="width:200px; height:100px;  padding:5px; overflow-y:auto;" class="border">
+      200x100
+      <div style="width:100px; height:200px; backgroud:linear-gradient(red,blue);" class="border">
+        100x200
+      </div>
+    </div>
+
+    <p>default: none. If inner element is larger than out, without scroll, it just falls out:</p>
+    <div style="width:200px; height:50px; padding:5px;" class="border">
+      test<br/>test<br/>test<br/>test<br/>test<br/>test<br/>
+    </div>
+
+    <p>If no scroll, the overflow can be hidden with `overflow:hidden` </p>
+    <div style="width:200px; height:50px; padding:5px; overflow:hidden;" class="border">
+      test<br/>test<br/>test<br/>test<br/>test<br/>test<br/>
+    </div>
+
+    <p>Scrollbar style: http://stackoverflow.com/questions/7725652/css-scrollbar-style-cross-browser</p>
 
   <h2>#display</h2>
 
@@ -468,50 +603,92 @@
       <div class="border" style="width:100px; height:100px; text-align:center; display:table-cell; vertical-align:middle;">center</div>
       <div class="border" style="width:100px; height:100px; text-align:right;  display:table-cell; vertical-align:middle;">right</div>
 
+    <h3>#none</h3>
+      <div>Hides the element. It does not occupy any space.</div>
+      <div>a<span style="display:none;">bcd</span>e</div>
+
+  <h2>#float #clear</h2>
+    <p>
+      Makes elements move horizontally as much as possible until they find:
+      - the parent container
+      - another floating element
+      - an element with clear
+    </p>
+
+    <div class="border wide">
+      <span class="border">before</span>
+      <span class="border" style="float:left;">float left</span>
+      <span class="border red-back">after</span>
+    </div>
+
+    <p>
+      - Even the content of block elements are displaced by a floating element. 
+      - Only elements that come after the block are displaced.
+      - The actual block element still occupies the same position.
+      - Only elements up to the height of the float are affected.
+    </p>
+    <div class="border wide">
+      <div class="border">before</div>
+      <div class="border" style="float:left;">float left</div>
+      <div class="border red-back">after red</div>
+      <div class="border">after2</div>
+    </div>
+    <br/>
+    <div class="border wide">
+      <div class="border">before</div>
+      <div class="border" style="float:left; height:50px;">float left</div>
+      <div class="border red-back">after red</div>
+      <div class="border">after2</div>
+    </div>
+
+    <p>This can be prevented via the clear property:</p>
+    <div class="border wide">
+      <div class="border" style="clear:left;">clear before</div>
+      <div class="border" style="float:left;">float left</div>
+      <div class="border">after</div>
+    </div>
+
+    <div class="border wide">
+      <div class="border" style="clear:left;">clear before</div>
+      <div class="border" style="float:left;">float left</div>
+      <div class="border">after</div>
+      <div class="border">after2</div>
+    </div>
+
+    <p>`clear` only works for block elements:</p>
+    <div class="border wide">
+      <span class="border" style="clear:left;">clear left</span>
+      <span class="border" style="float:left;">float left</span>
+      <span class="border">after</span>
+    </div>
+
+    <p>align right:</p>
+    <div class="border wide" style="text-align:right;">
+      <div class="border">before</div>
+      <div class="border" style="float:right;">float right</div>
+      <div class="border">after</div>
+    </div>
+
+    <p>float both:</p>
+    <div class="border wide">
+      <div class="border">before</div>
+      <div class="border" style="float:both;">float both</div>
+      <div class="border">after</div>
+    </div>
+
+    <p>float right:</p>
+    <div class="border wide">
+      <div class="border">before</div>
+      <div class="border" style="float:right;">float right</div>
+      <div class="border">after</div>
+    </div>
+
   <h2>#vertical-align</h2>
 
     <p>Does very different things on tables and on inline elements:http://phrogz.net/CSS/vertical-align/</p>
     <p>TODO</p>
 
-  <h2>#box model</h2>
-
-    <p>Describes what are margins, borders and paddings.</p>
-    <p>
-      `margin` and `padding` can take 1, 2, 3 or 4 arguments:http://www.htmldog.com/reference/cssproperties/margin/. 
-      They are just shorthands for setting the four margins at once.
-    </p>
-
-    <h3>#collapse margins</h3>
-
-      <p>If two vertical margins are adjacent, only the largest one is used:http://www.w3.org/TR/CSS2/box.html</p>
-      <p>TODO make example work. First need to better understand vertical align...</p>
-      <div style="vertical-align:top;">
-        <div class="border" style="display:table-cell; width:100px; height:100px; margin:0px; text-align:center;">
-          200x200
-        </div>
-        <div style="display:table-cell; vertical-align:top;">
-          <div class="border" style="width:100px; height:40; margin:0px 0px 200px; vertical-align:top;">
-            200x80 margin 0 0 40
-          </div>
-          <div class="border" style="width:100px; height:40; margin-top:20px 0px 0px; vertical-align:top;">
-            200x80 margin 20 0 0
-          </div>
-        </div>
-      </div>
-
-      <p>Only works for vertical margins. Does *not* work for horizontal margins nor padding + margin. (TODO what to do on those cases).</p>
-
-    <h3>#border</h3>
-
-      <h3>duplicate border problem</h3>
-
-        <p>Borders side by size will both appear:<span class="border">a</span><span class="border">b</span></p>
-        <p>For tables, the border collapse property solves this. For other elements, see some workarounds here:http://stackoverflow.com/questions/5737693/simulating-border-collapse-in-lists-no-tables</p>
-        <p>-1px margin trick seems to be the only alternative to manually setting either one border or another.
-          <span style="border-right:1px solid black;">a</span><span style="border-left:1px solid black; margin-left:-1px;">b</span>
-        </p>
-
-  <h2>#positioning</h2>
+  <h2>#position</h2>
 
     <p>http://www.barelyfitz.com/screencast/html-training/css/positioning/</p>
 
@@ -535,7 +712,6 @@
     </div>
 
     <p>Place outside without knowing the dimension of the inner element:use 100 %:</p>
-
     <div style="margin-left:100px; width:50px; height:50px; background-color:red; position:relative;">
       <div style="display:inline-block; width:20px; height:20px; background-color:blue; position:absolute; right:100%;"></div>
     </div>
@@ -567,6 +743,20 @@
       <div class="border" style="display:inline-block; width:200px; position:absolute; right:100%;">with fixed width</div>
     </div>
 
+  <h2>#cursor</h2>
+      <div>Determines what the cursor looks like on hover. Takes a list in case on is not present.</div>
+      <div>
+        <div style="cursor:default;" class="border">default</div>
+        <div style="cursor:pointer;" class="border">pointer</div>
+        <div style="cursor:crosshair;" class="border">crosshair</div>
+        <div style="cursor:help;" class="border">help</div>
+        <div style="cursor:url('flower-small.jpg'),pointer;" class="border">
+          url('flower-small.jpg').
+          Firefox says that the image must be smaller than 128×128px.
+          Some sources state that Windows limits it to 32x32, so use 32x32.
+        </div>
+      </div>
+
 <h1>#common style combos</h1>
 
   <h2>#links</h2>
@@ -576,16 +766,22 @@
   <h2>#tables</h2>
 
     <p >Padding 1px:</p>
-    <table class="padding1px">
-      <tr>
-        <td>0</td>
-        <td>1</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>3</td>
-      </tr>
-    </table>
+    <div class="table">
+      <table>
+        <tr>
+          <th>0</th>
+          <th>1</th>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>3</td>
+        </tr>
+      </table>
+    </div>
 
 </body>
 </html>
