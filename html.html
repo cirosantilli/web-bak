@@ -130,6 +130,42 @@
 </head>
 <body>
 
+  <div style="float:right;">
+    Validation of **live** site (**not** localhost one):<br/>
+    <iframe src="http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html"
+        style="width:600px; height:600px;"></iframe>
+  </div>
+  <!--Not sure this id possible because of the required cross site:
+    TODO: get only the red green title from the page inside the iframe.
+    <div><iframe src="http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html"
+        id="validation-container"></iframe></div>
+  -->
+    <!--
+      The content is empty, why?
+      <script>
+          var elem = document.getElementById("validation-container")
+          alert(elem.contentDocument.getElementsByTagName('body')[0])
+      </script>
+    -->
+    <!--
+      This seems not to be possible because of the cross site request.
+      <script>
+        var xmlhttp = new XMLHttpRequest()
+        var elem = document.getElementById("validation-container")
+        xmlhttp.open("GET", "http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html", true)
+        xmlhttp.onreadystatechange = function() {
+          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            elem.innerHTML = xmlhttp.responseText
+            alert(xmlhttp.responseText)
+          }
+          alert(xmlhttp.readyState + " " + xmlhttp.status)
+        }
+        // This seems to be one failing point:
+        elem.innerHTML = "<html><body>a</body></html>"
+        xmlhttp.send()
+      </script>
+    -->
+
   <p>Main HTML cheat.</p>
   <p>
     Information is about HTML5 by default, unless stated otherwise.
@@ -545,7 +581,7 @@
 
   <p>Format (very highly discouraged in favor of CSS):</p>
   <ul>
-    <li><i>#i: italics</i></li>
+    <li><i>#i: italics</i>. Commonly used unofficially by important libraries such as Bootstrap for Icons.</li>
     <li><b>#b: boldface</b></li>
   </ul>
 
@@ -616,25 +652,6 @@ a
 
 <h1>#forms</h1>
 
-  <h2>#label</h2>
-    <p>The visible name of the form field.</p>
-    <p>
-      Does not have lead to many programmatic effects, except that clicking on the label
-      may focus or toggle its corresponding form control.
-    </p>
-    <p><label for="label-target" style="border:1px solid black;">Label, click me!</label> <input id="label-target"/></p>
-
-  <h2>#input</h2>
-    <p>It is valid HTLM5 to omit the type attribute, but a bad practice due to browser inconsistencies.</p>
-    <p>size="3" <input type="text" size="3"/></p>
-    <p>size="5" <input type="text" size="5"/></p>
-    <p>value="default" <input type="text" value="default"/></p>
-
-  <h2>#textarea</h2>
-    <p>rows="3" cols="5"</p>
-    <p><textarea>default</textarea></p>
-    <p><textarea rows="3" cols="5">rows=3 cols=5</textarea></p>
-
   <h2>#button</h2>
     <p>If `disabled` attribute present, button cannot be clicked:
     <p>
@@ -646,13 +663,46 @@ a
       `type`: should always be specified to avoid browser inconsistencies:
 
       - button:	nothing special about it. Mostly used with Javascript
-      - submit: do the enclosing form's action
+      - submit: do the enclosing form's `action`.
       - reset: reset data of enclosing form to default values.
     </pre>
     <form action="#button-type" id="button-type">
       <input type="text" name="a" value="0"/>
       <button type="submit">Submit</button>
       <button type="reset">Reset</button>
+    </form>
+
+  <h2>#label</h2>
+    <p>The visible name of the form field.</p>
+    <p>
+      Does not have lead to many programmatic effects, except that clicking on the label
+      may focus or toggle its corresponding form control.
+    </p>
+    <p>
+      <label for="label-target" style="border:1px solid black;">Label, click me!</label>
+      <input id="label-target"/>
+    </p>
+
+  <h2>#input</h2>
+    <p>It is valid HTLM5 to omit the type attribute, but a bad practice due to browser inconsistencies.</p>
+    <p>value="default" <input type="text" value="default"/></p>
+    <p>size="3" <input type="text" size="3"/></p>
+    <p>size="5" <input type="text" size="5"/></p>
+
+  <h2>#textarea</h2>
+    <p>rows="3" cols="5"</p>
+    <p><textarea>default</textarea></p>
+    <p><textarea rows="3" cols="5">rows=3 cols=5</textarea></p>
+
+  <h2>#select #option</h2>
+    <p>The default is marked with `selected="selected"`</p>
+    <form action="#select" id="select">
+      <select name="select-name">
+        <option value="a">a text</option>
+        <option value="b" selected="selected">b text</option>
+        <option value="c">c text</option>
+      </select>
+      <button type="submit">Submit</button>
     </form>
 
 <h1>#mathml</h1>
@@ -670,24 +720,33 @@ a
 
   <p>Browser may show if javascript is not supported.</p>
   <p>Block element.</p>
-  <script>document.write("<div>javascript<div>")</script>
+  <script>document.write("<div>javascript</div>")</script>
   <noscript>no javascript</noscript> 
 
 <h1>#frame #iframe</h1>
 
-  <p>
-    Include another HTML element in the current one.
+  <pre>
+    Include another HTML document in the current one.
+    This element therefore automatically makes an HTTP request to another page,
+    so it is an interesting way go include HTML content without any Javascript.
     In the past, before server side scripting, widely used to reuse code fragments such as indexes.
-    Now generally frowned upon.
-    `frame` was invalidated in HTML5.
-    `iframe`, inline frame, still works.
-  </p>
-  <iframe src="iframe.html"></iframe>
+    Now generally frowned upon for navigation.
+    - `frame` was invalidated in HTML5.
+    - `iframe`, inline frame, is still valid in HTML5.
+  </pre>
+  <iframe src="iframe.html">iframe failed to load</iframe>
 
   <p>iframe always has a fixed size, which you can change with CSS:</p>
-  <iframe src="iframe.html" style="width:600px; height:50px;"></iframe>
+  <iframe src="iframe.html" style="width:600px; height:50px;">iframe failed to load</iframe>
 
   <p>disable scroll in HTML5 CSS3 is not yet widely supported: http://stackoverflow.com/questions/1691873/safari-chrome-webkit-cannot-hide-iframe-vertical-scrollbar</p>
+
+  <p>
+    The frame content is like `alt` for images.
+    Your browser may simply ignore it in case of failure if he has something better to do (Firefox 27 shows the not found page
+    with a reload button.)
+  </p>
+  <div><iframe src="i-do-no-exist.html">i-do-not-exist.html failed to load</iframe></div>
 
 </body>
 <!--Only comments are allowed here.-->

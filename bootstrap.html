@@ -3,8 +3,32 @@
 <head>
   <meta charset="utf-8"/>
   <title>Twitter Bootstrap Cheat</title>
-  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <!--
+    Use all components. It is possible to use only certain elements if desired.
+  -->
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+  <!--
+  #Font Awesome Font Icons
+
+    Really good icon option as it resizes and recolors perfectly.
+
+    Actually defines a font that contains icons.
+
+    Designed to work well with bootstrap, so commonly associated that it is served from the bootstrap CDN.
+  -->
+
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+		<style>
+			/* *Must* use :before. TODO why? */
+			span.fa-custom:before {
+				color: black;
+				content: "\f000";
+				font-family: FontAwesome;
+				font-size: 18px;
+			}
+		</style>
 </head>
 <body>
 <h1>Twitter Bootstrap Cheat</h1>
@@ -19,9 +43,23 @@ The main advantages of using TBS are:
 - it corrects many CSS browser inconsistencies
 
 TBS is was created by Twitter, then released as open source in 2012.
+
 It is officially called just Bootstrap now, although the term TBS is still widely used to disambiguate.
+
+Just use it **always** and avoid many browser incompatibilities later on.
 </pre>
 <code>code</code>
 <kbd>kbd</kbd>
+
+
+<h1>#Font Awesome</h2>
+  <p><a href="http://fontawesome.io">Home Page</a>. <i class="fa fa-camera-retro"></i> <i class="fa-icon-book"></i></p>
+  <ul class="nav nav-pills nav-stacked">
+    <li class="active"><a href="#"><i class="fa fa-home fa-fw"></i> Home</a></li>
+    <li><a href="#"><i class="fa fa-book fa-fw"></i> Library</a></li>
+    <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Applications</a></li>
+    <li><a href="#"><i class="fa fa-cogs fa-fw"></i> Settings</a></li>
+  </ul>
+	<p>Use with custom class: <span class="fa-custom"><span></p>
 </body>
 </html>

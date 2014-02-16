@@ -129,7 +129,7 @@
 
   The async attribute can only be used for external scripts.
 -->
-  <script src="external.js" async /></script>
+  <script src="external.js" async></script>
 
 
 <h1>#events</h1>
@@ -301,6 +301,18 @@
     var a = undefined
     assert_eq(a, undefined)
 
+  // ERROR: Using undeclared variables leads to an error:
+
+    //not_yet_defined
+
+  // Before JS5, it was possible to redefine `undefined`, so the safest way to check for undefined is via typeof:
+
+    var not_yet_defined
+    // Safe all versions:
+    assert_eq(typeof not_yet_defined, 'undefined')
+    // Safe starting from JS5:
+    assert_eq(not_yet_defined, undefined)
+
 //#if
 
     if (false) {
@@ -321,21 +333,59 @@
       }
     }
 
-    assert(maybe_return(true) == 0  )
-    assert(maybe_return(false) == null)
+    assert_eq(maybe_return(true),  0)
+    assert_eq(maybe_return(false), undefined)
 
-  //TODO default positional arguments
+  //#redefine function. ##`function f() vs var f = function()`
+
+    //http://stackoverflow.com/questions/336859/var-functionname-function-vs-function-functionname
+
+    // Without var, hoisting looks for the last definition.
+    // Conclusion: never use multiple functions with the same name.
+    // Conclusion 2: always use `f = function` so you don't have to worry about conclusion 1.
+
+      function redefine_func() { return 0; }
+      function redefine_func() { return 1; }
+      assert_eq(redefine_func(),  2)
+      function redefine_func() { return 2; }
+
+      var f = function() { return 0; }
+      var f = function() { return 1; }
+      assert_eq(f(),  1)
+      var f = function f() { return 2; }
+
+    // name is only set for the `function f`, since `f =` creates an anonymous function:
+
+      function f() {}
+      assert_eq(f.name,  'f')
+
+      var f = function() {}
+      assert_eq(f.name,  '')
+
+  //#default positional arguments
+
+    // Default positional arguments don't exist, but can be emulated using undefined check:
+
+      var f = function(a) {
+        if (typeof a === 'undefined') { a = 0; }
+        return a + 1
+      }
+      assert_eq(f(),  1)
+      assert_eq(f(1), 2)
+
+    // CoffeScript allows us to write `f: (a = 0) ->`.
+
   //TODO named arguments?
 
   // It is possible to assign functions to variables:
 
-    function f() {
+    var f = function() {
       return 1
     }
     var vf = f
     assert_eq(vf(), 1)
 
-  //#annonymous function
+  //#anonymous function
 
     var f = function() {return 1}
     assert_eq(f(), 1)
@@ -352,7 +402,7 @@
 
     // Hoisting only works within a single script tag, not across them.
 
-      assert(to_be_defined() == 1)
+      assert_eq(to_be_defined(), 1)
       function to_be_defined() {
         return 1
       }
@@ -361,7 +411,7 @@
 
     // It does not work for function expressions in anonymous functions for example:
 
-      //assert(to_be_defined_anon() == 1) //ERROR
+      //assert_eq(to_be_defined_anon(), 1) //ERROR
       var to_be_defined_anon = function() {
         return 1
       }
@@ -370,7 +420,8 @@
 
   // This can be used inside function to refer to the owner object:
 
-  // - for global functions, this is the window object
+  // - on the "global" scope, this is the window object
+  // - inside functions, it is the function object itself. This is used to implement Class like definitions.
   // - on an onclick callback, this is the HTML element that called the callback
 
 //#string
@@ -432,7 +483,7 @@
 
 //#dict #map #object #class
 
-  // There is no dict in javascript, but objects behave just like dicts.
+  // There is no dict in JavaScript, but objects behave just like dicts.
 
   // This is an interesting design choice, since Objects in languages such as Python or Ruby
   // behave much like maps, so why not remove them entirely?
@@ -445,18 +496,38 @@
 
     var o = {a:0, "b":1, 2:2}
 
-    assert(o.a == 0)
-    assert(o['a'] == 0)
+    assert_eq(o.a,    0)
+    assert_eq(o['a'], 0)
 
-    assert(o.b == 1)
-    assert(o['b'] == 1)
+    assert_eq(o.b,    1)
+    assert_eq(o['b'], 1)
 
   // ERROR: attribute cannot start with digit for dot `.` notation.
 
-    //assert(o.2 == 2)
+    //assert_eq(o.2, 2)
 
-    assert(o[2]   == 2)
-    assert(o['2'] == 2)
+    assert_eq(o[2],   2)
+    assert_eq(o['2'], 2)
+
+  //#create class
+
+    // The standard way to write C++ class like constructs is TODO http://stackoverflow.com/questions/13190097/whats-the-best-way-to-create-javascript-classes?lq=1
+
+      var C = function(i) {
+        this.i = i
+        this.geti = function() {
+          return this.i
+        }
+        this.inci = function() {
+          this.i += 1
+        }
+      }
+
+      c = new C(0)
+      assert_eq(c.i, 0)
+      assert_eq(c.geti(), 0)
+      c.inci()
+      assert_eq(c.geti(), 1)
 
   //#prototype
 
@@ -476,9 +547,9 @@
 
   //#new
 
-    //TODO
+    //TODO http://stackoverflow.com/questions/1646698/what-is-the-new-keyword-in-javascript
 
-  //#extend
+  //#extend #inheritance
 
     // TODO
 
@@ -632,6 +703,8 @@
 
     document.write('<div id="element-text">0</div>' + document.cookie + "<br>")
     //assert_eq(document.getElementById("element-text").text, "0")
+
+    //.attributes.key = val
 
 //#cookies
 
@@ -788,9 +861,9 @@
 
 //#XMLHttpRquest #ajax
 
-  // Make a server request without reloading the entire page.
+  // Make a server request without reloading the current page.
 
-    var xmlhttp=new XMLHttpRequest()
+    var xmlhttp = new XMLHttpRequest()
 
   //#open
 
@@ -841,7 +914,7 @@
             // Field always present.
 
             // If the response is known to be plain text,
-            // it should be retreived via the responseText attribute.
+            // it should be retrieved via the `responseText` attribute.
 
               document.getElementById("myDiv").innerHTML = xmlhttp.responseText
 
@@ -866,6 +939,15 @@
       //xmlhttp.send()
       //xmlhttp.send("fname=Henry&lname=Ford")
 
+  //#same origin policy #cross origin XMLHttpRequest.
+
+    // For security reasons, browsers don't let you do Javascript HTTP requests by default
+    // to different locations other than the current one, otherwise those sites might be able to obtain
+    // your session cookies.
+
+      //http://en.wikipedia.org/wiki/Same_origin_policy
+
+    // A common symptom of this is getting a `xmlhttp.status == 0`.
 /*
 #canvas drawing
 
@@ -889,12 +971,12 @@
 /*
 #jquery
 
-  Very important Javascript library.
+  Ubiquitous Javascript library.
 
-  Offers an interface that is:
+  Offers an interface:
 
-  - shorter to write
-  - more portable across browsers
+  - write less, do more
+  - more consistent across browsers
 */
 
   //#dollar #$
@@ -907,6 +989,14 @@
     // And as for any other global variable:
 
       assert_eq(jQuery, window.jQuery)
+
+  //#jQuery object
+
+    // The main type of the jQuery library.
+
+    // It is an Array like object that contains elements.
+
+    // Most functions return a jQuery object, so this is why functions are chained in jQuery: a().b().c()
 
   //#selectors
 

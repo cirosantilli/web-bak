@@ -46,16 +46,28 @@
 
     /* Pseudo */
       .plus0 + .plus1 { color:red; }
-      .first-letter:first-letter { color:red; }
+      .first-letter::first-letter { border:1px solid black; }
+      .selection-red::selection { color:red; background:yellow; }
+      .selection-red::-moz-selection { color:red; background:yellow; }
+      .selection-blue::selection { color:blue; background:green; }
+      .selection-blue::-moz-selection { color:blue; background:green; }
       .last-child :last-child { border:1px solid black; }
       .hover:hover { background-color:red; }
       .hover-left:hover + .hover-right { background-color:red; }
       .hover-out:hover > .hover-in { background-color:red; }
       .hover-out:hover > .hover-in { background-color:red; }
 
+      /* TODO why fails without after? */
+      a.literal-link::after { content: " <" attr(href) ">"; }
+      [data-attr]::after { content: " <" attr(data-attr) ">"; }
+      [data-icon]::before {
+        font-family: icons; /* BYO icon font, mapped smartly */
+        content: attr(data-icon);
+      }
+
     /* Attributes */
-    .content-before:before { content:"before"; }
-    .content-after:after { content:"after"; }
+    .content-before::before { content:"before "; }
+    .content-after::after { content:" after"; }
     /* Does not work:*/
     .content { content:"content"; }
     .padding1px td { padding:1px; border:1px solid black; }
@@ -72,12 +84,17 @@
 
       To make tests more visible:
     */
-    .border { border:1px solid black; }
-    .wide { width:300px; }
-    .strip { height:10px; width:300px; }
-    .red { color:red; }
-    .red-back { background-color:red; }
-    .blue { color:blue; }
+
+    /*
+    Boilerplate classes.
+    */
+      .border { border:1px solid black; }
+      .wide { width:300px; }
+      .strip { height:10px; width:300px; }
+      .red { color:red; }
+      .red-back { background-color:red; }
+      .blue { color:blue; }
+      .inline-block { display:inline-block; }
 
     /* #table
 
@@ -294,25 +311,43 @@
   <h2>#pseudo element</h2>
 
     <p>
-      Pseudo elements are selectors for things that are not real HTML elements, such as the first letter
-      of the content of a paragraph.
+      Pseudo elements are selectors for things that are not real HTML elements, such as the first letter of the content of a paragraph.
     </p>
     <p>
-      Pseudo elements are specified as <code>tag:element</code>.
+      Before CSS3, pseudo elements were specified with a single colon as in <code>tag:element</code>.
+      After CSS3, they use double colon as in <code>tag::element</code> to differentiate them from pseudo classes more clearly.
+      Single colon syntax is still supported.
     </p>
     <p>
       Pseudo element styles cannot be specified inline.
     </p>
-    <p class="first-letter">first letter</p>
-    <p class="last-child">
-      <span>the</span>
-      <span>last</span>
-      <span>child</span>
-      <span>
-        nested
-        <span>last</span>
-        <span>child</span>
-      </span>
+
+    <h3>#first letter</h3>
+      <p class="first-letter">first letter</p>
+
+    <h3>#selection</h3>
+    <pre>
+      *NOT* in CSS3, but almost went in and has reasonable browser support. Might come back later.
+      ::selection {color:red;background:yellow;}
+      ::-moz-selection {color:red;background:yellow;}
+      Only supports a few attributes.
+      `-moz-`
+    </pre>
+    <p>
+      <span class="selection-red">Select</span>
+      <span class="selection-blue">this text!</span>
+    </p>
+
+    <h3>#content</h3>
+    <p>
+      As of CSS3 it is not possible to select by content:http://stackoverflow.com/questions/1520429/css-3-content-selector.
+      It does however appear in some CCS3 drafts, so maybe in CSS4...
+    </p>
+
+  <h2>#pseudo classes</h2>
+
+    <p>
+      Classes that are not really classes such as <code>a:visited</code>, <code>a:link</code> for links.
     </p>
 
     <h3>#hover</h3>
@@ -332,17 +367,25 @@
         </span>
       </p>
 
-    <h3>#content</h3>
-    <p>
-      As of CSS3 it is not possible to select by content:http://stackoverflow.com/questions/1520429/css-3-content-selector.
-      It does however appear in some CCS3 drafts, so maybe in CSS4...
-    </p>
+    <h3>#last child</h3>
+      <p class="last-child">
+        <span>the</span>
+        <span>last</span>
+        <span>child</span>
+        <span>
+          nested
+          <span>last</span>
+          <span>child</span>
+        </span>
+      </p>
 
-  <h2>#pseudo classes</h2>
-
-    <p>
-      Classes that are not really classes such as <code>a:visited</code>, <code>a:link</code> for links.
-    </p>
+    <h3>#not</h3>
+      <pre>
+        Selector that negates a property.
+        As of CSS3, can only take *simple selectors*: http://www.w3.org/TR/css3-selectors/#negation
+        So for example, no: `a:not(div.nothere *)` to avoid targeting all elements inside a div: you have to duplicate code.
+        Pseudo selectors are out too.
+      </pre>
 
   <h2>#asterisk #*</h2>
 
@@ -368,7 +411,7 @@
 
   <p>Colors are used in many places across CSS, but all of them can take the same values:</p>
   <pre>
-    - named: `red`, `BurlyWood`, `transparent`
+    - named: `red`, `BurlyWood`, `transparent`. Case insensitive.
     - 6 digit hex: `#RRGGBB`, `#0088FF`
     - 3 digit hex: `#RGB`, `#08F`, same as `#RRGGBB`
     - rgb function: `rgb(0, 128, 256)`
@@ -376,13 +419,26 @@
   </pre>
 
   <h2>#alpha #transparency</h2>
-
     <div style="background-color:red;" class="border">
       red
       <div style="background-color:rgba(0, 255, 0, 0.0);" class="wide border">green 0.0</div>
       <div style="background-color:rgba(0, 255, 0, 0.5);" class="wide border">green 0.5</div>
       <div style="background-color:rgba(0, 255, 0, 1.0);" class="wide border">green 1.0</div>
     </div>
+
+<h1>#length specification</h1>
+
+  <pre>
+    #px: pixels
+    #ex: height of the `x` of current font == height of all lowercase letters in most fonts. 1ex == 0.5em in many fonts.
+    #75%, 125%: multiplies the would be font size by a percentage
+    #em: height of upper case letters of the font.
+    #ch: specify sizes relative to the size of characters. Useful if you want a div that fits exactly X characters into it.
+      Low support as of 2014: http://www.quirksmode.org/css/units-values/.
+
+      Good workaround: use content to set the number of chars, put it on background so that the chars are not selectable,
+        set the front div transparent.
+  </pre>
 
 <h1>#properties</h1>
 
@@ -403,6 +459,15 @@
     <p style="font-weight:bold;">font-weight bold</p>
     <p style="font-weight:normal;">font-weight normal</p>
     <p style="font-weight:900;">font-weight 900</p>
+
+  <h2>#font-size</h2>
+    <div style="position:relative;">
+      <div class="border inline-block" style="height:100px; position:absolute; width:100%;"></div>
+      <div class="border inline-block" style="height:50px;  position:absolute; width:100%;"></div>
+      100px
+      <div class="border inline-block" style="font-size:100px; padding:0px; vertical-align:top;">IAxp</div>
+      <div class="border inline-block" style="font-size:50px; padding:0px; vertical-align:top;">IAxp</div>
+    </div>
 
   <h2>#font-family</h2>
     <p>Fall back list of fonts.</p>
@@ -467,10 +532,10 @@
     <p>Modifies tag content.</p>
     <p>
       While it shows on the page, it is not part of the DOM, so it may not be selectable by Javascript,
-      or found on browser page searches.
+      or found on browser page searches. TODO check.
     </p>
-    <p class="content-before content-after"> inner </p>
-    <p class="content">Does not work without :before or :after.</p>
+    <p><span class="content-before content-after border">inner</span></p>
+    <p><span class="content border">Does not work without :before or :after.</span></p>
 
   <h2>#box model</h2>
 
@@ -701,9 +766,7 @@
     <p>TODO</p>
 
   <h2>#position</h2>
-
     <p>http://www.barelyfitz.com/screencast/html-training/css/positioning/</p>
-
     <p>
       #relative #absolute:
 
@@ -755,6 +818,27 @@
       <div class="border" style="display:inline-block; width:200px; position:absolute; right:100%;">with fixed width</div>
     </div>
 
+    <h3>#z-index</h3>
+
+      <p>
+        When you start playing with `position-relative`, you elements can hover one over another, and you will need to use
+        the `z-index` property to decide who is on top of whom.
+      </p>
+
+      <p>
+        If the element does not have position relative, absolute, etc., the z-index is ignored!
+      </p>
+
+      <p>
+        Even a 0px width 1px border box can be selected and for that reason is not a good watermark.
+        Currently it does not seem possible to make the hovering element not selectable in pure CSS: stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselectable
+        although many browsers support the non W3C `user-select: none`.
+      </p>
+
+      <div style="margin-left:100px; width:50px; height:50px; background-color:red; position:relative;">
+        <div style="display:inline-block; width:20px; height:100%; background-color:blue; position:absolute; left:0px;"></div>
+      </div>
+
   <h2>#cursor</h2>
       <div>Determines what the cursor looks like on hover. Takes a list in case on is not present.</div>
       <div>
@@ -769,11 +853,36 @@
         </div>
       </div>
 
-<h1>#common style combos</h1>
+<h1>#functions</h1>
+
+  <h2>#attr</h2>
+    <p>
+      On CSS 2, can only be used for the content attribute. On CSS3 gained other uses.
+    </p>
+    <p>Literal link: <a class="literal-link" href="http://www.w3.org/TR"></a></p>
+    <p>Common combo with data: <span data-attr="val"></span></p>
+    <p>Specially to set icons: <span data-icon="&#x25a8;"></span></p>
+
+<h1>#elements</h1>
 
   <h2>#links</h2>
 
     <p>Make div into link:http://stackoverflow.com/questions/796087/make-a-div-into-a-link</p>
+
+  <h2>#lists</h2>
+
+    <p>No bullets via `list-style-type:none`:</p>
+    <ul style="list-style-type:none;">
+      <li>a</li>
+      <li>b</li>
+    </ul>
+
+  <h2>#form</h2>
+
+    <p>Textareas don't inherit font and backround color from parent: you must set it explicitly.</p>
+
+    <p>The padding works as expected and separates the input text from the border:</p>
+    <textarea style="width:50px; height:50px; padding:10px;" class="border"></textarea>
 
   <h2>#tables</h2>
 
@@ -794,6 +903,5 @@
         </tr>
       </table>
     </div>
-
 </body>
 </html>
