@@ -98,8 +98,20 @@
       }
 
   </style>
+
+  <!-- Not part of the cheat: only to improve usability. TODO factor out without breaking pre Jekyll HTLM -->
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://cirosantilli.github.io/assets/jquery.toc.js"></script>
+    <script>
+      $("#toc").toc({
+        content: "div.content",
+        headings: "h1,h2,h3,h4,h5,h6"
+      });
+    </script>
 </head>
 <body>
+
+<ul data-toc></ul>
 
 <h1>Standards</h1>
 

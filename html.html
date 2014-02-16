@@ -117,6 +117,16 @@
     -->
 
       <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
+
+  <!-- Not part of the cheat: only to improve usability. TODO factor out without breaking pre Jekyll HTLM -->
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://cirosantilli.github.io/assets/jquery.toc.js"></script>
+    <script>
+      $("#toc").toc({
+        content: "div.content",
+        headings: "h1,h2,h3,h4,h5,h6"
+      });
+    </script>
 </head>
 <body>
 
@@ -627,7 +637,7 @@ a
 
   <h2>#button</h2>
     <p>If `disabled` attribute present, button cannot be clicked:
-      <p>size="5" <input value="Default"/></p>
+    <p>
       <button type="button">Enabled</button>
       <button type="button" disabled>Disabled</button>
     </p>
