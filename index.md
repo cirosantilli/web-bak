@@ -1,5 +1,6 @@
 ---
 title: web frontend cheatsheets
+layout: default
 ---
 
 Web frontend cheatsheets: HTML, CSS, Javascript and related technologies. [GitHub repository](https://github.com/cirosantilli/web).
