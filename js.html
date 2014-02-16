@@ -101,7 +101,7 @@
   </script>
 
   <script>
-    assert(i === 1)
+    assert_eq(i, 1)
     //undefined_var
   </script>
 
@@ -117,7 +117,7 @@
   <script src="external.js"></script>
 
   <script>
-    assert(external === 1)
+    assert_eq(external, 1)
   </script>
 
 <!--
@@ -212,11 +212,11 @@
   // Separates statements. Optional if there is a newline.
 
     var i = 1; i = 2;
-    assert(i === 2);
+    assert_eq(i, 2);
 
     var i = 1
     i = 2
-    assert(i === 2)
+    assert_eq(i, 2)
 
 //#comments
 
@@ -234,8 +234,8 @@
 
     var i = 1
     var I = 2
-    assert(i === 1)
-    assert(I === 2)
+    assert_eq(i, 1)
+    assert_eq(I, 2)
 /*
 #identifiers
 
@@ -253,16 +253,16 @@
   // This is works, but let's not break jQuery shall we:
 
     //var $ = 1
-    //assert($ === 1)
+    //assert_eq($, 1)
 
     var ᾏ = 1
-    assert(ᾏ === 1)
+    assert_eq(ᾏ, 1)
 
 //#comma operator
 
    i = 1, j = 2
-   assert(i === 1)
-   assert(j === 2)
+   assert_eq(i, 1)
+   assert_eq(j, 2)
 
 //#var
 
@@ -285,14 +285,14 @@
     i = 0
     j = 10
     incr_var()
-    assert(i === 0)
-    assert(j === 10)
+    assert_eq(i, 0)
+    assert_eq(j, 10)
 
     i = 0
     j = 10
     incr_novar()
-    assert(i === 1)
-    assert(j === 11)
+    assert_eq(i, 1)
+    assert_eq(j, 11)
 
 //#undefined
 
@@ -300,56 +300,6 @@
 
     var a = undefined
     assert_eq(a, undefined)
-
-//#string
-
-    var s = "abc"
-    var s = 'abc'
-    var s = "\n"
-    var s = '\n'
-    assert_eq("\n", '\n')
-    var s = "'"
-    var s = '"'
-
-  //#escape
-
-    // URL encode:
-
-      assert(escape(" ") === "%20")
-      assert(unescape(escape(" ")) === " ")
-
-  //#replace
-
-    // Perl-like regex replace
-
-      assert("a0ba1b".replace(/a(.)b/g, "$1") === "01")
-
-  //#concat #+
-
-    // Creates new string that is the concatenation of two others.
-
-      var s = "a"
-      assert(s + "b" === "ab")
-      assert(s === "a")
-
-      var s = "a"
-      assert(s.concat("b") === "ab")
-      assert(s === "a")
-
-      assert("a".concat("b").concat("c") === "abc")
-
-  //#concat
-
-    // Modify string inline.
-
-      var s = "a"
-      s += "b"
-      assert_eq(s, "ab")
-
-  //#lower #upper
-
-      assert_eq("ab".toUpperCase(), "AB")
-      assert_eq("AB".toLowerCase(), "ab")
 
 //#if
 
@@ -383,14 +333,14 @@
       return 1
     }
     var vf = f
-    assert(vf() === 1)
+    assert_eq(vf(), 1)
 
   //#annonymous function
 
     var f = function() {return 1}
-    assert(f() === 1)
+    assert_eq(f(), 1)
 
-    assert((function(x) {return x + 1}(1)) === 2)
+    assert_eq((function(x) {return x + 1}(1)), 2)
 
   //call before definition #hoisting
 
@@ -422,6 +372,63 @@
 
   // - for global functions, this is the window object
   // - on an onclick callback, this is the HTML element that called the callback
+
+//#string
+
+    var s = "abc"
+    var s = 'abc'
+    var s = "\n"
+    var s = '\n'
+    assert_eq("\n", '\n')
+    var s = "'"
+    var s = '"'
+
+  //#escape
+
+    // URL encode:
+
+      assert_eq(escape(" "), "%20")
+      assert_eq(unescape(escape(" ")), " ")
+
+  //#replace
+
+    // Perl-like regex replace
+
+      assert_eq("a0ba1b".replace(/a(.)b/g, "$1"), "01")
+
+  //#concat #+
+
+    // Creates new string that is the concatenation of two others.
+
+      var s = "a"
+      assert_eq(s + "b", "ab")
+      assert_eq(s, "a")
+
+      var s = "a"
+      assert_eq(s.concat("b"), "ab")
+      assert_eq(s, "a")
+
+      assert_eq("a".concat("b").concat("c"), "abc")
+
+  //#concat
+
+    // Modify string inline.
+
+      var s = "a"
+      s += "b"
+      assert_eq(s, "ab")
+
+  //#lower #upper
+
+      assert_eq("ab".toUpperCase(), "AB")
+      assert_eq("AB".toLowerCase(), "ab")
+
+//#array
+
+  var a = new Array(0, 1, "a")
+  assert_eq(a.length, 3)
+  assert_eq(a[0], 0)
+  assert_eq(a[2], "a")
 
 //#dict #map #object #class
 
@@ -487,13 +494,13 @@
   //new Date(dateString)
 
     var d = new Date(2000, 1, 2, 3, 4, 5, 6)
-    assert(d.getFullYear()     === 2000)
-    assert(d.getMonth()        === 1)
-    assert(d.getDate()         === 2) // Day of the month.
-    assert(d.getHours()        === 3)
-    assert(d.getMinutes()      === 4)
-    assert(d.getSeconds()      === 5)
-    assert(d.getMilliseconds() === 6)
+    assert_eq(d.getFullYear()    , 2000)
+    assert_eq(d.getMonth()       , 1)
+    assert_eq(d.getDate()        , 2) // Day of the month.
+    assert_eq(d.getHours()       , 3)
+    assert_eq(d.getMinutes()     , 4)
+    assert_eq(d.getSeconds()     , 5)
+    assert_eq(d.getMilliseconds(), 6)
 
 //#dialogs
 
@@ -592,22 +599,22 @@
     // Not supported in IE7.
 
       document.write('<div class="querySelectorAll0"><div class="querySelectorAll1" data-0="querySelectorAll"></div></div>')
-      assert(document.querySelectorAll(".querySelectorAll0 > .querySelectorAll1")[0].getAttribute("data-0") === "querySelectorAll")
+      assert_eq(document.querySelectorAll(".querySelectorAll0 > .querySelectorAll1")[0].getAttribute("data-0"), "querySelectorAll")
 
   //#getElementById
 
    // Obvious what it does.
 
     document.write('<div id="getElementById" data-0="1"></div>')
-    assert(document.getElementById("getElementById").getAttribute("data-0") === "1")
+    assert_eq(document.getElementById("getElementById").getAttribute("data-0"), "1")
 
   //#getElementsByClassName
 
    // Obvious... but not implemented on IE8... Alternatives: http://stackoverflow.com/questions/3808808/how-to-get-element-by-class-in-javascript
-   // So if you care about IE8, just use JQuery.
+   // So if you care about IE8, just use querySelectorAll or JQuery.
 
     document.write('<div class="getElementsByClassName0 getElementsByClassName1" data-0="1"></div>')
-    assert(document.getElementsByClassName("getElementsByClassName0")[0].getAttribute("data-0") === "1")
+    assert_eq(document.getElementsByClassName("getElementsByClassName0")[0].getAttribute("data-0"), "1")
 
   //#ready
 
@@ -623,8 +630,8 @@
 
   // It is possible to access all DOM atributes of an element: http://www.w3schools.com/jsref/dom_obj_all.asp
 
-    document.write("<div id="element-text">text<></div>" + document.cookie + "<br>")
-    assert(document.getElementId("element-text").text() === "1")
+    document.write('<div id="element-text">0</div>' + document.cookie + "<br>")
+    //assert_eq(document.getElementById("element-text").text, "0")
 
 //#cookies
 

@@ -523,12 +523,14 @@
     <li><s>#s</s>: strike redefined in HTML5 to the usual meaning of strike: something that was not correct in an older version.
       TODO vs del?
     </li>
-    <ul>
-      <li>strong vs em vs mark: http://stackoverflow.com/questions/14741262/when-to-use-strong-em-or-mark</li>
-      <li><strong>#strong</strong>: great emphasis without changing meaning of sentence.</li>
-      <li><em>#em Emphasis</em>: emphasis, changing meaning of sentence.</li>
-      <li><mark>#em Emphasis</mark>: something that is relevant in another context</li>
-    </ul>
+    <li>
+      <ul>
+        <li>strong vs em vs mark: http://stackoverflow.com/questions/14741262/when-to-use-strong-em-or-mark</li>
+        <li><strong>#strong</strong>: great emphasis without changing meaning of sentence.</li>
+        <li><em>#em Emphasis</em>: emphasis, changing meaning of sentence.</li>
+        <li><mark>#em Emphasis</mark>: something that is relevant in another context</li>
+      </ul>
+    </li>
   </ul>
 
   <p>Format (very highly discouraged in favor of CSS):</p>
@@ -608,18 +610,40 @@ a
     <p>The visible name of the form field.</p>
     <p>
       Does not have lead to many programmatic effects, except that clicking on the label
-      may focus or toogle its corresponding form control.
+      may focus or toggle its corresponding form control.
     </p>
     <p><label for="label-target" style="border:1px solid black;">Label, click me!</label> <input id="label-target"/></p>
 
   <h2>#input</h2>
-    <p>size="3" <input size="3"/></p>
-    <p>size="5" <input size="5"/></p>
+    <p>It is valid HTLM5 to omit the type attribute, but a bad practice due to browser inconsistencies.</p>
+    <p>size="3" <input type="text" size="3"/></p>
+    <p>size="5" <input type="text" size="5"/></p>
+    <p>value="default" <input type="text" value="default"/></p>
 
   <h2>#textarea</h2>
     <p>rows="3" cols="5"</p>
-    <p><textarea>default content</textarea></p>
+    <p><textarea>default</textarea></p>
     <p><textarea rows="3" cols="5">rows=3 cols=5</textarea></p>
+
+  <h2>#button</h2>
+    <p>If `disabled` attribute present, button cannot be clicked:
+      <p>size="5" <input value="Default"/></p>
+      <button type="button">Enabled</button>
+      <button type="button" disabled>Disabled</button>
+    </p>
+
+    <pre>
+      `type`: should always be specified to avoid browser inconsistencies:
+
+      - button:	nothing special about it. Mostly used with Javascript
+      - submit: do the enclosing form's action
+      - reset: reset data of enclosing form to default values.
+    </pre>
+    <form action="#button-type" id="button-type">
+      <input type="text" name="a" value="0"/>
+      <button type="submit">Submit</button>
+      <button type="reset">Reset</button>
+    </form>
 
 <h1>#mathml</h1>
 
