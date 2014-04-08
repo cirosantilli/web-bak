@@ -697,6 +697,12 @@
     // <http://stackoverflow.com/questions/4643990/jquery-is-document-ready-necessary>
     // Therefore, this should never be necessary, since all scripts should be put at the bottom of the page.
 
+  //#nodeValue #text #innerHTML
+
+    document.write('<div id="nodeValue">a</div>')
+    assert_eq(document.getElementById("nodeValue").firstChild.nodeValue, "a")
+    document.write('<div id="nodeValueNested">a<span></span></div>')
+
 //#element
 
   // It is possible to access all DOM atributes of an element: http://www.w3schools.com/jsref/dom_obj_all.asp
