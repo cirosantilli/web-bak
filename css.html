@@ -905,10 +905,22 @@
 
   <h2>#form</h2>
 
-    <p>Textareas don't inherit font and backround color from parent: you must set it explicitly.</p>
+    <h3>#textarea</h3>
 
-    <p>The padding works as expected and separates the input text from the border:</p>
-    <textarea style="width:50px; height:50px; padding:10px;" class="border"></textarea>
+      <p>Textareas don't inherit font and background color from parent: you must set it explicitly.</p>
+
+      <p>The padding works as expected and separates the input text from the border:</p>
+      <textarea style="width:50px; height:50px; padding:10px;" class="border"></textarea>
+
+      <h4>#resize</h4>
+        <p>
+          Textarea can be resized by users by dragging by default.
+          It is possible to prevent resizing horizontally or vertically.
+        </p>
+        <textarea style="width:50px; height:50px; resize:both;" class="border">resize:both</textarea>
+        <textarea style="width:50px; height:50px; resize:vertical;" class="border">resize:vertical</textarea>
+        <textarea style="width:50px; height:50px; resize:horizontal;" class="border">resize:horizontal</textarea>
+        <textarea style="width:50px; height:50px; resize:none;" class="border">none</textarea>
 
   <h2>#tables</h2>
 
