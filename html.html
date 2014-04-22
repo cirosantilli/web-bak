@@ -242,10 +242,20 @@
         <p>In HTML5 things are much messier:</p>
         <ul>
           <li>
-            Void elements cannot have a separate end tag,
-            but they may have a meaningless slash <code>/</code>
-            added to them (<a href="http://www.w3.org/html/wg/drafts/html/master/single-page.html#void-elements">spec</a>)
-            so the following are all valid: <code>&lt;br&gt;</code>, <code>&lt;br/&gt;</code> and <code>&lt;br /&gt;</code>.
+            <pre>
+              #self closing tag
+              In XHTML, `&lt;p /&gt;` == `&lt;p /&gt;&lt;/p&gt;`
+              In HTML5, `&lt;p /&gt;` == `&lt;p&gt;`: self-losing slashes are simply ignored, and should therefore be avoided.
+              http://stackoverflow.com/questions/3558119/are-self-closing-tags-valid-in-html5
+
+              #void elements
+              Void elements cannot have a separate end tag, but they may have a meaningless slash <code>/</code>.
+
+              Added to them (<a href="http://www.w3.org/html/wg/drafts/html/master/single-page.html#void-elements">spec</a>)
+              so the following are all valid: <code>&lt;br&gt;</code>, <code>&lt;br/&gt;</code> and <code>&lt;br /&gt;</code>.
+
+              The void elements are: area, base, br, col, embed, hr, img, input, keygen, link, menuitem, meta, param, source, track, wbr
+            </pre>
           </li>
           <li>
             Foreign elements can be self closing.
@@ -277,17 +287,23 @@
       Shortcut: Ctrl + Alt + L
     </p>
 
-<h1>#entities #char references</h1>
+<h1>#Entities #Character references</h1>
 
   <pre>
   There are two kinds of references:
 
   - named. E.g.:   &amp;gt;   &gt;
+
   - numeric: Refer to Unicode code points. Start with the number sign `#`.
-      - decimal:   &amp;#97;  &#97;
-      - hex:       &amp;#x61; &#x61;
+
+      - decimal:   &amp;#60;  &#60;
+      - hex:       &amp;#x3C; &#x3C;
+
+      Unicode can be achieved directly: &amp;#4E2D; &#4E2D;
 
   HTML5 adopts exactly the same references as XML, but earlier versions do not, so watch out.
+
+  Notably: &quot; is on the official list of valid HTML 4 entities, but &apos; is not.
 
   Entities are considered in both data and attribute values.
 
@@ -296,7 +312,7 @@
   - have an specific meaning to HTML. Important ones:
 
       - greater than &amp;gt;  &gt;  Used in tags.
-      - less than    &amp;ls;  &ls;  Used in tags.
+      - less than    &amp;lt;  &lt;  Used in tags.
       - ampersand    &amp;amp; &amp; Used in entities.
 
   - not present in the current encoding, such as Unicode character in an ASCII encoded file.
@@ -318,13 +334,13 @@
     HTML allows you to use any attribute prefixed by `data-`. Great addition!
   </p>
 
-  <p>Double or single quotes are both OK:</p>
-
+  <p>Double or single quotes are both OK, the only difference is what must be escaped.</p>
   <div data-val="attr"></div>
   <div data-val='attr'></div>
   <div data-val='"'></div>
   <div data-val="&quot;"></div>
   <div data-val="'"></div>
+  <div>Bad: unlike quot; not in HTML 4:</div>
   <div data-val="&apos;"></div>
 
   <p>
@@ -652,10 +668,11 @@ b</code>
 <h1>#pre</h1>
 
   <p>White spaces are taken into consideration when rendering.</p>
-
+  <p>Can contain anything, including other elements</p>
   <p>
     I think that this is a bad tag because it implies style rather than meaning
     and style should be left for CSS, and it can in this case via <code>white-space:pre</code>.
+
     The only difference is that <code>pre</code> ignores the first character if it is a newline,
     while <code>white-space:pre</code> does not.
   </p>
@@ -664,6 +681,7 @@ b</code>
   <pre>a
  b
   </pre>
+
   <p>Same as:</p>
   <pre>
 a
