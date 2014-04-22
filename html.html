@@ -232,7 +232,7 @@
 
     <h3>XHTML5 vs HTML5</h3>
 
-      <h4>#end tags #closing tags</h4>
+      <h4>#End tags #Closing tags</h4>
 
         <p>
           In XHTML5 all tags can be self-closing (e.g. <code>&lt;br&gt;</code>).
@@ -277,11 +277,37 @@
       Shortcut: Ctrl + Alt + L
     </p>
 
-<h1>#entities</h1>
+<h1>#entities #char references</h1>
 
-  <p>Escape sequences for characters that are hard to input or forbidden such as the less than which is reserved for tags.</p>
-  <p>nbsp: non breaking whitespace: a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b</p>
-  <p>lt, gt: &lt; &gt;</p>
+  <pre>
+  There are two kinds of references:
+
+  - named. E.g.:   &amp;gt;   &gt;
+  - numeric: Refer to Unicode code points. Start with the number sign `#`.
+      - decimal:   &amp;#97;  &#97;
+      - hex:       &amp;#x61; &#x61;
+
+  HTML5 adopts exactly the same references as XML, but earlier versions do not, so watch out.
+
+  Entities are considered in both data and attribute values.
+
+  Escape sequences intended for characters that:
+
+  - have an specific meaning to HTML. Important ones:
+
+      - greater than &amp;gt;  &gt;  Used in tags.
+      - less than    &amp;ls;  &ls;  Used in tags.
+      - ampersand    &amp;amp; &amp; Used in entities.
+
+  - not present in the current encoding, such as Unicode character in an ASCII encoded file.
+
+      Prefer Unicode for all non-whitespace characters.
+
+      Useful whitespace characters:
+
+      - non-breaking whitespace #nbsp; &nbsp; Whitespace at which lines cannot reflow.
+  </pre>
+  <p>#nbsp example. Before&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After</p>
 
 <h1>#attributes</h1>
 

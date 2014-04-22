@@ -604,7 +604,12 @@
         <div class="border" style="width:100px; height:100px; border-radius:10px;">10px</div>
         <div class="border" style="width:100px; height:100px; border-radius:50px;">50px</div>
 
-  <h2>#width #height #min-width #max-width</h2>
+  <h2>#width #height #min-width #max-width #box-sizing</h2>
+
+    <div>
+      By default, exclude padding, border and margin.
+      CSS3 introduces the `box-sizing` property, which allows to determine what the width includes.
+    </div>
 
     <div class="border" style="width:5px;">width:5px</div>
     <!--if width > max-width use max-width-->
