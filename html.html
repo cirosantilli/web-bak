@@ -116,7 +116,10 @@
       A standard name for the icon image is `favicon.ico`.
     -->
 
-      <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
+    <style>
+      .border { border:1px solid black; }
+    </style>
+    <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
 
   <!-- Not part of the cheat: only to improve usability. TODO factor out without breaking pre Jekyll HTLM -->
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -673,23 +676,42 @@ b</code>
     I think that this is a bad tag because it implies style rather than meaning
     and style should be left for CSS, and it can in this case via <code>white-space:pre</code>.
 
-    The only difference is that <code>pre</code> ignores the first character if it is a newline,
+    The only difference is that `pre` ignores the first character if it is a newline,
     while <code>white-space:pre</code> does not.
   </p>
 
-  <p><code>pre</code>:</p>
-  <pre>a
- b
-  </pre>
+  <div>Newline space:</div>
+  <pre class="border">a
+ b</pre>
 
-  <p>Same as:</p>
-  <pre>
+  <div>Newline before and after:</div>
+  <pre class="border">
 a
  b
   </pre>
 
-  <p><code>white-space:pre</code> :</p>
-  <div style="white-space:pre">
+  <div>Whitespace newline before and after:</div>
+  <pre class="border"> 
+a
+ b
+ </pre>
+
+  <div>Paragraph newline before and after:</div>
+  <pre class="border"><p>
+a
+ b
+</p></pre>
+
+  <div>2 Newlines before and after:</div>
+  <pre class="border">
+
+a
+ b
+
+  </pre>
+
+  <p>Newline before and after style="white-space:pre"</p>
+  <div class="border" style="white-space:pre">
 a
  b
   </div>
