@@ -72,6 +72,8 @@
     /* Does not work:*/
     .content { content:"content"; }
     .padding1px td { padding:1px; border:1px solid black; }
+    ul.list-style-position li { list-style-position:inside; border:1px solid black; }
+    ul.li-border li { border:1px solid black; }
 
     /*
     #comma
@@ -907,6 +909,36 @@
       <li>a</li>
       <li>b</li>
     </ul>
+
+    <h3>#list-style-position</h3>
+
+      <p>By default, positioning happens to the text, and bullets as absolutely positioned
+      In particular, this means that `margin-left` is relative to the text, *not* the bullets by default!
+      This can be changed by the `list-style-position:inside` property.
+      </p>
+      <div>inside:</div>
+      <ul class="list-style-position">
+        <li>a</li>
+        <li>b</li>
+      </ul>
+      <div>outside:</div>
+      <ul class="li-border">
+        <li>a</li>
+        <li>b</li>
+      </ul>
+
+      <p>TODO why is a line break being added only with inside?</p>
+
+      <div>inside:</div>
+      <ul style="width:100px;" class="list-style-position">
+        <li><p>abc abc abc abc abc abc abc abc abc abc abc</p></li>
+        <li><p>abc abc abc abc abc abc abc abc abc abc abc</p></li>
+      </ul>
+      <div>outside:</div>
+      <ul style="width:100px;" class="li-border">
+        <li><p>abc abc abc abc abc abc abc abc abc abc abc</p></li>
+        <li><p>abc abc abc abc abc abc abc abc abc abc abc</p></li>
+      </ul>
 
   <h2>#form</h2>
 
