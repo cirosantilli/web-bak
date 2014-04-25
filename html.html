@@ -290,10 +290,12 @@
       Shortcut: Ctrl + Alt + L
     </p>
 
-<h1>#Entities #Character references</h1>
+<h1>#References #Character references #Entities </h1>
 
   <pre>
-  There are two kinds of references:
+  HTML5 uses only the term "references": http://www.w3.org/TR/html5/infrastructure.html#syntax-references
+
+  There are two kinds of entities:
 
   - named. E.g.:   &amp;gt;   &gt;
 
@@ -302,7 +304,7 @@
       - decimal:   &amp;#60;  &#60;
       - hex:       &amp;#x3C; &#x3C;
 
-      Unicode can be achieved directly: &amp;#4E2D; &#4E2D;
+      TODO: possible to use Unicode can be achieved directly like &amp;#4E2D;?
 
   HTML5 adopts exactly the same references as XML, but earlier versions do not, so watch out.
 
@@ -361,13 +363,24 @@
 
   <p>Multiple classes are space separated as in: <code>"class0 class1 class2"</code></p>
 
-<h1>#block vs #inline vs #inline-block #replaced elements</h1>
+<h1>#block-level #inline #inline-block #replaced #flow content #phrasing</h1>
 
-  <p>http://www.impressivewebs.com/difference-block-inline-css/</p>
-  <p>
-    You cannot put block elements inside inline elements, even if you use the CSS display property.
-    HTML5 made an exception for the anchor element, which can contain block elements, which is *very* handy.
-  </p>
+  <pre>
+    HTML4 uses terms block-level, inline and inline-block. In most senses, all elements are either block-level or inline.
+
+    You cannot put:
+
+    - block-level elements inside inline elements, even if you use the CSS display property.
+
+      HTML5 made an exception for the anchor element, which can contain block elements, which is *very* handy.
+
+    - block-level elements inside other block-level elements. `div` is fine because it is a of grouping type. TODO check all this.
+
+    HTML5 adds many more categories and does not use the HTML4 terms, but instead:
+
+    - flow content corresponds roughly to block-level
+    - phrasing     corresponds roughly to inline
+  </pre>
   <p>
     Inline replaced elements such as images which behave like elements with CSS `display:inline-block` property.
     They can be put inside other inline elements.
@@ -696,11 +709,13 @@ a
  b
  </pre>
 
-  <div>Paragraph newline before and after:</div>
-  <pre class="border"><p>
+  <div>Span newline before and after:</div>
+  <pre class="border"><span>
 a
  b
-</p></pre>
+</span></pre>
+
+  <div>You cannot put HTML4 block-level elements such as `p` inside `pre` (another block level element)</div>
 
   <div>2 Newlines before and after:</div>
   <pre class="border">
