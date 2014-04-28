@@ -434,6 +434,18 @@
     var s = "'"
     var s = '"'
 
+    //#multiline strings
+
+      // More efficient, less sane when changing indentation levels:
+
+      assert_eq("a\
+ b", "a b")
+
+      // Less efficient, saner when changing indentation levels:
+
+      assert_eq("a" +
+          "b", "ab")
+
   //#escape
 
     // URL encode:
