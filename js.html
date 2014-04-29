@@ -313,6 +313,10 @@
     // Safe starting from JS5:
     assert_eq(not_yet_defined, undefined)
 
+//#null
+
+  // Null vs unefined: <http://stackoverflow.com/questions/801032/why-is-null-an-object-and-whats-the-difference-between-null-and-undefined>
+
 //#if
 
     if (false) {
@@ -728,7 +732,7 @@
 
   // A way of storing small data strings on user's computer hard disk
 
-  // View all cookies on firefox:
+  // View all cookies on Firefox:
 
     //firefox chrome://browser/content/preferences/cookies.xul
 
@@ -743,58 +747,68 @@
 
   //#cookies without javascript
 
-    // Cookies can also be set via headers using the ``Set-Cookie`` header key.
+    // Cookies can also be set via headers using the `Set-Cookie` header key.
 
-    // Cookies are automatically sent to servers by browsers via the ``Cookie`` header value.
+    // Cookies are automatically sent to servers by browsers via the `Cookie` header value.
 
-    // Cookies are sent from servers to cgi scripts via the ``HTTP_COOKIE`` env var.
+    // Cookies are sent from servers to CGI scripts via the `HTTP_COOKIE` env var.
 
     // These are the most reliable methods, there is no need to use js for cookies.
 
   //#session cookies
 
-    // A way to maintain user logged in
+    // A cookie based technique to maintain user logged in.
 
     // 1) username/password is sent to server encrypted in some way (HTTP Basic + SSL, POST + SSL)
 
     // 2) server authenticates, and creates a large random number, sotores it,
     // and sends it as a non persistent cookie that is an unique number
 
-    // 3) whenever the user hits another url, this large number is sent to server.
+    // 3) whenever the user hits another URL, this large number is sent to server.
     // and user is logged in.
 
     //TODO: how to avoid getting the session highjacked?
 
   //#path
 
-    // Cookies can be set only for current **path** and its parents
+    // Cookies can be set only for the **current** path and its parents.
 
-    //Ex: in ``www.abc.com/a/b.html``, the path is ``a/a.html``.
-    //so ``a.html`` can set cookies for ``/``, ``/a/`` and ``/a/a.html`` from ``/a/a.html``
+    // E.g.: in `www.abc.com/a/b.html`, the path is `a/a.html`.
+    // so `a.html` can set cookies for `/`, `/a/` and `/a/a.html` from `/a/a.html`
 
     // If the location is a directory, then all subdirs can also get the cookies.
-    // Ex: cookies set for ``/`` can be seen on ``/a/`` and on ``/b/``
+    // E.g.: cookies set for `/` can be seen on `/a/` and on `/b/`
 
   //#js interface
 
-    // Browser parses given strings.
+    // #set values
 
-    // Example:
+      // Browser parses the strings.
 
-      document.cookie = "key=val;"
-      document.cookie = "key=val2;"
+      // Set keys:
 
-    // Only `val2` is kept.
+        document.cookie = "key=val;"
+        document.cookie = "key=val2;"
 
-    //BAD:
+      // Only `val2` is kept.
 
-      document.cookie = "key2=val2;key3=val3"
+      // BAD:
 
-    // Only key2 is set.
+        document.cookie = "key2=val2;key3=val3"
+
+      // Only `key2` is set. Only a single key can be set at a time.
+
+    // #get values
+
+      // Not possible directly: must parse the `document.cookie` string.
+
+    // #delete values
+
+      // The simplest technique is to set a past expires date.
 
   //#properties
 
-    // Are special key/value pairs that automatically tell the browser to do things
+    // Are special key/value pairs that contain key metadata.
 
     //#expires
 
@@ -805,18 +819,18 @@
         later.setMinutes(now.getMinutes() + 1)
         document.cookie += "keyExp=valExp;expires=" + later.toUTCString()
 
-      // If expires is not given, then cookies expire when the browser is closed!
+      // If expires is not given, then the cookie expires when the browser is closed!
 
       // It is not possible to make a cookie that never expires,
-      // only one with a huge expiry date
+      // only one with a huge expiry date.
 
     //#path
 
-      // Cookie path
+      // Cookie path.
 
-      // Defaults to current file/dir
+      // Defaults to current file/dir.
 
-      // Can only be set for parent dirs of current path
+      // Can only be set for parent dirs of current path.
 
     //#safe
 
@@ -832,50 +846,51 @@
 
       // This can increase security of session cookies.
 
-      //<http://www.codinghorror.com/blog/2008/08/protecting-your-cookies-httponly.html>
+      // <http://www.codinghorror.com/blog/2008/08/protecting-your-cookies-httponly.html>
 
         document.cookie = "keySafe=v;HttpOnly"
 
-  //#higher level js interface
+  //#higher level interface
 
-    //c_name: string
-    //value: string
-    //exdays: integer
-    //
-    function setCookie (c_name, value, exdays)
-    {
-      var exdate = new Date()
-      exdate.setDate(exdate.getDate() + exdays)
-      var c_value = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toUTCString())
-      document.cookie = c_name + "=" + c_value
-    }
+    // The Javascript cookie interface is very low level and inconvenient.
 
-    //c_name: string
-    //@return: null if not found, value if found
-    //
-    function getCookie(c_name)
-    {
-      var i, x, y, ARRcookies = document.cookie.split(";")
-      for (i = 0; i < ARRcookies.length; i++)
-      {
-        x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="))
-        y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1)
-        x = x.replace(/^\s+|\s+$/g, "")
-        if (x == c_name)
-        {
-          return unescape(y)
+    // jquery-cookie <https://github.com/carhartl/jquery-cookie> is on popular and convenient cookie interface based on JQuery.
+
+    //#helpers
+
+      // - c_name: string
+      // - value: string
+      // - exdays: integer. Number of days which will take for the cookie to expire.
+      //
+      function setCookie(c_name, value, exdays) {
+        var exdate = new Date()
+        exdate.setDate(exdate.getDate() + exdays)
+        var c_value = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toUTCString())
+        document.cookie = c_name + "=" + c_value
+      }
+
+      // c_name: string
+      // @return: null if not found, value if found
+      //
+      function getCookie(c_name) {
+        var i, x, y, ARRcookies = document.cookie.split(";")
+        for (i = 0; i < ARRcookies.length; i++) {
+          x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="))
+          y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1)
+          x = x.replace(/^\s+|\s+$/g, "")
+          if (x == c_name) {
+            return unescape(y)
+          }
         }
       }
-    }
 
-    function delCookie(name, path, domain)
-    {
-      if (Get_Cookie(name))
-        document.cookie=name+"="+((path) ? ";path="+path:"")+((domain)?";domain="+domain:"") +
-                      ";expires=Thu, 01 Jan 1970 00:00:01 GMT"
-    }
+      function delCookie(name, path, domain) {
+        if (Get_Cookie(name))
+          document.cookie=name+"="+((path) ? ";path="+path:"")+((domain)?";domain="+domain:"") +
+                        ";expires=Thu, 01 Jan 1970 00:00:01 GMT"
+      }
 
-    document.write("<h1>cookies</h1>" + document.cookie + "<br>")
+  document.write("<h1>cookies</h1>" + document.cookie + "<br>")
 
 //#XMLHttpRquest #ajax
 
