@@ -610,9 +610,8 @@
       </tr>
     </table>
 
-<h1>valid inline HTML5 tags that nobody uses because CSS + spans + classes are much better:</h1>
+<h1>semantic HTML5</h1>
 
-  <p>Semantic:</p>
   <ul>
     <li><mark>#mark</mark>: highlight</li>
     <li><dfn>#dfn</dfn>: definition of a term.</li>
@@ -632,15 +631,50 @@
         <li>strong vs em vs mark: http://stackoverflow.com/questions/14741262/when-to-use-strong-em-or-mark</li>
         <li><strong>#strong</strong>: great emphasis without changing meaning of sentence.</li>
         <li><em>#em Emphasis</em>: emphasis, changing meaning of sentence.</li>
-        <li><mark>#em Emphasis</mark>: something that is relevant in another context</li>
+        <li><mark>#mark Emphasis</mark>: something that is relevant in another context</li>
       </ul>
     </li>
   </ul>
 
-  <p>Format (very highly discouraged in favor of CSS):</p>
+  <pre>
+    Old format tags. Many were marked obsolete on HTML5 in favor of CSS,
+    but some acquired semantic meaning related to the context in which they were most often used in.
+  </pre>
   <ul>
     <li><i>#i: italics</i>. Commonly used unofficially by important libraries such as Bootstrap for Icons.</li>
-    <li><b>#b: boldface</b></li>
+    <li><b>#b: boldface</b>. Emphasis without change of tone.</li>
+    <li><small>#small</small> Makes text small. Quoting HTML5: "Small print typically features disclaimers, caveats, legal restrictions, or copyrights. Small print is also sometimes used for attribution, or for satisfying licensing requirements."</li>
+  </ul>
+
+<h1>#obsolete</h1>
+
+  <pre>
+    HTML5 rendered some elements and attributes obsolete. This means that:
+    - pages containing them don't validate
+    - but browsers should still render them properly for backwards compatibility.
+  </pre>
+  <ul>
+    <li>inline styles: #big #blink #strike #tt #u</li>
+    <li>"a name" or "a id" without href</li>
+    <li>#acronym</li>
+    <li>#applet</li>
+    <li>#bgsound</li>
+    <li>#center</li>
+    <li>#dir</li>
+    <li>#fn</li>
+    <li>#font</li>
+    <li>#frameset #framenoframess</li>
+    <li>#isindex</li>
+    <li>#layer #ilayer #nolayers</li>
+    <li>#listing</li>
+    <li>#marquee</li>
+    <li>#nobr</li>
+    <li>#noembed</li>
+    <li>#noscript</li>
+    <li>#plaintext</li>
+    <li>#spacer</li>
+    <li>#xml</li>
+    <li>#xmp</li>
   </ul>
 
 <h1>#wbr</h1>
@@ -794,7 +828,7 @@ a
 
   <p>
     Uses an XML like language not suitable for direct user input, not Latex.
-    A converter from Latex to MathML such as blahtexml or itex2mml or is inescapable content writers.
+    A converter from LaTeX to MathML such as blahtexml or itex2mml or is inescapable content writers.
   </p>
 
   TODO
