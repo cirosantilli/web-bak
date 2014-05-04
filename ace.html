@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>ACE editor</title>
+  <style>
+    .editor {
+      border: 1px solid black;
+      margin-bottom: 5px;
+      height: 200px;
+      /* Required in theory: */
+      /*position: absolute;*/
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+<h1>ACE editor</h1>
+  <div class="editor" id="editor">#basic</div>
+  <div class="editor" id="editor-vim">#vim</div>
+  <div class="editor" id="editor-theme">#theme == twilight</div>
+  <div class="editor" id="editor-mode">#mode #language == markdown</div>
+
+  <script src="ace/build/src/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+    var editor = ace.edit("editor");
+
+    var editor_vim = ace.edit("editor-vim");
+    editor_vim.setKeyboardHandler("ace/keyboard/vim");
+
+    var editor_theme = ace.edit("editor-theme");
+    editor_theme.setTheme("ace/theme/twilight");
+
+    var editor_mode = ace.edit("editor-mode");
+    editor_mode.getSession().setMode("ace/mode/markdown");
+  </script>
+</body>
+</html>
