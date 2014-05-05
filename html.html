@@ -2,56 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <!--
-  #charset
-
-    Required.
-
-    Indicates the document's encoding.
-
-    Very important document wide, so it must be within the first 512 bytes of the document.
-
-    Keep your sanity and use UTF-8 *everywhere*.
-
-    There seems to be no guarantee at all if glyphs are available to user agents or not:
-    <http://stackoverflow.com/questions/2702447/which-of-the-following-unicode-characters-should-be-used-in-html>
-
-    The only official recommendation we could find seems very vague: http://www.w3.org/TR/REC-html40/charset.html#h-5.4
-  -->
-
-  <!--
-  The first line determines the document type.
-
-  HTML5 has one single possibility:
-
-    <!DOCTYPE html>
-
-  HTML4 has others.
-  -->
-
-  <!-- #title
-
-    On most browsers, appears on the tab name.
-
-    Has big importance to search engines.
-  -->
-  <title>html cheat title</title>
-
-  <!--
-  #lang attribute
-
-    It is recommended that you always set the lang attribute of the html tag to help search engines.
-
-    In HTML5, can be used on any tag.
-
-    `meta http-equiv="Content-Language"` is deprecated.
-  -->
-
+  <title>HTML Cheat Title</title>
   <!--
   #meta
 
     As you may guess, contain document metadata.
   -->
+
+    <!--
+    #charset
+
+      Indicates the document's encoding.
+
+      Very important document wide, so it must be within the first 512 bytes of the document.
+
+      Keep your sanity and use UTF-8 *everywhere*.
+
+      There seems to be no guarantee at all if glyphs are available to user agents or not:
+      <http://stackoverflow.com/questions/2702447/which-of-the-following-unicode-characters-should-be-used-in-html>
+
+      The only official recommendation we could find seems very vague: http://www.w3.org/TR/REC-html40/charset.html#h-5.4
+    -->
 
     <meta name="description" content="Desctiption 0" />
     <meta name="keywords" content="keyword0,keyword1,keyword2" />
@@ -132,16 +103,16 @@
     </script>
 </head>
 <body>
+  <!--
+  TODO: validate localhost page in the iframe
+  TODO: get only the red green title from the page inside the iframe.
 
-  <div style="float:right;">
-    Validation of **live** site (**not** localhost one):<br/>
-    <iframe src="http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html"
-        style="width:600px; height:600px;"></iframe>
-  </div>
-  <!--Not sure this id possible because of the required cross site:
-    TODO: get only the red green title from the page inside the iframe.
-    <div><iframe src="http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html"
-        id="validation-container"></iframe></div>
+  Not sure this id possible because of the required cross site:
+
+  <div><iframe src="http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html"
+      id="validation-container"></iframe></div>
+
+  Attempts:
   -->
     <!--
       The content is empty, why?
@@ -168,6 +139,11 @@
         xmlhttp.send()
       </script>
     -->
+  <div style="float:right;">
+    Validation of **live** site (**not** localhost one):<br/>
+    <iframe src="http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html"
+        style="width:600px; height:600px;"></iframe>
+  </div>
 
   <p>Main HTML cheat.</p>
   <p>
@@ -179,167 +155,244 @@
   <ul data-toc></ul>
 
 <h1>Standards</h1>
-
   <p>
-    HTML is standardized by the Word Wide Web Consortium (W3C),
-    homepage <a href="http://www.w3.com">http://www.w3.com</a>
-  </p>
+    HTML is standardized by the Word Wide Web Consortium (W3C) <a href="http://www.w3.com">http://www.w3.com</a>
   <p>
     The <a href="http://www.w3schools.com/">w3schools</a> website is not affiliated in any way to W3C.
     It is said that it contains many errors, and its certification is worthless:
     it is the cplusplus.com of the web.
-  </p>
   <p>
     W3C has many important member organizations including companies, universities and others such as
     Microsoft, Apple, IBM, Google, Facebook, Twitter, Adobe.
-  </p>
-  <p>W3C specifies many of the key web standards including:</p>
+  <p>W3C specifies many of the key web standards including:
   <ul>
-    <li>HTML</li>
-    <li>CSS</li>
-    <li>DOM</li>
-    <li>XML</li>
-    <li>CGI</li>
+    <li>HTML
+    <li>CSS
+    <li>DOM
+    <li>XML
+    <li>CGI
   </ul>
-  <p>One important standard that they do <em>not</em> specify is Javascript.</p>
-  <p>
-    W3C have several levels of endorsement.
-    - WD (Working Draf) is the lowest level of endorsement of material available to the public
-    - REC (Recommendation) is the highest level, for stable and widely accepted features.
-    - NOTES are possible to make small later revisions.
-    - retired is for standards that have been deprecated
-  </p>
+  <p>One important standard that they do <em>not</em> specify is Javascript.
+  <p>W3C has several levels of endorsement:
+  <ul>
+    <li>WD (Working Draft) is the lowest level of endorsement of material available to the public
+    <li>REC (Recommendation) is the highest level, for stable and widely accepted features.
+    <li>NOTES are possible to make small later revisions.
+    <li>retired is for standards that have been deprecated
+  </ul>
 
   <h2>#HTML5</h2>
-
     <p>
       WD of 2008, expected REC for 2014: <a href="http://www.w3.org/TR/html5/">HTML5 standard</a>
       The huge time lapse is in part due to wars on the future of Flash replacement.
     <p>
-    <p>
       Not all HTML5 is not XML, just pretty close to it.
       It is however possible to write HTML5 code that is valid XML.
       XHTML5 is a version of HTML5 which is always XML.
-    <p>
-    <p>HTML5 is not SGML, but it was influenced by it. HTML 4 is SGML.</p>
+    <p>HTML5 is not SGML, but it was influenced by it. HTML 4 is SGML.
 
   <h2>#XHTML5</h2>
 
-    <p>XHTML5 is a strictly XML version of HTML5.</p>
-    <p>The standard is developed together with HTML5.</p>
+    <p>XHTML5 is a strictly XML version of HTML5.
+    <p>The standard is developed together with HTML5.
     <p>
       Browsers differentiate between the two based on the HTTP content type:
       <code>text/html</code> is for HTML5 and <code>application/xhtml+xml</code> is for XHTML5.
       The <code>DOCTYPE</code> is not used to differentiate between HTML and XHTML.
-    <p>
 
     <h3>XHTML5 vs HTML5</h3>
-
-      <h4>#End tags #Closing tags</h4>
-
-        <p>
-          In XHTML5 all tags can be self-closing (e.g. <code>&lt;br&gt;</code>).
-          All tags must be closed (self or not).
-          All tags can be either self-closing or not.
-        <p>
-        <p>In HTML5 things are much messier:</p>
-        <ul>
-          <li>
-            <pre>
-              #self closing tag
-              In XHTML, `&lt;p /&gt;` == `&lt;p /&gt;&lt;/p&gt;`
-              In HTML5, `&lt;p /&gt;` == `&lt;p&gt;`: self-losing slashes are simply ignored, and should therefore be avoided.
-              http://stackoverflow.com/questions/3558119/are-self-closing-tags-valid-in-html5
-
-              #void elements
-              Void elements cannot have a separate end tag, but they may have a meaningless slash <code>/</code>.
-
-              Added to them (<a href="http://www.w3.org/html/wg/drafts/html/master/single-page.html#void-elements">spec</a>)
-              so the following are all valid: <code>&lt;br&gt;</code>, <code>&lt;br/&gt;</code> and <code>&lt;br /&gt;</code>.
-
-              The void elements are: area, base, br, col, embed, hr, img, input, keygen, link, menuitem, meta, param, source, track, wbr
-            </pre>
-          </li>
-          <li>
-            Foreign elements can be self closing.
-          </li>
-          <li>
-            The other elements <em>cannot</em> be self closing.
-          </li>
-        </ul>
+      <p>The distinction is made by the MIME type on the `content-type` field of the HTTP header:
+      <ul>
+        <li>XHTML uses `application/xhtml+xml`
+        <li>HTML  uses `text/html`
+      </ul>
+      <p>TODO what about DOCTYPE?
+      <p>There are important syntax differences between HTML and XHTML, specially concerning end tags
 
   <h2>#validation</h2>
-
-    <p>W3C offers an HTML validation service at: http://validator.w3.org/</p>
-    <p>You can either upload your file, or give it an URL.</p>
+    <p>W3C offers an HTML validation service at: http://validator.w3.org/
+    <p>You can either upload your file, or give it an URL.
     <p>
       There are also tools that make it faster to validate a page,
       for example the Firefox Web Developer extension.
-    </p>
+
+<h1>#style</h1>
+
+  <p>Google style guide: http://google-styleguide.googlecode.com/svn/trunk/htmlcssguide.xml
+
+  <h2>#My style</h2>
+    <ul>
+      <li>
+        Indent with 2 spaces.
+      <li>
+        Indent at headers. Hugely increases readability.
+      <li>
+        Indent at every flow-content element.
+      <li>
+        Make the document as XHTML5 as possible, that is:
+        <ul>
+          <li>close all optional closing tags
+          <li>add the dummy slash to void elements
+        </ul>
+    </ul>
 
 <h1>#debugging</h1>
-
   <p>In order to understand what is going on, you will want to use browser tools.</p>
 
-  <h2>#firefox</h2>
-
-    <p>Firefox has the built-in Web developers tool which is quite good.</p>
-
+  <h2>#Firefox</h2>
+    <p>Firefox has the built-in Web developers tool which is quite good. Shortcut: Ctrl + I.
+    <p>
+      It also has the popular third party #Bugzilla tool. Bugzilla was more popular in the past when the built-in tool was worse,
+      now using just the built-in tool should be enough
     <p>
       To validate HTML easily, try: https://addons.mozilla.org/en-US/firefox/addon/web-developer/
       Shortcut: Ctrl + Alt + L
-    </p>
+
+<h1>#syntax</h1>
+  <p>http://www.w3.org/TR/html5/syntax.html
+
+  <h2>#element vs #tag #start tag #end tag</h2>
+    <p>`&lt;p&gt;a&lt;/p&gt;` is an element
+    <p>
+      `&lt;p&gt;` and `&lt;/p&gt;` are a start and end tag respectively.
+      The standard does not mention the terms "opening" or "closing" tags, so don't use them.
+
+    <h3>#Tag case</h3>
+      <p>All tag names are case insensitive.
+      <p>
+        Lower case names are much more common now. They are easier to type,
+        and tags + syntax highlighting already gives them enough visibility.
+
+  <p>XHTML5 is simple, just like XML:
+  <ul>
+    <li>all tags can be self-closed, e.g: <code>&lt;br&gt;</code>
+    <li>all tags must be closed somehow (self or not).
+  </ul>
+
+  <p>In HTML5, things are much messier. There are five different kinds of elements to consider, and tons of rules.
+  <ul>
+    <li>#Void elements: area, base, br, col, embed, hr, img, input, keygen, link, meta, param, source, track, wbr
+    <li>#Raw text elements: script, style
+    <li>#Escapable raw text: textarea, title
+    <li>#Foreign elements: MathML and SVG.
+    <li>#Normal: the rest, including p, u, li, div
+  </ul>
+
+  <h2>#void element closing tag</h2>
+    <p>void elements are the only elements which *cannot* have an end tag.
+    <p>As a consequence, they cannot have any content, which justifies their name.
+
+  <h2>#self closing slash</h2>
+    <ul>
+      <li>HTML5: only void and foreign elements may have a self closing slash.
+        <ul>
+          <li>void elements: `&lt;br /&gt;` == `&lt;br&gt;`: the slash is omitted
+          <li>foreign elements: same as XHTML
+        </ul>
+      <li>In XHTML, `&lt;p /&gt;` == `&lt;p /&gt;&lt;/p&gt;`
+      <li>HTML4: `&lt;p /&gt;` == `&lt;p&gt;&gt;`. The slash can appear on any element, and it is the same as the greater than sign.
+    </ul>
+
+  <h2>#optional tags #omit tags</h2>
+    <ul>
+      <li>
+        start and end tags for some elements can be omitted: http://www.w3.org/TR/html5/syntax.html#syntax-tag-omission
+        There is no simple rule, only a huge list of rules. Some interesting points include:
+        <ul>
+          <li>
+            html, body and head *start and end* tags can be omitted!
+          <li>
+            p elements has by far the most complex rule. Quoting:
+            p element's end tag may be omitted if the p element is immediately followed by an
+            address, article, aside, blockquote, div, dl, fieldset, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr, main, nav, ol, p, pre, section, table, or ul, element,
+            or if there is no more content in the parent element and the parent element is not an a element.
+          <li>
+            li element's end tag may be omitted if the li element is immediately followed by another li element
+            or if there is no more content in the parent element.
+          <li>
+            div, ul, table and blockquote tags must have and end tag
+        </ul>
+      <li>Foreign elements can be self closing, but the meaningless slash is not meaningless.
+    </ul>
+
+  <h2>#minimal valid HTML5</h2>
+    <p>http://stackoverflow.com/questions/9797046/whats-a-valid-html5-document. See `min.html`.
+
+<h1>#doctype</h1>
+  <p>The first line determines the document type.
+  <p>HTML5 has one single possibility: `&lt;!DOCTYPE html&gt;`. It is case insensitive.
+  <p>HTML4 has multiple possibilities
+  <p>XHTML5 has only accepts uppercase, so just stick to the uppercase version.
+
+<h1>#html element</h1>
+  <p>Can be omitted: http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags
+
+<h1>#head</h1>
+  <p>Contains document metadata.
+  <p>
+    Can be omitted: http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags
+    TODO how toes HTML decide what is inside of it and what is inside the body? Can all head tags only be inside it?
+
+  <h2>#title</h2>
+
+    <p>Required.
+    <p>On all modern browsers, appears on the tab name.
+    <p>Has big importance to search engines.
+
+<h1>#body</h1>
+  <p>Contains document "visible" content.
+  <p>Can be omitted: http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags
+
+  <h2>#lang attribute</h2>
+    <p>It is recommended that you always set the lang attribute of the html tag to help search engines.
+    <p>
+      In HTML5, can be used on any tag an sets the language of the element,
+      but the most common place to put it by far is in the body element.
+    <p>`meta http-equiv="Content-Language"` is deprecated.
 
 <h1>#References #Character references #Entities </h1>
 
-  <pre>
-  HTML5 uses only the term "references": http://www.w3.org/TR/html5/infrastructure.html#syntax-references
-
-  There are two kinds of entities:
-
-  - named. E.g.:   &amp;gt;   &gt;
-
-  - numeric: Refer to Unicode code points. Start with the number sign `#`.
-
-      - decimal:   &amp;#60;  &#60;
-      - hex:       &amp;#x3C; &#x3C;
-
-      TODO: possible to use Unicode can be achieved directly like &amp;#4E2D;?
-
-  HTML5 adopts exactly the same references as XML, but earlier versions do not, so watch out.
-
-  Notably: &quot; is on the official list of valid HTML 4 entities, but &apos; is not.
-
-  Entities are considered in both data and attribute values.
-
-  Escape sequences intended for characters that:
-
-  - have an specific meaning to HTML. Important ones:
-
-      - greater than &amp;gt;  &gt;  Used in tags.
-      - less than    &amp;lt;  &lt;  Used in tags.
-      - ampersand    &amp;amp; &amp; Used in entities.
-
-  - not present in the current encoding, such as Unicode character in an ASCII encoded file.
-
-      Prefer Unicode for all non-whitespace characters.
-
-      Useful whitespace characters:
-
-      - non-breaking whitespace #nbsp; &nbsp; Whitespace at which lines cannot reflow.
-  </pre>
-  <p>#nbsp example. Before&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After</p>
+  <p>HTML5 uses only the term "references": http://www.w3.org/TR/html5/infrastructure.html#syntax-references
+  <p>There are two kinds of entities:
+  <ul>
+    <li>named. E.g.:   &amp;gt;   &gt;
+    <li>numeric: Refer to Unicode code points. Start with the number sign `#`.
+      <ul>
+        <li>decimal:   &amp;#60;  &#60;
+        <li>hex:       &amp;#x3C; &#x3C;
+        <li>TODO: possible to use Unicode can be achieved directly like &amp;#4E2D;?
+      </ul>
+  </ul>
+  <p>HTML5 adopts exactly the same references as XML, but earlier versions do not, so watch out.
+  <p>Notably: &quot; is on the official list of valid HTML 4 entities, but &apos; is not.
+  <p>Entities are considered in both data and attribute values.
+  <p>Escape sequences intended for characters that:
+  <ul>
+    <li>
+      Have an specific meaning to HTML. Important ones:
+      <ul>
+        <li>greater than &amp;gt;  &gt;  Used in tags.
+        <li>less than    &amp;lt;  &lt;  Used in tags.
+        <li>ampersand    &amp;amp; &amp; Used in entities.
+      </ul>
+    <li>
+      <p>Not present in the current encoding, such as Unicode character in an ASCII encoded file.
+      <p>Prefer Unicode for all non-whitespace characters.
+      <p>Useful whitespace characters:
+        <ul>
+          <li>non-breaking whitespace #nbsp; &nbsp; Whitespace at which lines cannot reflow.
+        </ul>
+  </ul>
+  <p>#nbsp example. Before&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After
 
 <h1>#attributes</h1>
-
   <p>
     <a href="http://stackoverflow.com/questions/1735230/can-i-add-custom-attribute-to-html-tag">Using non standard tags makes your document invalid</a>.
     It is still likely to render correctly on all browsers.
     You can also cheat this by referencing a custom !DOCTYPE declaration, but this is really overkill.
     HTML allows you to use any attribute prefixed by `data-`. Great addition!
-  </p>
 
-  <p>Double or single quotes are both OK, the only difference is what must be escaped.</p>
+  <p>Double or single quotes are both OK, the only difference is what must be escaped.
   <div data-val="attr"></div>
   <div data-val='attr'></div>
   <div data-val='"'></div>
@@ -350,64 +403,64 @@
 
   <p>
     Besides the quotes, only the ampersand &amp; also has to be escaped, or it would be parsed as an entity otherwise.
-  </p>
   <div data-val="&amp;">&amp;</div>
 
   <h2>#id</h2>
-
     <p>
       Before HTML5, id attributes must start with `a-zA-Z`. In particular, no digits.
       This restriction was lifted with HTML5, but it is still recommended to follow it for backwards compatibility.
-    </p>
-    <p>`id` attributes must be unique across the entire document: http://programmers.stackexchange.com/questions/127178/two-html-elements-with-same-id-attribute-how-bad-is-it-really</p>
+    <p>
+      `id` attributes must be unique across the entire document:
+      http://programmers.stackexchange.com/questions/127178/two-html-elements-with-same-id-attribute-how-bad-is-it-really
 
-  <p>Multiple classes are space separated as in: <code>"class0 class1 class2"</code></p>
+  <h2>#class</h2>
+    <p>Multiple classes are space separated as in: <code>"class0 class1 class2"</code>
 
-<h1>#block-level #inline #inline-block #replaced #flow content #phrasing</h1>
+<h1>#categories #flow content #phrasing #which element can contain which</h1>
+  <p>HTML5 has many element categories.
+  <p>Flow content and phrasing are two of the most important categories.
+  <p>Elements can be both flow content and phrasing at the same time.
+  <p>One of the most important thing this determines is which elements an element can contain. Each element has:
+  <ul>
+    <li>a list of categories it belongs to
+    <li>#Content model: a list of elements or categories it can contain
+  </ul>
+  <p>Important conclusions that can be taken from content models and categories include:
+  <ul>
+    <li>html can only contain head followed by a body (but omission is possible for head and body)
+    <li>head contains metadata category elements: base, link, meta, noscript, script, style, template, title
+    <li>body contains flow content
+    <li>p is flow content and can only contain phrasing elements, therefore it cannot contain: p, div, ul
+    <li>ul can only contain li or script supporting elements
+    <li>li contains flow content. It can therefore contain and `p`, `ul`.
+    <li>div is and can contain flow content elements
+  </ul>
 
-  <pre>
-    HTML4 uses terms block-level, inline and inline-block. In most senses, all elements are either block-level or inline.
-
-    You cannot put:
-
-    - block-level elements inside inline elements, even if you use the CSS display property.
-
-      HTML5 made an exception for the anchor element, which can contain block elements, which is *very* handy.
-
-    - block-level elements inside other block-level elements. `div` is fine because it is a of grouping type. TODO check all this.
-
-    HTML5 adds many more categories and does not use the HTML4 terms, but instead:
-
-    - flow content corresponds roughly to block-level
-    - phrasing     corresponds roughly to inline
-  </pre>
-  <p>
-    Inline replaced elements such as images which behave like elements with CSS `display:inline-block` property.
-    They can be put inside other inline elements.
-  </p>
-
-<h1>p</h1>
-
-<p>`p` cannot contain `div` nor other `p`. `div` can contain p of course.</p>
-<!--<p>a<p>b</p>c</p>-->
-<!--<p>a<div>b</div>c</p>-->
-<div>a<p>b</p>c</div>
+  <h2>#block-level #inline #inline-block #replaced</h2>
+    <p>
+      HTML4 uses terms block-level, inline and inline-block. In most senses, all elements are either block-level or inline.
+    <p>HTML5 has many more categories.
+    <ul>
+      <li>block-level  corresponds roughly to HTML5 flow content
+      <li>inline       corresponds roughly to phrasing
+    </ul>
+    <p>
+      Inline replaced elements such as images which behave like elements with CSS `display:inline-block` property.
+      They can be put inside other inline elements.
+    <p>You cannot put:
 
 <h1>#anchor #link</h1>
 
   <a href="#href">link to destination</a>
   <p id="href">link destination</p>
 
-  <p>
-  #nofollow
+  <h2>#nofollow</h2>
+    <p>
+      Has no special semantics to browsers,
+      but may instruct users and search engines not to follow links.
+      <a href="html2.html" rel="nofollow">rel="nofollow"</a>
 
-    Has no special semantics to browsers,
-    but may instruct users and search engines not to follow links.
-
-    <a href="html2.html" rel="nofollow">rel="nofollow"</a>
-  </p>
-
-  <p>You cannot put one `a` inside another `a` in valid HTML5.</p>
+  <p>You cannot put one `a` inside another `a` in valid HTML5.
 
   <div><div></div></div>
 
@@ -422,62 +475,55 @@
     One common dummy when using the link for javascript AJAX is:
     <a href="javascript:;">javascript:;</a>.
     What is the best option: http://stackoverflow.com/questions/134845/href-attribute-for-javascript-links-or-javascriptvoid0.
-  </p>
 
 <h1>#img #images</h1>
 
-  <p>img elements are neither inline nor block: they are replaced inline elements.</p>
+  <p>img elements are neither inline nor block: they are replaced inline elements.
 
   <h2>Size</h2>
 
-    <p>It is possible to set width and hight and the browser will resize as requested. height="100" width="200":</p>
+    <p>It is possible to set width and hight and the browser will resize as requested. height="100" width="200":
     <img src="flower.jpg" height="100" width="300" alt=""/>
 
-    <p>Setting only width or height makes browser keep proportion. `width=300`</p>
+    <p>Setting only width or height makes browser keep proportion. `width=300`
     <img src="flower.jpg" width="300" alt=""/>
 
     <p>
       What is the best way to set image size: CSS (width and height apply to replaced inline elements) or HTML?
       http://stackoverflow.com/questions/2414506/should-image-size-be-defined-in-the-img-tag-height-width-attributes-or-in-css
-    </p>
 
   <h2>alt</h2>
 
-    <p>If:</p>
+    <p>If:
     <ul>
-      <li>an image does not exist</li>
+      <li>an image does not exist
       <li>the format is not supported by the browser (<a href="http://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support">support list</a>)</li>
     </ul>
-    <p>then alt the browser can show the alt text instead of the image.</p>
+    <p>then alt the browser can show the alt text instead of the image
     <p>
       As of 2013, chrome replaces a missing image with a dummy image, therefore ignoring alt.
       Therefore don't rely on alt being shown in your app logic: alt should only be shown
       in case of error.
       If an image should not present, replace it with something else explicitly.
-    </p>
     <p>
       According to the HTML5 validator, alt is mandatory except under certain conditions,
       so just use it always for your sanity.
-    </p>
     <!--INVALID:-->
     <!--<img src="i_dont_exist.format_not_supported"/>-->
-    <p>With alt text:</p>
-    <img src="i_dont_exist.format_not_supported" alt="alt text"/>
+    <p>With alt text:
+    <img src="i_dont_exist.format_not_supported" alt="alt text">
 
   <h2>legend caption</h2>
 
+    <p>fig + figcaption is good practice in HTML5.
     <p>
-      fig + figcaption is good practice in HTML5.
-
       figcaption has no special display,
-      it is only semantic and the real work must be done with css.
-
-      Browsers may however place it in a sensible place such as the bottom if no style data is found.
-    </p>
+      It is only semantic and the real work must be done with css.
+    <p>Browsers may however place it in a sensible place such as the bottom if no style data is found.
 
     <figure>
       <figcaption>caption 0</figcaption>
-      <img src="flower.jpg" height="50" width="50"/>
+      <img src="flower.jpg" height="50" width="50">
     </figure>
 
   <h2>base64</h2>
@@ -485,14 +531,11 @@
     <p>
       Many browsers support base64 inline images http://stackoverflow.com/questions/1207190/embedding-base64-images
       TODO does W3C require them?
-    </p>
-
     <p>
       Obvious tradeoff: one less HTTP request, but harder to reuse image + might occupy many screens of code or very long lines.
-
+    <p>
       Reuse might be possible with CSS + background images, but is probably a bad idea:
       http://stackoverflow.com/questions/1124149/is-embedding-background-image-data-into-css-as-base64-good-or-bad-practice?rq=1
-    </p>
 
     <!-- Does not validate not sure why: -->
     <!--<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM0AAAD-->
@@ -506,8 +549,7 @@
     <!--Q0NDQ0NTS5MdGhoaGhoaGhoaGhoaGhoaGhoaGhoaGposzSHAAErMwwQ2HwRQ-->
     <!--AAAAAElFTkSuQmCC" alt="beastie.png" />-->
 
-    <p>Single long line (clutters less the screen):</p>
-
+    <p>Single long line (clutters less the screen):
     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM0AAADNCAMAAAAsYgRbAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABJQTFRF3NSmzMewPxIG//ncJEJsldTou1jHgAAAARBJREFUeNrs2EEKgCAQBVDLuv+V20dENbMY831wKz4Y/VHb/5RGQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0PzMWtyaGhoaGhoaGhoaGhoaGhoxtb0QGhoaGhoaGhoaGhoaGhoaMbRLEvv50VTQ9OTQ5OpyZ01GpM2g0bfmDQaL7S+ofFC6xv3ZpxJiywakzbvd9r3RWPS9I2+MWk0+kbf0Hih9Y17U0nTHibrDDQ0NDQ0NDQ0NDQ0NDQ0NTXbRSL/AK72o6GhoaGhoRlL8951vwsNDQ0NDQ1NDc0WyHtDTEhDQ0NDQ0NTS5MdGhoaGhoaGhoaGhoaGhoaGhoaGhoaGposzSHAAErMwwQ2HwRQAAAAAElFTkSuQmCC"
     alt="data image" />
 
