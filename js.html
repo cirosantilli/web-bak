@@ -5,18 +5,19 @@
   <title>js cheat</title>
   <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
   <!--
-  Javascript is a toy language that runs in a browser.
+  Javascript is a toy language designed to run in a browser.
+
+  More recently, it has also been used outside of browsers, often server side, through Node.js.
 
   It can be embedded on the HTML given by the server to the browser inside `script` tags.
   It can also be given in separate `.js` files which are then included in the HTML header.
 
-  Only body and head tags can contain `script` tags.
+  One of the goals of javascript is to restrict what the language can do to prevent malicious attacks.
+  Therefore, by design choice javascript does not allows dangerous operations such as file IO.
+  Node.js adds such abilities to Javascript.
 
-  One of the goals of javascript is to restrict what the language can do to prevent
-  malicious attacks.
-
-  Therefore, by design choice javascript does not allows dangerous operations
-  such as file IO.
+  Javascript is known for having some weird quircks. CoffeScript, a language that compiles to Javascript
+  but behaves more like Ruby, attempts to correct many of those quirks.
 
   #standards
 
@@ -209,14 +210,35 @@
 
 //#semicolon #;
 
-  // Separates statements. Optional if there is a newline.
+  // Separates statements.
 
     var i = 1; i = 2;
     assert_eq(i, 2);
 
-    var i = 1
-    i = 2
-    assert_eq(i, 2)
+  //#ASI
+
+    // In most cases, semicolons are automatically added by the parser at newlines:
+
+      var i = 1
+      i = 2
+      assert_eq(i, 2)
+
+    // There are a few complex cases however.
+
+    // http://inimino.org/~inimino/blog/javascript_semicolons
+
+    // Operators inhibit ASI to allow programmers to write:
+
+      assert_eq(2, 1
+        + 1)
+
+    // One important case where inhibition is undesired is for self calling functions, which leads to the semicolon before IIFE pattern.
+
+    // Because of ASI, many people use a coding style without semicolons, using them only for the exception.
+
+    // Using semicolons is saner because of the complicated exceptions cases, but it is a pain to write semicolons everywhere.
+
+    // It is a controversial subject which style is better. This is one of the things CoffeScript takes care of.
 
 //#comments
 
@@ -342,7 +364,7 @@
 
   //#redefine function. ##`function f() vs var f = function()`
 
-    //http://stackoverflow.com/questions/336859/var-functionname-function-vs-function-functionname
+    // http://stackoverflow.com/questions/336859/var-functionname-function-vs-function-functionname
 
     // Without var, hoisting looks for the last definition.
     // Conclusion: never use multiple functions with the same name.
@@ -358,7 +380,7 @@
       assert_eq(f(),  1)
       var f = function f() { return 2; }
 
-    // name is only set for the `function f`, since `f =` creates an anonymous function:
+    // Name is only set for the `function f`, since `f =` creates an anonymous function:
 
       function f() {}
       assert_eq(f.name,  'f')
@@ -381,6 +403,26 @@
 
   //TODO named arguments?
 
+  //#call
+
+    // Call a function.
+
+    // Allows to change the value of this via the first parameter.
+
+    var f = function(x, y) { return this.x + x + y + 1; }
+    assert_eq(f.call({x: 100}, 0, 10), 111)
+
+    // Use cases for explicit call: http://stackoverflow.com/questions/9001830/the-reason-to-use-js-call-method
+
+  //#apply
+
+    // vs call: http://stackoverflow.com/questions/1986896/what-is-the-difference-between-call-and-apply
+
+    // Main difference: pass array:
+
+      var f = function(x, y) { return this.x + x + y + 1; }
+      assert_eq(f.apply({x: 100}, [0, 10]), 111)
+
   // It is possible to assign functions to variables:
 
     var f = function() {
@@ -394,7 +436,13 @@
     var f = function() {return 1}
     assert_eq(f(), 1)
 
-    assert_eq((function(x) {return x + 1}(1)), 2)
+    //#self invoking anonymous function
+
+      // Defined the function and call itself immediately:
+
+        assert_eq((function(x) {return x + 1}(1)), 2)
+
+      // Major use case: 
 
   //call before definition #hoisting
 
@@ -420,13 +468,27 @@
         return 1
       }
 
-//#this
+  //#immediately invoked function expression #IIFE
 
-  // This can be used inside function to refer to the owner object:
+    // Very common design pattern in which all the contents of a js file are contained inside a self invoked function
+    // to reduce namespace conflicts when everything is concatenated inside the browser.
 
-  // - on the "global" scope, this is the window object
-  // - inside functions, it is the function object itself. This is used to implement Class like definitions.
-  // - on an onclick callback, this is the HTML element that called the callback
+      //http://en.wikipedia.org/wiki/Immediately-invoked_function_expression
+
+  //#semicolon before IIFE
+
+    // http://stackoverflow.com/questions/7365172/semicolon-before-self-invoking-function
+
+    // IIFE preceded by a semicolon:
+
+      ;(function(){})()
+      ;(function(){})()
+
+    // Rationale: prevent break when files are concatenated during minification because of ASI exception rules:
+
+      var a
+      (function(){})()
+      //(function(){})()
 
 //#string
 
@@ -547,6 +609,8 @@
 
   //#prototype
 
+    // TODO perfectly understand the object model.
+
     //http://stackoverflow.com/questions/572897/how-does-javascript-prototype-work
 
       var Person = function(name) {
@@ -560,6 +624,33 @@
       var john = new Person("John")
 
       assert_eq(john.getName(), "John")
+
+  //#this
+
+    // This can be used inside function to refer to the owner object:
+
+    // - on the "global" scope inside a browser, this is the window object. It is therefore `null` on Node.js.
+
+      assert_eq(this, window)
+
+      // Since this can be omitted, the following works:
+
+      var a = 1
+      assert_eq(window.a, 1)
+      window.a = 2
+      assert_eq(a, 2)
+
+    // - inside functions, it is the function object itself. This is used to implement Class like definitions.
+
+      var f = function() {
+        var a = 1
+        assert_eq(this.a, 1)
+        this.a = 2
+        assert_eq(a, 2)
+      }
+      f()
+
+    // - on an onclick callback, this is the HTML element that called the callback
 
   //#new
 
@@ -604,6 +695,8 @@
   One of the most important objects.
 
   Offers an interface to the browser contents.
+
+  May be undefined on Node.js. This can be used to check if we are no Nodejs or browser.
 */
 
   // All global objects are attributes of window:
