@@ -21,3 +21,28 @@ Some Web frontend technologies require libraries to make tests with, and might b
 Less useful cheats:
 
 - [ACE editor](ace.html)
+
+# Standards organizations
+
+## W3C
+
+WWW Consortium.
+
+W3C specifies many of the key web standards including:
+
+- HTML: <http://www.w3.org/TR/html5/>
+- CSS:  <http://www.w3.org/TR/css3-cascade/> and other pages
+- DOM:  <http://www.w3.org/TR/dom/>
+- XML:  <http://www.w3.org/TR/xml/>
+- CGI
+
+One important web standard that they **do not** specify is Javascript, which is specified by Ecma international <http://www.ecma-international.org/>
+
+W3C has many important member organizations including companies, universities and others such as Microsoft, Apple, IBM, Google, Facebook, Twitter, Adobe.
+
+W3C has several levels of endorsement for standards:
+
+- WD (Working Draft):   lowest level of endorsement of material available to the public
+- REC (Recommendation): highest level, for stable and widely accepted features
+- NOTES:                make small revisions to a standard
+- retired:              standards that have been deprecated

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-  <meta charset="utf-8"/>
+  <meta charset='utf-8'/>
   <title>ACE editor</title>
   <style>
     .editor {
@@ -16,23 +16,28 @@
 </head>
 <body>
 <h1>ACE editor</h1>
-  <div class="editor" id="editor">#basic</div>
-  <div class="editor" id="editor-vim">#vim</div>
-  <div class="editor" id="editor-theme">#theme == twilight</div>
-  <div class="editor" id="editor-mode">#mode #language == markdown</div>
+  <div class='editor' id='basic'>#basic</div>
+  <div class='editor' id='vim'>#vim</div>
+  <div class='editor' id='theme'>#theme == twilight</div>
+  <div class='editor' id='mode'>#mode #language == markdown</div>
+  <div class='editor' id='markdown-preview'>#marked markdown preview</div>
 
-  <script src="ace/build/src/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src='ace/build/src/ace.js' type='text/javascript' charset='utf-8'></script>
   <script>
-    var editor = ace.edit("editor");
+    var editor = ace.edit('basic');
 
-    var editor_vim = ace.edit("editor-vim");
-    editor_vim.setKeyboardHandler("ace/keyboard/vim");
+    var editor_vim = ace.edit('vim');
+    editor_vim.setKeyboardHandler('ace/keyboard/vim');
 
-    var editor_theme = ace.edit("editor-theme");
-    editor_theme.setTheme("ace/theme/twilight");
+    var editor_theme = ace.edit('theme');
+    editor_theme.setTheme('ace/theme/twilight');
 
-    var editor_mode = ace.edit("editor-mode");
-    editor_mode.getSession().setMode("ace/mode/markdown");
+    var editor_mode = ace.edit('mode');
+    editor_mode.getSession().setMode('ace/mode/markdown');
+
+    var editor_markdown_preview = ace.edit('markdown-preview');
+    editor_markdown_preview.getSession().setMode('ace/mode/markdown');
+    document.getElementById('window-onload')
   </script>
 </body>
 </html>

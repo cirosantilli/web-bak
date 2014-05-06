@@ -154,32 +154,13 @@
 
   <ul data-toc></ul>
 
-<h1>Standards</h1>
+<h1>#Standards</h1>
+
   <p>
     HTML is standardized by the Word Wide Web Consortium (W3C) <a href="http://www.w3.com">http://www.w3.com</a>
   <p>
     The <a href="http://www.w3schools.com/">w3schools</a> website is not affiliated in any way to W3C.
-    It is said that it contains many errors, and its certification is worthless:
-    it is the cplusplus.com of the web.
-  <p>
-    W3C has many important member organizations including companies, universities and others such as
-    Microsoft, Apple, IBM, Google, Facebook, Twitter, Adobe.
-  <p>W3C specifies many of the key web standards including:
-  <ul>
-    <li>HTML
-    <li>CSS
-    <li>DOM
-    <li>XML
-    <li>CGI
-  </ul>
-  <p>One important standard that they do <em>not</em> specify is Javascript.
-  <p>W3C has several levels of endorsement:
-  <ul>
-    <li>WD (Working Draft) is the lowest level of endorsement of material available to the public
-    <li>REC (Recommendation) is the highest level, for stable and widely accepted features.
-    <li>NOTES are possible to make small later revisions.
-    <li>retired is for standards that have been deprecated
-  </ul>
+    It is said that it contains many errors, and its certification is worthless: it is the cplusplus.com of the web.
 
   <h2>#HTML5</h2>
     <p>
@@ -450,7 +431,6 @@
     <p>
       Inline replaced elements such as images which behave like elements with CSS `display:inline-block` property.
       They can be put inside other inline elements.
-    <p>You cannot put:
 
 <h1>#anchor #link</h1>
 
@@ -458,12 +438,13 @@
   <p id="href">link destination</p>
 
   <h2>#nofollow</h2>
+
     <p>
       Has no special semantics to browsers,
       but may instruct users and search engines not to follow links.
       <a href="html2.html" rel="nofollow">rel="nofollow"</a>
 
-  <p>You cannot put one `a` inside another `a` in valid HTML5.
+  <p>`a` cannot contain `a`.
 
   <div><div></div></div>
 
@@ -611,6 +592,7 @@
   </table>
 
   <h2>#thead, #tbody and #tfoot</h2>
+
     <p>thead must come *before* tbody and tfoot in valid HTML, as any sane programmer should do.</p>
     <table>
       <thead>
@@ -693,11 +675,11 @@
 
 <h1>#obsolete</h1>
 
-  <pre>
-    HTML5 rendered some elements and attributes obsolete. This means that:
-    - pages containing them don't validate
-    - but browsers should still render them properly for backwards compatibility.
-  </pre>
+  <p>HTML5 rendered some elements and attributes obsolete. This means that:
+  <ul>
+    <li>pages containing them don't validate
+    <li>but browsers should still render them properly for backwards compatibility
+  </ul>
   <ul>
     <li>inline styles: #big #blink #strike #tt #u</li>
     <li>"a name" or "a id" without href</li>
@@ -762,15 +744,14 @@ b</code>
 
 <h1>#pre</h1>
 
-  <p>White spaces are taken into consideration when rendering.</p>
-  <p>Can contain anything, including other elements</p>
+  <p>White spaces are taken into consideration when rendering.
+  <p>Can contain anything, including other elements
   <p>
     I think that this is a bad tag because it implies style rather than meaning
     and style should be left for CSS, and it can in this case via <code>white-space:pre</code>.
-
-    The only difference is that `pre` ignores the first character if it is a newline,
-    while <code>white-space:pre</code> does not.
-  </p>
+  <p>
+    The only difference between `pre` and CSS `white-space:pre` is that `pre` ignores the first character
+    if it is a newline, while <code>white-space:pre</code> does not.
 
   <div>Newline space:</div>
   <pre class="border">a
@@ -812,20 +793,49 @@ a
 
 <h1>#forms</h1>
 
+  <h2>#form</h2>
+
+    <p>Contains everything needed to send data to the server, including inputs, input labels and a submit button.
+    <p>Important attributes:
+    <ul>
+      <li>`action`: where to send the request to
+      <li>
+        `method`: what HTTP method to use. Can only be:
+        <ul>
+          <li>get: send data on the URL URL encoded, which has size limitations.
+          <li>post: sends data on the body URL encoded.
+        </ul>
+      <li>
+        `enctype`: value of the `content-type` header
+        <ul>
+          <li>`application/x-www-form-urlencoded`: default. URL encode.
+          <li>
+            `multipart/form-data`: can only be used if the `method` is `post`.
+            Best option for uploading large data such as files via `input type="file"`.
+          <li>`text/plain`: useless?
+        </ul>
+    </ul>
+
+    <form action="http://localhost:8080/" method="post" enctype="multipart/form-data">
+      <input type="text" name="text" value="text default">
+      <input type="file" name="file1">
+      <input type="file" name="file2">
+      <button type="submit">Submit</button>
+    </form>
+
   <h2>#button</h2>
+
     <p>If `disabled` attribute present, button cannot be clicked:
     <p>
       <button type="button">Enabled</button>
       <button type="button" disabled>Disabled</button>
-    </p>
 
-    <pre>
-      `type`: should always be specified to avoid browser inconsistencies:
-
-      - button:	nothing special about it. Mostly used with Javascript
-      - submit: do the enclosing form's `action`.
-      - reset: reset data of enclosing form to default values.
-    </pre>
+    <p>`type`: should always be specified to avoid browser inconsistencies:
+    <ul>
+      <li>button:	nothing special about it. Mostly used with Javascript
+      <li>submit: do the enclosing form's `action`.
+      <li>reset:  reset data of enclosing form to default values.
+    </ul>
     <form action="#button-type" id="button-type">
       <input type="text" name="a" value="0"/>
       <button type="submit">Submit</button>
@@ -833,31 +843,37 @@ a
     </form>
 
   <h2>#label</h2>
-    <p>The visible name of the form field.</p>
+
+    <p>The visible name of the form field.
     <p>
       Does not have lead to many programmatic effects, except that clicking on the label
       may focus or toggle its corresponding form control.
-    </p>
     <p>
       <label for="label-target" style="border:1px solid black;">Label, click me!</label>
-      <input id="label-target"/>
-    </p>
+      <input id="label-target">
 
   <h2>#input</h2>
-    <p>It is valid HTLM5 to omit the type attribute, but a bad practice due to browser inconsistencies.</p>
-    <p>value="default" <input type="text" value="default"/></p>
-    <p>size="3" <input type="text" size="3"/></p>
-    <p>size="5" <input type="text" size="5"/></p>
-    <p>placeholder="asdf" <input type="text" size="5" placeholder="asdf"/></p>
-    <p>placeholder="asdf", value="default" <input type="text" size="5" placeholder="asdf" value="default"/></p>
+
+    <p>It is valid HTLM5 to omit the type attribute, but a bad practice due to browser inconsistencies.
+    <p>value="default" <input type="text" value="default">
+    <p>size="3" <input type="text" size="3">
+    <p>size="5" <input type="text" size="5">
+    <p>placeholder="asdf" <input type="text" size="5" placeholder="asdf">
+    <p>placeholder="asdf", value="default" <input type="text" size="5" placeholder="asdf" value="default">
+    <p>
+      #file. Opens a file selector popup.
+      Should almost always be used with `form method="post" enctype="multipart/form-data"`
+      <input type="file">
 
   <h2>#textarea</h2>
-    <p>rows="3" cols="5"</p>
-    <p><textarea>default</textarea></p>
-    <p><textarea rows="3" cols="5">rows=3 cols=5</textarea></p>
+
+    <p>rows="3" cols="5"
+    <p><textarea>default</textarea>
+    <p><textarea rows="3" cols="5">rows=3 cols=5</textarea>
 
   <h2>#select #option</h2>
-    <p>The default is marked with `selected="selected"`</p>
+
+    <p>The default is marked with `selected="selected"`
     <form action="#select" id="select">
       <select name="select-name">
         <option value="a">a text</option>
@@ -867,47 +883,46 @@ a
       <button type="submit">Submit</button>
     </form>
 
-<h1>#mathml</h1>
+<h1>#MathML</H1>
 
-  <p>Standard way to represent mathematics.</p>
-
-  <p>
-    Uses an XML like language not suitable for direct user input, not Latex.
-    A converter from LaTeX to MathML such as blahtexml or itex2mml or is inescapable content writers.
-  </p>
+  <p>Standard way to represent mathematics.
+  <p>Uses an XML like language not suitable for direct user input, not LaTeX.
+  <p>A converter from LaTeX to MathML such as Blahtexml or itex2MML or is inescapable content writers.
 
   TODO
 
 <h1>#noscript</h1>
 
-  <p>Browser may show if javascript is not supported.</p>
-  <p>Block element.</p>
+  <p>Browser may show if Javascript is not supported.
+  <p>Block element.
   <script>document.write("<div>javascript</div>")</script>
-  <noscript>no javascript</noscript> 
+  <noscript>No Javascript.</noscript>
 
 <h1>#frame #iframe</h1>
 
-  <pre>
-    Include another HTML document in the current one.
+  <p>Include another HTML document in the current one.
+  <p>
     This element therefore automatically makes an HTTP request to another page,
     so it is an interesting way go include HTML content without any Javascript.
-    In the past, before server side scripting, widely used to reuse code fragments such as indexes.
-    Now generally frowned upon for navigation.
-    - `frame` was invalidated in HTML5.
-    - `iframe`, inline frame, is still valid in HTML5.
-  </pre>
+  <p>In the past, before server side scripting, widely used to reuse code fragments such as indexes.
+  <p>Now generally frowned upon for navigation.
+  <ul>
+    <li>`frame` was invalidated in HTML5.
+    <li>`iframe`, inline frame, is still valid in HTML5.
+  </ul>
   <iframe src="iframe.html">iframe failed to load</iframe>
 
-  <p>iframe always has a fixed size, which you can change with CSS:</p>
+  <p>iframe always has a fixed size, which you can change with CSS:
   <iframe src="iframe.html" style="width:600px; height:50px;">iframe failed to load</iframe>
 
-  <p>disable scroll in HTML5 CSS3 is not yet widely supported: http://stackoverflow.com/questions/1691873/safari-chrome-webkit-cannot-hide-iframe-vertical-scrollbar</p>
+  <p>
+    disable scroll in HTML5 CSS3 is not yet widely supported:
+    http://stackoverflow.com/questions/1691873/safari-chrome-webkit-cannot-hide-iframe-vertical-scrollbar
 
   <p>
     The frame content is like `alt` for images.
     Your browser may simply ignore it in case of failure if he has something better to do (Firefox 27 shows the not found page
     with a reload button.)
-  </p>
   <div><iframe src="i-do-no-exist.html">i-do-not-exist.html failed to load</iframe></div>
 
 </body>

@@ -21,22 +21,27 @@
 
   #standards
 
-   Official language name: ECMA-262
+    Official language name: ECMA-262
 
-   - v 5.1: 2011. <http://www.ecma-international.org/publications/standards/Ecma-262.htm> 
-   - v 5: 2009
-   - v 4: was aborted
-   - v 3: 1999
+    - v 5.1: 2011. <http://www.ecma-international.org/publications/standards/Ecma-262.htm> 
+    - v 5: 2009
+    - v 4: was aborted
+    - v 3: 1999
+
+    This does not include objects which browsers add to Javascript like `document` or `window`.
+
+    There is currently no readable documentation, and standards are still sloppy on those:
+    http://stackoverflow.com/questions/3768606/where-is-the-javascript-dom-api-documented
 
   #style
 
-   - GitHub style: <https://github.com/styleguide/javascript>
+    - GitHub style: <https://github.com/styleguide/javascript>
 
-    2 space indent
+     2 space indent
 
-   - Google: <http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml>
+    - Google: <http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml>
 
-    2 space indent
+     2 space indent
   -->
   <style>
    .border { border:1px solid black; }
@@ -349,6 +354,25 @@
       assert(true)
     }
 
+//#for
+
+  // C like:
+
+    var total = 0
+    for (var i = 0; i < 3; i++) {
+      total += i
+    }
+    assert_eq(total, 3)
+
+  // For in: iterates over **object properties**! Not array elements. Use explicit i for that.
+
+    var total = 0
+    var obj = {'a': 1, 'b': 2}
+    for (var x in obj) {
+      total += obj[x]
+    }
+    assert_eq(total, 3)
+
 //#function
 
   // Return is optional:
@@ -633,7 +657,7 @@
 
       assert_eq(this, window)
 
-      // Since this can be omitted, the following works:
+      // TODO understand better:
 
       var a = 1
       assert_eq(window.a, 1)
@@ -642,13 +666,15 @@
 
     // - inside functions, it is the function object itself. This is used to implement Class like definitions.
 
-      var f = function() {
-        var a = 1
-        assert_eq(this.a, 1)
-        this.a = 2
-        assert_eq(a, 2)
-      }
-      f()
+      //TODO
+
+      //var f = function() {
+      //  var a = 1
+      //  assert_eq(this.a, 1)
+      //  this.a = 2
+      //  assert_eq(a, 2)
+      //}
+      //f()
 
     // - on an onclick callback, this is the HTML element that called the callback
 
@@ -759,9 +785,13 @@
     // - navigator: navigator metadata
 
 /*
+#DOM
+
 #document
 
   Interface to the DOM: <www.w3.org/DOM/DOMTR>
+
+  It is possible to access all DOM attributes of an element: http://www.w3schools.com/jsref/dom_obj_all.asp
 */
 
   // Shortcut for `window.document`
@@ -772,29 +802,126 @@
 
     //document.write('here')
 
-  //#querySelectorAll
+  //#Selectors
 
-    // Select elements by CSS selector. Very powerful.
+    //#querySelectorAll
 
-    // Not supported in IE7.
+      // Select elements by CSS selector. Very powerful.
 
-      document.write('<div class="querySelectorAll0"><div class="querySelectorAll1" data-0="querySelectorAll"></div></div>')
-      assert_eq(document.querySelectorAll(".querySelectorAll0 > .querySelectorAll1")[0].getAttribute("data-0"), "querySelectorAll")
+      // Not supported in IE7.
 
-  //#getElementById
+        document.write('<div class="querySelectorAll0"><div class="querySelectorAll1" data-0="querySelectorAll"></div></div>')
+        assert_eq(document.querySelectorAll(".querySelectorAll0 > .querySelectorAll1")[0].getAttribute("data-0"), "querySelectorAll")
 
-   // Obvious what it does.
+    //#getElementById
 
-    document.write('<div id="getElementById" data-0="1"></div>')
-    assert_eq(document.getElementById("getElementById").getAttribute("data-0"), "1")
+      // Obvious what it does.
 
-  //#getElementsByClassName
+        document.write('<div id="getElementById" data-0="1"></div>')
+        assert_eq(document.getElementById("getElementById").getAttribute("data-0"), "1")
 
-   // Obvious... but not implemented on IE8... Alternatives: http://stackoverflow.com/questions/3808808/how-to-get-element-by-class-in-javascript
-   // So if you care about IE8, just use querySelectorAll or JQuery.
+    //#getElementsByClassName
 
-    document.write('<div class="getElementsByClassName0 getElementsByClassName1" data-0="1"></div>')
-    assert_eq(document.getElementsByClassName("getElementsByClassName0")[0].getAttribute("data-0"), "1")
+      // Obvious... but not implemented on IE8... Alternatives: http://stackoverflow.com/questions/3808808/how-to-get-element-by-class-in-javascript
+      // So if you care about IE8, just use querySelectorAll or JQuery.
+
+        document.write('<div class="getElementsByClassName0 getElementsByClassName1" data-0="1"></div>')
+        assert_eq(document.getElementsByClassName("getElementsByClassName0")[0].getAttribute("data-0"), "1")
+
+  //#DOM
+
+    //#nodeType
+
+      //- 1   ELEMENT_NODE
+      //- 2   ATTRIBUTE_NODE
+      //- 3   TEXT_NODE
+      //- 4   CDATA_SECTION_NODE
+      //- 5   ENTITY_REFERENCE_NODE
+      //- 6   ENTITY_NODE
+      //- 7   PROCESSING_INSTRUCTION_NODE
+      //- 8   COMMENT_NODE
+      //- 9 	DOCUMENT_NODE
+      //- 10  DOCUMENT_TYPE_NODE
+      //- 11 	DOCUMENT_FRAGMENT_NODE
+      //- 12  NOTATION_NODE
+
+        document.write('<div id="nodeType">a<div>b</div>c</div>')
+        var parent = document.getElementById('nodeType')
+        assert_eq(parent.nodeType, 1)
+        assert_eq(parent.childNodes[0].nodeType, 3)
+
+    //#tagName
+
+        document.write('<div id="tagName"></div>')
+        assert_eq(document.getElementById('tagName').tagName, 'DIV')
+
+    //#nodeValue #innerHTML
+
+        document.write('<div id="nodeValue">a<i>b</i>c</div>')
+        assert_eq(document.getElementById('nodeValue').firstChild.nodeValue, 'a')
+        assert_eq(document.getElementById('nodeValue').innerHTML,            'a<i>b</i>c')
+
+    //#children #firstElementChild #childnodes #firstChild #lastChild
+
+        document.write('<div id="children">a<i>b</i>c</div>')
+
+      // Children and firstElementChild: only elements, no text.
+
+        assert_eq(document.getElementById('children').children[0].innerHTML, 'b')
+        assert_eq(document.getElementById('children').firstElementChild.innerHTML, 'b')
+
+      // childNodes and firstChild: include text.
+
+        assert_eq(document.getElementById('children').firstChild.nodeValue, 'a')
+        assert_eq(document.getElementById('children').childNodes[0].nodeValue, 'a')
+        assert_eq(document.getElementById('children').lastChild.nodeValue, 'c')
+
+    //#parentNode #nextSibling #nextElementSibling
+
+      document.write('<div id="parentNode">a<i>b</i>c<i>d</i>e</div>')
+      var firstI = document.getElementById('parentNode').children[0]
+      assert_eq(firstI.parentNode.tagName, 'DIV')
+      assert_eq(firstI.previousSibling.nodeValue, 'a')
+      assert_eq(firstI.previousElementSibling, null)
+      assert_eq(firstI.nextSibling.nodeValue, 'c')
+      assert_eq(firstI.nextElementSibling.innerHTML, 'd')
+
+    //#insertBefore
+
+      // Must create an element: cannot insert string directly.
+
+      // TODO what happens when element exists already? Copy?
+
+        document.write('<div id="insertBefore">a<i>b</i>c</div>')
+        var insertBefore = document.getElementById('insertBefore')
+        var insertBeforeI = insertBefore.children[0]
+        var divD = document.createElement('div');
+        divD.appendChild(document.createTextNode('d'));
+        insertBefore.insertBefore(divD, insertBeforeI)
+        assert_eq(insertBeforeI.previousElementSibling.innerHTML, 'd')
+
+      //#insertAfter
+
+        // Does not exist, but easily defined with `insertBefore`.
+
+        //http://stackoverflow.com/questions/4793604/how-to-do-insert-after-in-javascript-without-using-a-library
+
+    //#getAttribute
+
+      document.write('<div id="getAttribute">a<i>b</i>c<i>d</i>e</div>')
+      assert_eq(document.getElementById('getAttribute').getAttribute('id'), 'getAttribute')
+
+  /*
+  #canvas drawing
+
+    The HTML canvas element was made to be drawn with Javascript and destroy Flash.
+  */
+
+    function canvas_onclick() {
+      var b_canvas = document.getElementById("canvas");
+      var b_context = b_canvas.getContext("2d");
+      b_context.fillRect(50, 25, 150, 100);
+    }
 
   //#ready
 
@@ -806,184 +933,169 @@
     // <http://stackoverflow.com/questions/4643990/jquery-is-document-ready-necessary>
     // Therefore, this should never be necessary, since all scripts should be put at the bottom of the page.
 
-  //#nodeValue #text #innerHTML
+  //#cookies
 
-    document.write('<div id="nodeValue">a</div>')
-    assert_eq(document.getElementById("nodeValue").firstChild.nodeValue, "a")
-    document.write('<div id="nodeValueNested">a<span></span></div>')
+    // A way of storing small data strings on user's computer hard disk
 
-//#element
+    // View all cookies on Firefox:
 
-  // It is possible to access all DOM atributes of an element: http://www.w3schools.com/jsref/dom_obj_all.asp
+      //firefox chrome://browser/content/preferences/cookies.xul
 
-    document.write('<div id="element-text">0</div>' + document.cookie + "<br>")
-    //assert_eq(document.getElementById("element-text").text, "0")
+    // Cookies are accessible through DOM
 
-    //.attributes.key = val
+    // Cookies can be set/get only for current domain.
 
-//#cookies
+    // WARNING: some browsers may not keep cookies for local files (file://)
+    // so these tests may fail. current firefox does keep the cookies.
 
-  // A way of storing small data strings on user's computer hard disk
+    // Each browser stores its own cookies
 
-  // View all cookies on Firefox:
+    //#cookies without javascript
 
-    //firefox chrome://browser/content/preferences/cookies.xul
+      // Cookies can also be set via headers using the `Set-Cookie` header key.
 
-  // Cookies are accessible through DOM
+      // Cookies are automatically sent to servers by browsers via the `Cookie` header value.
 
-  // Cookies can be set/get only for current domain.
+      // Cookies are sent from servers to CGI scripts via the `HTTP_COOKIE` env var.
 
-  // WARNING: some browsers may not keep cookies for local files (file://)
-  // so these tests may fail. current firefox does keep the cookies.
+      // These are the most reliable methods, there is no need to use js for cookies.
 
-  // Each browser stores its own cookies
+    //#session cookies
 
-  //#cookies without javascript
+      // A cookie based technique to maintain user logged in.
 
-    // Cookies can also be set via headers using the `Set-Cookie` header key.
+      // 1) username/password is sent to server encrypted in some way (HTTP Basic + SSL, POST + SSL)
 
-    // Cookies are automatically sent to servers by browsers via the `Cookie` header value.
+      // 2) server authenticates, and creates a large random number, sotores it,
+      // and sends it as a non persistent cookie that is an unique number
 
-    // Cookies are sent from servers to CGI scripts via the `HTTP_COOKIE` env var.
+      // 3) whenever the user hits another URL, this large number is sent to server.
+      // and user is logged in.
 
-    // These are the most reliable methods, there is no need to use js for cookies.
-
-  //#session cookies
-
-    // A cookie based technique to maintain user logged in.
-
-    // 1) username/password is sent to server encrypted in some way (HTTP Basic + SSL, POST + SSL)
-
-    // 2) server authenticates, and creates a large random number, sotores it,
-    // and sends it as a non persistent cookie that is an unique number
-
-    // 3) whenever the user hits another URL, this large number is sent to server.
-    // and user is logged in.
-
-    //TODO: how to avoid getting the session highjacked?
-
-  //#path
-
-    // Cookies can be set only for the **current** path and its parents.
-
-    // E.g.: in `www.abc.com/a/b.html`, the path is `a/a.html`.
-    // so `a.html` can set cookies for `/`, `/a/` and `/a/a.html` from `/a/a.html`
-
-    // If the location is a directory, then all subdirs can also get the cookies.
-    // E.g.: cookies set for `/` can be seen on `/a/` and on `/b/`
-
-  //#js interface
-
-    // #set values
-
-      // Browser parses the strings.
-
-      // Set keys:
-
-        document.cookie = "key=val;"
-        document.cookie = "key=val2;"
-
-      // Only `val2` is kept.
-
-      // BAD:
-
-        document.cookie = "key2=val2;key3=val3"
-
-      // Only `key2` is set. Only a single key can be set at a time.
-
-    // #get values
-
-      // Not possible directly: must parse the `document.cookie` string.
-
-    // #delete values
-
-      // The simplest technique is to set a past expires date.
-
-  //#properties
-
-    // Are special key/value pairs that contain key metadata.
-
-    //#expires
-
-      // Previous key is deleted by browser at given UTC string date:
-
-        var now = new Date()
-        var later = now
-        later.setMinutes(now.getMinutes() + 1)
-        document.cookie += "keyExp=valExp;expires=" + later.toUTCString()
-
-      // If expires is not given, then the cookie expires when the browser is closed!
-
-      // It is not possible to make a cookie that never expires,
-      // only one with a huge expiry date.
+      //TODO: how to avoid getting the session highjacked?
 
     //#path
 
-      // Cookie path.
+      // Cookies can be set only for the **current** path and its parents.
 
-      // Defaults to current file/dir.
+      // E.g.: in `www.abc.com/a/b.html`, the path is `a/a.html`.
+      // so `a.html` can set cookies for `/`, `/a/` and `/a/a.html` from `/a/a.html`
 
-      // Can only be set for parent dirs of current path.
+      // If the location is a directory, then all subdirs can also get the cookies.
+      // E.g.: cookies set for `/` can be seen on `/a/` and on `/b/`
 
-    //#safe
+    //#js interface
 
-      // If set to exactly `= safe`, this cookie will only be sent over `https`, not `http`
+      // #set values
 
-        document.cookie = "keySafe=v;safe"
+        // Browser parses the strings.
 
-      // TODO confirm usage correct
+        // Set keys:
 
-    //#HttpOnly
+          document.cookie = "key=val;"
+          document.cookie = "key=val2;"
 
-      // Instructs server not to pass the cookie to CGI scripts.
+        // Only `val2` is kept.
 
-      // This can increase security of session cookies.
+        // BAD:
 
-      // <http://www.codinghorror.com/blog/2008/08/protecting-your-cookies-httponly.html>
+          document.cookie = "key2=val2;key3=val3"
 
-        document.cookie = "keySafe=v;HttpOnly"
+        // Only `key2` is set. Only a single key can be set at a time.
 
-  //#higher level interface
+      // #get values
 
-    // The Javascript cookie interface is very low level and inconvenient.
+        // Not possible directly: must parse the `document.cookie` string.
 
-    // jquery-cookie <https://github.com/carhartl/jquery-cookie> is on popular and convenient cookie interface based on JQuery.
+      // #delete values
 
-    //#helpers
+        // The simplest technique is to set a past expires date.
 
-      // - c_name: string
-      // - value: string
-      // - exdays: integer. Number of days which will take for the cookie to expire.
-      //
-      function setCookie(c_name, value, exdays) {
-        var exdate = new Date()
-        exdate.setDate(exdate.getDate() + exdays)
-        var c_value = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toUTCString())
-        document.cookie = c_name + "=" + c_value
-      }
+    //#properties
 
-      // c_name: string
-      // @return: null if not found, value if found
-      //
-      function getCookie(c_name) {
-        var i, x, y, ARRcookies = document.cookie.split(";")
-        for (i = 0; i < ARRcookies.length; i++) {
-          x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="))
-          y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1)
-          x = x.replace(/^\s+|\s+$/g, "")
-          if (x == c_name) {
-            return unescape(y)
+      // Are special key/value pairs that contain key metadata.
+
+      //#expires
+
+        // Previous key is deleted by browser at given UTC string date:
+
+          var now = new Date()
+          var later = now
+          later.setMinutes(now.getMinutes() + 1)
+          document.cookie += "keyExp=valExp;expires=" + later.toUTCString()
+
+        // If expires is not given, then the cookie expires when the browser is closed!
+
+        // It is not possible to make a cookie that never expires,
+        // only one with a huge expiry date.
+
+      //#path
+
+        // Cookie path.
+
+        // Defaults to current file/dir.
+
+        // Can only be set for parent dirs of current path.
+
+      //#safe
+
+        // If set to exactly `= safe`, this cookie will only be sent over `https`, not `http`
+
+          document.cookie = "keySafe=v;safe"
+
+        // TODO confirm usage correct
+
+      //#HttpOnly
+
+        // Instructs server not to pass the cookie to CGI scripts.
+
+        // This can increase security of session cookies.
+
+        // <http://www.codinghorror.com/blog/2008/08/protecting-your-cookies-httponly.html>
+
+          document.cookie = "keySafe=v;HttpOnly"
+
+    //#higher level interface
+
+      // The Javascript cookie interface is very low level and inconvenient.
+
+      // jquery-cookie <https://github.com/carhartl/jquery-cookie> is on popular and convenient cookie interface based on JQuery.
+
+      //#helpers
+
+        // - c_name: string
+        // - value: string
+        // - exdays: integer. Number of days which will take for the cookie to expire.
+        //
+        function setCookie(c_name, value, exdays) {
+          var exdate = new Date()
+          exdate.setDate(exdate.getDate() + exdays)
+          var c_value = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toUTCString())
+          document.cookie = c_name + "=" + c_value
+        }
+
+        // c_name: string
+        // @return: null if not found, value if found
+        //
+        function getCookie(c_name) {
+          var i, x, y, ARRcookies = document.cookie.split(";")
+          for (i = 0; i < ARRcookies.length; i++) {
+            x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="))
+            y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1)
+            x = x.replace(/^\s+|\s+$/g, "")
+            if (x == c_name) {
+              return unescape(y)
+            }
           }
         }
-      }
 
-      function delCookie(name, path, domain) {
-        if (Get_Cookie(name))
-          document.cookie=name+"="+((path) ? ";path="+path:"")+((domain)?";domain="+domain:"") +
-                        ";expires=Thu, 01 Jan 1970 00:00:01 GMT"
-      }
+        function delCookie(name, path, domain) {
+          if (Get_Cookie(name))
+            document.cookie=name+"="+((path) ? ";path="+path:"")+((domain)?";domain="+domain:"") +
+                          ";expires=Thu, 01 Jan 1970 00:00:01 GMT"
+        }
 
-  document.write("<h1>cookies</h1>" + document.cookie + "<br>")
+    document.write("<h1>cookies</h1>" + document.cookie + "<br>")
 
 //#XMLHttpRquest #ajax
 
@@ -1074,24 +1186,13 @@
       //http://en.wikipedia.org/wiki/Same_origin_policy
 
     // A common symptom of this is getting a `xmlhttp.status == 0`.
-/*
-#canvas drawing
-
-  The HTML canvas element was made to be drawn with Javascript and destroy Flash.
-*/
-
-  function canvas_onclick() {
-    var b_canvas = document.getElementById("canvas");
-    var b_context = b_canvas.getContext("2d");
-    b_context.fillRect(50, 25, 150, 100);
-  }
 
 /*
 #use strict
 
- Puts current function on an interpreter mode that warns about common errors.
+  Puts current function on an interpreter mode that warns about common errors.
 
- http://stackoverflow.com/questions/1335851/what-does-use-strict-do-in-javascript-and-what-is-the-reasoning-behind-it
+  http://stackoverflow.com/questions/1335851/what-does-use-strict-do-in-javascript-and-what-is-the-reasoning-behind-it
 */
 
 /*
