@@ -745,7 +745,7 @@ b</code>
 <h1>#pre</h1>
 
   <p>White spaces are taken into consideration when rendering.
-  <p>Can contain anything, including other elements
+  <p>Can contain phrasing content elements
   <p>
     I think that this is a bad tag because it implies style rather than meaning
     and style should be left for CSS, and it can in this case via <code>white-space:pre</code>.
@@ -816,11 +816,13 @@ a
         </ul>
     </ul>
 
-    <form action="http://localhost:8080/" method="post" enctype="multipart/form-data">
-      <input type="text" name="text" value="text default">
-      <input type="file" name="file1">
-      <input type="file" name="file2">
-      <button type="submit">Submit</button>
+    <p>To see what forms do exactly, consider using `nc` or an ECHO server.
+    <p>Multipart form to `localhost:8000`:
+    <form action="http://localhost:8000" method="post" enctype="multipart/form-data" class="border">
+      <p><input type="text" name="text" value="text default">
+      <p><input type="file" name="file1">
+      <p><input type="file" name="file2">
+      <p><button type="submit">Submit</button>
     </form>
 
   <h2>#button</h2>

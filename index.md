@@ -21,6 +21,7 @@ Some Web frontend technologies require libraries to make tests with, and might b
 Less useful cheats:
 
 - [ACE editor](ace.html)
+- [Marked Markdown](marked.html)
 
 # Standards organizations
 
@@ -46,3 +47,11 @@ W3C has several levels of endorsement for standards:
 - REC (Recommendation): highest level, for stable and widely accepted features
 - NOTES:                make small revisions to a standard
 - retired:              standards that have been deprecated
+
+## IETF
+
+Specifies networking protocols, in particular HTTP, which is used at many points of W3C documentation.
+
+Such protocols shall not be covered here.
+
+For an HTTP tutorial see: <https://github.com/cirosantilli/linux/blob/435a180e2104fe82584bec9719d9e45342c535a9/net/http.md>
