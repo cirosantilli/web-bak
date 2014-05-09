@@ -23,10 +23,23 @@
 
     Official language name: ECMA-262
 
-    - v 5.1: 2011. <http://www.ecma-international.org/publications/standards/Ecma-262.htm> 
-    - v 5: 2009
-    - v 4: was aborted
-    - v 3: 1999
+    -   v6
+
+        Aimint at Dec 2014
+
+        Good cheat: <https://github.com/lukehoban/es6features>
+
+    -   v 5.1: 2011.
+
+        Generaly implemented.
+
+        Fully implemented by Google's V8 engine for Chrome and Node.js.
+
+        <http://www.ecma-international.org/publications/standards/Ecma-262.htm> 
+
+    -   v 5: 2009
+    -   v 4: was aborted
+    -   v 3: 1999
 
     This does not include objects which browsers add to Javascript like `document` or `window`.
 
@@ -137,7 +150,6 @@
 -->
   <script src="external.js" async></script>
 
-
 <h1>#events</h1>
 
   <!--
@@ -158,7 +170,11 @@
 
     <div id="onload"></div>
     <div id="window-onload"></div>
-    <script>window.onload = function(){ document.getElementById('window-onload').innerHTML = 'window-onload'; }</script>
+    <script>
+      window.onload = function(){
+        document.getElementById('window-onload').innerHTML = 'window-onload'
+      }
+    </script>
 
   <!--
   #addEventListener
@@ -171,29 +187,22 @@
       document.getElementsByTagName("body")[0].addEventListener(
         'load', // Same as onload, but without `on`.
         function() {
-          document.getElementById('addEventListener').innerHTML = 'addEventListener';
+          document.getElementById('addEventListener').innerHTML = 'addEventListener'
         },
         true
       )
     </script>
 
-  <div id="onclick" style="border:1px solid black;" onclick="onclick_func(event)">onclick. Click here. Click positions: </div>
-  <script>
-    function onclick_func(even) {
-      document.getElementById("onclick").innerHTML += "(" + even.screenX + "," + even.screenY + ") "
-    }
-  </script>
-
   <!--
-  #addEventListener
-
-    Allows to add an unlimited amount of handlers per event. More general than `onload`.
+  #onclick
   -->
 
-<h1>Canvas</h1>
-
-  <canvas id="canvas" width="200" height="100" style="border:1px solid black;"></canvas>
-  <div onclick="canvas_onclick()" class="border">canvas_onclick. Click me!</div>
+    <div id="onclick" style="border:1px solid black;" onclick="onclick_func(event)">onclick. Click here. Click positions: </div>
+    <script>
+      function onclick_func(even) {
+        document.getElementById("onclick").innerHTML += "(" + even.screenX + "," + even.screenY + ") "
+      }
+    </script>
 
 <script>
 /*
@@ -526,6 +535,8 @@
 
     //#multiline strings
 
+      // http://stackoverflow.com/questions/805107/creating-multiline-strings-in-javascript
+
       // More efficient, less sane when changing indentation levels:
 
       assert_eq("a\
@@ -535,6 +546,12 @@
 
       assert_eq("a" +
           "b", "ab")
+
+      // With Js 6 there will be a backtick quoted multiline literal called `NoSubstitutionTemplate`.
+
+      //var htmlString = `Say hello to 
+//multi-line
+//strings!`
 
   //#escape
 
@@ -911,17 +928,40 @@
       document.write('<div id="getAttribute">a<i>b</i>c<i>d</i>e</div>')
       assert_eq(document.getElementById('getAttribute').getAttribute('id'), 'getAttribute')
 
-  /*
-  #canvas drawing
+    //#textarea #onkeypress
 
-    The HTML canvas element was made to be drawn with Javascript and destroy Flash.
-  */
+      document.write(
+        '<h1>#textarea</h1>' +
+        '<textarea id="textarea" onkeypress="textarea_func();">default</textarea>' +
+        '<div id="textarea-value">Textarea value = <span></span></div>'
+      )
+      var textarea = document.getElementById('textarea')
+      var textarea_value_holder = document.getElementById('textarea-value').lastElementChild
+      function textarea_func() {
+        textarea_value_holder.innerHTML = textarea.value
+      }
+      textarea_func()
 
-    function canvas_onclick() {
-      var b_canvas = document.getElementById("canvas");
-      var b_context = b_canvas.getContext("2d");
-      b_context.fillRect(50, 25, 150, 100);
-    }
+      //#onchange
+
+        // Value of input element changed.
+
+    /*
+    #canvas
+
+      The HTML canvas element was made to be drawn with Javascript and destroy Flash.
+    */
+
+      document.write(
+        '<h1>#canvas</h1>' +
+        '<canvas id="canvas" width="200" height="100" style="border:1px solid black;"></canvas>' +
+        '<div onclick="canvas_onclick()" class="border">canvas_onclick. Click me!</div>'
+      )
+      function canvas_onclick() {
+        var b_canvas = document.getElementById("canvas");
+        var b_context = b_canvas.getContext("2d");
+        b_context.fillRect(50, 25, 150, 100);
+      }
 
   //#ready
 

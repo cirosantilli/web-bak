@@ -16,28 +16,39 @@
 </head>
 <body>
 <h1>ACE editor</h1>
+
   <div class='editor' id='basic'>#basic</div>
   <div class='editor' id='vim'>#vim</div>
   <div class='editor' id='theme'>#theme == twilight</div>
   <div class='editor' id='mode'>#mode #language == markdown</div>
-  <div class='editor' id='markdown-preview'>#marked markdown preview</div>
+  <div class='editor' id='markdown-preview-md' style='display:inline-block;'>#marked markdown preview</div>
+  <div class='editor' id='markdown-preview-html' style='display:inline-block; overflow:scroll;'></div>
 
   <script src='ace/build/src/ace.js' type='text/javascript' charset='utf-8'></script>
+  <script src="marked/lib/marked.js"></script>
   <script>
-    var editor = ace.edit('basic');
+    var editor = ace.edit('basic')
 
-    var editor_vim = ace.edit('vim');
-    editor_vim.setKeyboardHandler('ace/keyboard/vim');
+    var editor_vim = ace.edit('vim')
+    editor_vim.setKeyboardHandler('ace/keyboard/vim')
 
-    var editor_theme = ace.edit('theme');
-    editor_theme.setTheme('ace/theme/twilight');
+    var editor_theme = ace.edit('theme')
+    editor_theme.setTheme('ace/theme/twilight')
 
-    var editor_mode = ace.edit('mode');
-    editor_mode.getSession().setMode('ace/mode/markdown');
+    var editor_mode = ace.edit('mode')
+    editor_mode.getSession().setMode('ace/mode/markdown')
 
-    var editor_markdown_preview = ace.edit('markdown-preview');
-    editor_markdown_preview.getSession().setMode('ace/mode/markdown');
-    document.getElementById('window-onload')
+    var editor_markdown_preview = ace.edit('markdown-preview-md')
+    var editor_markdown_preview_html = document.getElementById('markdown-preview-html')
+    var session = editor_markdown_preview.getSession()
+    session.setMode('ace/mode/markdown')
+    session.on('change', function(e) {
+      markdown_preview_update()
+    });
+    function markdown_preview_update() {
+      editor_markdown_preview_html.innerHTML = marked(editor_markdown_preview.getValue())
+    }
+    markdown_preview_update()
   </script>
 </body>
 </html>

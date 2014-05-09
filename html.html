@@ -745,7 +745,8 @@ b</code>
 <h1>#pre</h1>
 
   <p>White spaces are taken into consideration when rendering.
-  <p>Can contain phrasing content elements
+  <p>Can only contain phrasing content elements like span or b.
+  <p>Since it can contain elements, smaller and greater than signs are *not* automatically escaped.
   <p>
     I think that this is a bad tag because it implies style rather than meaning
     and style should be left for CSS, and it can in this case via <code>white-space:pre</code>.
