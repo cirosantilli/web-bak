@@ -21,7 +21,8 @@ Some Web frontend technologies require libraries to make tests with, and might b
 Less useful cheats:
 
 - [ACE editor](ace.html)
-- [Marked Markdown](marked.html)
+- [Marked Markdown browser example](marked.html)
+- [Bower](bower.html)
 
 # Standards organizations
 

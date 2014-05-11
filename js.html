@@ -8,6 +8,8 @@
   Javascript is a toy language designed to run in a browser.
 
   More recently, it has also been used outside of browsers, often server side, through Node.js.
+  This cheat shall consider mostly a world without Nodejs: for a Nodejs cheat see:
+  https://github.com/cirosantilli/nodejs
 
   It can be embedded on the HTML given by the server to the browser inside `script` tags.
   It can also be given in separate `.js` files which are then included in the HTML header.
@@ -46,15 +48,43 @@
     There is currently no readable documentation, and standards are still sloppy on those:
     http://stackoverflow.com/questions/3768606/where-is-the-javascript-dom-api-documented
 
-  #style
+  #Style
 
-    - GitHub style: <https://github.com/styleguide/javascript>
+    -   GitHub style: <https://github.com/styleguide/javascript>
 
-     2 space indent
+        - 2 space indent
+        - no semicolons
 
-    - Google: <http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml>
+    -   Google: <http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml>
 
-     2 space indent
+        2 space indent
+        - semicolons
+
+  #Minification
+
+    Since Javascript is sent to browsers over the network, methods have been developed to make Javascript code smaller:
+
+    #Compression
+
+      compression: compress Javascript with gzip before sending. Notify browser with `Content-Encoding` HTTP header.
+
+    #Minification
+
+      Minification: remove unnecessary characters like whitespaces.
+
+    #Obfuscation
+
+      Rename variables and functions to shorter names, factor things out in ways that are shorter but hard for humans to understand.
+
+    #Concatenation
+
+      Concatenate multiple Js files together.
+
+      OK, not really a form of compression, but serves the same purpose: make things faster,
+      in this case by reducing the number of HTTP requests.
+
+      When writing Javascript code, you must be aware that this can happen, and that it may have consequences.
+      See for example the Semicolon before IIFE pattern.
   -->
   <style>
    .border { border:1px solid black; }
@@ -231,6 +261,8 @@
 
   //#ASI
 
+    // Automatic semicolon insertion.
+
     // In most cases, semicolons are automatically added by the parser at newlines:
 
       var i = 1
@@ -243,16 +275,36 @@
 
     // Operators inhibit ASI to allow programmers to write:
 
-      assert_eq(2, 1
-        + 1)
+      var i = 1 +
+        1
+      assert_eq(i, 2)
 
-    // One important case where inhibition is undesired is for self calling functions, which leads to the semicolon before IIFE pattern.
+      var i = 1
+        + 1
+      assert_eq(i, 2)
 
-    // Because of ASI, many people use a coding style without semicolons, using them only for the exception.
+    // Because of ASI, many people use a coding style without semicolons,
+    // using them only for the only exception: lines that start with parenthesis:
 
-    // Using semicolons is saner because of the complicated exceptions cases, but it is a pain to write semicolons everywhere.
+      var i = 1
+      ;(assert_eq(i, 1))
+
+    // One notable case where this happens is for IIFE scope preservation.
+
+    // Advantages of using semicolons:
+
+      // - slightly saner because you don't have to think if it will be added or not automatically,
+      //     but only slightly because the no insertion rule is intuitive, except for the parenthesis case.
+
+      // - slightly better for framework concatenation and minification,
+      //     but only slightly because good tools should be able to work around that, and the better compression
+      //     method is gzipping it anyways.
 
     // It is a controversial subject which style is better. This is one of the things CoffeScript takes care of.
+
+    // GitHub style says no semicolons. Rationale: <http://mislav.uniqpath.com/2010/05/semicolons/>
+
+    // Google says semicolons. Rationale: <http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Semicolons>
 
 //#comments
 
@@ -542,7 +594,7 @@
       assert_eq("a\
  b", "a b")
 
-      // Less efficient, saner when changing indentation levels:
+      // Less efficient, saner when changing indentation levels, Google style:
 
       assert_eq("a" +
           "b", "ab")
@@ -905,7 +957,16 @@
 
     //#insertBefore
 
-      // Must create an element: cannot insert string directly.
+    document.write('<div>a<span id="insertAdjacentHTML">b</span>c</div>')
+    var inner = document.getElementById('insertAdjacentHTML')
+    inner.insertAdjacentHTML('beforeBegin', ' <b>beforeBegin</b> ')
+    inner.insertAdjacentHTML('afterBegin',  ' afterBegin ')
+    inner.insertAdjacentHTML('beforeEnd',   ' beforeEnd ')
+    inner.insertAdjacentHTML('afterEnd',    ' <b>afterEnd</b> ')
+
+    //#insertBefore
+
+      // Must work with elements: cannot insert string directly.
 
       // TODO what happens when element exists already? Copy?
 
@@ -927,6 +988,12 @@
 
       document.write('<div id="getAttribute">a<i>b</i>c<i>d</i>e</div>')
       assert_eq(document.getElementById('getAttribute').getAttribute('id'), 'getAttribute')
+
+    //#currentScript
+
+      // Get the current script element.
+
+        assert_eq(document.currentScript.parentNode.tagName, 'BODY')
 
     //#textarea #onkeypress
 
@@ -1236,14 +1303,20 @@
 */
 
 /*
-#jquery
+#jQuery
 
-  Ubiquitous Javascript library.
+  Ubiquitous Javascript browser library.
 
   Offers an interface:
 
   - write less, do more
   - more consistent across browsers
+
+  Very good for:
+
+  - DOM
+  - event
+  - AJAX
 */
 
   //#dollar #$
