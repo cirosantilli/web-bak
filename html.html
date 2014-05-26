@@ -637,8 +637,13 @@
       </tr>
     </table>
 
-<h1>semantic HTML5</h1>
+<h1>misc phrasing content tags</h1>
 
+  <p>
+    In the past, some tags were used to indicate format and not semantics.
+    Many were marked obsolete on HTML5 such as `center` in favor of CSS, but some acquired
+    semantic meaning related to the context in which they were most often used in, such as `b` for emphasis.
+  </p>
   <ul>
     <li><mark>#mark</mark>: highlight</li>
     <li><dfn>#dfn</dfn>: definition of a term.</li>
@@ -661,17 +666,13 @@
         <li><mark>#mark Emphasis</mark>: something that is relevant in another context</li>
       </ul>
     </li>
-  </ul>
-
-  <pre>
-    Old format tags. Many were marked obsolete on HTML5 in favor of CSS,
-    but some acquired semantic meaning related to the context in which they were most often used in.
-  </pre>
-  <ul>
     <li><i>#i: italics</i>. Commonly used unofficially by important libraries such as Bootstrap for Icons.</li>
     <li><b>#b: boldface</b>. Emphasis without change of tone.</li>
     <li><small>#small</small> Makes text small. Quoting HTML5: "Small print typically features disclaimers, caveats, legal restrictions, or copyrights. Small print is also sometimes used for attribution, or for satisfying licensing requirements."</li>
+    <li>before<sup>#sup</sup>. Superscript</li>
+    <li>before<sub>#sub</sub>. Subscript.</li>
   </ul>
+
 
 <h1>#obsolete</h1>
 
@@ -736,10 +737,10 @@ b</code></pre>
 
   <p>My preferred solution: just use <code>code</code> and CSS:</p>
 
-  <code style="white-space:pre;display:block">a
+  <code style="white-space:pre; display:block">a
 b</code>
 
-  <code style="white-space:pre;display:block">a
+  <code style="white-space:pre; display:block">a
 b</code>
 
 <h1>#pre</h1>
@@ -886,7 +887,26 @@ a
       <button type="submit">Submit</button>
     </form>
 
-<h1>#MathML</H1>
+  <h2>#spellcheck attribute</h2>
+
+    <p>Determines if the browser will spellcheck and highlight errors or not.</p>
+    <p>Works for:</p>
+    <ul>
+      <li>textarea
+      <li>input
+      <li>contenteditable elements
+    </ul>
+
+    <textarea spellcheck="true">spellcheck=true right wrongg</textarea>
+    <textarea spellcheck="false">spellcheck=false right wrongg</textarea>
+
+  <h2>#contenteditable attribute</h2>
+
+    <p>If true, you can edit the content of the element like for a textarea. Tab cycles through such elements.</p>
+    <p class="border" contenteditable="true">contenteditable=true</p>
+    <p class="border" contenteditable="false">contenteditable=false</p>
+
+<h1>#MathML</h1>
 
   <p>Standard way to represent mathematics.
   <p>Uses an XML like language not suitable for direct user input, not LaTeX.

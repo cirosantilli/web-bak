@@ -22,33 +22,40 @@
   <div class='editor' id='theme'>#theme == twilight</div>
   <div class='editor' id='mode'>#mode #language == markdown</div>
   <div class='editor' id='markdown-preview-md' style='display:inline-block;'>#marked markdown preview</div>
-  <div class='editor' id='markdown-preview-html' style='display:inline-block; overflow:scroll;'></div>
+  <div class='editor' id='markdown-preview-html' style='display:inline-block; overflow:auto;'></div>
+  <div class='editor' id='wrap'>very very very very very very very very very very very very long line</div>
 
   <script src='ace/build/src/ace.js' type='text/javascript' charset='utf-8'></script>
   <script src="marked/lib/marked.js"></script>
   <script>
-    var editor = ace.edit('basic')
+    var editor
 
-    var editor_vim = ace.edit('vim')
-    editor_vim.setKeyboardHandler('ace/keyboard/vim')
+    editor = ace.edit('basic')
 
-    var editor_theme = ace.edit('theme')
-    editor_theme.setTheme('ace/theme/twilight')
+    editor = ace.edit('vim')
+    editor.setKeyboardHandler('ace/keyboard/vim')
 
-    var editor_mode = ace.edit('mode')
-    editor_mode.getSession().setMode('ace/mode/markdown')
+    editor = ace.edit('theme')
+    editor.setTheme('ace/theme/twilight')
 
-    var editor_markdown_preview = ace.edit('markdown-preview-md')
-    var editor_markdown_preview_html = document.getElementById('markdown-preview-html')
-    var session = editor_markdown_preview.getSession()
+    editor = ace.edit('mode')
+    editor.getSession().setMode('ace/mode/markdown')
+
+    editor = ace.edit('markdown-preview-md')
+    preview = document.getElementById('markdown-preview-html')
+    var session = editor.getSession()
     session.setMode('ace/mode/markdown')
     session.on('change', function(e) {
       markdown_preview_update()
     });
-    function markdown_preview_update() {
-      editor_markdown_preview_html.innerHTML = marked(editor_markdown_preview.getValue())
+    var markdown_preview_update = function() {
+      preview.innerHTML = marked(this.editor.getValue())
     }
+    markdown_preview_update.editor = editor
     markdown_preview_update()
+
+    editor = ace.edit('wrap')
+    editor.getSession().setUseWrapMode(true)
   </script>
 </body>
 </html>

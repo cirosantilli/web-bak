@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8"/>
-  <title>css cheat</title>
+  <title>CSS cheat</title>
   <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
 
   <!--
@@ -334,7 +334,7 @@
         <span class="selection-red">Select</span>
         <span class="selection-blue">this text!</span>
 
-    <h3>#content</h3>
+    <h3>#content selector</h3>
 
       <p>
         As of CSS3 it is not possible to select by content:http://stackoverflow.com/questions/1520429/css-3-content-selector.
@@ -520,6 +520,21 @@
       <div class="border" style="width:100px; height:100px; text-align:center; display:table-cell; vertical-align:middle;">center</div>
       <div class="border" style="width:100px; height:100px; text-align:right;  display:table-cell; vertical-align:middle;">right</div>
 
+  <h2>#whitespace</h2>
+
+    <pre>
+              New lines 	Spaces and tabs 	Text wrapping
+    normal 	  Collapse 	  Collapse 	        Wrap
+    pre 	    Preserve 	  Preserve 	        No wrap
+    nowrap 	  Collapse 	  Collapse 	        No wrap
+    pre-wrap 	Preserve 	  Preserve 	        Wrap
+    pre-line 	Preserve 	  Collapse 	        Wrap
+    </pre>
+
+  <h2>#white-space-collapse #bikeshedding</h2>
+
+      <p>TODO
+
   <h2>#background</h2>
 
     <h3>#background-image</h3>
@@ -602,12 +617,17 @@
         <div class="border" style="width:100px; height:100px; border-radius:10px;">10px</div>
         <div class="border" style="width:100px; height:100px; border-radius:50px;">50px</div>
 
-  <h2>#width #height #min-width #max-width #box-sizing</h2>
+  <h2>#width #height #min-width #max-width</h2>
 
-    <div>
-      By default, exclude padding, border and margin.
-      CSS3 introduces the `box-sizing` property, which allows to determine what the width includes.
-    </div>
+    <h3>#box-sizing</h3>
+
+      <p>By default, exclude padding, border and margin.
+      <p>CSS3 introduces the `box-sizing` property, which allows to determine what the width includes.
+      <ul>
+        <li>`border-box`:            include padding and border, *not* margin.
+        <li>`content-box` (default): exclude padding, border and margin.
+      </ul>
+      <p>There seems to be no way of also including the margin.
 
     <div class="border" style="width:5px;">width:5px</div>
     <!--if width > max-width use max-width-->
@@ -681,44 +701,119 @@
 
     <h3>#inline-block</h3>
 
+      <p>div inline-block height:100px:</p>
       <div class="border" style="width:250px;">
         asdf qwer
-        <span class="border" style="display:inline-block; height:100px;">inline-block</span>
+        <div class="border" style="display:inline-block; height:100px;">
+          <b>inline-block</b>
+        </div>
         asdf qwer asdf qwer asdf qwer adsf qwer adsf qwer
       </div>
-
       <div class="border" style="width:250px;">
         asdf qwer asdf qwer asdf qwer
-        <span class="border" style="display:inline-block; height:100px;">inline-block asdf qwer asdf qwer asdf qwer</span>
+        <div class="border" style="display:inline-block; height:100px;">
+          <b>inline-block</b> asdf qwer asdf qwer asdf qwer
+        </div>
         qwer asdf qwer asdf qwer adsf qwer adsf qwer
       </div>
 
-      <p>
-        Empty inline-block with fixed width:when there is no content for the default vertical-align:baseline
-        alignment is done at the bottom of the element:http://stackoverflow.com/questions/8215638/difference-between-baseline-of-empty-and-non-empty-inline-blocks
-      </p>
-      <div class="border" style="width:250px;">asdf <span class="border" style="display:inline-block; width:100px; height:100px;"></span> qwer asdf qwer asdf qwer adsf qwer adsf qwer</div>
+      <p>span inline-block height:100px. No difference from div:</p>
+      <div class="border" style="width:250px;">
+        asdf qwer asdf qwer asdf qwer
+        <div class="border" style="display:inline-block; height:100px;">
+          <b>inline-block</b> asdf qwer asdf qwer asdf qwer
+        </div>
+        qwer asdf qwer asdf qwer adsf qwer adsf qwer
+      </div>
 
-      <p>Empty inline-block with fixed width + vertical-align top:</p>
-      <div class="border" style="width:250px;">asdf <span class="border" style="display:inline-block; width:100px; height:100px; vertical-align:top;"></span> qwer asdf qwer asdf qwer adsf qwer adsf qwer</div>
+      <p>span display:block height:100px. Looks exactly like a `div` without display:
+      <p class="border" style="width:250px;">
+        asdf qwer asdf qwer asdf qwer
+        <span class="border" style="display:block; height:100px;">
+          <b>block</b>
+        </span>
+        qwer asdf qwer asdf qwer adsf qwer adsf qwer
+      </p>
+
+      <h4>Empty inline-block and vertical-align</h4>
+
+        <p>
+          Empty inline-block with fixed `width`: for the default vertical-align:baseline
+          alignment is done at the bottom of the element: http://stackoverflow.com/questions/8215638/difference-between-baseline-of-empty-and-non-empty-inline-blocks
+        </p>
+        <div class="border" style="width:250px;">
+          asdf
+          <span class="border" style="display:inline-block; width:100px; height:100px;"></span>
+          qwer asdf qwer asdf qwer adsf qwer adsf qwer
+        </div>
+
+        <p>Empty inline-block with fixed width + vertical-align top:</p>
+        <div class="border" style="width:250px;">
+          asdf
+          <div class="border" style="display:inline-block; width:100px; height:100px; vertical-align:top;"></div>
+          qwer asdf qwer asdf qwer adsf qwer adsf qwer
+        </div>
+
+      <h4>Space between inline-block elements.</h4>
+
+        <p>Space counts between two inline-block elements.
+        <p>For this reason, two width 50% inline-block elements with a space between them will stack up and not side by side.
+        <p>With space:
+        <div class="border" style="width:250px;">
+          <div class="border" style="box-sizing:border-box; display:inline-block; width:50%;">width:50%</div>
+          <div class="border" style="box-sizing:border-box; display:inline-block; width:50%;">width:50%</div>
+        </div>
+        <p>Without space:
+        <div class="border" style="width:250px;">
+          <div class="border" style="box-sizing:border-box; display:inline-block; width:50%;">width:50%</div><div class="border" style="box-sizing:border-box; display:inline-block; width:50%;">width:50%</div>
+        </div>
+
+        <p>CSS solutions without modifying HTML: http://stackoverflow.com/questions/5078239/how-to-remove-the-space-between-inline-block-elements/5078297#5078297
+        <ul>
+          <li>font-width:0
+          <li>sometimes float left
+          <li>sometimes flex
+        </ul>
+
+    <h3>#flex</h3>
+
+      <p>Very flexible positioning.
+      <p>Still W3C CR.
+      <p>Amazing guide: http://css-tricks.com/snippets/css/a-guide-to-flexbox/
 
     <h3>#table-cell</h3>
+
       <p>Element behaves like a table cell:centered vertically and inline-block like.</p>
       <div class="border" style="width:100px; height:100px; text-align:left;   display:table-cell; vertical-align:middle;">left</div>
       <div class="border" style="width:100px; height:100px; text-align:center; display:table-cell; vertical-align:middle;">center</div>
       <div class="border" style="width:100px; height:100px; text-align:right;  display:table-cell; vertical-align:middle;">right</div>
 
     <h3>#none</h3>
-      <div>Hides the element. It does not occupy any space.</div>
-      <div>a<span style="display:none;">bcd</span>e</div>
+
+      <div>
+        Hides the element. It does not occupy any space.
+        Before display none span.
+        <span style="display:none;">Inside display none span.</span>
+        After display none span.
+      </div>
+
+  <h2>#visibility</h2>
+
+    <p>
+      #hidden: occupies space but is invisible.
+      Before hidden span.
+      <span style="visibility:hidden;">Inside hidden span.</span>
+      After hidden span.
+    </p>
 
   <h2>#float #clear</h2>
-    <p>
-      Makes elements move horizontally as much as possible until they find:
-      - the parent container
-      - another floating element
-      - an element with clear
-    </p>
+
+    <p>Makes elements move horizontally as much as possible until they find:
+    <ul>
+      <li>the parent container</li>
+      <li>another floating element</li>
+      <li>an element with clear</li>
+    </ul>
 
     <div class="border wide">
       <span class="border">before</span>
@@ -726,12 +821,12 @@
       <span class="border red-back">after</span>
     </div>
 
-    <p>
-      - Even the content of block elements are displaced by a floating element. 
-      - Only elements that come after the block are displaced.
-      - The actual block element still occupies the same position.
-      - Only elements up to the height of the float are affected.
-    </p>
+    <ul>
+      <li>Even the content of block elements are displaced by a floating element.</li>
+      <li>Only elements that come after the block are displaced</li>
+      <li>The actual block element still occupies the same position</li>
+      <li>Only elements up to the height of the float are affected</li>
+    </ul>
     <div class="border wide">
       <div class="border">before</div>
       <div class="border" style="float:left;">float left</div>

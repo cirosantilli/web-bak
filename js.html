@@ -21,9 +21,9 @@
   Javascript is known for having some weird quircks. CoffeScript, a language that compiles to Javascript
   but behaves more like Ruby, attempts to correct many of those quirks.
 
-  #standards
+  #standards #ECMAScript
 
-    Official language name: ECMA-262
+    Official language name: ECMA-262, or ECMAScript.
 
     -   v6
 
@@ -34,6 +34,8 @@
     -   v 5.1: 2011.
 
         Generaly implemented.
+
+        Often abbreviated to ES5.
 
         Fully implemented by Google's V8 engine for Chrome and Node.js.
 
@@ -97,6 +99,8 @@
 </head>
 <body onload="document.getElementById('onload').innerHTML = 'onload'">
 
+<h1 id="all-asserts-passed" style="display:none;">All asserts passed.</h1>
+
 <!--
 #script location
 
@@ -130,8 +134,20 @@
       throw err
     }
   }
+
+  function assert_neq(actual, expect) {
+    if (actual === expect) {
+      document.write("<h1>ASSERT FAILED</h1>")
+      var err = new Error('AssertFailed')
+      document.write("<pre>" + err.stack + "</pre>")
+      document.write("<pre>actual = " + actual + "\nexpect = " + expect + "</pre>")
+      throw err
+    }
+  }
+
   assert_eq(0, 0)
   //assert_eq(0, 1)
+  assert_neq(0, 1)
 </script>
 
 <!--
@@ -246,20 +262,20 @@
   After HTML5 js became the default, so the attribute is not needed anymore.
 */
 
-//#exit
+// #exit
 
   // Stop interpreting the current script block now.
 
     //exit()
 
-//#semicolon #;
+// #semicolon #;
 
   // Separates statements.
 
     var i = 1; i = 2;
     assert_eq(i, 2);
 
-  //#ASI
+  // #ASI
 
     // Automatic semicolon insertion.
 
@@ -271,7 +287,7 @@
 
     // There are a few complex cases however.
 
-    // http://inimino.org/~inimino/blog/javascript_semicolons
+    // <http://inimino.org/~inimino/blog/javascript_semicolons>
 
     // Operators inhibit ASI to allow programmers to write:
 
@@ -291,6 +307,13 @@
 
     // One notable case where this happens is for IIFE scope preservation.
 
+    // TODO why are semicolons are not required are in single line functions:
+
+      var f = function() { return 0 }
+      assert_eq(f(), 0)
+      // Instead of:
+      var f = function() { return 0; }
+
     // Advantages of using semicolons:
 
       // - slightly saner because you don't have to think if it will be added or not automatically,
@@ -306,7 +329,7 @@
 
     // Google says semicolons. Rationale: <http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Semicolons>
 
-//#comments
+// #comments
 
   // Like C++.
 
@@ -316,7 +339,7 @@
       line.
      */
 
-//#case
+// #case
 
   // Javascript is case sensitive
 
@@ -346,43 +369,194 @@
     var ᾏ = 1
     assert_eq(ᾏ, 1)
 
-//#comma operator
+// #operators
 
-   i = 1, j = 2
-   assert_eq(i, 1)
-   assert_eq(j, 2)
+  // #tilde operator #~
 
-//#var
+    // Binary negation.
 
-  // Create a new variable in current scope instead of using existing variables in outer scopes.
+    // Common application: transform `-1` into `0` on `indexOf` (jQuery `inArray`).
 
-  // It is a good practice to always use var, unless you explicitly expect the variable
-  // to refer to something on the outer scope.
+    // Works because number representation is fixed at 2's complement and in that case:
 
-    function incr_var() {
-      var i, j
-      i += 1
-      j += 1
-    }
+    // - ~-1 == 0
+    // - there is no other number such that ~x == 0.
 
-    function incr_novar() {
-      i += 1
-      j += 1
-    }
+      assert_eq(~-1,  0)
+      assert_eq(~ 0, -1)
 
-    i = 0
-    j = 10
-    incr_var()
-    assert_eq(i, 0)
-    assert_eq(j, 10)
+  // #comma operator
 
-    i = 0
-    j = 10
-    incr_novar()
+    i = 1, j = 2
     assert_eq(i, 1)
-    assert_eq(j, 11)
+    assert_eq(j, 2)
 
-//#undefined
+  // #boolean
+
+// #if
+
+    if (false) {
+      assert(false)
+    } else {
+    }
+
+    if (true) {
+    } else {
+      assert(false)
+    }
+
+  // Like Python, some objects are converted to true, others to false.
+
+  // Only the following are false:
+
+    if (0) {
+      assert(false)
+    } else {
+    }
+
+    if ("") {
+      assert(false)
+    } else {
+    }
+
+    if (null) {
+      assert(false)
+    } else {
+    }
+
+    if (undefined) {
+      assert(false)
+    } else {
+    }
+
+    if (NaN) {
+      assert(false)
+    } else {
+    }
+
+  // All others are true.
+
+    if (-1) {
+    } else {
+      assert(false)
+    }
+
+    if (1) {
+    } else {
+      assert(false)
+    }
+
+    if ("a") {
+    } else {
+      assert(false)
+    }
+
+    if ([]) {
+    } else {
+      assert(false)
+    }
+
+// #for
+
+  // C like:
+
+    var total = 0
+    for (var i = 0; i < 3; i++) {
+      total += i
+    }
+    assert_eq(total, 3)
+
+  // For in: iterates over **object properties**!
+
+    var total = 0
+    var obj = {'a': 1, 'b': 2}
+    for (var x in obj) {
+      total += obj[x]
+    }
+    assert_eq(total, 3)
+
+// #continue
+
+// #break
+
+  // Both have a label and label-less form.
+
+  // Label-less form is the same as C.
+
+  // break:    without label only inside loops, with valid in any code block.
+  // continue: with or without label only inside loops.
+
+    var total = 0;
+    for (var i = 0; i < 3; i++) {
+      if (i == 1)
+        continue
+      total += i
+    }
+    assert_eq(total, 2)
+
+  // TODO understand label form. Good examples: <http://www.tutorialspoint.com/javascript/javascript_loop_control.htm>.
+
+// #primitive types // #mutable #immutable
+
+  // <http://javascriptweblog.wordpress.com/2010/09/27/the-secret-life-of-javascript-primitives/>
+
+  // There are 5 primitive types in Javascript:
+
+  // - undefined
+  // - null
+  // - boolean
+  // - string
+  // - number
+
+  // Everything else is an object.
+
+  // Of the primitive types, `boolean`, `string` and `number` have corresponding Object wrappers: Boolean, String.
+
+  // This is so to allow to simulate the property syntax to those primitive types.
+
+  // You can however get the original object through `#valueOf`
+
+  // Types are as follow:
+
+    //typeof true;                          //"boolean"
+    //typeof Boolean(true);                 //"boolean"
+    //typeof new Boolean(true);             //"object"
+    //typeof (new Boolean(true)).valueOf(); //"boolean"
+
+  // This implies that:
+
+    assert_eq(0, Number(0))
+    assert_eq(0, new Number(0).valueOf())
+    assert_neq(typeof(0), new Number(0))
+
+  // Unlike objects, primitives have no properties.
+
+  // Javascript does implicit coercion between primitives and corresponding types
+  // whenever you try access a property of a primitive:
+
+    assert_eq('abc'.length, 3)
+
+  // This creates a String object for a moment, returns the `length`, and then garbage collection kills it.
+
+  // This means that it is not possible to modify a primitive, and the modification happens on the coerced object instead:
+
+    a = 0
+    a.b = 1
+    assert_eq(a.b, undefined)
+
+  // Operators behave as expected on primitives. In particular,
+  // `===` compares their values, not addresses, so for primitives it works as naively expected:
+
+    assert(true  === true)
+    assert(0     === 0)
+    assert('abc' === 'abc')
+
+  // while it fails for objects, where address is considered:
+
+    assert([] !== [])
+    assert({} !== {})
+
+// #undefined
 
   // There is an undefined constant.
 
@@ -393,7 +567,7 @@
 
     //not_yet_defined
 
-  // Before JS5, it was possible to redefine `undefined`, so the safest way to check for undefined is via typeof:
+  // Before ES5, it was possible to redefine `undefined`, so the safest way to check for undefined is via typeof:
 
     var not_yet_defined
     // Safe all versions:
@@ -401,40 +575,484 @@
     // Safe starting from JS5:
     assert_eq(not_yet_defined, undefined)
 
-//#null
+// #null
 
-  // Null vs unefined: <http://stackoverflow.com/questions/801032/why-is-null-an-object-and-whats-the-difference-between-null-and-undefined>
+  // Null vs undefined: <http://stackoverflow.com/questions/801032/why-is-null-an-object-and-whats-the-difference-between-null-and-undefined>
 
-//#if
+// #floating point
 
-    if (false) {
-      assert(false)
-    }
+  // Also numbers:
 
-    if (true) {
-      assert(true)
-    }
+    assert_eq(typeof(0), typeof(0.5))
 
-//#for
+// #string
 
-  // C like:
+    var s = "abc"
+    var s = 'abc'
+    var s = "\n"
+    var s = '\n'
+    assert_eq("\n", '\n')
+    var s = "'"
+    var s = '"'
 
-    var total = 0
-    for (var i = 0; i < 3; i++) {
-      total += i
-    }
-    assert_eq(total, 3)
+  // #compare
 
-  // For in: iterates over **object properties**! Not array elements. Use explicit index for that.
+    // Strings are immutable, therefore comparison works as expected:
 
-    var total = 0
-    var obj = {'a': 1, 'b': 2}
-    for (var x in obj) {
-      total += obj[x]
-    }
-    assert_eq(total, 3)
+      assert_eq('a', 'a')
 
-//#function
+  // #multiline strings
+
+    // http://stackoverflow.com/questions/805107/creating-multiline-strings-in-javascript
+
+    // More efficient, less sane when changing indentation levels:
+
+      assert_eq("a\
+ b", "a b")
+
+    // Less efficient, saner when changing indentation levels, Google style:
+
+      assert_eq("a" +
+          "b", "ab")
+
+    // With Js 6 there will be a backtick quoted multiline literal called `NoSubstitutionTemplate`.
+
+    //var htmlString = `Say hello to 
+//multi-line
+//strings!`
+
+  // #escape
+
+    // URL encode:
+
+      assert_eq(escape(" "), "%20")
+      assert_eq(unescape(escape(" ")), " ")
+
+  // #replace
+
+    // Perl-like regex replace
+
+      assert_eq("a0ba1b".replace(/a(.)b/g, "$1"), "01")
+
+  // #concat #+
+
+    // Creates new string that is the concatenation of two others.
+
+      var s = "a"
+      assert_eq(s + "b", "ab")
+      assert_eq(s, "a")
+
+      var s = "a"
+      assert_eq(s.concat("b"), "ab")
+      assert_eq(s, "a")
+
+      assert_eq("a".concat("b").concat("c"), "abc")
+
+  // #lower #upper
+
+      assert_eq('ab'.toUpperCase(), 'AB')
+      assert_eq('AB'.toLowerCase(), 'ab')
+
+// #dict #map #class
+
+  // Everything except the few primitives types are objects.
+
+  // There is no dict in JavaScript, but objects behave just like dicts.
+  // This is an interesting design choice, since Objects in languages such as Python or Ruby
+  // behave much like maps, so why not remove them entirely?
+
+  // Classes don't exist in Javascript: they are more of a design pattern with a little
+  // syntax support than an integral part of the language.
+
+  // #sources
+
+    // - http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/
+    // - http://stackoverflow.com/questions/572897/how-does-javascript-prototype-work
+
+  // #attributes #[] #.
+
+    // Attributes can be accessed either via `.` or `[]`.
+
+    // `[]` is more flexible, as it can take any string,
+    // while `.` can only take attributes that follow certain rules
+    // (TODO which), including not starting with digits.
+
+      var o = {a:0, 'b':1, 2:2}
+
+      assert_eq(o.a,    0)
+      assert_eq(o['a'], 0)
+
+      assert_eq(o.b,    1)
+      assert_eq(o['b'], 1)
+
+    // ERROR: attribute cannot start with digit for dot `.` notation.
+
+      //assert_eq(o.2, 2)
+
+      assert_eq(o[2],   2)
+      assert_eq(o['2'], 2)
+
+    // #attribute lookup order
+
+      // 1) Look in properties of object defined with `defineProperty`.
+      // 2) If not found, look at [[Prototype]] attributes.
+      // 3) If not found, look at [[Prototype]].[[Prototype]] attributes, and so on, until `null` if found.
+      //     In that case, return `undefined`.
+
+  // #Object #Object.create
+
+    // Low level object operations.
+
+    // It is a function like any other "class":
+
+      assert_eq(typeof(Object), 'function')
+
+    // Simplest object:
+
+      var o = Object.create(null)
+
+    // The argument is the prototype:
+
+      assert_eq(Object.getPrototypeOf(o), null)
+
+    // Define some properties:
+
+      Object.defineProperty(o, 'x', {
+        value: 1,
+        writable: true,
+        enumerable: true,
+        configurable: true
+      })
+
+    // Exact same as above: defaults writeable, enumerable and configurable to true.
+
+      o.y = 2
+
+    // Can also set it to a function.
+
+      o.sum = function() {
+        return this.x + this.y
+      }
+
+      var o2 = Object.create(o)
+      assert_eq(Object.getPrototypeOf(o2), o)
+
+      o2.x = 11
+
+      assert_eq(o.x, 1)
+      assert_eq(o.y, 2)
+      assert_eq(o.sum(), 3)
+      assert_eq(o2.x, 11)
+      assert_eq(o2.y, 2)
+
+      assert_eq(o.z, undefined)
+
+  // #prototype #[[Prototype]]
+
+    // Exists to allow inheritance-like constructs.
+
+    // There are two *distinct* things called prototype:
+
+    // - a public `prototype` attribute, as in `[].prototype`.
+    //
+    // - an inaccessible one, called an "Object Internal Property and Methods" on section 8.6.2 of ES5,
+    //     and denoted [[Prototype]] in the standard. Firefox makes this property visible through `__proto__`,
+    //     but this is not mentioned in the standard.
+    //
+    //     This is the one used for the property lookup.
+
+    // The relationship between them is:
+    // when an object is constructed, the object's `[[Prototype]]` is set to `obj.prototype`.
+
+    // When you do:
+
+      var F = function() {}
+      var f = new F()
+
+    // You get:
+
+      /*
+      (Function)       (  F  )                                      (f)
+       |                | | ^                                        |
+       |                | | |                                        |
+       |                | | +-------------------------+              |
+       |                | |                           |              |
+       |                | +--------------+            |              |
+       |                |                |            |              |
+       |                |                |            |              |
+       |[[Prototype]]   |[[Prototype]]   |prototype   |constructor   |[[Prototype]]
+       |                |                |            |              |
+       |                |                |            |              |
+       |                |                | +----------+              |
+       |                |                | |                         |
+       | ---------------+                | | +-----------------------+
+       | |                               | | |
+       v v                               v | v
+      (Function.prototype)              (F.prototype)
+       |                                 |
+       |                                 |
+       |[[Prototype]]                    |[[Prototype]]
+       |                                 |
+       |                                 |
+       | +-------------------------------+
+       | |
+       v v
+      (Object.prototype)
+       ^ | |
+       | | |
+       | | +---------------------------+
+       | |                             |
+       | +--------------+              |
+       |                |              |
+       |                |              |
+       |[[Prototype]]   |constructor   |prototype
+       |                |              |
+       |                |              |
+       |                + -------------+
+       |                | |
+       |                v |
+      (null)           (Object)
+      */
+
+    // The chain ends at:
+
+      assert_eq(Object.getPrototypeOf(Object.prototype), null)
+      assert_eq(Object.getPrototypeOf(F), Function.prototype)
+      assert_eq(Object.getPrototypeOf(F.prototype), Object.prototype)
+      assert_eq(Object.getPrototypeOf(f),  F.prototype)
+      assert_eq(Object.getPrototypeOf({}), Object.prototype)
+
+    // #constructor
+
+      // The constructor of every function is a function.
+
+        assert_eq(Object.constructor, Function)
+        assert_eq(typeof(Object), 'function')
+        assert_eq(Function.constructor, Function)
+        assert_eq(typeof(Function), 'function')
+        assert_eq(Array.constructor, Function)
+        assert_eq(typeof(Array), 'function')
+        assert_eq(F.constructor, Function)
+        assert_eq(typeof(F), 'function')
+
+      // constructor is not automatically found on new objects, but rather found by lookup.
+
+        // `constructor` comes from `F.prototype`.
+        assert(!f.hasOwnProperty('constructor'))
+        assert(!F.hasOwnProperty('constructor'))
+        assert_eq(f.constructor, F)
+        assert_eq({}.constructor, Object)
+        assert(F.prototype.hasOwnProperty('constructor'))
+
+      // Unless you hack things up, `prototype.constructor` returns to the object itself.
+
+        assert_eq(Object.prototype.constructor,   Object)
+        assert_eq(Array.prototype.constructor,    Array)
+        assert_eq(Function.prototype.constructor, Function)
+        assert_eq(F.prototype.constructor,        F)
+
+    // prototype is not automatically set set on new objects:
+
+      assert_eq(f.prototype,  undefined)
+      assert_eq({}.prototype, undefined)
+
+    // If you modify the prototype without making it a new object, you can add new
+    // properties to all objects that have it as [[Property]]:
+
+      F.prototype.a = 1
+      assert_eq(f.a, 1)
+
+    // BAD This is also possible if you set prototype itself to be another object.
+    // But don't do that, as automatically set properties like `constructor` will
+    // get weird values.
+
+      var F = function() {}
+      F.prototype = {a:1}
+      var f = new F()
+      assert_eq(f.a, 1)
+      // Not F! Because constructor used to come from `F.prototype`,
+      // and now it comes from Object.prototype because {}.__proto__ == Object.prototype.
+      assert_eq(f.constructor, Object)
+
+    // #getPrototypeOf #__proto__
+
+      // `Object.getPrototypeOf` returns the `[[Prototype]]`.
+
+      // `__proto__` is a de facto standard which does the same, but is not in ES5.
+
+      // Same as `obj.constructor.prototype`: <http://stackoverflow.com/questions/8024879/is-object-getprototypeof-same-as-object-constructor-prototype-in-javascript>
+
+        assert_eq(Object.getPrototypeOf([]), [].constructor.prototype)
+        assert_eq([].constructor, Array)
+
+  // #Object Literals
+
+      var o = {x:0, y:1}
+
+    // Is the same as:
+
+      //var o = Object.create(Object.prototype);
+      //o.x = 0
+      //o.y = 1
+
+    // This means that the object literal "inherits" from the same class as Object,
+    // and gets many of its useful methods.
+
+    // Proof:
+
+      assert_eq(o.x, 0)
+      assert_eq(o.y, 1)
+      assert_eq(Object.getPrototypeOf(o), Object.prototype)
+
+  // #Object.prototype
+
+    // Since literals have this prototype, its methods are shared amongst most objects.
+
+      assert_eq(typeof(Object.prototype), 'object')
+      assert_eq(Object.prototype.constructor, Object)
+
+    // Methods of Object.prototype include:
+
+    // #hasOwnProperty
+
+      // Check if an object has a property.
+
+      // Does not look up on prototypes.
+
+        o = {a:0}
+        o2 = Object.create(obj)
+        o2.b = 1
+        assert(!o2.hasOwnProperty('a'))
+        assert( o2.hasOwnProperty('b'))
+
+  // #new
+
+      var C = function(x, y) {
+        this.x = x
+        this.y = y
+      }
+
+      C.prototype.sum = function() { return this.x + this.y }
+
+    // This is what `new` does:
+
+      function newObject(func) {
+        var args = Array.prototype.slice.call(arguments, 1)
+        var object = Object.create(func.prototype)
+        func.apply(object, args)
+        return object
+      }
+
+      var o = newObject(C, 1, 2)
+      assert_eq(o.x,     1)
+      assert_eq(o.sum(), 3)
+      assert_eq(Object.getPrototypeOf(o), C.prototype)
+      // TODO where is the constructor set?
+      assert_eq(o.constructor, C)
+      assert_eq(typeof(o), 'object')
+      assert_eq(typeof(C), 'function')
+
+    // Objects are separate:
+
+      var o2 = new C(2, 2)
+      assert_eq(o2.x, 2)
+      assert_eq(o.x,  1)
+
+    // Same with new:
+
+      var C = function(x, y) {
+        this.x = x
+        this.y = y
+      }
+
+      C.prototype.sum = function() { return this.x + this.y }
+
+      var o = new C(1, 2)
+      assert_eq(o.x,     1)
+      assert_eq(o.sum(), 3)
+      assert_eq(Object.getPrototypeOf(o), C.prototype)
+      assert_eq(o.constructor, C)
+      assert_eq(typeof(o), 'object')
+      assert_eq(typeof(C), 'function')
+
+    // Objects are separate:
+
+      var o2 = new C(2, 2)
+      assert_eq(o2.x, 2)
+      assert_eq(o.x,  1)
+
+  // #this
+
+    // Gets different values depending on the context in which it is called.
+
+    // On the "global" scope inside a browser or inside a global function, `this` is the `window` object.
+
+      assert_eq(this, window)
+
+      var f = function() {
+        assert_eq(this, window)
+      }
+      f()
+
+    // Inside methods and constructors, it refers to the object.
+
+      var F = function() { this.a = 1 }
+      F.prototype.m = function() { return 2 }
+      var f = new F()
+      assert_eq(f.a, 1)
+      assert_eq(f.m(), 2)
+
+    // `call` and `apply` can change the `this` for a function call.
+
+  // #object oriented patterns
+
+    // Now that you understand the internals, here are the patterns.
+
+    // #instance methods and variables
+
+      // The standard way to write C++ class-like constructs is via functions + new.
+      // http://stackoverflow.com/questions/13190097/whats-the-best-way-to-create-javascript-classes?lq=1
+
+        var C = function(i) {
+          // Instance variable.
+          this.i = i
+
+          // Method. BAD: uses more memory as each instance gets one.
+          this.geti = function() {
+            return this.i
+          }
+        }
+
+        // Method. GOOD.
+        C.prototype.inci = function() {
+          this.i += 1
+        }
+
+        c = new C(0)
+        d = new C(10)
+
+        assert_eq(c.i, 0)
+        assert_eq(c.geti(), 0)
+        c.inci()
+        assert_eq(c.geti(), 1)
+
+        assert_eq(d.i, 10)
+        assert_eq(d.geti(), 10)
+        d.inci()
+        assert_eq(d.geti(), 11)
+
+      // TODO: geti inside vs prototype.inci outside, which is the best?
+
+    // #extend #inheritance
+
+      // TODO
+
+        d0 = {a:0,  b:1}
+        d1 = {a:10, c:2}
+        d2 = {a:20, d:3}
+        //assert_eq(d0.extend(d1, d2), {a:20, b:1, c:2, d:3})
+
+// #function
 
   // Return is optional:
 
@@ -447,7 +1065,7 @@
     assert_eq(maybe_return(true),  0)
     assert_eq(maybe_return(false), undefined)
 
-  //#redefine function. ##`function f() vs var f = function()`
+  // #redefine function. ##`function f() vs var f = function()`
 
     // http://stackoverflow.com/questions/336859/var-functionname-function-vs-function-functionname
 
@@ -473,7 +1091,7 @@
       var f = function() {}
       assert_eq(f.name,  '')
 
-  //#default positional arguments
+  // #default positional arguments
 
     // Default positional arguments don't exist, but can be emulated using undefined check:
 
@@ -488,18 +1106,18 @@
 
   //TODO named arguments?
 
-  //#call
+  // #call
 
     // Call a function.
 
     // Allows to change the value of this via the first parameter.
 
-    var f = function(x, y) { return this.x + x + y + 1; }
-    assert_eq(f.call({x: 100}, 0, 10), 111)
+      var f = function(x, y) { return this.x + x + y + 1; }
+      assert_eq(f.call({x: 100}, 0, 10), 111)
 
     // Use cases for explicit call: http://stackoverflow.com/questions/9001830/the-reason-to-use-js-call-method
 
-  //#apply
+  // #apply
 
     // vs call: http://stackoverflow.com/questions/1986896/what-is-the-difference-between-call-and-apply
 
@@ -516,20 +1134,20 @@
     var vf = f
     assert_eq(vf(), 1)
 
-  //#anonymous function
+  // #anonymous function
 
     var f = function() {return 1}
     assert_eq(f(), 1)
 
-    //#self invoking anonymous function
+    // #self invoking anonymous function
 
       // Defined the function and call itself immediately:
 
         assert_eq((function(x) {return x + 1}(1)), 2)
 
-      // Major use case: 
+      // Major use case: run code inside a new isolated scope.
 
-  //call before definition #hoisting
+  // Call before definition #hoisting
 
     // Unlike variables, functions can be defined after usage.
 
@@ -553,14 +1171,93 @@
         return 1
       }
 
-  //#immediately invoked function expression #IIFE
+  // #pass by reference #pass by value
+
+    // <http://stackoverflow.com/questions/518000/is-javascript-a-pass-by-reference-or-pass-by-value-language>
+
+    // Like Python:
+
+  // #var
+
+    // Create a new variable in current scope instead of using those variables as part of a closure if they exist outside.
+
+    // It is a good practice to always use var, unless you explicitly expect the variable
+    // to refer to something on the outer scope.
+
+      var incr_var = function() {
+        var i, j
+        i += 1
+        j += 1
+      }
+
+      var incr_novar = function() {
+        i += 1
+        j += 1
+      }
+
+      i = 0
+      j = 10
+      incr_var()
+      assert_eq(i, 0)
+      assert_eq(j, 10)
+
+      i = 0
+      j = 10
+      incr_novar()
+      assert_eq(i, 1)
+      assert_eq(j, 11)
+
+  // #number of #arguments
+
+    // Any number of arguments can be passed to a function.
+
+    // If less arguments are passed on the call than on the definition, missing args are `undefined`.
+
+    // The `arguments` variable can be used to access any of the passed arguments.
+
+      var f = function(a, b) {
+        assert_eq(arguments[0], a)
+        assert_eq(arguments[1], b)
+        return {a:a, b:b, c:arguments[2]}
+      }
+      assert_eq(f(0).a,       0)
+      assert_eq(f(0).b,       undefined)
+      assert_eq(f(0).c,       undefined)
+      assert_eq(f(0, 1).a,    0)
+      assert_eq(f(0, 1).b,    1)
+      assert_eq(f(0, 1).c,    undefined)
+      assert_eq(f(0, 1, 2).a, 0)
+      assert_eq(f(0, 1, 2).b, 1)
+      assert_eq(f(0, 1, 2).c, 2)
+
+    // `arguments` is an Array like object. It is not however an actual Array. It only contains the following properties:
+
+    // - callee.
+    // - caller. Obsolete.
+    // - length.
+
+      var f = function() {
+        assert_eq(arguments.length, 2)
+        // TODO
+        //assert_eq(arguments.callee, this)
+      }
+      f(0, 1)
+
+    // To convert `arguments` to an Array use the following idiom:
+
+      var f = function() {
+        return Array.prototype.slice.call(arguments, 0).sort()
+      }
+      assert_eq(f(1, 0)[0], 0)
+
+  // #immediately invoked function expression #IIFE
 
     // Very common design pattern in which all the contents of a js file are contained inside a self invoked function
     // to reduce namespace conflicts when everything is concatenated inside the browser.
 
       //http://en.wikipedia.org/wiki/Immediately-invoked_function_expression
 
-  //#semicolon before IIFE
+  // #semicolon before IIFE
 
     // http://stackoverflow.com/questions/7365172/semicolon-before-self-invoking-function
 
@@ -575,192 +1272,161 @@
       (function(){})()
       //(function(){})()
 
-//#string
+  // #closure
 
-    var s = "abc"
-    var s = 'abc'
-    var s = "\n"
-    var s = '\n'
-    assert_eq("\n", '\n')
-    var s = "'"
-    var s = '"'
+    // Function + variables taken from its context.
 
-    //#multiline strings
+    // <http://stackoverflow.com/questions/111102/how-do-javascript-closures-work>
 
-      // http://stackoverflow.com/questions/805107/creating-multiline-strings-in-javascript
+    //add1 and add2 are closures. The value of x is part of the closure.
 
-      // More efficient, less sane when changing indentation levels:
-
-      assert_eq("a\
- b", "a b")
-
-      // Less efficient, saner when changing indentation levels, Google style:
-
-      assert_eq("a" +
-          "b", "ab")
-
-      // With Js 6 there will be a backtick quoted multiline literal called `NoSubstitutionTemplate`.
-
-      //var htmlString = `Say hello to 
-//multi-line
-//strings!`
-
-  //#escape
-
-    // URL encode:
-
-      assert_eq(escape(" "), "%20")
-      assert_eq(unescape(escape(" ")), " ")
-
-  //#replace
-
-    // Perl-like regex replace
-
-      assert_eq("a0ba1b".replace(/a(.)b/g, "$1"), "01")
-
-  //#concat #+
-
-    // Creates new string that is the concatenation of two others.
-
-      var s = "a"
-      assert_eq(s + "b", "ab")
-      assert_eq(s, "a")
-
-      var s = "a"
-      assert_eq(s.concat("b"), "ab")
-      assert_eq(s, "a")
-
-      assert_eq("a".concat("b").concat("c"), "abc")
-
-  //#concat
-
-    // Modify string inline.
-
-      var s = "a"
-      s += "b"
-      assert_eq(s, "ab")
-
-  //#lower #upper
-
-      assert_eq("ab".toUpperCase(), "AB")
-      assert_eq("AB".toLowerCase(), "ab")
-
-//#array
-
-  var a = new Array(0, 1, "a")
-  assert_eq(a.length, 3)
-  assert_eq(a[0], 0)
-  assert_eq(a[2], "a")
-
-//#dict #map #object #class
-
-  // There is no dict in JavaScript, but objects behave just like dicts.
-
-  // This is an interesting design choice, since Objects in languages such as Python or Ruby
-  // behave much like maps, so why not remove them entirely?
-
-  // Attributes can be accessed either via `.` or `[]`.
-
-  // `[]` is more flexible, as it can take any string,
-  // while `.` can only take attributes that follow certain rules
-  // (TODO which), including not starting with digits.
-
-    var o = {a:0, "b":1, 2:2}
-
-    assert_eq(o.a,    0)
-    assert_eq(o['a'], 0)
-
-    assert_eq(o.b,    1)
-    assert_eq(o['b'], 1)
-
-  // ERROR: attribute cannot start with digit for dot `.` notation.
-
-    //assert_eq(o.2, 2)
-
-    assert_eq(o[2],   2)
-    assert_eq(o['2'], 2)
-
-  //#create class
-
-    // The standard way to write C++ class like constructs is TODO http://stackoverflow.com/questions/13190097/whats-the-best-way-to-create-javascript-classes?lq=1
-
-      var C = function(i) {
-        this.i = i
-        this.geti = function() {
-          return this.i
-        }
-        this.inci = function() {
-          this.i += 1
+      var makeAdder = function(x) {
+        return function(y) {
+          return x + y
         }
       }
+      var add1 = makeAdder(1)
+      var add2 = makeAdder(2)
+      assert_eq(add1(3), 4)
+      assert_eq(add2(3), 5)
 
-      c = new C(0)
-      assert_eq(c.i, 0)
-      assert_eq(c.geti(), 0)
-      c.inci()
-      assert_eq(c.geti(), 1)
+    // The closure can modify its variable.
 
-  //#prototype
+      var makeIncrementer = function() {
+        var x = 0
+        return function() {
+          x++
+          return x
+        }
+      }
+      var incrementer1 = makeIncrementer()
+      var incrementer2 = makeIncrementer()
+      assert_eq(incrementer1(), 1)
+      assert_eq(incrementer1(), 2)
+      // Each closure has a different version of the variable.
+      assert_eq(incrementer2(), 1)
+      assert_eq(incrementer2(), 2)
 
-    // TODO perfectly understand the object model.
+    // Every function is a closure, but for functions defined outside functions it is not possible to notice it.
 
-    //http://stackoverflow.com/questions/572897/how-does-javascript-prototype-work
+// #= #assignment operator
 
-      var Person = function(name) {
-          this.name = name
-      };
+  // Variables contain address of data.
+  // `=` always takes the address of the data on the right and sets it to the variable on the left.
+  // Integers like `0` and `1` *do* have a single (because immutable) address in Javascript.
 
-      Person.prototype.getName = function() {
-          return this.name
-      };
+    var a = 0
+    var b = a
+    b = 1
+    assert_eq(a, 0)
 
-      var john = new Person("John")
+    var a = [0]
+    var b = a
+    b[0] = 1
+    assert_eq(a[0], 1)
 
-      assert_eq(john.getName(), "John")
+    var a = [[0]]
+    var b = a
+    b[0][0] = 1
+    assert_eq(a[0][0], 1)
 
-  //#this
+// #array #[]
 
-    // This can be used inside function to refer to the owner object:
+    var a = [0, 'a']
+    assert_eq(a.length, 2)
+    assert_eq(a[0], 0)
+    assert_eq(a[1], 'a')
 
-    // - on the "global" scope inside a browser, this is the window object. It is therefore `null` on Node.js.
+  // Arrays are *not*:
+  //
+  // - contiguous chunks of data like in C
+  //     They could never be contiguous because their objects can have different sizes.
+  //
+  // - lists like in Python and Ruby, in which doing `a = [0, 1]; a[3] = 2` is an error.
+  //
+  // They are hash objects: <http://stackoverflow.com/questions/6445010/what-is-a-javascript-array>
+  //
+  // Length is updated whenever a key that is an integer is set and larger than current length.
+  //
+  // This makes length behave like an intuitive array.
+  //
+  // This allows us to do:
 
-      assert_eq(this, window)
+    var a = [1, 0]
+    //{0:1, 1:0, length:2}
+    a[9] = 2
+    //{0:1, 1:0, 9:2}
+    assert_eq(a[9], 2)
+    assert_eq(a.length, 10)
 
-      // TODO understand better:
+  // The above does *not* occupy 10 memory slots: only one more.
 
-      var a = 1
-      assert_eq(window.a, 1)
-      window.a = 2
-      assert_eq(a, 2)
+  // If the new key is not an integer length is not updated:
 
-    // - inside functions, it is the function object itself. This is used to implement Class like definitions.
+    a['b'] = 3
+    assert_eq(a.b, 3)
+    assert_eq(a.length, 10)
 
-      //TODO
+  // Arrays are mutable:
 
-      //var f = function() {
-      //  var a = 1
-      //  assert_eq(this.a, 1)
-      //  this.a = 2
-      //  assert_eq(a, 2)
-      //}
-      //f()
+    assert_neq([], [])
 
-    // - on an onclick callback, this is the HTML element that called the callback
+  // There is no short built-in way of comparing them: <http://stackoverflow.com/questions/7837456/comparing-two-arrays-in-javascript>
 
-  //#new
+  // Equivalent notation:
 
-    //TODO http://stackoverflow.com/questions/1646698/what-is-the-new-keyword-in-javascript
+    assert_eq(typeof([]), typeof(new Array(0, 1)))
 
-  //#extend #inheritance
+  // #push #append
 
-    // TODO
+    var a = [0, 1]
+    a.push(2)
+    assert_eq(a[2], 2)
 
-      d0 = {a:0, b:1}
-      d1 = {a:10, c:2}
-      d2 = {a:20, d:3}
-      //assert_eq(d0.extend(d1, d2), {a:20, b:1, c:2, d:3})
+  // #indexOf
 
-//#Date
+    // Get index of element in array. If not present returns -1.
+
+    // ES5. For greater backwards compatibility people still use jQuery `inArray` version.
+
+      assert_eq([2, 0, 1].indexOf(0), 1)
+      assert_eq([2, 0, 1].indexOf(3), -1)
+
+  // #slice
+
+      var a = [2, 0, 1].slice(1)
+      assert_eq(a[0], 0)
+      assert_eq(a[1], 1)
+      assert_eq(a.length, 2)
+
+      var a = [2, 0, 1, 3].slice(1, 3)
+      assert_eq(a[0], 0)
+      assert_eq(a[1], 1)
+      assert_eq(a.length, 2)
+
+  // #iterate #forEach
+
+    // for in iterates all attributes, so it does *not* work!
+
+    // Use either explicit index or forEach method for arrays.
+
+      var a = [0, 1, 2]
+      var total = 0
+      for (var i = 0; i < a.length; i++) {
+        total += a[i]
+      }
+      assert_eq(total, 3)
+
+    // forEach is ES5:
+
+      var a = [0, 1, 2]
+      var total = 0
+      a.forEach(function(x) {
+        total += x
+      })
+      assert_eq(total, 3)
+
+// #Date
 
   //new Date() // current date and time
   //new Date(milliseconds) //milliseconds since 1970/01/01
@@ -775,7 +1441,7 @@
     assert_eq(d.getSeconds()     , 5)
     assert_eq(d.getMilliseconds(), 6)
 
-//#dialogs
+// #dialogs
 
   // A bit too invasive.
 
@@ -801,7 +1467,7 @@
     a = 1
     assert_eq(a, window.a)
 
-  //#height #width #innerXXX #outer
+  // #height #width #innerXXX #outer
 
     // Not on IE8.
 
@@ -815,7 +1481,7 @@
       document.write('<div>window.outerHeight = ' + window.outerHeight + '</div>')
       document.write('<div>window.outerWidth = '  + window.outerWidth  + '</div>')
 
-  //#scroll
+  // #scroll
 
     // Get how much scroll was done from top left:
 
@@ -826,7 +1492,7 @@
 
       //window.scrollBy(100,100);
 
-  //#open
+  // #open
 
     // Opens up new windows / tabs on the browser.
 
@@ -838,7 +1504,7 @@
 
       //var myWindow = window.open("", "name", "width=200, height=100");
 
-  //#name
+  // #name
 
     // Not necessarily the HTML title:
 
@@ -846,7 +1512,7 @@
 
     // Can be set when opening a window with open.
 
-  //#nostandard attributes
+  // #non-standard attributes
 
     // Just for fun.
 
@@ -860,7 +1526,7 @@
 
   Interface to the DOM: <www.w3.org/DOM/DOMTR>
 
-  It is possible to access all DOM attributes of an element: http://www.w3schools.com/jsref/dom_obj_all.asp
+  It is possible to access all DOM attributes of an element: <http://www.w3schools.com/jsref/dom_obj_all.asp>.
 */
 
   // Shortcut for `window.document`
@@ -871,9 +1537,9 @@
 
     //document.write('here')
 
-  //#Selectors
+  // #Selectors
 
-    //#querySelectorAll
+    // #querySelectorAll
 
       // Select elements by CSS selector. Very powerful.
 
@@ -882,14 +1548,14 @@
         document.write('<div class="querySelectorAll0"><div class="querySelectorAll1" data-0="querySelectorAll"></div></div>')
         assert_eq(document.querySelectorAll(".querySelectorAll0 > .querySelectorAll1")[0].getAttribute("data-0"), "querySelectorAll")
 
-    //#getElementById
+    // #getElementById
 
       // Obvious what it does.
 
         document.write('<div id="getElementById" data-0="1"></div>')
         assert_eq(document.getElementById("getElementById").getAttribute("data-0"), "1")
 
-    //#getElementsByClassName
+    // #getElementsByClassName
 
       // Obvious... but not implemented on IE8... Alternatives: http://stackoverflow.com/questions/3808808/how-to-get-element-by-class-in-javascript
       // So if you care about IE8, just use querySelectorAll or JQuery.
@@ -897,9 +1563,9 @@
         document.write('<div class="getElementsByClassName0 getElementsByClassName1" data-0="1"></div>')
         assert_eq(document.getElementsByClassName("getElementsByClassName0")[0].getAttribute("data-0"), "1")
 
-  //#DOM
+  // #DOM
 
-    //#nodeType
+    // #nodeType
 
       //- 1   ELEMENT_NODE
       //- 2   ATTRIBUTE_NODE
@@ -919,33 +1585,40 @@
         assert_eq(parent.nodeType, 1)
         assert_eq(parent.childNodes[0].nodeType, 3)
 
-    //#tagName
+    // #tagName
 
         document.write('<div id="tagName"></div>')
         assert_eq(document.getElementById('tagName').tagName, 'DIV')
 
-    //#nodeValue #innerHTML
+    // #nodeValue #innerHTML
 
         document.write('<div id="nodeValue">a<i>b</i>c</div>')
         assert_eq(document.getElementById('nodeValue').firstChild.nodeValue, 'a')
         assert_eq(document.getElementById('nodeValue').innerHTML,            'a<i>b</i>c')
 
-    //#children #firstElementChild #childnodes #firstChild #lastChild
+    // #outerHTML
+
+      // Includes the tags. Less support but increasing.
+
+        document.write('<div id="nodeValue">a<i>b</i>c</div>')
+        assert_eq(document.getElementById('nodeValue').outerHTML, '<div id="nodeValue">a<i>b</i>c</div>')
+
+    // #children #firstElementChild #childnodes #firstChild #lastChild
 
         document.write('<div id="children">a<i>b</i>c</div>')
 
       // Children and firstElementChild: only elements, no text.
 
-        assert_eq(document.getElementById('children').children[0].innerHTML, 'b')
+        assert_eq(document.getElementById('children').children[0].innerHTML,       'b')
         assert_eq(document.getElementById('children').firstElementChild.innerHTML, 'b')
 
       // childNodes and firstChild: include text.
 
-        assert_eq(document.getElementById('children').firstChild.nodeValue, 'a')
+        assert_eq(document.getElementById('children').firstChild.nodeValue,    'a')
         assert_eq(document.getElementById('children').childNodes[0].nodeValue, 'a')
-        assert_eq(document.getElementById('children').lastChild.nodeValue, 'c')
+        assert_eq(document.getElementById('children').lastChild.nodeValue,     'c')
 
-    //#parentNode #nextSibling #nextElementSibling
+    // #parentNode #nextSibling #nextElementSibling
 
       document.write('<div id="parentNode">a<i>b</i>c<i>d</i>e</div>')
       var firstI = document.getElementById('parentNode').children[0]
@@ -955,7 +1628,7 @@
       assert_eq(firstI.nextSibling.nodeValue, 'c')
       assert_eq(firstI.nextElementSibling.innerHTML, 'd')
 
-    //#insertBefore
+    // #insertAdjacentHTML
 
     document.write('<div>a<span id="insertAdjacentHTML">b</span>c</div>')
     var inner = document.getElementById('insertAdjacentHTML')
@@ -964,7 +1637,7 @@
     inner.insertAdjacentHTML('beforeEnd',   ' beforeEnd ')
     inner.insertAdjacentHTML('afterEnd',    ' <b>afterEnd</b> ')
 
-    //#insertBefore
+    // #insertBefore
 
       // Must work with elements: cannot insert string directly.
 
@@ -978,24 +1651,31 @@
         insertBefore.insertBefore(divD, insertBeforeI)
         assert_eq(insertBeforeI.previousElementSibling.innerHTML, 'd')
 
-      //#insertAfter
+      // #insertAfter
 
         // Does not exist, but easily defined with `insertBefore`.
 
         //http://stackoverflow.com/questions/4793604/how-to-do-insert-after-in-javascript-without-using-a-library
 
-    //#getAttribute
+    // #getAttribute
 
       document.write('<div id="getAttribute">a<i>b</i>c<i>d</i>e</div>')
       assert_eq(document.getElementById('getAttribute').getAttribute('id'), 'getAttribute')
 
-    //#currentScript
+    // #style #CSS
+
+      // Get and set CSS attributes.
+
+      document.write('<div id="style" style="background-color:green; color:blue;">#style</div>')
+      document.getElementById('style').style.backgroundColor = 'red'
+
+    // #currentScript
 
       // Get the current script element.
 
         assert_eq(document.currentScript.parentNode.tagName, 'BODY')
 
-    //#textarea #onkeypress
+    // #textarea #onkeypress
 
       document.write(
         '<h1>#textarea</h1>' +
@@ -1009,7 +1689,7 @@
       }
       textarea_func()
 
-      //#onchange
+      // #onchange
 
         // Value of input element changed.
 
@@ -1030,7 +1710,7 @@
         b_context.fillRect(50, 25, 150, 100);
       }
 
-  //#ready
+  // #ready
 
     // Event called when the document finished loading.
 
@@ -1040,7 +1720,7 @@
     // <http://stackoverflow.com/questions/4643990/jquery-is-document-ready-necessary>
     // Therefore, this should never be necessary, since all scripts should be put at the bottom of the page.
 
-  //#cookies
+  // #cookies
 
     // A way of storing small data strings on user's computer hard disk
 
@@ -1057,7 +1737,7 @@
 
     // Each browser stores its own cookies
 
-    //#cookies without javascript
+    // #cookies without javascript
 
       // Cookies can also be set via headers using the `Set-Cookie` header key.
 
@@ -1067,7 +1747,7 @@
 
       // These are the most reliable methods, there is no need to use js for cookies.
 
-    //#session cookies
+    // #session cookies
 
       // A cookie based technique to maintain user logged in.
 
@@ -1081,7 +1761,7 @@
 
       //TODO: how to avoid getting the session highjacked?
 
-    //#path
+    // #path
 
       // Cookies can be set only for the **current** path and its parents.
 
@@ -1091,7 +1771,7 @@
       // If the location is a directory, then all subdirs can also get the cookies.
       // E.g.: cookies set for `/` can be seen on `/a/` and on `/b/`
 
-    //#js interface
+    // #js interface
 
       // #set values
 
@@ -1118,11 +1798,11 @@
 
         // The simplest technique is to set a past expires date.
 
-    //#properties
+    // #properties
 
       // Are special key/value pairs that contain key metadata.
 
-      //#expires
+      // #expires
 
         // Previous key is deleted by browser at given UTC string date:
 
@@ -1136,7 +1816,7 @@
         // It is not possible to make a cookie that never expires,
         // only one with a huge expiry date.
 
-      //#path
+      // #path
 
         // Cookie path.
 
@@ -1144,7 +1824,7 @@
 
         // Can only be set for parent dirs of current path.
 
-      //#safe
+      // #safe
 
         // If set to exactly `= safe`, this cookie will only be sent over `https`, not `http`
 
@@ -1152,7 +1832,7 @@
 
         // TODO confirm usage correct
 
-      //#HttpOnly
+      // #HttpOnly
 
         // Instructs server not to pass the cookie to CGI scripts.
 
@@ -1162,13 +1842,13 @@
 
           document.cookie = "keySafe=v;HttpOnly"
 
-    //#higher level interface
+    // #higher level interface
 
       // The Javascript cookie interface is very low level and inconvenient.
 
       // jquery-cookie <https://github.com/carhartl/jquery-cookie> is on popular and convenient cookie interface based on JQuery.
 
-      //#helpers
+      // #helpers
 
         // - c_name: string
         // - value: string
@@ -1204,13 +1884,13 @@
 
     document.write("<h1>cookies</h1>" + document.cookie + "<br>")
 
-//#XMLHttpRquest #ajax
+// #XMLHttpRquest #ajax
 
   // Make a server request without reloading the current page.
 
     var xmlhttp = new XMLHttpRequest()
 
-  //#open
+  // #open
 
     // Set basic request info. Does not send the request yet.
 
@@ -1223,7 +1903,7 @@
 
     // Post data is set at `send`.
 
-  //#setRequestHeader
+  // #setRequestHeader
 
     // Allows full control over the HTTP headers.
 
@@ -1254,7 +1934,7 @@
       xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
-          //#responseText
+          // #responseText
 
             // Field always present.
 
@@ -1263,7 +1943,7 @@
 
               document.getElementById("myDiv").innerHTML = xmlhttp.responseText
 
-          //#responseXML
+          // #responseXML
 
             // Field only present if the response type is specified XML on the HTTP headers.
 
@@ -1275,7 +1955,7 @@
         }
       }
 
-  //#send
+  // #send
 
     // Send the request.
 
@@ -1284,7 +1964,7 @@
       //xmlhttp.send()
       //xmlhttp.send("fname=Henry&lname=Ford")
 
-  //#same origin policy #cross origin XMLHttpRequest.
+  // #same origin policy #cross origin XMLHttpRequest.
 
     // For security reasons, browsers don't let you do Javascript HTTP requests by default
     // to different locations other than the current one, otherwise those sites might be able to obtain
@@ -1319,7 +1999,7 @@
   - AJAX
 */
 
-  //#dollar #$
+  // #dollar #$
 
     // The dollar sign is a valid variable name in Javascript.
     // jQuery users it as an shorthand for its main object, jQuery, under which all of its functionality is kept.
@@ -1330,7 +2010,7 @@
 
       assert_eq(jQuery, window.jQuery)
 
-  //#jQuery object
+  // #jQuery object
 
     // The main type of the jQuery library.
 
@@ -1338,7 +2018,7 @@
 
     // Most functions return a jQuery object, so this is why functions are chained in jQuery: a().b().c()
 
-  //#selectors
+  // #selectors
 
     // JQuery can select multiple objects via CSS selectors.
 
@@ -1347,7 +2027,7 @@
       document.write('<div class="jquery-selector0"><div class="jquery-selector1" data-0="jquery-selector"></div></div>')
       assert_eq($('.jquery-selector0 > .jquery-selector1')[0].getAttribute('data-0'), "jquery-selector")
 
-  //#fn
+  // #fn
 
       assert_eq($.fn, $.prototype)
 
@@ -1361,7 +2041,7 @@
     User selects multiple values from dropdown list with autocomplete. Can click on item to remove.
 */
 
-document.write("<h1>ALL ASSERST PASSED</h1>")
+document.getElementById("all-asserts-passed").style.display = 'block'
 </script>
 </body>
 </html>
