@@ -9,7 +9,7 @@ Bower was created by Twitter and open sourced.
 
 Bower is similar to Ruby Bundler and Node NPM, but it is specialized for web front end files.
 
-Bower downloads the desired version of packages into the current project tree, where they can be linked from `script` or `style` tags. Sample usage: <bower-test.html>
+Bower downloads the desired version of packages into the current project tree, where they can be linked from `script` or `style` tags. Sample usage: <test.html>
 
 Sample directory structure:
 

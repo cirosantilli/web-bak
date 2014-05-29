@@ -22,7 +22,7 @@ Less useful cheats:
 
 - [ACE editor](ace.html)
 - [Marked Markdown browser example](marked.html)
-- [Bower](bower.html)
+- [Bower](bower/)
 
 # Standards organizations
 
