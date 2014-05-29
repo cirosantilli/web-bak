@@ -62,6 +62,8 @@
         2 space indent
         - semicolons
 
+    -   Airbnb <https://github.com/airbnb/javascript>
+
   #Minification
 
     Since Javascript is sent to browsers over the network, methods have been developed to make Javascript code smaller:
@@ -566,6 +568,10 @@
   // ERROR: Using undeclared variables leads to an error:
 
     //not_yet_defined
+
+  // Undefined appears automatically from failed property lookup:
+
+    assert_eq({}.no_yet_defined, undefined)
 
   // Before ES5, it was possible to redefine `undefined`, so the safest way to check for undefined is via typeof:
 
@@ -1458,14 +1464,19 @@
   Offers an interface to the browser contents.
 
   May be undefined on Node.js. This can be used to check if we are no Nodejs or browser.
+
+  `window` is the global object in browser implementations: <http://www.ecma-international.org/ecma-262/5.1/#sec-15.1>
+
+  It is not present in Nodejs.
 */
 
   // All global objects are attributes of window:
 
-    a = 0
-    assert_eq(a, window.a)
     a = 1
-    assert_eq(a, window.a)
+    window.a = 2
+    assert_eq(a, 2)
+    this.a = 3
+    assert_eq(a, 3)
 
   // #height #width #innerXXX #outer
 
