@@ -23,6 +23,7 @@ Less useful cheats:
 - [ACE editor](ace.html)
 - [Marked Markdown browser example](marked.html)
 - [Bower](bower/)
+- [jQuery](jquery.html)
 
 # Standards organizations
 

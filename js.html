@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8"/>
-  <title>js cheat</title>
+  <title>js</title>
   <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
   <!--
   Javascript is a toy language designed to run in a browser.
@@ -98,6 +98,7 @@
     increasing the probability of cache hits.
   -->
   <script src="http://code.jquery.com/jquery-1.10.2.min.js" ></script>
+  <script src="assert.js"></script>
 </head>
 <body onload="document.getElementById('onload').innerHTML = 'onload'">
 
@@ -114,43 +115,6 @@
   It is not valid to put scripts after the /body tag, as HTML specifies that only
   comments can be put there.
 -->
-
-<script>
-  function assert(tf) {
-    if (!tf) {
-      document.write("<h1>ASSERT FAILED</h1>")
-      var err = new Error('AssertFailed')
-      document.write("<pre>" + err.stack + "</pre>")
-      throw err
-    }
-  }
-  assert(true)
-  //assert(false)
-
-  function assert_eq(actual, expect) {
-    if (! (actual === expect)) {
-      document.write("<h1>ASSERT FAILED</h1>")
-      var err = new Error('AssertFailed')
-      document.write("<pre>" + err.stack + "</pre>")
-      document.write("<pre>actual = " + actual + "\nexpect = " + expect + "</pre>")
-      throw err
-    }
-  }
-
-  function assert_neq(actual, expect) {
-    if (actual === expect) {
-      document.write("<h1>ASSERT FAILED</h1>")
-      var err = new Error('AssertFailed')
-      document.write("<pre>" + err.stack + "</pre>")
-      document.write("<pre>actual = " + actual + "\nexpect = " + expect + "</pre>")
-      throw err
-    }
-  }
-
-  assert_eq(0, 0)
-  //assert_eq(0, 1)
-  assert_neq(0, 1)
-</script>
 
 <!--
 #multiple script blocks
@@ -169,7 +133,6 @@
 
   <script>
     assert_eq(i, 1)
-    //undefined_var
   </script>
 
 <!--
@@ -177,7 +140,7 @@
 
   Source a script from a separate `.js` file.
 
-  In HTML5, the `script` tag *cannot* be self closing because it is neither `void` nor `foreign`:
+  In HTML5, the `script` tag *cannot* be self closing because it is neither `void` nor `foreign`.
 
   In HTML5 you cannot have src and a non empty block: <http://stackoverflow.com/questions/6528325/what-does-a-script-tag-with-src-and-content-mean>
 -->
@@ -1991,65 +1954,6 @@
   Puts current function on an interpreter mode that warns about common errors.
 
   http://stackoverflow.com/questions/1335851/what-does-use-strict-do-in-javascript-and-what-is-the-reasoning-behind-it
-*/
-
-/*
-#jQuery
-
-  Ubiquitous Javascript browser library.
-
-  Offers an interface:
-
-  - write less, do more
-  - more consistent across browsers
-
-  Very good for:
-
-  - DOM
-  - event
-  - AJAX
-*/
-
-  // #dollar #$
-
-    // The dollar sign is a valid variable name in Javascript.
-    // jQuery users it as an shorthand for its main object, jQuery, under which all of its functionality is kept.
-
-      assert_eq($, jQuery)
-
-    // And as for any other global variable:
-
-      assert_eq(jQuery, window.jQuery)
-
-  // #jQuery object
-
-    // The main type of the jQuery library.
-
-    // It is an Array like object that contains elements.
-
-    // Most functions return a jQuery object, so this is why functions are chained in jQuery: a().b().c()
-
-  // #selectors
-
-    // JQuery can select multiple objects via CSS selectors.
-
-    // Note that this is currently possible with `document.querySelectorAll` in pure javascript.
-
-      document.write('<div class="jquery-selector0"><div class="jquery-selector1" data-0="jquery-selector"></div></div>')
-      assert_eq($('.jquery-selector0 > .jquery-selector1')[0].getAttribute('data-0'), "jquery-selector")
-
-  // #fn
-
-      assert_eq($.fn, $.prototype)
-
-/*
-#hot apps/plugins
-
-  - <http://datatables.net> table filter, sort and pagination.
-
-  - <http://loopj.com/jquery-tokeninput/>
-
-    User selects multiple values from dropdown list with autocomplete. Can click on item to remove.
 */
 
 document.getElementById("all-asserts-passed").style.display = 'block'
