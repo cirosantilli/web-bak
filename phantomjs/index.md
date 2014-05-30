@@ -1,4 +1,9 @@
-Phantom js allows you to run Javascript on web pages without a browser much like Node.js
+---
+title: PhantomJS
+layout: default
+---
+
+PhantomJS allows you to run Javascript on web pages without a browser much like Node.js
 
 It is a good tool for automating tasks related to web pages and browsers, such as unit testing.
 

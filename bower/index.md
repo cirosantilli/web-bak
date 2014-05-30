@@ -3,13 +3,15 @@ title: Bower
 layout: default
 ---
 
+Live demo: run `make` then open <test.html>.
+
 Bower is a package manager for web front-end.
 
 Bower was created by Twitter and open sourced.
 
 Bower is similar to Ruby Bundler and Node NPM, but it is specialized for web front end files.
 
-Bower downloads the desired version of packages into the current project tree, where they can be linked from `script` or `style` tags. Sample usage: <test.html>
+Bower downloads the desired version of packages into the current project tree, where they can be linked from `script` or `style` tags.
 
 Sample directory structure:
 
