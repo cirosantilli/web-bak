@@ -15,7 +15,6 @@
   <script src="assert.js"></script>
 </head>
 <body onload="document.getElementById('onload').innerHTML = 'onload'">
-<h1 id="all-asserts-passed" style="display:none;">All asserts passed.</h1>
 
 <h1>#jQuery</h1>
 
@@ -62,8 +61,5 @@
     assert_eq($.fn, $.prototype)
   </script>
 
-<script>
-  if (all_asserts_passed) { document.getElementById("all-asserts-passed").style.display = 'block' }
-</script>
 </body>
 </html>
