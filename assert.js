@@ -4,12 +4,15 @@ var error_message = ''
 
 function report_error(extra) {
   var err = new Error('AssertFailed')
-  error_message += '<h1 style="background-color:red;">ASSERT FAILED</h1><pre>'
-    + err.stack + '</pre>' + String(extra)
+  error_message += '<div style="font-weight:bold; font-size:36px; background-color:red;">ASSERT FAILED</div><pre>'
+    + err.stack + '</pre>'
+  if (extra) {
+    error_message += '<pre>' + String(extra) + '</pre>'
+  }
 }
 
 function report_error_eq(actual, expect) {
-  report_error("<pre>actual = " + actual + "\nexpect = " + expect + "</pre>")
+  report_error("actual = " + actual + "\nexpect = " + expect)
 }
 
 function assert(tf) {
@@ -30,6 +33,29 @@ function assert_neq(actual, expect) {
   }
 }
 
+function assert_raises(func, err_constructor) {
+    var had_err = false
+    try {
+      func()
+    } catch (err) {
+      had_err = true
+      assert_eq(err.constructor, err_constructor)
+    }
+    if (!had_err) {
+      report_error('Did not raise.')
+    }
+}
+
+function assert_not_raises(func) {
+    var had_err = false
+    try {
+      func()
+    } catch (err) {
+      had_err = true
+    }
+    assert(!had_err)
+}
+
 // Test our asserts.
 assert(true)
 //assert(false)
@@ -40,11 +66,9 @@ assert_neq(0, 1)
 document.addEventListener(
   'DOMContentLoaded',
   function() {
-    var body = document.getElementsByTagName('body')[0]
+    var body = document.body
     if (error_message) {
-      body.innerHTML = error_message + body.innerHTML
-    } else {
-      body.innerHTML = '<h1 style="background-color:green;">ALL ASSERTS PASSED</h1>' + body.innerHTML
+      document.body.insertAdjacentHTML('afterBegin',  error_message)
     }
   },
   true

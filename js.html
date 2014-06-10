@@ -1,280 +1,243 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="utf-8"/>
   <title>js</title>
   <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
   <style>
    .border { border:1px solid black; }
   </style>
-  <!--
-    The best option for jquery inclusion is probably to use a min version from a CDN rather than hosting your own
-    increasing the probability of cache hits.
-  -->
-  <script src="http://code.jquery.com/jquery-1.10.2.min.js" ></script>
   <script src="assert.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="/assets/jquery.toc.js"></script>
+  <script>
+    $("#toc").toc({
+      content: "div.content",
+      headings: "h1,h2,h3,h4,h5,h6"
+    });
+  </script>
 </head>
 <body onload="document.getElementById('onload').innerHTML = 'onload'">
-<!--
-Javascript is a toy language designed to run in a browser.
 
-More recently, it has also been used outside of browsers, often server side, through Node.js.
-This cheat shall consider mostly a world without Nodejs: for a Nodejs cheat see:
-https://github.com/cirosantilli/nodejs
+<h1>Javascript Cheatsheet</h1>
 
-It can be embedded on the HTML given by the server to the browser inside `script` tags.
-It can also be given in separate `.js` files which are then included in the HTML header.
+<p>Javascript is a toy language designed to run in a browser.</p>
+<p>
+  More recently, it has also been used outside of browsers, often server side, through Node.js.
+  This cheat shall consider mostly a world without Node.js: for a Node.js cheat see:
+  https://github.com/cirosantilli/nodejs
+</p>
+<p>
+  It can be embedded on the HTML given by the server to the browser inside `script` tags.
+  It can also be given in separate `.js` files which are then included in the HTML header.
+</p>
+<p>
+  One of the goals of Javascript is to restrict what the language can do to prevent malicious attacks.
+  Therefore, by design choice Javascript does not allows dangerous operations such as file IO.
+  Node.js adds such abilities to Javascript.
+</p>
+<p>
+  Javascript is known for having some weird quirks. CoffeScript, a language that compiles to Javascript
+  but behaves more like Ruby, attempts to correct many of those quirks.
+</p>
+<ul data-toc></ul>
 
-One of the goals of javascript is to restrict what the language can do to prevent malicious attacks.
-Therefore, by design choice javascript does not allows dangerous operations such as file IO.
-Node.js adds such abilities to Javascript.
+<h2>#standards #ECMAScript</h2>
 
-Javascript is known for having some weird quircks. CoffeScript, a language that compiles to Javascript
-but behaves more like Ruby, attempts to correct many of those quirks.
-
-#standards #ECMAScript
-
-  Official language name: ECMA-262, or ECMAScript.
-
-  -   v6
-
-      Aimint at Dec 2014
-
-      Good cheat: <https://github.com/lukehoban/es6features>
-
-  -   v 5.1: 2011.
-
-      Generaly implemented.
-
-      Often abbreviated to ES5.
-
-      Fully implemented by Google's V8 engine for Chrome and Node.js.
-
-      <http://www.ecma-international.org/publications/standards/Ecma-262.htm>
-
-  -   v 5: 2009
-  -   v 4: was aborted
-  -   v 3: 1999
-
-  This does not include objects which browsers add to Javascript like `document` or `window`.
-
-  There is currently no readable documentation, and standards are still sloppy on those:
-  http://stackoverflow.com/questions/3768606/where-is-the-javascript-dom-api-documented
-
-#Style
-
-  -   GitHub style: <https://github.com/styleguide/javascript>
-
-      - 2 space indent
-      - no semicolons
-
-  -   Google: <http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml>
-
-      2 space indent
-      - semicolons
-
-  -   Airbnb <https://github.com/airbnb/javascript>
-
-#Minification
-
-  Since Javascript is sent to browsers over the network, methods have been developed to make Javascript code smaller:
-
-  #Compression
-
-    compression: compress Javascript with gzip before sending. Notify browser with `Content-Encoding` HTTP header.
-
-  #Minification
-
-    Minification: remove unnecessary characters like whitespaces.
-
-  #Obfuscation
-
-    Rename variables and functions to shorter names, factor things out in ways that are shorter but hard for humans to understand.
-
-  #Concatenation
-
-    Concatenate multiple Js files together.
-
-    OK, not really a form of compression, but serves the same purpose: make things faster,
-    in this case by reducing the number of HTTP requests.
-
-    When writing Javascript code, you must be aware that this can happen, and that it may have consequences.
-    See for example the Semicolon before IIFE pattern.
--->
-
-<!--
-#script location
-
-  `script` tags can appear either inside the head or of the body.
-
-  The most commonly recommended place is load all scripts just before the </body> tag,
-  so that the page can load before long scripts do, so it seems more responsive.
-
-  It is not valid to put scripts after the /body tag, as HTML specifies that only
-  comments can be put there.
--->
-
-<h1>#multiple script blocks</h1>
-
-  <p>Scripts are executed in the order which they appear on the file.</p>
-  <p>head scripts are executed before body ones.</p>
-  <p>Definitions from previous scripts blocks are kept for future script blocks.</p>
-
-  <script>
-    var i = 1
-  </script>
-
-  <script>
-    assert_eq(i, 1)
-  </script>
-
-  <p>
-    Errors and uncaught exceptions (e.g. undefined variables) only stop execution of the current script block:
-    future script blocks still execute. There is no way to prevent future script blocks from executing.
+  <p>Official language name: ECMA-262, or ECMAScript.</p>
+  <ul>
+    <li>
+      <p>v6</p>
+      <p>Expected Dec 2014.</p>
+      <p>Good cheat: https://github.com/lukehoban/es6features</p>
+    </li>
+    <li>
+      <p>v 5.1: 2011.</p>
+      <p>Generally implemented.</p>
+      <p>Often abbreviated to ES5.</p>
+      <p>Fully implemented by Google's V8 engine for Chrome and Node.js.</p>
+      <p>http://www.ecma-international.org/publications/standards/Ecma-262.htm</p>
+    </li>
+    <li>v5: 2009</li>
+    <li>v4: was aborted</li>
+    <li>v3: 1999</li>
+  </ul>
+  <p>This does not include objects which browsers add to Javascript like `document` or `window`.
+    There is currently no readable documentation for those objects, and standards are still sloppy:
+    http://stackoverflow.com/questions/3768606/where-is-the-javascript-dom-api-documented
   </p>
 
-  <script>
-    not_yet_defined
-  </script>
+<h2>#Style</h2>
 
+  <ul>
+    <li>
+      GitHub: https://github.com/styleguide/javascript
+      <ul>
+        <li>2 space indent</li>
+        <li>no semicolons</li>
+      </ul>
+    <li>
+      Google: http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+      <ul>
+        <li>2 space indent</li>
+        <li>semicolons</li>
+        <li>single quoted strings by default. Easier to include HTML with attributes, which in their style uses double quotes.</li>
+      </ul>
+    </li>
+    <li>
+      Airbnb; https://github.com/airbnb/javascript
+      <ul>
+        <li>semicolons</li>
+      </ul>
+    </li>
+  </ul>
 
-<!--
-#src
+<h2>#Minification</h2>
 
-  Source a script from a separate `.js` file.
+  <p>Since Javascript is sent to browsers over the network, methods have been developed to make Javascript code smaller:</p>
 
-  In HTML5, the `script` tag *cannot* be self closing because it is neither `void` nor `foreign`.
+  <h3>#Compression</h3>
 
-  In HTML5 you cannot have src and a non empty block: <http://stackoverflow.com/questions/6528325/what-does-a-script-tag-with-src-and-content-mean>
--->
-  <script src="external.js"></script>
+    <p>Compress Javascript with gzip before sending. Notify browser with `Content-Encoding` HTTP header.</p>
 
-  <script>
-    assert_eq(external, 1)
-  </script>
+  <h3>#Minification</h3>
 
-<!--
-#src
+    <p>Remove unnecessary characters like whitespaces.</p>
 
-  It is possible to run external scripts asynchronously.
+  <h3>#Obfuscation</h3>
 
-  This makes script run other unpredictable.
+    <p>
+      Rename variables and functions to shorter names, factor things out in ways
+      that are shorter but hard for humans to understand.
+    </p>
 
-  The async attribute can only be used for external scripts.
--->
-  <script src="external.js" async></script>
+  <h3>#Concatenation</h3>
 
-<h1>#events</h1>
+    <p>Concatenate multiple Js files together.</p>
+    <p>
+      OK, not really a form of compression, but serves the same purpose: make things faster,
+      in this case by reducing the number of HTTP requests.
+    </p>
+    <p>
+      When writing Javascript code, you must be aware that this can happen, and that it may have consequences.
+      See for example the Semicolon before IIFE pattern.
+    </p>
 
-  <!--
-  Events are part of the DOM.
+<h2>#script element</h2>
 
-  Like the rest of the DOM, it is a bit messy to find where events are defined.
+  <h3>#script element</h3>
 
-  A good source is Firefox's documentation <https://developer.mozilla.org/en-US/docs/Web/Reference/Events>
+    <p>`script` elements can appear either inside the head or of the body.</p>
+    <p>
+      The most commonly recommended place is load all scripts just before the `body` tag,
+      so that the page can load before long scripts do, so it seems more responsive.
+    </p>
+    <p>
+      It is not valid to put scripts after the /body tag, as HTML specifies that only
+      comments can be put there.
+    </p>
 
-  The major standards are:
+  <h3>#multiple script elements</h3>
 
-  - <http://www.w3.org/TR/DOM-Level-3-Events/>
-  - random points of HTML5 like <http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#the-end>
-      for `DOMContentLoaded`.
-
-  #addEventListener
-
-    Allows to add an unlimited amount of handlers per event. Better choice than `on` events like `onload`.
-
-    Can be used together with `on` events. TODO check.
-
-  #document vs window events
-
-    Document and window have different possible events:
-    <http://stackoverflow.com/questions/12045440/difference-between-document-addeventlistener-and-window-addeventlistener>
-
-  #load #onload
-
-    onload can only be used on <code>body</code> or elements that load remote sources such as
-    <code>img</code>, <code>link</code> or remote <code>script</code> tags.
-    It cannot be used on other elements such as <code>div</code>.
-
-    Never use this, use `addEventListener` instead, since it allows to add multiple callbacks for a single event.
-
-    Both window and document objects have this event: <http://stackoverflow.com/questions/588040/window-onload-vs-document-onload>,
-    but `document`'s `DOMContentLoaded` is probably more useful.
-
-  #DOMContentLoaded
-
-    HTML5 <http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#the-end>
-
-    `DOMContentLoaded` vs `document.onload`: <http://stackoverflow.com/questions/2414750/difference-between-domcontentloaded-and-load-events>
-    Former does not wait for external resources to load, later does.
-
-    Used by jQuery's document ready.
-  -->
-
-    <div id="domcontentloaded"></div>
+    <p>Scripts are executed in the order which they appear on the file.</p>
+    <p>head scripts are executed before body ones.</p>
+    <p>Definitions from previous scripts blocks are kept for future script blocks.</p>
     <script>
-    document.addEventListener(
-      'DOMContentLoaded',
-      function() {
-        document.getElementById('domcontentloaded').innerHTML = 'DOMContentLoaded'
-      },
-      true
-    )
+      var i = 1
+    </script>
+    <script>
+      assert_eq(i, 1)
+    </script>
+    <p>
+      Errors and uncaught exceptions (e.g. undefined variables) only stop execution of the current script block:
+      future script blocks still execute. There is no way to prevent future script blocks from executing.
+    </p>
+    <script>
+      global_undefined
     </script>
 
+  <h3>#src attribute</h3>
+
+    <p>Source a script from a separate `.js` file.</p>
+    <p>In HTML5, the `script` tag *cannot* be self closing because it is neither `void` nor `foreign`.</p>
+    <p>
+      In HTML5 you cannot have src and a non empty innerHTML:
+      http://stackoverflow.com/questions/6528325/what-does-a-script-tag-with-src-and-content-mean
+    </p>
+    <script src="external.js"></script>
     <script>
-      window.onload = function(){
-        document.getElementById('window-onload').innerHTML = 'window-onload'
-      }
+      assert_eq(external, 1)
     </script>
 
-    <div id="onload"></div>
-    <div id="window-onload"></div>
+    <h3>#async attribute</h3>
+
+      <p>It is possible to run external scripts asynchronously.</p>
+      <p>This makes script run other unpredictable.</p>
+      <p>Can only be used for external scripts.</p>
+      <script src="external.js" async></script>
+
+  <h3>#type attribute</h3>
+
+    <p>Before HTML5 it was mandatory to specify the language of the script as an attribute to the script tag:</p>
+    <code>type="text/javascript"</code>
+    <p>In HTML5 js became the default, so the attribute is not needed anymore.</p>
+
+  <h3>Close script tag inside Javascript #/scr'+'ipt</h3>
+
+    <p>
+      Any HTML tags can be included inside a script element except the closing script tag.
+      The HTML parser just reads everything up to that and then passes it to the Js interpreter.
+    </p>
+    <p>
+      A common technique to write a literal &lt;/script&gt; string inside Javascript it to break it up
+      with concatenation as `/scr'+'ipt`
+    </p>
     <script>
-      window.onload = function(){
-        document.getElementById('window-onload').innerHTML = 'window-onload'
-      }
+
     </script>
 
-  <h2>#Attach events to body</h2>
+  <h3>#Strict mode #use strict</h3>
 
-    <p>You cannot attach events to the `body` element form scripts in the head, because the body is not yet part of the DOM!</p>
-    <p>Prefer to attach events to the `document` or `window` objects instead.</p>
-    <div id="addEventListener"></div>
+    <p>https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode</p>
+    <p>ES5.</p>
+    <p>Throws exceptions in a bunch of extra smart cases.</p>
+    <p>Turn on for entire script element:</p>
     <script>
-      document.getElementsByTagName('body')[0].addEventListener(
-        // Event name. Similar to `onload`.
-        'load',
+      'use strict'
+      assert_raises(
         function() {
-          document.getElementById('addEventListener').innerHTML = 'addEventListener'
+          01
         },
-        // useCapture. TODO. Optional.
-        true
+        SyntaxError
+      )
+    </script>
+    <p>Turn on for single function:</p>
+    <script>
+      assert_raises(
+        function() {
+          'use strict'
+          01
+        },
+        SyntaxError
+      )
+
+      // TODO why passes?
+      assert_raises(
+        function() {
+          'use strict'
+          01
+        },
+        'asdf'
+      )
+
+      assert_not_raises(
+        function() {
+          01
+        }
       )
     </script>
 
-  <!--
-  #onclick
-  -->
-
-    <div id="onclick" style="border:1px solid black;" onclick="onclick_func(event)">onclick. Click here. Click positions: </div>
-    <script>
-      function onclick_func(even) {
-        document.getElementById("onclick").innerHTML += "(" + even.screenX + "," + even.screenY + ") "
-      }
-    </script>
-
 <script>
-/*
-#type
-
-  Before HTML5 it was mandatory to specify the language of the script as an attribute
-  to the script tag:
-
-    type="text/javascript"
-
-  After HTML5 js became the default, so the attribute is not needed anymore.
-*/
 
 // #exit
 
@@ -301,7 +264,7 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
     // There are a few complex cases however.
 
-    // <http://inimino.org/~inimino/blog/javascript_semicolons>
+    // http://inimino.org/~inimino/blog/javascript_semicolons
 
     // Operators inhibit ASI to allow programmers to write:
 
@@ -339,9 +302,9 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
     // It is a controversial subject which style is better. This is one of the things CoffeScript takes care of.
 
-    // GitHub style says no semicolons. Rationale: <http://mislav.uniqpath.com/2010/05/semicolons/>
+    // GitHub style says no semicolons. Rationale: http://mislav.uniqpath.com/2010/05/semicolons/
 
-    // Google says semicolons. Rationale: <http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Semicolons>
+    // Google says semicolons. Rationale: http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Semicolons
 
 // #comments
 
@@ -351,7 +314,7 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
     /* Multi
       line.
-     */
+    */
 
 // #case
 
@@ -365,7 +328,7 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 #identifiers
 
   Identifiers can contain very weird characters.
-  <http://stackoverflow.com/questions/1661197/valid-characters-for-javascript-variable-names>
+  http://stackoverflow.com/questions/1661197/valid-characters-for-javascript-variable-names
 
   The first character is more restricted than the following ones, for example it cannot be a number.
 
@@ -508,11 +471,11 @@ but behaves more like Ruby, attempts to correct many of those quirks.
     }
     assert_eq(total, 2)
 
-  // TODO understand label form. Good examples: <http://www.tutorialspoint.com/javascript/javascript_loop_control.htm>.
+  // TODO understand label form. Good examples: http://www.tutorialspoint.com/javascript/javascript_loop_control.htm
 
 // #primitive types #base types #mutable #immutable
 
-  // <http://javascriptweblog.wordpress.com/2010/09/27/the-secret-life-of-javascript-primitives/>
+  // http://javascriptweblog.wordpress.com/2010/09/27/the-secret-life-of-javascript-primitives/
 
   // There are 5 primitive types in Javascript:
 
@@ -579,7 +542,7 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
   // ERROR: Using undeclared variables leads to an error:
 
-    //not_yet_defined
+    //global_undefined
 
   // Undefined appears automatically from failed property lookup:
 
@@ -587,15 +550,17 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
   // Before ES5, it was possible to redefine `undefined`, so the safest way to check for undefined is via typeof:
 
-    var not_yet_defined
-    // Safe all versions:
-    assert_eq(typeof not_yet_defined, 'undefined')
-    // Safe starting from JS5:
-    assert_eq(not_yet_defined, undefined)
+    ;(function() {
+      var global_undefined
+      // Safe all versions:
+      assert_eq(typeof global_undefined, 'undefined')
+      // Safe starting from JS5:
+      assert_eq(global_undefined, undefined)
+    })()
 
 // #null
 
-  // Null vs undefined: <http://stackoverflow.com/questions/801032/why-is-null-an-object-and-whats-the-difference-between-null-and-undefined>
+  // Null vs undefined: http://stackoverflow.com/questions/801032/why-is-null-an-object-and-whats-the-difference-between-null-and-undefined
 
 // #floating point
 
@@ -823,44 +788,44 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
       /*
       (Function)       (  F  )                                      (f)
-       |                | | ^                                        |
-       |                | | |                                        |
-       |                | | +-------------------------+              |
-       |                | |                           |              |
-       |                | +--------------+            |              |
-       |                |                |            |              |
-       |                |                |            |              |
-       |[[Prototype]]   |[[Prototype]]   |prototype   |constructor   |[[Prototype]]
-       |                |                |            |              |
-       |                |                |            |              |
-       |                |                | +----------+              |
-       |                |                | |                         |
-       | ---------------+                | | +-----------------------+
-       | |                               | | |
-       v v                               v | v
+      |                | | ^                                        |
+      |                | | |                                        |
+      |                | | +-------------------------+              |
+      |                | |                           |              |
+      |                | +--------------+            |              |
+      |                |                |            |              |
+      |                |                |            |              |
+      |[[Prototype]]   |[[Prototype]]   |prototype   |constructor   |[[Prototype]]
+      |                |                |            |              |
+      |                |                |            |              |
+      |                |                | +----------+              |
+      |                |                | |                         |
+      | ---------------+                | | +-----------------------+
+      | |                               | | |
+      v v                               v | v
       (Function.prototype)              (F.prototype)
-       |                                 |
-       |                                 |
-       |[[Prototype]]                    |[[Prototype]]
-       |                                 |
-       |                                 |
-       | +-------------------------------+
-       | |
-       v v
+      |                                 |
+      |                                 |
+      |[[Prototype]]                    |[[Prototype]]
+      |                                 |
+      |                                 |
+      | +-------------------------------+
+      | |
+      v v
       (Object.prototype)
-       | | ^
-       | | |
-       | | +---------------------------+
-       | |                             |
-       | +--------------+              |
-       |                |              |
-       |                |              |
-       |[[Prototype]]   |constructor   |prototype
-       |                |              |
-       |                |              |
-       |                | -------------+
-       |                | |
-       v                v |
+      | | ^
+      | | |
+      | | +---------------------------+
+      | |                             |
+      | +--------------+              |
+      |                |              |
+      |                |              |
+      |[[Prototype]]   |constructor   |prototype
+      |                |              |
+      |                |              |
+      |                | -------------+
+      |                | |
+      v                v |
       (null)           (Object)
       */
 
@@ -931,7 +896,7 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
       // `__proto__` is a de facto standard which does the same, but is not in ES5.
 
-      // Same as `obj.constructor.prototype`: <http://stackoverflow.com/questions/8024879/is-object-getprototypeof-same-as-object-constructor-prototype-in-javascript>
+      // Same as `obj.constructor.prototype`: http://stackoverflow.com/questions/8024879/is-object-getprototypeof-same-as-object-constructor-prototype-in-javascript
 
         assert_eq(Object.getPrototypeOf([]), [].constructor.prototype)
         assert_eq([].constructor, Array)
@@ -1038,26 +1003,125 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
   // #this
 
-    // Gets different values depending on the context in which it is called.
+    // Great article: <http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/>
 
-    // On the "global" scope inside a browser or inside a global function, `this` is the `window` object.
+    // This is fixed by the function that calls it at call time. Nothing is determined at definition time.
 
-      assert_eq(this, window)
+    // ES5 says there is a primitive `[[Call]]` that both `func.call` and `[obj.]func()` call.
 
-      var f = function() {
+    // This primitive looks very much like `call`, so for most purposes you can think they are the same.
+
+    // Before reading this learn about `call`.
+
+    // The following possibilities exist:
+
+      // function call:       this value
+      //`f()`:                `window`
+      //`'use strict'; f()`:  `undefined`
+      //`'obj.obj2.f()`:      `obj.obj2`
+
+    // #this in global functions
+
+        var f = function() { return this }
+        assert_eq(f(), window)
+
+      // `f()` gets converted into something like:
+
+        assert_eq(f.call(window), window)
+
+      // With strict, Katz says:
+      //
+      // > The ECMAScript 5 spec says that undefined is (almost) always passed,
+      // > but that the function being called should change its thisValue
+      // > to the global object when not in strict mode.
+      // > This allows strict mode callers to avoid breaking existing non-strict-mode libraries.
+      //
+      // I don't know what that means.
+
+        ;(function() {
+          'use strict'
+          ;(function() {
+            // TODO why no undefined?
+            //assert_eq(f(), undefined)
+            assert_eq(f(), window)
+          })()
+          assert_eq(f(), window)
+        })()
+
+    // #this in methods
+
+      // The method has no information about what called it:
+      // all information is passed at call time.
+
+        var obj = {}
+        obj.f = function() {
+          return this
+        }
+
+        assert_eq(obj.f(), obj)
+
+      // Gets converted to:
+
+        assert_eq(f.call(obj), obj)
+
+      // And:
+
+        g = obj.f
+        assert_eq(g(), window)
+
+      // Gets converted to:
+
+        assert_eq(g.call(window), window)
+
+      // The same happens in constructs like:
+
+        var F = function() { this.x = 0 }
+        var f = new F()
+
+      // but you have to open up the definition of `new`, and you will see that
+      // `F` is being called with `this` equal to `f` (what it returns).
+
+      // #bind
+
+        // We often want to "bind" the method to "its" object.
+
+        // This has led to:
+
+        // - a common design pattern with closures:
+
+            var bind = function(func, thisValue) {
+              return function() {
+                return func.apply(thisValue, arguments);
+              }
+            }
+            obj = {}
+            obj.f = function() { return this }
+            var boundF = bind(obj.f, obj);
+            assert_eq(boundF(), obj)
+
+        // - an ES5 language feature, `bind` method for functions:
+
+            obj = {}
+            obj.f = function() { return this }
+            var boundF = obj.f.bind(obj);
+            assert_eq(boundF(), obj)
+
+    //#this and jQuery
+
+      // jQuery automatically sets `this` to useful things: its not default ES5 behavior.
+
+      // In particular, callbacks have `this` set to the object that generated the event.
+
+    // #this on global scope
+
+      // TODO what happens? In Firefox and Chrome `this` is the `window` object:
+
         assert_eq(this, window)
-      }
-      f()
 
-    // Inside methods and constructors, it refers to the object.
-
-      var F = function() { this.a = 1 }
-      F.prototype.m = function() { return 2 }
-      var f = new F()
-      assert_eq(f.a, 1)
-      assert_eq(f.m(), 2)
-
-    // `call` and `apply` can change the `this` for a function call.
+        var f = function() {
+          assert_eq(this, window)
+        }
+        f()
 
   // #object oriented patterns
 
@@ -1095,8 +1159,6 @@ but behaves more like Ruby, attempts to correct many of those quirks.
         assert_eq(d.geti(), 10)
         d.inci()
         assert_eq(d.geti(), 11)
-
-      // TODO: geti inside vs prototype.inci outside, which is the best?
 
     // #extend #inheritance
 
@@ -1215,7 +1277,7 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
   // #pass by reference #pass by value
 
-    // <http://stackoverflow.com/questions/518000/is-javascript-a-pass-by-reference-or-pass-by-value-language>
+    // http://stackoverflow.com/questions/518000/is-javascript-a-pass-by-reference-or-pass-by-value-language
 
     // Like Python:
 
@@ -1248,6 +1310,24 @@ but behaves more like Ruby, attempts to correct many of those quirks.
       incr_novar()
       assert_eq(i, 1)
       assert_eq(j, 11)
+
+    // The var statement sets variables to `undefined` instead of generating syntax errors.
+
+      ;(function() {
+        var a
+        assert_eq(a, undefined)
+      })()
+
+    // Its saner to use `var` as the very first thing inside functions,
+    // but it does not matter: `var` statements are hoisted.
+
+      var a = 0
+      ;(function() {
+        assert_eq(a, undefined)
+        if (false) {
+          var a
+        }
+      })()
 
   // #number of #arguments
 
@@ -1296,9 +1376,9 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
     // Function + variables taken from its context.
 
-    // <http://stackoverflow.com/questions/111102/how-do-javascript-closures-work>
+    // http://stackoverflow.com/questions/111102/how-do-javascript-closures-work
 
-    //add1 and add2 are closures. The value of x is part of the closure.
+    // add1 and add2 are closures. The value of x is part of the closure.
 
       var makeAdder = function(x) {
         return function(y) {
@@ -1336,7 +1416,7 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
     // #IIFE #immediately invoking function expression #self executing anonymous function
 
-      // Amazing tutorial: <http://benalman.com/news/2010/11/immediately-invoked-function-expression/>
+      // Amazing tutorial: http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 
       // Defined the function and call itself immediately:
 
@@ -1344,7 +1424,7 @@ but behaves more like Ruby, attempts to correct many of those quirks.
         assert_eq((function(x) {return x + 1})(1), 2)
 
       // Both the above are the same:
-      // <http://stackoverflow.com/questions/3384504/location-of-parenthesis-for-auto-executing-anonymous-javascript-functions>
+      // http://stackoverflow.com/questions/3384504/location-of-parenthesis-for-auto-executing-anonymous-javascript-functions
 
       // Syntax error without parenthesis:
 
@@ -1353,10 +1433,10 @@ but behaves more like Ruby, attempts to correct many of those quirks.
       // because:
 
       // - `function` keyword in the global scope or inside a function -> function declaration (statement)
-      //     <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function>
+      //     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function
       //     SyntaxError because function declarations require a name
       // - inside parenthesise, function expression, because there can be no statements inside parenthesis.
-      //     <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function>
+      //     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function
 
       // Name and empty parenthesis also implies a different `SyntaxError`:
 
@@ -1385,23 +1465,25 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
         !function() {}()
 
-      // Major application: run code inside a new isolated scope:
+      // Applications:
+      //
+      // - hide variable definitions from global scope
 
-        var a = 1
-        var b = 2
+        var a = {x:1}
+        var b = {x:2}
         ;(function(a) {
-          a *= -1
-          // ReferenceError:
-          //b
-          var b = -2
-        })
-        assert_eq(a, 1)
-        assert_eq(b, 2)
+          var global_undefined = 0
+          assert_eq(a.x, 1)
+          a.x = -1
+          b.x = -2
+        })(a)
+        assert_eq(a.x, -1)
+        assert_eq(b.x, -2)
 
-      // TODO why a not visible?
-
-        //var a = 0
-        //(function() {alert(a)}())
+        assert_raises(
+          function() { global_undefined },
+          ReferenceError
+        )
 
       // #semicolon before IIFE
 
@@ -1422,7 +1504,7 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
       // Use IIFE + closures to create objects with private members.
 
-      // Protype vs closure based techinques:
+      // Prototype vs closure based techniques:
       // http://stackoverflow.com/questions/3564238/object-oriented-javascript-with-prototypes-vs-closures
 
         var counter = (function() {
@@ -1473,7 +1555,7 @@ but behaves more like Ruby, attempts to correct many of those quirks.
     assert_eq(a[0], 0)
     assert_eq(a[1], 'a')
 
-  // Arrays are hash objects: <http://stackoverflow.com/questions/6445010/what-is-a-javascript-array>
+  // Arrays are hash objects: http://stackoverflow.com/questions/6445010/what-is-a-javascript-array
   //
   // Arrays are *not*:
   //
@@ -1503,18 +1585,20 @@ but behaves more like Ruby, attempts to correct many of those quirks.
     assert_eq(a.b, 3)
     assert_eq(a.length, 10)
 
-  // Arrays are mutable:
+  // Like any other non primitive objects:
 
     assert_neq([], [])
 
-  // There is no short built-in way of comparing them: <http://stackoverflow.com/questions/7837456/comparing-two-arrays-in-javascript>
+  // There is no short built-in way of comparing them: http://stackoverflow.com/questions/7837456/comparing-two-arrays-in-javascript
+
+  // A good library based workaround is Uderscore.js's isEqual.
 
   //#Array explicit constructor
 
     // `new Array` vs `Array`: unlike `new String` vs `String`, they are identical
-    // <http://stackoverflow.com/questions/8205691/coffeescript-array-vs-new-array>
+    // http://stackoverflow.com/questions/8205691/coffeescript-array-vs-new-array
 
-    // `String()` vs `''`: <http://stackoverflow.com/questions/931872/whats-the-difference-between-array-and-while-declaring-a-javascript-ar>
+    // `String()` vs `''`: http://stackoverflow.com/questions/931872/whats-the-difference-between-array-and-while-declaring-a-javascript-ar
 
     // Generates identical objects:
 
@@ -1585,6 +1669,23 @@ but behaves more like Ruby, attempts to correct many of those quirks.
       })
       assert_eq(total, 3)
 
+// #exception #try #catch #finaly
+
+  // try catch finally
+
+  // No `else`, use a variable instead:
+  // http://stackoverflow.com/questions/4872170/javascript-try-catch-else-finally-like-python-java-ruby-etc
+
+    var a = 0
+    try {
+      throw 0
+    } catch (err) {
+      assert_eq(err, 0)
+    } finally {
+      a = 1
+    }
+    assert_eq(a, 1)
+
 // #Date
 
   //new Date() // current date and time
@@ -1608,99 +1709,122 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
     //alert("an alert")
     //var v = prompt("what:", "default")
+</script>
 
-/*
-#window
+<h2>#window</h2>
 
-  One of the most important objects.
-
-  Offers an interface to the browser contents.
-
-  May be undefined on Node.js. This can be used to check if we are no Nodejs or browser.
-
-  `window` is the global object in browser implementations: <http://www.ecma-international.org/ecma-262/5.1/#sec-15.1>
-
-  It is not present in Nodejs.
-*/
-
-  // All global objects are attributes of window:
-
+  <p>One of the most important objects.</p>
+  <p>Offers an interface to the browser contents.</p>
+  <p>May be undefined on Node.js. This can be used to check if we are no Nodejs or browser.</p>
+  <p>`window` is the global object in browser implementations: http://www.ecma-international.org/ecma-262/5.1/#sec-15.1</p>
+  <p>It is not present in Nodejs.</p>
+  <p>All global objects are attributes of window</p>
+  <script>
     a = 1
     window.a = 2
     assert_eq(a, 2)
     this.a = 3
     assert_eq(a, 3)
+  </script>
 
-  // #height #width #innerXXX #outer
+  <h3>#height #width #innerHeight #outer</h3>
 
-    // Not on IE8.
+    <p>Not on IE8.</p>
+    <p>Inner does not include scrollbars, toolbars, address bar, tabs:</p>
+    <div>window.innerHeight = <script>document.write(window.innerHeight)</script></div>
+    <div>window.innerWidth  = <script>document.write(window.innerWidth) </script></div>
+    <p>Outer includes everything:</p>
+    <div>window.outerHeight = <script>document.write(window.outerHeight)</script></div>
+    <div>window.outerWidth  = <script>document.write(window.outerWidth) </script></div>
 
-    // Inner does not include scrollbars, toolbars, address bar, tabs:
+  <h3>#scroll #pageXOffset #pageYOffset #scrollBy</h3>
 
-      document.write('<div>window.innerHeight = ' + window.innerHeight + '</div>')
-      document.write('<div>window.innerWidth = '  + window.innerWidth  + '</div>')
+    <p>Get how much scroll was done from top left:</p>
+    <div>window.pageXOffset = <script>document.write(window.pageXOffset)</script></div>
+    <div>window.pageYOffset = <script>document.write(window.pageYOffset)</script></div>
+    <p>scrollby: TODO window.scrollBy(100,100)</p>
+    <script>
+    // #open
 
-    // Outer includes everything:
+      // Opens up new windows / tabs on the browser.
 
-      document.write('<div>window.outerHeight = ' + window.outerHeight + '</div>')
-      document.write('<div>window.outerWidth = '  + window.outerWidth  + '</div>')
+      // Popup blockers usually block this.
 
-  // #scroll
+      // Good way to annoy users =)
 
-    // Get how much scroll was done from top left:
+      // Returns a window object.
 
-      document.write('<div>window.pageXOffset = ' + window.pageXOffset + '</div>')
-      document.write('<div>window.pageYOffset = ' + window.pageYOffset + '</div>')
+        //var myWindow = window.open("", "name", "width=200, height=100");
 
-    // Scroll by exactly:
+    // #name
 
-      //window.scrollBy(100,100);
+      // Not necessarily the HTML title:
 
-  // #open
+        //assert_eq(window.name, "js cheat")
 
-    // Opens up new windows / tabs on the browser.
+      // Can be set when opening a window with open.
+    </script>
 
-    // Popup blockers usually block this.
+  <h3>#setInterval #clearInterval</h3>
 
-    // Good way to annoy users =)
+    <p>Run a function every n milliseconds.</p>
+    <p>Seconds since load: <span id="setInterval">0</span> <span class="border" id="clearInterval">Click me to stop.</span></p>
+    <script>
+      var setIntervalCount = 0
+      var interval0 = window.setInterval(function(){
+        setIntervalCount++
+        document.getElementById('setInterval').innerHTML = setIntervalCount.toString()
+      }, 1000)
+      document.getElementById('clearInterval').addEventListener(
+        'click',
+        function(event) {
+          alert('here')
+          //window.clearInterval(interval0)
+        },
+        true
+      )
+    </script>
 
-    // Returns a window object.
+  <h3>#non-standard attributes</h3>
 
-      //var myWindow = window.open("", "name", "width=200, height=100");
+    <p>Just for fun.</p>
+    <ul>
+      <li>history: browser history</li>
+      <li>navigator: navigator metadata</li>
+    </ul>
 
-  // #name
+<h2>#DOM</h2>
 
-    // Not necessarily the HTML title:
+<h2>#document</h2>
 
-      //assert_eq(window.name, "js cheat")
+  <p>Interface to the DOM: www.w3.org/DOM/DOMTR</p>
+  <p>It is possible to access all DOM attributes of an element: http://www.w3schools.com/jsref/dom_obj_all.asp</p>
+  <p>Shortcut for `window.document`:</p>
+  <script>assert_eq(document, window.document)</script>
 
-    // Can be set when opening a window with open.
+  <h3>#write</h3>
 
-  // #non-standard attributes
+    <p>Write at the current script location:</p>
+    <script>document.write('here')</script>
 
-    // Just for fun.
+    <p>
+      Scripts inserted like this will be executed.
+      TODO which order?
+      http://stackoverflow.com/questions/94141/javascripts-document-write-inline-script-execution-order
+      Probably not a good idea to rely on such things.
+    </p>
+    <script>
+      var a = 0
+      document.write('<script>a = 1</scr'+'ipt>')
+      // TODO deterministic? Firefox and Chromium tests have passed.
+      //assert_eq(a, 1)
+    </script>
+    <script>
+      // TODO deterministic? Firefox and Chromium tests have passed.
+      //assert_eq(a, 1)
+    </script>
 
-    // - history: browser history
-    // - navigator: navigator metadata
-
-/*
-#DOM
-
-#document
-
-  Interface to the DOM: <www.w3.org/DOM/DOMTR>
-
-  It is possible to access all DOM attributes of an element: <http://www.w3schools.com/jsref/dom_obj_all.asp>.
-*/
-
-  // Shortcut for `window.document`
-
-    assert_eq(document, window.document)
-
-  // Write at the current script location:
-
-    //document.write('here')
-
+<script>
   // #Selectors
 
     // #querySelectorAll
@@ -1714,35 +1838,40 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
     // #getElementById
 
-      // Obvious what it does.
-
         document.write('<div id="getElementById" data-0="1"></div>')
         assert_eq(document.getElementById("getElementById").getAttribute("data-0"), "1")
 
     // #getElementsByClassName
 
-      // Obvious... but not implemented on IE8... Alternatives: http://stackoverflow.com/questions/3808808/how-to-get-element-by-class-in-javascript
+      // Not implemented on IE8... Alternatives: http://stackoverflow.com/questions/3808808/how-to-get-element-by-class-in-javascript
       // So if you care about IE8, just use querySelectorAll or JQuery.
 
         document.write('<div class="getElementsByClassName0 getElementsByClassName1" data-0="1"></div>')
         assert_eq(document.getElementsByClassName("getElementsByClassName0")[0].getAttribute("data-0"), "1")
 
+    // #getElementsByTagName
+
+      // Some special cases have shortcuts for them:
+
+        assert_eq(document.getElementsByTagName('body')[0], document.body)
+        assert_eq(document.getElementsByTagName('head')[0], document.head)
+
   // #DOM
 
     // #nodeType
 
-      //- 1   ELEMENT_NODE
-      //- 2   ATTRIBUTE_NODE
-      //- 3   TEXT_NODE
-      //- 4   CDATA_SECTION_NODE
-      //- 5   ENTITY_REFERENCE_NODE
-      //- 6   ENTITY_NODE
-      //- 7   PROCESSING_INSTRUCTION_NODE
-      //- 8   COMMENT_NODE
-      //- 9 	DOCUMENT_NODE
-      //- 10  DOCUMENT_TYPE_NODE
-      //- 11 	DOCUMENT_FRAGMENT_NODE
-      //- 12  NOTATION_NODE
+      //- 1 : ELEMENT_NODE
+      //- 2 : ATTRIBUTE_NODE
+      //- 3 : TEXT_NODE
+      //- 4 : CDATA_SECTION_NODE
+      //- 5 : ENTITY_REFERENCE_NODE
+      //- 6 : ENTITY_NODE
+      //- 7 : PROCESSING_INSTRUCTION_NODE
+      //- 8 : COMMENT_NODE
+      //- 9 : DOCUMENT_NODE
+      //- 10: DOCUMENT_TYPE_NODE
+      //- 11: DOCUMENT_FRAGMENT_NODE
+      //- 12: NOTATION_NODE
 
         document.write('<div id="nodeType">a<div>b</div>c</div>')
         var parent = document.getElementById('nodeType')
@@ -1759,6 +1888,10 @@ but behaves more like Ruby, attempts to correct many of those quirks.
         document.write('<div id="nodeValue">a<i>b</i>c</div>')
         assert_eq(document.getElementById('nodeValue').firstChild.nodeValue, 'a')
         assert_eq(document.getElementById('nodeValue').innerHTML,            'a<i>b</i>c')
+
+      // *Don't* do innerHTML += innerHTML + 'something' unless you are sure it is only a string.
+
+      // Otherwise, this would destroy events associated to elements in the innerHTML.
 
     // #outerHTML
 
@@ -1784,26 +1917,30 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
     // #parentNode #nextSibling #nextElementSibling
 
-      document.write('<div id="parentNode">a<i>b</i>c<i>d</i>e</div>')
-      var firstI = document.getElementById('parentNode').children[0]
-      assert_eq(firstI.parentNode.tagName, 'DIV')
-      assert_eq(firstI.previousSibling.nodeValue, 'a')
-      assert_eq(firstI.previousElementSibling, null)
-      assert_eq(firstI.nextSibling.nodeValue, 'c')
-      assert_eq(firstI.nextElementSibling.innerHTML, 'd')
+        document.write('<div id="parentNode">a<i>b</i>c<i>d</i>e</div>')
+        var firstI = document.getElementById('parentNode').children[0]
+        assert_eq(firstI.parentNode.tagName, 'DIV')
+        assert_eq(firstI.previousSibling.nodeValue, 'a')
+        assert_eq(firstI.previousElementSibling, null)
+        assert_eq(firstI.nextSibling.nodeValue, 'c')
+        assert_eq(firstI.nextElementSibling.innerHTML, 'd')
 
     // #insertAdjacentHTML
 
-    document.write('<div>a<span id="insertAdjacentHTML">b</span>c</div>')
-    var inner = document.getElementById('insertAdjacentHTML')
-    inner.insertAdjacentHTML('beforeBegin', ' <b>beforeBegin</b> ')
-    inner.insertAdjacentHTML('afterBegin',  ' afterBegin ')
-    inner.insertAdjacentHTML('beforeEnd',   ' beforeEnd ')
-    inner.insertAdjacentHTML('afterEnd',    ' <b>afterEnd</b> ')
+      // Insert string before or after tag.
+
+        document.write('<div>a<span id="insertAdjacentHTML">b</span>c</div>')
+        var inner = document.getElementById('insertAdjacentHTML')
+        inner.insertAdjacentHTML('beforeBegin', ' <b>beforeBegin</b> ')
+        inner.insertAdjacentHTML('afterBegin',  ' afterBegin ')
+        inner.insertAdjacentHTML('beforeEnd',   ' beforeEnd ')
+        inner.insertAdjacentHTML('afterEnd',    ' <b>afterEnd</b> ')
 
     // #insertBefore
 
-      // Must work with elements: cannot insert string directly.
+      // Insert an element before another.
+
+      // Must work with elements: cannot insert string directly. Consider `insertAdjacentHTML` for that.
 
       // TODO what happens when element exists already? Copy?
 
@@ -1837,12 +1974,12 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
       // Get the current script element.
 
-        assert_eq(document.currentScript.parentNode.tagName, 'BODY')
+        assert_eq(document.currentScript.parentNode, document.body)
 
     // #textarea #onkeypress
 
       document.write(
-        '<h1>#textarea</h1>' +
+        '<h2>#textarea</h2>' +
         '<textarea id="textarea" onkeypress="textarea_func();">default</textarea>' +
         '<div id="textarea-value">Textarea value = <span></span></div>'
       )
@@ -1864,7 +2001,7 @@ but behaves more like Ruby, attempts to correct many of those quirks.
     */
 
       document.write(
-        '<h1>#canvas</h1>' +
+        '<h2>#canvas</h2>' +
         '<canvas id="canvas" width="200" height="100" style="border:1px solid black;"></canvas>' +
         '<div onclick="canvas_onclick()" class="border">canvas_onclick. Click me!</div>'
       )
@@ -2046,8 +2183,152 @@ but behaves more like Ruby, attempts to correct many of those quirks.
                           ";expires=Thu, 01 Jan 1970 00:00:01 GMT"
         }
 
-    document.write("<h1>cookies</h1>" + document.cookie + "<br>")
+    document.write('<h2>cookies</h2>' + document.cookie + '<br>')
+</script>
 
+<h2>#events</h2>
+
+  <p>Events are part of the DOM.</p>
+  <p>Each event is attached to an element.</p>
+  <p>Events propagate</p>
+  <p>Like the rest of the DOM, it is a bit messy to find where events are defined.</p>
+  <p>A good source is Firefox's documentation https://developer.mozilla.org/en-US/docs/Web/Reference/Events</p>
+  <p>The major standards are:</p>
+  <ul>
+    <li>http://www.w3.org/TR/DOM-Level-3-Events/</li>
+    <li>
+      random points of HTML5 like
+      http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#the-end
+      for `DOMContentLoaded`
+    </li>
+  </ul>
+
+  <h3>#addEventListener</h3>
+
+    <p>Allows to add an unlimited amount of handlers per event. Better choice than `on` events like `onload`.</p>
+    <p>Can be used together with `on` events. TODO check.</p>
+    <p>TODO do all events have a on version and an `addEventListener` one?</p>
+
+    <h4>#useCapture parameter #capture vs #bubble</h4>
+
+      <p>Determines the order in which listeners listen to the event.</p>
+      <p>TODO exactly how, example</p>
+      <p>A listener callback ends, the event is then sent to further listeners by default.</p>
+
+    <h4>#stopPropagation</h4>
+
+      <p>
+        Prevent event from being listened on further listeners.
+        http://stackoverflow.com/questions/4470417/how-do-i-consume-a-key-event-in-javascript-so-that-it-doesnt-propagate
+      </p>
+      <p>Only implemented in recent IE. Consider jQuery's `preventDefault` and/or `stopPropagation` if you care.</p>
+      <p>TODO example</p>
+
+    <h4>#dispatchEvent #Trigger events programmatically.</h4>
+
+      <p>
+        Programmatically trigger events.
+        http://stackoverflow.com/questions/2490825/how-to-trigger-event-in-javascript
+      </p>
+      <p>TODO example</p>
+      <p>
+        TODO not possible to trigger standard events like click?
+        http://stackoverflow.com/questions/809057/how-do-i-programmatically-click-on-an-element-in-firefox
+      </p>
+      <div id="dispatchEvent"></div>
+
+  <h3>#document vs window events</h3>
+
+    <p>
+      `document` and `window` have different possible events:
+      http://stackoverflow.com/questions/12045440/difference-between-document-addeventlistener-and-window-addeventlistener
+    </p>
+
+  <h3>Attach events to body</h3>
+
+    <p>
+      You cannot attach events to the `body` element form scripts in the head,
+      because the body is not yet part of the DOM!
+    </p>
+    <p>Prefer to attach events to the `document` or `window` objects instead.</p>
+    <div id="addEventListener">#FAIL</div>
+    <script>
+      document.body.addEventListener(
+        'load',
+        function() {
+          document.getElementById('addEventListener').innerHTML = ''
+        },
+        true
+      )
+    </script>
+
+  <h3>Useful events</h3>
+
+    <h4>#load</h4>
+
+      <p>
+        Can only be used on `body` or elements that load remote sources such as
+        `img`, `link` or remote `script` tags.
+        Cannot be used on other elements such as `div`.
+      </p>
+      <p>
+        Both window and document objects have this event:
+        http://stackoverflow.com/questions/588040/window-onload-vs-document-onload>
+        but `document`'s is probably more useful.
+      </p>
+
+    <h4>#DOMContentLoaded</h4>
+
+      <p>HTML5 http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#the-end</p>
+      <p>
+        `DOMContentLoaded` vs `document.onload`:
+        http://stackoverflow.com/questions/2414750/difference-between-domcontentloaded-and-load-events
+        Former does not wait for external resources to load, later does.
+      </p>
+      <p>Used by jQuery's `$(document).ready` method where supported.</p>
+      <div id="DOMContentLoaded"></div>
+      <script>
+        document.addEventListener(
+          'DOMContentLoaded',
+          function() {
+            document.getElementById('DOMContentLoaded').innerHTML = 'DOMContentLoaded'
+          },
+          true
+        )
+      </script>
+      <script>
+        window.onload = function(){
+          document.getElementById('window-onload').innerHTML = 'window-onload'
+        }
+      </script>
+      <div id="onload"></div>
+      <div id="window-onload"></div>
+      <script>
+        window.onload = function(){
+          document.getElementById('window-onload').innerHTML = 'window-onload'
+        }
+      </script>
+
+    <h4>#click</h4>
+
+      <div class="border" id="onclick" onclick="onclick_func(event)" style="height:100px;">onclick. Click here.</div>
+      <script>
+        var onclick_func = function(even) {
+          even.target.innerHTML += ' click'
+        }
+      </script>
+      <div class="border" id="click" style="height:100px;">addEventListener click. Click here.</div>
+      <script>
+        function click(even) {
+          even.target.innerHTML += ' click'
+        }
+        document.getElementById('click').addEventListener(
+          'click',
+          click,
+          false
+        )
+      </script>
+<script>
 // #JSON
 
   // ES5. For greater portability, <https://github.com/douglascrockford/JSON-js/blob/master/json2.js>
@@ -2070,10 +2351,10 @@ but behaves more like Ruby, attempts to correct many of those quirks.
 
     // Open signature: `open(method,url,async)
 
-      xmlhttp.open("GET", "ajax/url", true)
-      xmlhttp.open("GET", "ajax/url?a=1&b=2", true)
-      xmlhttp.open("POST", "ajax/url", true)
-      xmlhttp.open("POST", "ajax/url", true)
+      xmlhttp.open('GET',  'ajax/url', true)
+      xmlhttp.open('GET',  'ajax/url?a=1&b=2', true)
+      xmlhttp.open('POST', 'ajax/url', true)
+      xmlhttp.open('POST', 'ajax/url', true)
 
     // Post data is set at `send`.
 
