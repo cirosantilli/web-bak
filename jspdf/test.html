@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+  <title>jsPDF</title>
+</head>
+<body>
+<h1>jsPDF</h1>
+<button>Download PDF.</button>
+<script>
+  document.currentScript.previousElementSibling.addEventListener(
+    'click',
+    function(even) {
+      var doc = new jsPDF()
+      doc.text(20, 20, '0')
+      doc.text(20, 30, '1 A very very very very very very very very very very long line.')
+      doc.addPage()
+      doc.text(20, 20, '2')
+      doc.save('Test.pdf')
+    },
+    false
+  )
+</script>
+</body>
+</html>

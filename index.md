@@ -25,6 +25,7 @@ Less useful cheats:
 - [Bower](bower/)
 - [Browserify](browserify/)
 - [jQuery](jquery.html)
+- [jsPDF](jspdf/)
 
 # Standards organizations
 

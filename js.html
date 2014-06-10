@@ -11,6 +11,10 @@
   <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
   <script src="/assets/jquery.toc.js"></script>
   <script>
+    var previousElement = function() {
+      return document.currentScript.previousElementSibling
+    }
+
     $("#toc").toc({
       content: "div.content",
       headings: "h1,h2,h3,h4,h5,h6"
@@ -18,7 +22,6 @@
   </script>
 </head>
 <body onload="document.getElementById('onload').innerHTML = 'onload'">
-
 <h1>Javascript Cheatsheet</h1>
 
 <p>Javascript is a toy language designed to run in a browser.</p>
@@ -1825,365 +1828,375 @@
     </script>
 
 <script>
-  // #Selectors
+// #Selectors
 
-    // #querySelectorAll
+  // #querySelectorAll
 
-      // Select elements by CSS selector. Very powerful.
+    // Select elements by CSS selector. Very powerful.
 
-      // Not supported in IE7.
+    // Not supported in IE7.
 
-        document.write('<div class="querySelectorAll0"><div class="querySelectorAll1" data-0="querySelectorAll"></div></div>')
-        assert_eq(document.querySelectorAll(".querySelectorAll0 > .querySelectorAll1")[0].getAttribute("data-0"), "querySelectorAll")
+      document.write('<div class="querySelectorAll0"><div class="querySelectorAll1" data-0="querySelectorAll"></div></div>')
+      assert_eq(document.querySelectorAll(".querySelectorAll0 > .querySelectorAll1")[0].getAttribute("data-0"), "querySelectorAll")
 
-    // #getElementById
+  // #getElementById
 
-        document.write('<div id="getElementById" data-0="1"></div>')
-        assert_eq(document.getElementById("getElementById").getAttribute("data-0"), "1")
+      document.write('<div id="getElementById" data-0="1"></div>')
+      assert_eq(document.getElementById("getElementById").getAttribute("data-0"), "1")
 
-    // #getElementsByClassName
+  // #getElementsByClassName
 
-      // Not implemented on IE8... Alternatives: http://stackoverflow.com/questions/3808808/how-to-get-element-by-class-in-javascript
-      // So if you care about IE8, just use querySelectorAll or JQuery.
+    // Not implemented on IE8... Alternatives: http://stackoverflow.com/questions/3808808/how-to-get-element-by-class-in-javascript
+    // So if you care about IE8, just use querySelectorAll or JQuery.
 
-        document.write('<div class="getElementsByClassName0 getElementsByClassName1" data-0="1"></div>')
-        assert_eq(document.getElementsByClassName("getElementsByClassName0")[0].getAttribute("data-0"), "1")
+      document.write('<div class="getElementsByClassName0 getElementsByClassName1" data-0="1"></div>')
+      assert_eq(document.getElementsByClassName("getElementsByClassName0")[0].getAttribute("data-0"), "1")
 
-    // #getElementsByTagName
+  // #getElementsByTagName
 
-      // Some special cases have shortcuts for them:
+    // Some special cases have shortcuts for them:
 
-        assert_eq(document.getElementsByTagName('body')[0], document.body)
-        assert_eq(document.getElementsByTagName('head')[0], document.head)
+      assert_eq(document.getElementsByTagName('body')[0], document.body)
+      assert_eq(document.getElementsByTagName('head')[0], document.head)
 
-  // #DOM
+// #DOM
 
-    // #nodeType
+  // #nodeType
 
-      //- 1 : ELEMENT_NODE
-      //- 2 : ATTRIBUTE_NODE
-      //- 3 : TEXT_NODE
-      //- 4 : CDATA_SECTION_NODE
-      //- 5 : ENTITY_REFERENCE_NODE
-      //- 6 : ENTITY_NODE
-      //- 7 : PROCESSING_INSTRUCTION_NODE
-      //- 8 : COMMENT_NODE
-      //- 9 : DOCUMENT_NODE
-      //- 10: DOCUMENT_TYPE_NODE
-      //- 11: DOCUMENT_FRAGMENT_NODE
-      //- 12: NOTATION_NODE
+    //- 1 : ELEMENT_NODE
+    //- 2 : ATTRIBUTE_NODE
+    //- 3 : TEXT_NODE
+    //- 4 : CDATA_SECTION_NODE
+    //- 5 : ENTITY_REFERENCE_NODE
+    //- 6 : ENTITY_NODE
+    //- 7 : PROCESSING_INSTRUCTION_NODE
+    //- 8 : COMMENT_NODE
+    //- 9 : DOCUMENT_NODE
+    //- 10: DOCUMENT_TYPE_NODE
+    //- 11: DOCUMENT_FRAGMENT_NODE
+    //- 12: NOTATION_NODE
 
-        document.write('<div id="nodeType">a<div>b</div>c</div>')
-        var parent = document.getElementById('nodeType')
-        assert_eq(parent.nodeType, 1)
-        assert_eq(parent.childNodes[0].nodeType, 3)
+      document.write('<div id="nodeType">a<div>b</div>c</div>')
+      var parent = document.getElementById('nodeType')
+      assert_eq(parent.nodeType, 1)
+      assert_eq(parent.childNodes[0].nodeType, 3)
 
-    // #tagName
+  // #tagName
 
-        document.write('<div id="tagName"></div>')
-        assert_eq(document.getElementById('tagName').tagName, 'DIV')
+      document.write('<div id="tagName"></div>')
+      assert_eq(document.getElementById('tagName').tagName, 'DIV')
+</script>
+  <h3>#nodeValue #innerHTML</h3>
 
-    // #nodeValue #innerHTML
+    <p>
+      *Don't* do `innerHTML += innerHTML + 'something'` unless you are sure it is only a string.
+      Otherwise, this would destroy events associated to elements in the `innerHTML`.
+    </p>
 
-        document.write('<div id="nodeValue">a<i>b</i>c</div>')
-        assert_eq(document.getElementById('nodeValue').firstChild.nodeValue, 'a')
-        assert_eq(document.getElementById('nodeValue').innerHTML,            'a<i>b</i>c')
+    <div>a<i>b</i>c</div>
+    <script>
+      assert_eq(previousElement().firstChild.nodeValue, 'a')
+      assert_eq(previousElement().innerHTML,            'a<i>b</i>c')
+    </script>
 
-      // *Don't* do innerHTML += innerHTML + 'something' unless you are sure it is only a string.
+    <button>Button innerHTML</button>
+    <script>
+      assert_eq(previousElement().innerHTML, 'Button innerHTML')
+    </script>
 
-      // Otherwise, this would destroy events associated to elements in the innerHTML.
+    <script>
 
-    // #outerHTML
+  // #outerHTML
 
-      // Includes the tags. Less support but increasing.
+    // Includes the tags. Less support but increasing.
 
-        document.write('<div id="nodeValue">a<i>b</i>c</div>')
-        assert_eq(document.getElementById('nodeValue').outerHTML, '<div id="nodeValue">a<i>b</i>c</div>')
+      document.write('<div id="nodeValue">a<i>b</i>c</div>')
+      assert_eq(document.getElementById('nodeValue').outerHTML, '<div id="nodeValue">a<i>b</i>c</div>')
 
-    // #children #firstElementChild #childnodes #firstChild #lastChild
+  // #children #firstElementChild #childnodes #firstChild #lastChild
 
-        document.write('<div id="children">a<i>b</i>c</div>')
+      document.write('<div id="children">a<i>b</i>c</div>')
 
-      // Children and firstElementChild: only elements, no text.
+    // Children and firstElementChild: only elements, no text.
 
-        assert_eq(document.getElementById('children').children[0].innerHTML,       'b')
-        assert_eq(document.getElementById('children').firstElementChild.innerHTML, 'b')
+      assert_eq(document.getElementById('children').children[0].innerHTML,       'b')
+      assert_eq(document.getElementById('children').firstElementChild.innerHTML, 'b')
 
-      // childNodes and firstChild: include text.
+    // childNodes and firstChild: include text.
 
-        assert_eq(document.getElementById('children').firstChild.nodeValue,    'a')
-        assert_eq(document.getElementById('children').childNodes[0].nodeValue, 'a')
-        assert_eq(document.getElementById('children').lastChild.nodeValue,     'c')
+      assert_eq(document.getElementById('children').firstChild.nodeValue,    'a')
+      assert_eq(document.getElementById('children').childNodes[0].nodeValue, 'a')
+      assert_eq(document.getElementById('children').lastChild.nodeValue,     'c')
 
-    // #parentNode #nextSibling #nextElementSibling
+  // #parentNode #nextSibling #nextElementSibling
 
-        document.write('<div id="parentNode">a<i>b</i>c<i>d</i>e</div>')
-        var firstI = document.getElementById('parentNode').children[0]
-        assert_eq(firstI.parentNode.tagName, 'DIV')
-        assert_eq(firstI.previousSibling.nodeValue, 'a')
-        assert_eq(firstI.previousElementSibling, null)
-        assert_eq(firstI.nextSibling.nodeValue, 'c')
-        assert_eq(firstI.nextElementSibling.innerHTML, 'd')
+      document.write('<div id="parentNode">a<i>b</i>c<i>d</i>e</div>')
+      var firstI = document.getElementById('parentNode').children[0]
+      assert_eq(firstI.parentNode.tagName, 'DIV')
+      assert_eq(firstI.previousSibling.nodeValue, 'a')
+      assert_eq(firstI.previousElementSibling, null)
+      assert_eq(firstI.nextSibling.nodeValue, 'c')
+      assert_eq(firstI.nextElementSibling.innerHTML, 'd')
 
-    // #insertAdjacentHTML
+  // #insertAdjacentHTML
 
-      // Insert string before or after tag.
+    // Insert string before or after tag.
 
-        document.write('<div>a<span id="insertAdjacentHTML">b</span>c</div>')
-        var inner = document.getElementById('insertAdjacentHTML')
-        inner.insertAdjacentHTML('beforeBegin', ' <b>beforeBegin</b> ')
-        inner.insertAdjacentHTML('afterBegin',  ' afterBegin ')
-        inner.insertAdjacentHTML('beforeEnd',   ' beforeEnd ')
-        inner.insertAdjacentHTML('afterEnd',    ' <b>afterEnd</b> ')
+      document.write('<div>a<span id="insertAdjacentHTML">b</span>c</div>')
+      var inner = document.getElementById('insertAdjacentHTML')
+      inner.insertAdjacentHTML('beforeBegin', ' <b>beforeBegin</b> ')
+      inner.insertAdjacentHTML('afterBegin',  ' afterBegin ')
+      inner.insertAdjacentHTML('beforeEnd',   ' beforeEnd ')
+      inner.insertAdjacentHTML('afterEnd',    ' <b>afterEnd</b> ')
 
-    // #insertBefore
+  // #insertBefore
 
-      // Insert an element before another.
+    // Insert an element before another.
 
-      // Must work with elements: cannot insert string directly. Consider `insertAdjacentHTML` for that.
+    // Must work with elements: cannot insert string directly. Consider `insertAdjacentHTML` for that.
 
-      // TODO what happens when element exists already? Copy?
+    // TODO what happens when element exists already? Copy?
 
-        document.write('<div id="insertBefore">a<i>b</i>c</div>')
-        var insertBefore = document.getElementById('insertBefore')
-        var insertBeforeI = insertBefore.children[0]
-        var divD = document.createElement('div');
-        divD.appendChild(document.createTextNode('d'));
-        insertBefore.insertBefore(divD, insertBeforeI)
-        assert_eq(insertBeforeI.previousElementSibling.innerHTML, 'd')
+      document.write('<div id="insertBefore">a<i>b</i>c</div>')
+      var insertBefore = document.getElementById('insertBefore')
+      var insertBeforeI = insertBefore.children[0]
+      var divD = document.createElement('div');
+      divD.appendChild(document.createTextNode('d'));
+      insertBefore.insertBefore(divD, insertBeforeI)
+      assert_eq(insertBeforeI.previousElementSibling.innerHTML, 'd')
 
-      // #insertAfter
+    // #insertAfter
 
-        // Does not exist, but easily defined with `insertBefore`.
+      // Does not exist, but easily defined with `insertBefore`.
 
-        //http://stackoverflow.com/questions/4793604/how-to-do-insert-after-in-javascript-without-using-a-library
+      //http://stackoverflow.com/questions/4793604/how-to-do-insert-after-in-javascript-without-using-a-library
 
-    // #getAttribute
+  // #getAttribute
 
-      document.write('<div id="getAttribute">a<i>b</i>c<i>d</i>e</div>')
-      assert_eq(document.getElementById('getAttribute').getAttribute('id'), 'getAttribute')
+    document.write('<div id="getAttribute">a<i>b</i>c<i>d</i>e</div>')
+    assert_eq(document.getElementById('getAttribute').getAttribute('id'), 'getAttribute')
 
-    // #style #CSS
+  // #style #CSS
 
-      // Get and set CSS attributes.
+    // Get and set CSS attributes.
 
-      document.write('<div id="style" style="background-color:green; color:blue;">#style</div>')
-      document.getElementById('style').style.backgroundColor = 'red'
+    document.write('<div id="style" style="background-color:green; color:blue;">#style</div>')
+    document.getElementById('style').style.backgroundColor = 'red'
 
-    // #currentScript
+  // #currentScript
 
-      // Get the current script element.
+    // Get the current script element.
 
-        assert_eq(document.currentScript.parentNode, document.body)
+      assert_eq(document.currentScript.parentNode, document.body)
 
-    // #textarea #onkeypress
+  // #textarea #onkeypress
 
-      document.write(
-        '<h2>#textarea</h2>' +
-        '<textarea id="textarea" onkeypress="textarea_func();">default</textarea>' +
-        '<div id="textarea-value">Textarea value = <span></span></div>'
-      )
-      var textarea = document.getElementById('textarea')
-      var textarea_value_holder = document.getElementById('textarea-value').lastElementChild
-      function textarea_func() {
-        textarea_value_holder.innerHTML = textarea.value
-      }
-      textarea_func()
+    document.write(
+      '<h2>#textarea</h2>' +
+      '<textarea id="textarea" onkeypress="textarea_func();">default</textarea>' +
+      '<div id="textarea-value">Textarea value = <span></span></div>'
+    )
+    var textarea = document.getElementById('textarea')
+    var textarea_value_holder = document.getElementById('textarea-value').lastElementChild
+    function textarea_func() {
+      textarea_value_holder.innerHTML = textarea.value
+    }
+    textarea_func()
 
-      // #onchange
+    // #onchange
 
-        // Value of input element changed.
+      // Value of input element changed.
 
-    /*
-    #canvas
+  /*
+  #canvas
 
-      The HTML canvas element was made to be drawn with Javascript and destroy Flash.
-    */
+    The HTML canvas element was made to be drawn with Javascript and destroy Flash.
+  */
 
-      document.write(
-        '<h2>#canvas</h2>' +
-        '<canvas id="canvas" width="200" height="100" style="border:1px solid black;"></canvas>' +
-        '<div onclick="canvas_onclick()" class="border">canvas_onclick. Click me!</div>'
-      )
-      function canvas_onclick() {
-        var b_canvas = document.getElementById("canvas");
-        var b_context = b_canvas.getContext("2d");
-        b_context.fillRect(50, 25, 150, 100);
-      }
+    document.write(
+      '<h2>#canvas</h2>' +
+      '<canvas id="canvas" width="200" height="100" style="border:1px solid black;"></canvas>' +
+      '<div onclick="canvas_onclick()" class="border">canvas_onclick. Click me!</div>'
+    )
+    function canvas_onclick() {
+      var b_canvas = document.getElementById("canvas");
+      var b_context = b_canvas.getContext("2d");
+      b_context.fillRect(50, 25, 150, 100);
+    }
 
-  // #ready
+// #ready
 
-    // Event called when the document finished loading.
+  // Event called when the document finished loading.
 
-    // Necessary if you have a script that comes before the elements it will act on.
+  // Necessary if you have a script that comes before the elements it will act on.
 
-    // Not necessary if your script comes after the elements it acts on:
-    // <http://stackoverflow.com/questions/4643990/jquery-is-document-ready-necessary>
-    // Therefore, this should never be necessary, since all scripts should be put at the bottom of the page.
+  // Not necessary if your script comes after the elements it acts on:
+  // <http://stackoverflow.com/questions/4643990/jquery-is-document-ready-necessary>
+  // Therefore, this should never be necessary, since all scripts should be put at the bottom of the page.
 
-  // #cookies
+// #cookies
 
-    // A way of storing small data strings on user's computer hard disk
+  // A way of storing small data strings on user's computer hard disk
 
-    // View all cookies on Firefox:
+  // View all cookies on Firefox:
 
-      //firefox chrome://browser/content/preferences/cookies.xul
+    //firefox chrome://browser/content/preferences/cookies.xul
 
-    // Cookies are accessible through DOM
+  // Cookies are accessible through DOM
 
-    // Cookies can be set/get only for current domain.
+  // Cookies can be set/get only for current domain.
 
-    // WARNING: some browsers may not keep cookies for local files (file://)
-    // so these tests may fail. current firefox does keep the cookies.
+  // WARNING: some browsers may not keep cookies for local files (file://)
+  // so these tests may fail. current firefox does keep the cookies.
 
-    // Each browser stores its own cookies
+  // Each browser stores its own cookies
 
-    // #cookies without javascript
+  // #cookies without javascript
 
-      // Cookies can also be set via headers using the `Set-Cookie` header key.
+    // Cookies can also be set via headers using the `Set-Cookie` header key.
 
-      // Cookies are automatically sent to servers by browsers via the `Cookie` header value.
+    // Cookies are automatically sent to servers by browsers via the `Cookie` header value.
 
-      // Cookies are sent from servers to CGI scripts via the `HTTP_COOKIE` env var.
+    // Cookies are sent from servers to CGI scripts via the `HTTP_COOKIE` env var.
 
-      // These are the most reliable methods, there is no need to use js for cookies.
+    // These are the most reliable methods, there is no need to use js for cookies.
 
-    // #session cookies
+  // #session cookies
 
-      // A cookie based technique to maintain user logged in.
+    // A cookie based technique to maintain user logged in.
 
-      // 1) username/password is sent to server encrypted in some way (HTTP Basic + SSL, POST + SSL)
+    // 1) username/password is sent to server encrypted in some way (HTTP Basic + SSL, POST + SSL)
 
-      // 2) server authenticates, and creates a large random number, sotores it,
-      // and sends it as a non persistent cookie that is an unique number
+    // 2) server authenticates, and creates a large random number, sotores it,
+    // and sends it as a non persistent cookie that is an unique number
 
-      // 3) whenever the user hits another URL, this large number is sent to server.
-      // and user is logged in.
+    // 3) whenever the user hits another URL, this large number is sent to server.
+    // and user is logged in.
 
-      //TODO: how to avoid getting the session highjacked?
+    //TODO: how to avoid getting the session highjacked?
+
+  // #path
+
+    // Cookies can be set only for the **current** path and its parents.
+
+    // E.g.: in `www.abc.com/a/b.html`, the path is `a/a.html`.
+    // so `a.html` can set cookies for `/`, `/a/` and `/a/a.html` from `/a/a.html`
+
+    // If the location is a directory, then all subdirs can also get the cookies.
+    // E.g.: cookies set for `/` can be seen on `/a/` and on `/b/`
+
+  // #js interface
+
+    // #set values
+
+      // Browser parses the strings.
+
+      // Set keys:
+
+        document.cookie = "key=val;"
+        document.cookie = "key=val2;"
+
+      // Only `val2` is kept.
+
+      // BAD:
+
+        document.cookie = "key2=val2;key3=val3"
+
+      // Only `key2` is set. Only a single key can be set at a time.
+
+    // #get values
+
+      // Not possible directly: must parse the `document.cookie` string.
+
+    // #delete values
+
+      // The simplest technique is to set a past expires date.
+
+  // #properties
+
+    // Are special key/value pairs that contain key metadata.
+
+    // #expires
+
+      // Previous key is deleted by browser at given UTC string date:
+
+        var now = new Date()
+        var later = now
+        later.setMinutes(now.getMinutes() + 1)
+        document.cookie += "keyExp=valExp;expires=" + later.toUTCString()
+
+      // If expires is not given, then the cookie expires when the browser is closed!
+
+      // It is not possible to make a cookie that never expires,
+      // only one with a huge expiry date.
 
     // #path
 
-      // Cookies can be set only for the **current** path and its parents.
+      // Cookie path.
 
-      // E.g.: in `www.abc.com/a/b.html`, the path is `a/a.html`.
-      // so `a.html` can set cookies for `/`, `/a/` and `/a/a.html` from `/a/a.html`
+      // Defaults to current file/dir.
 
-      // If the location is a directory, then all subdirs can also get the cookies.
-      // E.g.: cookies set for `/` can be seen on `/a/` and on `/b/`
+      // Can only be set for parent dirs of current path.
 
-    // #js interface
+    // #safe
 
-      // #set values
+      // If set to exactly `= safe`, this cookie will only be sent over `https`, not `http`
 
-        // Browser parses the strings.
+        document.cookie = "keySafe=v;safe"
 
-        // Set keys:
+      // TODO confirm usage correct
 
-          document.cookie = "key=val;"
-          document.cookie = "key=val2;"
+    // #HttpOnly
 
-        // Only `val2` is kept.
+      // Instructs server not to pass the cookie to CGI scripts.
 
-        // BAD:
+      // This can increase security of session cookies.
 
-          document.cookie = "key2=val2;key3=val3"
+      // <http://www.codinghorror.com/blog/2008/08/protecting-your-cookies-httponly.html>
 
-        // Only `key2` is set. Only a single key can be set at a time.
+        document.cookie = "keySafe=v;HttpOnly"
 
-      // #get values
+  // #higher level interface
 
-        // Not possible directly: must parse the `document.cookie` string.
+    // The Javascript cookie interface is very low level and inconvenient.
 
-      // #delete values
+    // jquery-cookie <https://github.com/carhartl/jquery-cookie> is on popular and convenient cookie interface based on JQuery.
 
-        // The simplest technique is to set a past expires date.
+    // #helpers
 
-    // #properties
+      // - c_name: string
+      // - value: string
+      // - exdays: integer. Number of days which will take for the cookie to expire.
+      //
+      function setCookie(c_name, value, exdays) {
+        var exdate = new Date()
+        exdate.setDate(exdate.getDate() + exdays)
+        var c_value = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toUTCString())
+        document.cookie = c_name + "=" + c_value
+      }
 
-      // Are special key/value pairs that contain key metadata.
-
-      // #expires
-
-        // Previous key is deleted by browser at given UTC string date:
-
-          var now = new Date()
-          var later = now
-          later.setMinutes(now.getMinutes() + 1)
-          document.cookie += "keyExp=valExp;expires=" + later.toUTCString()
-
-        // If expires is not given, then the cookie expires when the browser is closed!
-
-        // It is not possible to make a cookie that never expires,
-        // only one with a huge expiry date.
-
-      // #path
-
-        // Cookie path.
-
-        // Defaults to current file/dir.
-
-        // Can only be set for parent dirs of current path.
-
-      // #safe
-
-        // If set to exactly `= safe`, this cookie will only be sent over `https`, not `http`
-
-          document.cookie = "keySafe=v;safe"
-
-        // TODO confirm usage correct
-
-      // #HttpOnly
-
-        // Instructs server not to pass the cookie to CGI scripts.
-
-        // This can increase security of session cookies.
-
-        // <http://www.codinghorror.com/blog/2008/08/protecting-your-cookies-httponly.html>
-
-          document.cookie = "keySafe=v;HttpOnly"
-
-    // #higher level interface
-
-      // The Javascript cookie interface is very low level and inconvenient.
-
-      // jquery-cookie <https://github.com/carhartl/jquery-cookie> is on popular and convenient cookie interface based on JQuery.
-
-      // #helpers
-
-        // - c_name: string
-        // - value: string
-        // - exdays: integer. Number of days which will take for the cookie to expire.
-        //
-        function setCookie(c_name, value, exdays) {
-          var exdate = new Date()
-          exdate.setDate(exdate.getDate() + exdays)
-          var c_value = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toUTCString())
-          document.cookie = c_name + "=" + c_value
-        }
-
-        // c_name: string
-        // @return: null if not found, value if found
-        //
-        function getCookie(c_name) {
-          var i, x, y, ARRcookies = document.cookie.split(";")
-          for (i = 0; i < ARRcookies.length; i++) {
-            x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="))
-            y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1)
-            x = x.replace(/^\s+|\s+$/g, "")
-            if (x == c_name) {
-              return unescape(y)
-            }
+      // c_name: string
+      // @return: null if not found, value if found
+      //
+      function getCookie(c_name) {
+        var i, x, y, ARRcookies = document.cookie.split(";")
+        for (i = 0; i < ARRcookies.length; i++) {
+          x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="))
+          y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1)
+          x = x.replace(/^\s+|\s+$/g, "")
+          if (x == c_name) {
+            return unescape(y)
           }
         }
+      }
 
-        function delCookie(name, path, domain) {
-          if (Get_Cookie(name))
-            document.cookie=name+"="+((path) ? ";path="+path:"")+((domain)?";domain="+domain:"") +
-                          ";expires=Thu, 01 Jan 1970 00:00:01 GMT"
-        }
+      function delCookie(name, path, domain) {
+        if (Get_Cookie(name))
+          document.cookie=name+"="+((path) ? ";path="+path:"")+((domain)?";domain="+domain:"") +
+                        ";expires=Thu, 01 Jan 1970 00:00:01 GMT"
+      }
 
-    document.write('<h2>cookies</h2>' + document.cookie + '<br>')
+  document.write('<h2>cookies</h2>' + document.cookie + '<br>')
 </script>
 
 <h2>#events</h2>
@@ -2311,20 +2324,31 @@
 
     <h4>#click</h4>
 
-      <div class="border" id="onclick" onclick="onclick_func(event)" style="height:100px;">onclick. Click here.</div>
+      <p class="border" onclick="onclick_func(event)" style="height:100px;">onclick. Click here.</p>
       <script>
         var onclick_func = function(even) {
           even.target.innerHTML += ' click'
         }
       </script>
-      <div class="border" id="click" style="height:100px;">addEventListener click. Click here.</div>
+
+      <p class="border" style="height:100px;">addEventListener click. Click here.</p>
       <script>
-        function click(even) {
-          even.target.innerHTML += ' click'
-        }
-        document.getElementById('click').addEventListener(
+        previousElement().addEventListener(
           'click',
-          click,
+          function(even) {
+            even.target.innerHTML += ' click'
+          },
+          false
+        )
+      </script>
+
+      <button>button addEventListener</button>
+      <script>
+        previousElement().addEventListener(
+          'click',
+          function(even) {
+            even.target.innerHTML += ' click'
+          },
           false
         )
       </script>
