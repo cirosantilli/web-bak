@@ -4,7 +4,8 @@ var error_message = ''
 
 function report_error(extra) {
   var err = new Error('AssertFailed')
-  error_message += '<div style="font-weight:bold; font-size:36px; background-color:red;">ASSERT FAILED</div><pre>'
+  error_message += '<div style="background-color:red; border: 1px solid black;'
+    + 'font-size:36px; font-weight:bold; padding:3px;">ASSERT FAILED</div><pre>'
     + err.stack + '</pre>'
   if (extra) {
     error_message += '<pre>' + String(extra) + '</pre>'

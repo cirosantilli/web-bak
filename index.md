@@ -27,6 +27,8 @@ Less useful cheats:
 - [jQuery](jquery.html)
 - [jsPDF](jspdf/)
 
+Js syntax highlighters: <http://softwaremaniacs.org/blog/2011/05/22/highlighters-comparison/>
+
 # Standards organizations
 
 ## W3C

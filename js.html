@@ -6,44 +6,98 @@
   <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
   <style>
    .border { border:1px solid black; }
+   pre {
+     border:1px solid black;
+     background-color: #EEE;
+     padding: 5px;
+   }
   </style>
   <script src="assert.js"></script>
   <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
   <script src="/assets/jquery.toc.js"></script>
+  <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
   <script>
-    var previousElement = function() {
-      return document.currentScript.previousElementSibling
-    }
-
-    $("#toc").toc({
-      content: "div.content",
-      headings: "h1,h2,h3,h4,h5,h6"
+    $('#toc').toc({
+      content: 'div.content',
+      headings: 'h1,h2,h3,h4,h5,h6'
     });
   </script>
 </head>
 <body onload="document.getElementById('onload').innerHTML = 'onload'">
 <h1>Javascript Cheatsheet</h1>
 
-<p>Javascript is a toy language designed to run in a browser.</p>
-<p>
-  More recently, it has also been used outside of browsers, often server side, through Node.js.
-  This cheat shall consider mostly a world without Node.js: for a Node.js cheat see:
-  https://github.com/cirosantilli/nodejs
-</p>
-<p>
-  It can be embedded on the HTML given by the server to the browser inside `script` tags.
-  It can also be given in separate `.js` files which are then included in the HTML header.
-</p>
-<p>
-  One of the goals of Javascript is to restrict what the language can do to prevent malicious attacks.
-  Therefore, by design choice Javascript does not allows dangerous operations such as file IO.
-  Node.js adds such abilities to Javascript.
-</p>
-<p>
-  Javascript is known for having some weird quirks. CoffeScript, a language that compiles to Javascript
-  but behaves more like Ruby, attempts to correct many of those quirks.
-</p>
 <ul data-toc></ul>
+
+<h2>About</h2>
+
+  <p>
+    Every script tag in this cheat is HTML escaped and put inside a pre element after its script
+    by a script so you can see it. Scripts are styled like this:
+  </p>
+  <script>
+    // Inside script element.
+    var a = 1
+  </script>
+  <p>
+    This cheatsheet is designed to work in modern ES5 compliant browsers.
+    No effort was made to account for incompatibilities.
+  </p>
+  <p>
+    Content is currently being converted from Js comments to HTML + scripts.
+    This explains the remaining huge script blocks with many useful comments.
+  </p>
+
+  <h3>Helper methods</h3>
+
+    <p>The following helper methods are used on this cheat:</p>
+
+    <script>
+      var previousElement = function() {
+        return document.currentScript.previousElementSibling
+      }
+
+      var strToElement = function(str) {
+        var dummy = document.createElement('div')
+        dummy.innerHTML = str
+        return dummy.childNodes[0]
+      }
+
+      // Make the script elements visible.
+      document.addEventListener(
+        'DOMContentLoaded',
+        function() {
+          Array.prototype.slice.call(document.getElementsByTagName('script')).forEach(function(elem) {
+            elem.insertAdjacentHTML('afterEnd', '<pre class="prettyprint">'
+              + elem.innerHTML.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+              + '</pre>'
+            )
+          })
+        },
+        true
+      )
+    </script>
+
+<h2>Introduction</h2>
+
+  <p>Javascript is a toy language designed to run in a browser.</p>
+  <p>
+    More recently, it has also been used outside of browsers, often server side, through Node.js.
+    This cheat shall consider mostly a world without Node.js: for a Node.js cheat see:
+    https://github.com/cirosantilli/nodejs
+  </p>
+  <p>
+    It can be embedded on the HTML given by the server to the browser inside `script` tags.
+    It can also be given in separate `.js` files which are then included in the HTML header.
+  </p>
+  <p>
+    One of the goals of Javascript is to restrict what the language can do to prevent malicious attacks.
+    Therefore, by design choice Javascript does not allows dangerous operations such as file IO.
+    Node.js adds such abilities to Javascript.
+  </p>
+  <p>
+    Javascript is known for having some weird quirks. CoffeScript, a language that compiles to Javascript
+    but behaves more like Ruby, attempts to correct many of those quirks.
+  </p>
 
 <h2>#standards #ECMAScript</h2>
 
@@ -65,10 +119,22 @@
     <li>v4: was aborted</li>
     <li>v3: 1999</li>
   </ul>
-  <p>This does not include objects which browsers add to Javascript like `document` or `window`.
+  <p>
+    This does not include objects which browsers add to Javascript like `document` or `window`.
     There is currently no readable documentation for those objects, and standards are still sloppy:
     http://stackoverflow.com/questions/3768606/where-is-the-javascript-dom-api-documented
   </p>
+
+<h2>#sources</h2>
+
+  <p>Besides the standards, also check out:</p>
+  <ul>
+    <li>
+      Mozilla Developer Network.
+      https://developer.mozilla.org
+      Lots of examples and comments about the standards and implementation status in other browsers.
+    </li>
+  </ul>
 
 <h2>#Style</h2>
 
@@ -144,7 +210,7 @@
 
     <p>Scripts are executed in the order which they appear on the file.</p>
     <p>head scripts are executed before body ones.</p>
-    <p>Definitions from previous scripts blocks are kept for future script blocks.</p>
+    <p>Definitions from previous scripts blocks are kept for future script blocks:</p>
     <script>
       var i = 1
     </script>
@@ -195,9 +261,6 @@
       A common technique to write a literal &lt;/script&gt; string inside Javascript it to break it up
       with concatenation as `/scr'+'ipt`
     </p>
-    <script>
-
-    </script>
 
   <h3>#Strict mode #use strict</h3>
 
@@ -241,7 +304,6 @@
     </script>
 
 <script>
-
 // #exit
 
   // Stop interpreting the current script block now.
@@ -587,7 +649,7 @@
 
       assert_eq('a', 'a')
 
-  // #multiline strings
+  // #multiline string literals
 
     // http://stackoverflow.com/questions/805107/creating-multiline-strings-in-javascript
 
@@ -596,7 +658,7 @@
       assert_eq("a\
  b", "a b")
 
-    // Less efficient, saner when changing indentation levels, Google style:
+    // Less efficient unless optimized, saner when changing indentation levels, Google style:
 
       assert_eq("a" +
           "b", "ab")
@@ -670,6 +732,12 @@
       assert_eq(String(0),          '0')
       assert_eq(String([0, 1]),     '0,1')
       assert_eq(String({a:0, b:1}), '[object Object]')
+
+  // #escape HTML
+
+    // < to &lt;, etc.
+
+    // Bo built-in solution: http://stackoverflow.com/questions/24816/escaping-html-strings-with-jquery
 
 // #dict #map #class
 
@@ -1771,18 +1839,18 @@
   <h3>#setInterval #clearInterval</h3>
 
     <p>Run a function every n milliseconds.</p>
-    <p>Seconds since load: <span id="setInterval">0</span> <span class="border" id="clearInterval">Click me to stop.</span></p>
+    <p>500ms: <span id="setInterval">0</span> <span class="border" id="clearInterval">Click me to stop.</span></p>
     <script>
       var setIntervalCount = 0
       var interval0 = window.setInterval(function(){
         setIntervalCount++
         document.getElementById('setInterval').innerHTML = setIntervalCount.toString()
-      }, 1000)
+      }, 500)
       document.getElementById('clearInterval').addEventListener(
         'click',
-        function(event) {
-          alert('here')
-          //window.clearInterval(interval0)
+        function(even) {
+          window.clearInterval(interval0)
+          even.target.insertAdjacentHTML('beforeEnd', ' Stopped.')
         },
         true
       )
@@ -1798,196 +1866,243 @@
 
 <h2>#DOM</h2>
 
-<h2>#document</h2>
+  <h3>#document</h3>
 
-  <p>Interface to the DOM: www.w3.org/DOM/DOMTR</p>
-  <p>It is possible to access all DOM attributes of an element: http://www.w3schools.com/jsref/dom_obj_all.asp</p>
-  <p>Shortcut for `window.document`:</p>
-  <script>assert_eq(document, window.document)</script>
+    <p>Interface to the DOM: www.w3.org/DOM/DOMTR</p>
+    <p>It is possible to access all DOM attributes of an element: http://www.w3schools.com/jsref/dom_obj_all.asp</p>
+    <p>Shortcut for `window.document`:</p>
+    <script>assert_eq(document, window.document)</script>
 
-  <h3>#write</h3>
+    <h4>#write</h4>
 
-    <p>Write at the current script location:</p>
-    <script>document.write('here')</script>
+      <p>Write after the current script.</p>
+      <script>document.write('<p>written by document write</p>')</script>
+      <p>
+        Scripts inserted like this will be executed.
+        TODO which order?
+        http://stackoverflow.com/questions/94141/javascripts-document-write-inline-script-execution-order
+        Probably not a good idea to rely on such things.
+      </p>
+      <script>
+        var a = 0
+        document.write('<script>a = 1</scr'+'ipt>')
+        // TODO deterministic? Firefox and Chromium tests have passed.
+        //assert_eq(a, 1)
+      </script>
+      <script>
+        // TODO deterministic? Firefox and Chromium tests have passed.
+        //assert_eq(a, 1)
+      </script>
+
+  <h3>#NodeList #HTMLCollection</h3>
 
     <p>
-      Scripts inserted like this will be executed.
-      TODO which order?
-      http://stackoverflow.com/questions/94141/javascripts-document-write-inline-script-execution-order
-      Probably not a good idea to rely on such things.
+      Many DOM methods do not return an Array but `NodeList` or `HTMLCollecion` objects,
+      which are Array-like and support index access, but not all Array operations such as
+      `forEach`.
     </p>
+    <p>
+      To use arbitrary `Array` methods, first convert to an array with
+      Array.prototype.slice.call(elem.getElementsByClassName('class'))
+    </p>
+
+  <h3>#Selectors</h3>
+
+    <h4>#querySelectorAll</h4>
+
+      <p>Select elements by CSS selector. Very powerful.</p>
+      <p>Not supported in IE7.</p>
+      <div class="querySelectorAll0">
+        <div class="querySelectorAll1">querySelectorAll</div>
+      </div>
+      <script>
+        assert_eq(document.querySelectorAll('.querySelectorAll0 > .querySelectorAll1')[0].innerHTML, 'querySelectorAll')
+      </script>
+
+    <h4>#getElementById</h4>
+
+      <script>
+        document.write('<div id="getElementById">getElementByid</div>')
+        assert_eq(document.getElementById('getElementById').innerHTML, 'getElementByid')
+      </script>
+
+    <h4>#getElementsByClassName</h4>
+
+      <p>
+        Not implemented on IE8. Alternatives: http://stackoverflow.com/questions/3808808/how-to-get-element-by-class-in-javascript
+        IE8 alternatives: use `querySelectorAll` or JQuery.
+      </p>
+      <script>
+        document.write('<div class="getElementsByClassName0 getElementsByClassName1">getElementsByClassName</div>')
+        assert_eq(document.getElementsByClassName('getElementsByClassName0')[0].innerHTML, 'getElementsByClassName')
+      </script>
+      <p>
+        The return can be either NodeList or HTMLCollection
+        depending on browser versions and standard considered.
+        In particular, no `forEach` Array method.
+        Good article: https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName
+      </p>
+
+    <h4>#getElementsByTagName</h4>
+
+      <p>Some special cases have shortcuts for them:</p>
+      <script>
+        assert_eq(document.getElementsByTagName('body')[0], document.body)
+        assert_eq(document.getElementsByTagName('head')[0], document.head)
+      </script>
+
+    <h4>#currentScript</h4>
+
+      <p>Get the current script element:</p>
+
+      <script>
+        assert_eq(document.currentScript.parentNode, document.body)
+      </script>
+
+  <h3>#nodeType</h3>
+
+    <ul>
+      <li>1 : ELEMENT_NODE</li>
+      <li>2 : ATTRIBUTE_NODE</li>
+      <li>3 : TEXT_NODE</li>
+      <li>4 : CDATA_SECTION_NODE</li>
+      <li>5 : ENTITY_REFERENCE_NODE</li>
+      <li>6 : ENTITY_NODE</li>
+      <li>7 : PROCESSING_INSTRUCTION_NODE</li>
+      <li>8 : COMMENT_NODE</li>
+      <li>9 : DOCUMENT_NODE</li>
+      <li>10: DOCUMENT_TYPE_NODE</li>
+      <li>11: DOCUMENT_FRAGMENT_NODE</li>
+      <li>12: NOTATION_NODE</li>
+    </ul>
+
     <script>
-      var a = 0
-      document.write('<script>a = 1</scr'+'ipt>')
-      // TODO deterministic? Firefox and Chromium tests have passed.
-      //assert_eq(a, 1)
-    </script>
-    <script>
-      // TODO deterministic? Firefox and Chromium tests have passed.
-      //assert_eq(a, 1)
-    </script>
-
-<script>
-// #Selectors
-
-  // #querySelectorAll
-
-    // Select elements by CSS selector. Very powerful.
-
-    // Not supported in IE7.
-
-      document.write('<div class="querySelectorAll0"><div class="querySelectorAll1" data-0="querySelectorAll"></div></div>')
-      assert_eq(document.querySelectorAll(".querySelectorAll0 > .querySelectorAll1")[0].getAttribute("data-0"), "querySelectorAll")
-
-  // #getElementById
-
-      document.write('<div id="getElementById" data-0="1"></div>')
-      assert_eq(document.getElementById("getElementById").getAttribute("data-0"), "1")
-
-  // #getElementsByClassName
-
-    // Not implemented on IE8... Alternatives: http://stackoverflow.com/questions/3808808/how-to-get-element-by-class-in-javascript
-    // So if you care about IE8, just use querySelectorAll or JQuery.
-
-      document.write('<div class="getElementsByClassName0 getElementsByClassName1" data-0="1"></div>')
-      assert_eq(document.getElementsByClassName("getElementsByClassName0")[0].getAttribute("data-0"), "1")
-
-  // #getElementsByTagName
-
-    // Some special cases have shortcuts for them:
-
-      assert_eq(document.getElementsByTagName('body')[0], document.body)
-      assert_eq(document.getElementsByTagName('head')[0], document.head)
-
-// #DOM
-
-  // #nodeType
-
-    //- 1 : ELEMENT_NODE
-    //- 2 : ATTRIBUTE_NODE
-    //- 3 : TEXT_NODE
-    //- 4 : CDATA_SECTION_NODE
-    //- 5 : ENTITY_REFERENCE_NODE
-    //- 6 : ENTITY_NODE
-    //- 7 : PROCESSING_INSTRUCTION_NODE
-    //- 8 : COMMENT_NODE
-    //- 9 : DOCUMENT_NODE
-    //- 10: DOCUMENT_TYPE_NODE
-    //- 11: DOCUMENT_FRAGMENT_NODE
-    //- 12: NOTATION_NODE
-
-      document.write('<div id="nodeType">a<div>b</div>c</div>')
-      var parent = document.getElementById('nodeType')
+      var parent = strToElement('<div>a<div>b</div>c</div>')
       assert_eq(parent.nodeType, 1)
       assert_eq(parent.childNodes[0].nodeType, 3)
+    </script>
 
-  // #tagName
+  <h3>#tagName</h3>
 
-      document.write('<div id="tagName"></div>')
-      assert_eq(document.getElementById('tagName').tagName, 'DIV')
-</script>
+    <script>
+      assert_eq(strToElement('<div></div>').tagName, 'DIV')
+    </script>
+
   <h3>#nodeValue #innerHTML</h3>
 
     <p>
       *Don't* do `innerHTML += innerHTML + 'something'` unless you are sure it is only a string.
       Otherwise, this would destroy events associated to elements in the `innerHTML`.
+      Use `insertAdjacentHTML` instead.
     </p>
-
-    <div>a<i>b</i>c</div>
     <script>
-      assert_eq(previousElement().firstChild.nodeValue, 'a')
-      assert_eq(previousElement().innerHTML,            'a<i>b</i>c')
+      var elem = strToElement('<div>a<i>b</i>c</div>')
+      assert_eq(elem.firstChild.nodeValue, 'a')
+      assert_eq(elem.innerHTML,            'a<i>b</i>c')
+    </script>
+    <script>
+      assert_eq(strToElement('<button>Button innerHTML</button>').innerHTML, 'Button innerHTML')
     </script>
 
-    <button>Button innerHTML</button>
+  <h3>#outerHTML</h3>
+
+    <p>Like `innerHTML`, but also includes the tags. Less support than `innerHTML` but increasing.</p>
     <script>
-      assert_eq(previousElement().innerHTML, 'Button innerHTML')
+      assert_eq(strToElement('<div>a<i>b</i>c</div>').outerHTML, '<div>a<i>b</i>c</div>')
     </script>
-
-    <script>
-
-  // #outerHTML
-
-    // Includes the tags. Less support but increasing.
-
-      document.write('<div id="nodeValue">a<i>b</i>c</div>')
-      assert_eq(document.getElementById('nodeValue').outerHTML, '<div id="nodeValue">a<i>b</i>c</div>')
+<script>
 
   // #children #firstElementChild #childnodes #firstChild #lastChild
 
-      document.write('<div id="children">a<i>b</i>c</div>')
+      var elem = strToElement('<div id="children">a<i>b</i>c</div>')
 
     // Children and firstElementChild: only elements, no text.
 
-      assert_eq(document.getElementById('children').children[0].innerHTML,       'b')
-      assert_eq(document.getElementById('children').firstElementChild.innerHTML, 'b')
+      assert_eq(elem.children[0].innerHTML,       'b')
+      assert_eq(elem.firstElementChild.innerHTML, 'b')
 
     // childNodes and firstChild: include text.
 
-      assert_eq(document.getElementById('children').firstChild.nodeValue,    'a')
-      assert_eq(document.getElementById('children').childNodes[0].nodeValue, 'a')
-      assert_eq(document.getElementById('children').lastChild.nodeValue,     'c')
+      assert_eq(elem.firstChild.nodeValue,    'a')
+      assert_eq(elem.childNodes[0].nodeValue, 'a')
+      assert_eq(elem.lastChild.nodeValue,     'c')
+
+    // childNodes is of type NodeList. Therefore no forEach.
 
   // #parentNode #nextSibling #nextElementSibling
 
-      document.write('<div id="parentNode">a<i>b</i>c<i>d</i>e</div>')
-      var firstI = document.getElementById('parentNode').children[0]
+      var elem = strToElement('<div>a<i>b</i>c<i>d</i>e</div>')
+      var firstI = elem.children[0]
       assert_eq(firstI.parentNode.tagName, 'DIV')
       assert_eq(firstI.previousSibling.nodeValue, 'a')
       assert_eq(firstI.previousElementSibling, null)
       assert_eq(firstI.nextSibling.nodeValue, 'c')
       assert_eq(firstI.nextElementSibling.innerHTML, 'd')
 
-  // #insertAdjacentHTML
+  // #modify DOM
 
-    // Insert string before or after tag.
+    // #insertAdjacentHTML
 
-      document.write('<div>a<span id="insertAdjacentHTML">b</span>c</div>')
-      var inner = document.getElementById('insertAdjacentHTML')
-      inner.insertAdjacentHTML('beforeBegin', ' <b>beforeBegin</b> ')
-      inner.insertAdjacentHTML('afterBegin',  ' afterBegin ')
-      inner.insertAdjacentHTML('beforeEnd',   ' beforeEnd ')
-      inner.insertAdjacentHTML('afterEnd',    ' <b>afterEnd</b> ')
+      // Insert string before or after tag.
 
-  // #insertBefore
+        document.write('<div>a<span id="insertAdjacentHTML">b</span>c</div>')
+        var inner = document.getElementById('insertAdjacentHTML')
+        inner.insertAdjacentHTML('beforeBegin', ' <b>beforeBegin</b> ')
+        inner.insertAdjacentHTML('afterBegin',  ' afterBegin ')
+        inner.insertAdjacentHTML('beforeEnd',   ' beforeEnd ')
+        inner.insertAdjacentHTML('afterEnd',    ' <b>afterEnd</b> ')
 
-    // Insert an element before another.
+    // #insertBefore #appendChild
 
-    // Must work with elements: cannot insert string directly. Consider `insertAdjacentHTML` for that.
+      // Insert an element before another.
 
-    // TODO what happens when element exists already? Copy?
+      // Must work with elements: cannot insert string directly. Consider `insertAdjacentHTML` for that.
 
-      document.write('<div id="insertBefore">a<i>b</i>c</div>')
-      var insertBefore = document.getElementById('insertBefore')
-      var insertBeforeI = insertBefore.children[0]
-      var divD = document.createElement('div');
-      divD.appendChild(document.createTextNode('d'));
-      insertBefore.insertBefore(divD, insertBeforeI)
-      assert_eq(insertBeforeI.previousElementSibling.innerHTML, 'd')
+      // TODO what happens when element exists already? Copy?
 
-    // #insertAfter
+        var parent = strToElement('<div id="insertBefore">a<i>b</i>c</div>')
+        var insertBeforeItalic = parent.children[0]
+        var newElem = document.createElement('div');
+        newElem.appendChild(document.createTextNode('d'));
+        parent.insertBefore(newElem, insertBeforeItalic)
+        assert_eq(insertBeforeItalic.previousElementSibling.innerHTML, 'd')
 
-      // Does not exist, but easily defined with `insertBefore`.
+      // #insertAfter
 
-      //http://stackoverflow.com/questions/4793604/how-to-do-insert-after-in-javascript-without-using-a-library
+        // Does not exist, but easily defined with `insertBefore`.
+        // http://stackoverflow.com/questions/4793604/how-to-do-insert-after-in-javascript-without-using-a-library
+
+    // #createElement
+
+      // #string to Element object
+
+        // http://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro
+
+        // innerHTML trick:
+
+          var str = '<div></div>'
+          var dummy = document.createElement('div')
+          dummy.innerHTML = str
+          var elem = dummy.childNodes[0]
+          assert_eq(elem.tagName, 'DIV')
+
+    // #removeChild
+
+      // Must get parent first: http://stackoverflow.com/questions/3387427/javascript-remove-element-by-id
+
+        // var element = document.getElementById("element-id");
+        // element.parentNode.removeChild(element);
 
   // #getAttribute
 
-    document.write('<div id="getAttribute">a<i>b</i>c<i>d</i>e</div>')
-    assert_eq(document.getElementById('getAttribute').getAttribute('id'), 'getAttribute')
+    assert_eq(strToElement('<p id="getAttribute"></p>').getAttribute('id'), 'getAttribute')
 
   // #style #CSS
 
     // Get and set CSS attributes.
 
-    document.write('<div id="style" style="background-color:green; color:blue;">#style</div>')
-    document.getElementById('style').style.backgroundColor = 'red'
-
-  // #currentScript
-
-    // Get the current script element.
-
-      assert_eq(document.currentScript.parentNode, document.body)
+      document.write('<div id="style" style="background-color:green; color:blue;">#style</div>')
+      document.getElementById('style').style.backgroundColor = 'red'
 
   // #textarea #onkeypress
 
@@ -2264,12 +2379,14 @@
       because the body is not yet part of the DOM!
     </p>
     <p>Prefer to attach events to the `document` or `window` objects instead.</p>
+
     <div id="addEventListener">#FAIL</div>
     <script>
       document.body.addEventListener(
         'load',
         function() {
-          document.getElementById('addEventListener').innerHTML = ''
+          var elem = document.getElementById('addEventListener')
+          elem.parentNode.removeChild(elem)
         },
         true
       )
@@ -2299,16 +2416,19 @@
         Former does not wait for external resources to load, later does.
       </p>
       <p>Used by jQuery's `$(document).ready` method where supported.</p>
-      <div id="DOMContentLoaded"></div>
+
+      <div id="DOMContentLoaded">#FAIL</div>
       <script>
         document.addEventListener(
           'DOMContentLoaded',
           function() {
-            document.getElementById('DOMContentLoaded').innerHTML = 'DOMContentLoaded'
+            var elem = document.getElementById('DOMContentLoaded')
+            elem.parentNode.removeChild(elem)
           },
           true
         )
       </script>
+
       <script>
         window.onload = function(){
           document.getElementById('window-onload').innerHTML = 'window-onload'
@@ -2331,7 +2451,9 @@
         }
       </script>
 
-      <p class="border" style="height:100px;">addEventListener click. Click here.</p>
+      <script>
+        document.write('<p class="border" style="height:100px;">addEventListener click. Click here.</p>')
+      </script>
       <script>
         previousElement().addEventListener(
           'click',
@@ -2340,9 +2462,12 @@
           },
           false
         )
+        document.currentScript.parentNode.insertBefore(elem, document.currentScript)
       </script>
 
-      <button>button addEventListener</button>
+      <script>
+        document.write('<button>button addEventListener</button>')
+      </script>
       <script>
         previousElement().addEventListener(
           'click',
