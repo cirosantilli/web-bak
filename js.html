@@ -95,27 +95,30 @@
   </p>
   <p>
     One of the goals of Javascript is to restrict what the language can do to prevent malicious attacks.
-    Therefore, by design choice Javascript does not allows dangerous operations such as file IO.
-    Node.js adds such abilities to Javascript.
+    Therefore, by design choice Javascript does not allows dangerous operations such as file IO
+    (this might be possible soon with: <a href="http://www.w3.org/TR/FileAPI/">the File API</a>)
+    Node.js adds such abilities to Javascript through its standard library.
   </p>
   <p>
     Javascript is known for having some weird quirks. CoffeScript, a language that compiles to Javascript
     but behaves more like Ruby, attempts to correct many of those quirks.
   </p>
 
-<h2>#standards #ECMAScript</h2>
+<h2>#Standards #ECMAScript</h2>
 
   <p>Official language name: ECMA-262, or ECMAScript.</p>
+  <p>Versions are often abbreviated as: ES5, ES6, etc.</p>
   <ul>
     <li>
-      <p>v6</p>
+      <p>6, AKA #harmony</p>
+      <p>TODO where is the official draft?</p>
       <p>Expected Dec 2014.</p>
-      <p>Good cheat: https://github.com/lukehoban/es6features</p>
+      <p>Good cheat: <a href="https://github.com/lukehoban/es6features">https://github.com/lukehoban/es6features</a></p>
+      <p>Promises: <a href="http://www.html5rocks.com/en/tutorials/es6/promises/">http://www.html5rocks.com/en/tutorials/es6/promises/</a></p>
     </li>
     <li>
-      <p>v 5.1: 2011.</p>
+      <p>5.1, 2011: <a href="http://www.ecma-international.org/ecma-262/5.1/">http://www.ecma-international.org/ecma-262/5.1/</a></p>
       <p>Generally implemented.</p>
-      <p>Often abbreviated to ES5.</p>
       <p>Fully implemented by Google's V8 engine for Chrome and Node.js.</p>
       <p>http://www.ecma-international.org/publications/standards/Ecma-262.htm</p>
     </li>
@@ -124,10 +127,21 @@
     <li>v3: 1999</li>
   </ul>
   <p>
-    This does not include objects which browsers add to Javascript like `document` or `window`.
-    There is currently no readable documentation for those objects, and standards are still sloppy:
-    http://stackoverflow.com/questions/3768606/where-is-the-javascript-dom-api-documented
+    ECMAScript does not include objects which browsers add to Javascript such as `document`, `window`, `XMLHttpRequest`,
+    although it does furnish some global objects like JSON.
+    Such objects are typically specified in separate W3C specs.
   </p>
+  <p>
+    Browser objects are not directly available to Node.js, including useful ones such as `XMLHttpRequest`.
+    Some projects implement the browser interfaces as a Node javascript library, such as
+    <a href="https://github.com/driverdan/node-XMLHttpRequest">https://github.com/driverdan/node-XMLHttpRequest</a>
+    thus allowing to use such objects in Node.js / browser portable code./
+  </p>
+
+<h2>#Detect #version</h2>
+
+  <p>Not possible?! <a href="http://stackoverflow.com/questions/7340726/detect-version-of-javascript">http://stackoverflow.com/questions/7340726/detect-version-of-javascript</a></p>
+  <p>People recommend checking for individual features instead.</p>
 
 <h2>#sources</h2>
 
@@ -814,6 +828,13 @@
         configurable: true
       })
 
+    // #enumerable
+
+      // Only enumerable properties show up in `for in`.
+
+      // useful to ignore "internals" like `constructor` and other properties:
+      // http://stackoverflow.com/questions/17893718/what-does-enumerable-mean
+
     // Exact same as above: defaults writeable, enumerable and configurable to true.
 
       o.y = 2
@@ -1076,128 +1097,6 @@
       assert_eq(o2.x, 2)
       assert_eq(o.x,  1)
 
-  // #this
-
-    // Great article: <http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/>
-
-    // This is fixed by the function that calls it at call time. Nothing is determined at definition time.
-
-    // ES5 says there is a primitive `[[Call]]` that both `func.call` and `[obj.]func()` call.
-
-    // This primitive looks very much like `call`, so for most purposes you can think they are the same.
-
-    // Before reading this learn about `call`.
-
-    // The following possibilities exist:
-
-      // function call:       this value
-      //`f()`:                `window`
-      //`'use strict'; f()`:  `undefined`
-      //`'obj.obj2.f()`:      `obj.obj2`
-
-    // #this in global functions
-
-        var f = function() { return this }
-        assert_eq(f(), window)
-
-      // `f()` gets converted into something like:
-
-        assert_eq(f.call(window), window)
-
-      // With strict, Katz says:
-      //
-      // > The ECMAScript 5 spec says that undefined is (almost) always passed,
-      // > but that the function being called should change its thisValue
-      // > to the global object when not in strict mode.
-      // > This allows strict mode callers to avoid breaking existing non-strict-mode libraries.
-      //
-      // I don't know what that means.
-
-        ;(function() {
-          'use strict'
-          ;(function() {
-            // TODO why no undefined?
-            //assert_eq(f(), undefined)
-            assert_eq(f(), window)
-          })()
-          assert_eq(f(), window)
-        })()
-
-    // #this in methods
-
-      // The method has no information about what called it:
-      // all information is passed at call time.
-
-        var obj = {}
-        obj.f = function() {
-          return this
-        }
-
-        assert_eq(obj.f(), obj)
-
-      // Gets converted to:
-
-        assert_eq(f.call(obj), obj)
-
-      // And:
-
-        g = obj.f
-        assert_eq(g(), window)
-
-      // Gets converted to:
-
-        assert_eq(g.call(window), window)
-
-      // The same happens in constructs like:
-
-        var F = function() { this.x = 0 }
-        var f = new F()
-
-      // but you have to open up the definition of `new`, and you will see that
-      // `F` is being called with `this` equal to `f` (what it returns).
-
-      // #bind
-
-        // We often want to "bind" the method to "its" object.
-
-        // This has led to:
-
-        // - a common design pattern with closures:
-
-            var bind = function(func, thisValue) {
-              return function() {
-                return func.apply(thisValue, arguments);
-              }
-            }
-            obj = {}
-            obj.f = function() { return this }
-            var boundF = bind(obj.f, obj);
-            assert_eq(boundF(), obj)
-
-        // - an ES5 language feature, `bind` method for functions:
-
-            obj = {}
-            obj.f = function() { return this }
-            var boundF = obj.f.bind(obj);
-            assert_eq(boundF(), obj)
-
-    //#this and jQuery
-
-      // jQuery automatically sets `this` to useful things: its not default ES5 behavior.
-
-      // In particular, callbacks have `this` set to the object that generated the event.
-
-    // #this on global scope
-
-      // TODO what happens? In Firefox and Chrome `this` is the `window` object:
-
-        assert_eq(this, window)
-
-        var f = function() {
-          assert_eq(this, window)
-        }
-        f()
-
   // #object oriented patterns
 
     // Now that you understand the internals, here are the patterns.
@@ -1243,6 +1142,46 @@
         d1 = {a:10, c:2}
         d2 = {a:20, d:3}
         //assert_eq(d0.extend(d1, d2), {a:20, b:1, c:2, d:3})
+
+  // #iterate dict #loop dict #for in
+
+    // Only enumerable:
+
+      obj = {a:0, b:1}
+      keys = []
+      for (key in obj) {
+        keys.push(key)
+      }
+      keys.sort()
+      assert_eq(keys[0], 'a')
+      assert_eq(keys[1], 'b')
+      assert_eq(keys.length, 2)
+
+    // #Object.keys
+
+    // Get Array of enumerable property keys:
+
+      obj = {a:0, b:1}
+      keys = Object.keys(obj)
+      keys.sort()
+      assert_eq(keys[0], 'a')
+      assert_eq(keys[1], 'b')
+      assert_eq(keys.length, 2)
+
+// #Set
+
+  // ES6
+
+    if (Set) {
+      var s = new Set()
+      s.add('a')
+      s.add('a')
+      s.add('b')
+      assert_eq(s.size, 2)
+      assert(s.has('a'))
+    } else {
+      document.write('<p>#Set not present</p>')
+    }
 
 // #function
 
@@ -1446,6 +1385,129 @@
         return Array.prototype.slice.call(arguments, 0).sort()
       }
       assert_eq(f(1, 0)[0], 0)
+
+  // #this
+
+    // Great article: <http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/>
+
+    // This is fixed by the function that calls it at call time. Nothing is determined at definition time.
+
+    // ES5 says there is a primitive `[[Call]]` that both `func.call` and `[obj.]func()` call.
+
+    // This primitive looks very much like `call`, so for most purposes you can think they are the same.
+
+    // Before reading this learn about `call`.
+
+    // The following possibilities exist:
+
+      // function call:       this value
+      //`f()`:                `window`
+      //`'use strict'; f()`:  `undefined`
+      //`'obj.obj2.f()`:      `obj.obj2`
+
+    // #this in global functions
+
+        var f = function() { return this }
+        assert_eq(f(), window)
+
+      // `f()` gets converted into something like:
+
+        assert_eq(f.call(window), window)
+
+      // With strict, Katz says:
+      //
+      // > The ECMAScript 5 spec says that undefined is (almost) always passed,
+      // > but that the function being called should change its thisValue
+      // > to the global object when not in strict mode.
+      // > This allows strict mode callers to avoid breaking existing non-strict-mode libraries.
+      //
+      // I don't know what that means.
+
+        ;(function() {
+          'use strict'
+          ;(function() {
+            // TODO why no undefined?
+            //assert_eq(f(), undefined)
+            assert_eq(f(), window)
+          })()
+          assert_eq(f(), window)
+        })()
+
+    // #this in methods
+
+      // The method has no information about what called it:
+      // all information is passed at call time.
+
+        var obj = {}
+        obj.f = function() {
+          return this
+        }
+
+        assert_eq(obj.f(), obj)
+
+      // Gets converted to:
+
+        assert_eq(f.call(obj), obj)
+
+      // And:
+
+        g = obj.f
+        assert_eq(g(), window)
+
+      // Gets converted to:
+
+        assert_eq(g.call(window), window)
+
+      // The same happens in constructs like:
+
+        var F = function() { this.x = 0 }
+        var f = new F()
+
+      // but you have to open up the definition of `new`, and you will see that
+      // `F` is being called with `this` equal to `f` (what it returns).
+
+      // #bind
+
+        // We often want to "bind" the method to "its" object.
+
+        // This has led to:
+
+        // - a common design pattern with closures:
+
+            var bind = function(func, thisValue) {
+              return function() {
+                return func.apply(thisValue, arguments);
+              }
+            }
+            obj = {}
+            obj.f = function() { return this }
+            var boundF = bind(obj.f, obj);
+            assert_eq(boundF(), obj)
+
+        // - an ES5 language feature, `bind` method for functions:
+
+            obj = {}
+            obj.f = function() { return this }
+            var boundF = obj.f.bind(obj);
+            assert_eq(boundF(), obj)
+
+    //#this and jQuery
+
+      // jQuery automatically sets `this` to useful things: its not default ES5 behavior.
+
+      // In particular, callbacks have `this` set to the object that generated the event.
+
+    // #this on global scope
+
+      // TODO what happens? In Firefox and Chrome `this` is the `window` object:
+
+        assert_eq(this, window)
+
+        var f = function() {
+          assert_eq(this, window)
+        }
+        f()
+
 
   // #closure
 
@@ -1740,7 +1802,7 @@
 
   // #iterate #forEach
 
-    // for in iterates all attributes, so it does *not* work!
+    // for in iterates all properties of an object, so it does *not* work!
 
     // Use either explicit index or forEach method for arrays.
 
@@ -1759,6 +1821,14 @@
         total += x
       })
       assert_eq(total, 3)
+
+
+  // #sort
+
+    // In place:
+
+      var a = [1, 2, 0]
+      a.sort()
 
 // #exception #try #catch #finaly
 
@@ -1801,6 +1871,52 @@
     //alert("an alert")
     //var v = prompt("what:", "default")
 </script>
+
+<h2>#JSON</h2>
+
+  <p>ES5, thus also present in Node.js.</p>
+  <p>
+    For greater portability,
+    <a href="https://github.com/douglascrockford/JSON-js/blob/master/json2.js">https://github.com/douglascrockford/JSON-js/blob/master/json2.js</a>
+    is a common option through the CDN:
+    <a href="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js">http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js</a>
+  </p>
+  <script>
+    var json = '{"a":1, "b":"c"}'
+    var obj = JSON.parse(json)
+    assert_eq(obj.a, 1)
+    assert_eq(obj.b, 'c')
+  </script>
+
+<h2>#eval</h2>
+
+  <p>Run code from string in current environment.</p>
+  <script>
+    var a = 0
+    eval('a = 1')
+    eval('var b = 2')
+    assert_eq(a, 1)
+    assert_eq(b, 2)
+  </script>
+
+<h2>#promise</h2>
+
+  <p>ES6, already implemented in some browsers.</p>
+  <p>Makes it easier to deal with event success / failure.</p>
+  <p>Good article: <a href="http://www.html5rocks.com/en/tutorials/es6/promises/">http://www.html5rocks.com/en/tutorials/es6/promises/</a></p>
+  <p>Already implemented by many libraries.</p>
+  <p>
+    Promises/A+ is an open standard that influences ES6.
+    It is followed by the promise implementation of some libraries, but not others,
+    notably jQuery.
+  </p>
+  <p>
+    In jQuery, `Promise` is a subset of `Deferreds`.
+  </p>
+  <p>
+    The following implementation exists for Node.js that mimics EC6's exactly:
+    <a href="https://github.com/jakearchibald/es6-promise">https://github.com/jakearchibald/es6-promise</a>
+  </p>
 
 <h2>#window</h2>
 
@@ -1979,6 +2095,10 @@
         assert_eq(document.querySelectorAll('.querySelectorAll0 > .querySelectorAll1')[0].innerHTML, 'querySelectorAll')
       </script>
 
+    <h4>#querySelector</h4>
+
+      <p>Same as <code>querySelectorAll()[0]</code></p>
+
     <h4>#getElementById</h4>
 
       <script>
@@ -2093,7 +2213,7 @@
 
     <p>childNodes is of type NodeList. Therefore no forEach.</p>
 
-  <h3>#parentNode #nextSibling #nextElementSibling</h3>
+  <h3>#parentNode #nextSibling #nextElementSibling #previousSibling #previousElementSibling</h3>
 
     <script>
       var elem = strToElement('<div>a<i>b</i>c<i>d</i>e</div>')
@@ -2189,6 +2309,7 @@
         assert_eq(document.createElement('adsf').constructor, HTMLUnknownElement)
         assert_eq(document.createElement('div') .constructor, HTMLDivElement)
         assert_eq(document.createElement('img') .constructor, HTMLImageElement)
+        assert_eq((new Image())                 .constructor, HTMLImageElement)
       </script>
 
     <h4>Create DOM tree from string.</h4>
@@ -2221,21 +2342,60 @@
 
     <h4>#img #Image #HTMLImageElement</h4>
 
-      <p>Starts loading as soon as the <code>src</code> attribute is set. TODO: confirm standards and portability.</p>
-      <script>
-        var img = document.createElement('img')
-        img.addEventListener(
-          'load',
-          function() {
-            alert("Height: " + this.height)
-          },
-          false
-        )
-        img.src = ''
-      </script>
+      <h5>src</h5>
+
+        <p>
+          <code>src</code> attribute: starts loading as soon as it is set.
+          Horrible interface based on side effects of equal operator <code>=</code>.
+          TODO: confirm standards and portability.
+        </p>
+        <button>Click me to set image.</button>
+        <img src="i-dont-exist.jpg" alt="flower"/>
+        <script>
+          ;(function(){
+            var img = previousElement()
+            var button = img.previousElementSibling
+            button.addEventListener(
+              'click',
+              function() {
+                img.src = 'flower.jpg'
+              },
+              false
+            )
+          }())
+        </script>
+
+      <h5>#complete</h5>
+
+        <p>Set to <code>true</code> when load has finished.</p>
+        <p>Set to <code>false</code> when load starts, e.g. <code>img.src = </code>.</p>
+        <p>
+          Application: do something when image finished loading.
+          Must take care not to add the callback after the event happened.
+        </p>
+        <script>
+          //var img1 = document.querySelector('.img-1');
+          //function loaded() {
+          //  // woo yey image loaded
+          //}
+          //if (img1.complete) {
+          //  loaded();
+          //}
+          //else {
+          //  img1.addEventListener('load', loaded);
+          //}
+          //img1.addEventListener('error', function() {
+          //  // argh everything's broken
+          //});
+        </script>
+        <p>
+          The same is not possible for the error event
+          since there is no analogous boolean <code>error</code> indicator.
+        </p>
 
     <h4>#textarea</h4>
 
+      <p>Get content with the <code>value</code> property.</p>
       <script>
         document.write(
           '<textarea id="textarea" onkeypress="textarea_func();">default</textarea>' +
@@ -2270,6 +2430,232 @@
           b_context.fillRect(50, 25, 150, 100);
         }
       </script>
+
+<h2>#events</h2>
+
+  <p>Events are part of the DOM.</p>
+  <p>Each event is attached to an element.</p>
+  <p>Events propagate</p>
+  <p>Like the rest of the DOM, it is a bit messy to find where events are defined.</p>
+  <p>A good source is Firefox's documentation https://developer.mozilla.org/en-US/docs/Web/Reference/Events</p>
+  <p>The major standards are:</p>
+  <ul>
+    <li>http://www.w3.org/TR/DOM-Level-3-Events/</li>
+    <li>
+      Random points of HTML5 like
+      http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#the-end
+      for `DOMContentLoaded`
+    </li>
+  </ul>
+
+  <h3>#addEventListener</h3>
+
+    <p>Allows to add an unlimited amount of handlers per event. Better choice than `on` events like `onload`.</p>
+    <p>Can be used together with `on` events. TODO check.</p>
+    <p>TODO do all events have a on version and an `addEventListener` one?</p>
+
+    <h4>#useCapture parameter #capture vs #bubble</h4>
+
+      <p>Determines the order in which listeners listen to the event.</p>
+      <p>TODO exactly how, example</p>
+      <p>A listener callback ends, the event is then sent to further listeners by default.</p>
+
+    <h4>#stopPropagation</h4>
+
+      <p>
+        Prevent event from being listened on further listeners.
+        http://stackoverflow.com/questions/4470417/how-do-i-consume-a-key-event-in-javascript-so-that-it-doesnt-propagate
+      </p>
+      <p>Only implemented in recent IE. Consider jQuery's `preventDefault` and/or `stopPropagation` if you care.</p>
+      <p>TODO example</p>
+
+    <h4>#dispatchEvent #Trigger events programmatically.</h4>
+
+      <p>
+        Programmatically trigger events.
+        http://stackoverflow.com/questions/2490825/how-to-trigger-event-in-javascript
+      </p>
+      <p>TODO example</p>
+      <p>
+        TODO not possible to trigger standard events like click?
+        http://stackoverflow.com/questions/809057/how-do-i-programmatically-click-on-an-element-in-firefox
+      </p>
+      <div id="dispatchEvent"></div>
+
+  <h3>document vs window vs body events</h3>
+
+    <p>
+      `document`, `window` and `body` have different possible events.
+      TODO understand clearly.
+      <a href="http://stackoverflow.com/questions/12045440/difference-between-document-addeventlistener-and-window-addeventlistener">http://stackoverflow.com/questions/12045440/difference-between-document-addeventlistener-and-window-addeventlistener</a>
+      <a href="http://stackoverflow.com/questions/191157/window-onload-vs-body-onload">http://stackoverflow.com/questions/191157/window-onload-vs-body-onload</a>
+    </p>
+    <p>
+      You cannot attach events to the `body` element form scripts in the head,
+      because the body is not yet part of the DOM!
+      Prefer to attach events to the `document` or `window` objects instead.
+    </p>
+
+    <div>#FAIL</div>
+    <script>
+      // IIFE to isolate `fail`.
+      ;(function() {
+        var fail = previousElement()
+        // TODO: why does document and document.body fail?
+        window.addEventListener(
+          'load',
+          function() {
+            fail.parentNode.removeChild(fail)
+          },
+          false
+        )
+      }())
+    </script>
+
+  <h3>Useful events</h3>
+
+    <h4>#DOMContentLoaded</h4>
+
+      <p>HTML5 http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#the-end</p>
+      <p>
+        `DOMContentLoaded` vs `document.onload`:
+        http://stackoverflow.com/questions/2414750/difference-between-domcontentloaded-and-load-events
+        Former does not wait for external resources to load, later does.
+      </p>
+      <p>Used by jQuery's `$(document).ready` method where supported.</p>
+
+      <div>#FAIL</div>
+      <script>
+        // IIFE to isolate `fail`.
+        ;(function() {
+          var fail = previousElement()
+          document.addEventListener(
+            'DOMContentLoaded',
+            function() {
+              fail.parentNode.removeChild(fail)
+            },
+            false
+          )
+        }())
+      </script>
+
+      <script>
+        window.onload = function(){
+          document.getElementById('window-onload').innerHTML = 'window-onload'
+        }
+      </script>
+      <div id="onload"></div>
+      <div id="window-onload"></div>
+      <script>
+        window.onload = function(){
+          document.getElementById('window-onload').innerHTML = 'window-onload'
+        }
+      </script>
+
+    <h4>#load</h4>
+
+      <p>
+        Can only be used on `body` or elements that load remote sources such as
+        `img`, `link` or remote `script` tags.
+        Cannot be used on other elements such as `div`.
+      </p>
+      <p>
+        Both window and document objects have this event:
+        http://stackoverflow.com/questions/588040/window-onload-vs-document-onload>
+        but `document`'s is probably more useful.
+      </p>
+      <p>
+        On <code>body</code> and <code>document</code>, waits for all content to load,
+        including images.
+      </p>
+      <p>
+        If <code>load</code> has already finished when callback is set, it does not get called.
+        Fortunately it is possible to check if load completed with <code>complete</code>:
+      </p>
+      <script>
+        //var img1 = document.querySelector('.img-1');
+        //function loaded() {
+        //  // woo yey image loaded
+        //}
+        //if (img1.complete) {
+        //  loaded();
+        //}
+        //else {
+        //  img1.addEventListener('load', loaded);
+        //}
+        //img1.addEventListener('error', function() {
+        //  // argh everything's broken
+        //});
+      </script>
+      <p>
+        The same is not possible for the error event
+        since there is no analogous boolean <code>error</code> indicator.
+      </p>
+
+    <h4>#error</h4>
+
+      <p>Something like an image failed to load.</p>
+      <p>
+        Not fired if event already failed before assigning the listener. TODO: sure?
+        For 'load', possible to work around via the <code>complete</code> argument,
+        but not for error.
+        Source: <a href="http://www.html5rocks.com/en/tutorials/es6/promises/">http://www.html5rocks.com/en/tutorials/es6/promises/</a>
+      </p>
+      <div>#FAIL</div>
+      <script>
+        // IIFE to isolate `fail`.
+        ;(function() {
+          var fail = previousElement()
+          var img = document.createElement('img')
+          img.addEventListener(
+            'error',
+            function(even) {
+              fail.parentNode.removeChild(fail)
+            },
+            false
+          )
+          img.src = 'i-dont-exist.jpg'
+        }())
+      </script>
+
+    <h4>#click</h4>
+
+      <script>
+        var elem = strToElement('<p class="border" onclick="onclick_func(event)" style="height:100px;">onclick. Click here.</p>')
+        var onclick_func = function(even) {
+          even.target.innerHTML += ' click'
+        }
+        insertBeforeScript(elem)
+      </script>
+
+      <script>
+        var elem = strToElement('<p class="border" style="height:100px;">addEventListener click. Click here.</p>')
+        elem.addEventListener(
+          'click',
+          function(even) {
+            even.target.innerHTML += ' click'
+          },
+          false
+        )
+        insertBeforeScript(elem)
+      </script>
+
+      <p>Works on buttons:</p>
+      <script>
+        var elem = strToElement('<button>button addEventListener</button>')
+        elem.addEventListener(
+          'click',
+          function(even) {
+            even.target.innerHTML += ' click'
+          },
+          false
+        )
+        insertBeforeScript(elem)
+      </script>
+
+      <h5>#window.onerror</h5>
+
+        <p>Catches js exceptions? TODO how is that related to load errors of the 'error' event?</p>
 
 <h2>#cookies</h2>
 
@@ -2435,218 +2821,22 @@
   document.write('<h2>cookies</h2>' + document.cookie + '<br>')
 </script>
 
-<h2>#events</h2>
+<h2>#XMLHttpRquest #AJAX</h2>
 
-  <p>Events are part of the DOM.</p>
-  <p>Each event is attached to an element.</p>
-  <p>Events propagate</p>
-  <p>Like the rest of the DOM, it is a bit messy to find where events are defined.</p>
-  <p>A good source is Firefox's documentation https://developer.mozilla.org/en-US/docs/Web/Reference/Events</p>
-  <p>The major standards are:</p>
-  <ul>
-    <li>http://www.w3.org/TR/DOM-Level-3-Events/</li>
-    <li>
-      Random points of HTML5 like
-      http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#the-end
-      for `DOMContentLoaded`
-    </li>
-  </ul>
-
-  <h3>#addEventListener</h3>
-
-    <p>Allows to add an unlimited amount of handlers per event. Better choice than `on` events like `onload`.</p>
-    <p>Can be used together with `on` events. TODO check.</p>
-    <p>TODO do all events have a on version and an `addEventListener` one?</p>
-
-    <h4>#useCapture parameter #capture vs #bubble</h4>
-
-      <p>Determines the order in which listeners listen to the event.</p>
-      <p>TODO exactly how, example</p>
-      <p>A listener callback ends, the event is then sent to further listeners by default.</p>
-
-    <h4>#stopPropagation</h4>
-
-      <p>
-        Prevent event from being listened on further listeners.
-        http://stackoverflow.com/questions/4470417/how-do-i-consume-a-key-event-in-javascript-so-that-it-doesnt-propagate
-      </p>
-      <p>Only implemented in recent IE. Consider jQuery's `preventDefault` and/or `stopPropagation` if you care.</p>
-      <p>TODO example</p>
-
-    <h4>#dispatchEvent #Trigger events programmatically.</h4>
-
-      <p>
-        Programmatically trigger events.
-        http://stackoverflow.com/questions/2490825/how-to-trigger-event-in-javascript
-      </p>
-      <p>TODO example</p>
-      <p>
-        TODO not possible to trigger standard events like click?
-        http://stackoverflow.com/questions/809057/how-do-i-programmatically-click-on-an-element-in-firefox
-      </p>
-      <div id="dispatchEvent"></div>
-
-  <h3>#document vs window events</h3>
-
-    <p>
-      `document` and `window` have different possible events:
-      http://stackoverflow.com/questions/12045440/difference-between-document-addeventlistener-and-window-addeventlistener
-    </p>
-
-  <h3>Attach events to body</h3>
-
-    <p>
-      You cannot attach events to the `body` element form scripts in the head,
-      because the body is not yet part of the DOM!
-    </p>
-    <p>Prefer to attach events to the `document` or `window` objects instead.</p>
-
-    <div>#FAIL</div>
-    <script>
-      // IIFE to isolate `fail`.
-      ;(function() {
-        var fail = previousElement()
-        document.body.addEventListener(
-          'load',
-          function() {
-            fail.parentNode.removeChild(fail)
-          },
-          false
-        )
-      }())
-    </script>
-
-  <h3>Useful events</h3>
-
-    <h4>#load</h4>
-
-      <p>
-        Can only be used on `body` or elements that load remote sources such as
-        `img`, `link` or remote `script` tags.
-        Cannot be used on other elements such as `div`.
-      </p>
-      <p>
-        Both window and document objects have this event:
-        http://stackoverflow.com/questions/588040/window-onload-vs-document-onload>
-        but `document`'s is probably more useful.
-      </p>
-
-    <h4>#DOMContentLoaded</h4>
-
-      <p>HTML5 http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#the-end</p>
-      <p>
-        `DOMContentLoaded` vs `document.onload`:
-        http://stackoverflow.com/questions/2414750/difference-between-domcontentloaded-and-load-events
-        Former does not wait for external resources to load, later does.
-      </p>
-      <p>Used by jQuery's `$(document).ready` method where supported.</p>
-
-      <div>#FAIL</div>
-      <script>
-        // IIFE to isolate `fail`.
-        ;(function() {
-          var fail = previousElement()
-          document.addEventListener(
-            'DOMContentLoaded',
-            function() {
-              fail.parentNode.removeChild(fail)
-            },
-            false
-          )
-        }())
-      </script>
-
-      <script>
-        window.onload = function(){
-          document.getElementById('window-onload').innerHTML = 'window-onload'
-        }
-      </script>
-      <div id="onload"></div>
-      <div id="window-onload"></div>
-      <script>
-        window.onload = function(){
-          document.getElementById('window-onload').innerHTML = 'window-onload'
-        }
-      </script>
-
-    <h4>#click</h4>
-
-      <script>
-        var elem = strToElement('<p class="border" onclick="onclick_func(event)" style="height:100px;">onclick. Click here.</p>')
-        var onclick_func = function(even) {
-          even.target.innerHTML += ' click'
-        }
-        insertBeforeScript(elem)
-      </script>
-
-      <script>
-        var elem = strToElement('<p class="border" style="height:100px;">addEventListener click. Click here.</p>')
-        elem.addEventListener(
-          'click',
-          function(even) {
-            even.target.innerHTML += ' click'
-          },
-          false
-        )
-        insertBeforeScript(elem)
-      </script>
-
-      <p>Works on buttons:</p>
-      <script>
-        var elem = strToElement('<button>button addEventListener</button>')
-        elem.addEventListener(
-          'click',
-          function(even) {
-            even.target.innerHTML += ' click'
-          },
-          false
-        )
-        insertBeforeScript(elem)
-      </script>
-
-    <h4>#error</h4>
-
-      <p>Something like an image failed to load.</p>
-      <p>Also fired if event already failed before assigning the listener.</p>
-      <div>#FAIL</div>
-      <script>
-        // IIFE to isolate `fail`.
-        ;(function() {
-          var img = strToElement('<img src="i-dont-exist.png" alt=""/>')
-          var fail = previousElement()
-          img.addEventListener(
-            'error',
-            function(even) {
-              fail.parentNode.removeChild(fail)
-            },
-            false
-          )
-        }())
-      </script>
-
-      <h5>#window.onerror</h5>
-
-        <p>Catches js exceptions? TODO how is that related to load errors of the 'error' event?</p>
-
-<h2>#JSON</h2>
-
-  <p>ES5.</p>
+  <p>Make server requests without reloading the current page.</p>
   <p>
-    For greater portability,
-    <a href="https://github.com/douglascrockford/JSON-js/blob/master/json2.js">https://github.com/douglascrockford/JSON-js/blob/master/json2.js</a>
-    is a common option through the CDN:
-    <a href="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js">http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js</a>
+    2 W3C specs:
   </p>
-  <script>
-    var json = '{"a":1, "b":"c"}'
-    var obj = JSON.parse(json)
-    assert_eq(obj.a, 1)
-    assert_eq(obj.b, 'c')
-  </script>
-
-<h2>#XMLHttpRquest #ajax</h2>
-
-  <p>Make a server request without reloading the current page.</p>
+  <ul>
+    <li><a href="http://www.w3.org/TR/XMLHttpRequest/">level 1</a>, widely implemented</li>
+    <li><a href="http://www.w3.org/TR/XMLHttpRequest2/">level 2</a>, recent with good implementation status</li>
+  </ul>
+  <p>Both level 1 and 2 have the same constructor, but level 2 has further capabilities.</p>
+  <p>
+    Not a part of ES, thus not available in Node.js.
+    <a href="https://github.com/driverdan/node-XMLHttpRequest">node-XMLHttpRequest</a>
+    is a wrapper for Node.js's stdlib HTTP implementation with interface exactly like this browser object.
+  </p>
 
   <script>
     var xmlhttp = new XMLHttpRequest()
@@ -2719,5 +2909,24 @@
     </p>
     <p>Some browsers have an option to allow that to happen for testing purposes.</p>
     <p>If this happens, you will get <code>xmlhttp.status == 0</code>.</p>
+
+<h2>#FileAPI</h2>
+
+  <p>Local file IO.</p>
+  <p>W3C spec.</p>
+  <p>Tutorial: <a href="http://www.html5rocks.com/en/tutorials/file/dndfiles/">http://www.html5rocks.com/en/tutorials/file/dndfiles/</a></p>
+
+<h2>#Web Audio API</h2>
+
+  <p>Advanced audio control.</p>
+  <p>W3C spec.</p>
+  <p>Tutorial: <a href="http://www.html5rocks.com/en/tutorials/webaudio/intro/">http://www.html5rocks.com/en/tutorials/webaudio/intro/</a></p>
+
+<h2>#WebGL</h2>
+
+  <p>OpenGL for the browser.</p>
+  <p>W3C spec.</p>
+  <p>Wide support on desktop browsers.</p>
+
 </body>
 </html>

@@ -538,6 +538,11 @@
 
   <p>img elements are neither inline nor block: they are replaced inline elements.
 
+  <h3>src</h3>
+
+    <p>Must be non empty or invalid HTML5:</p>
+    <!--<img src="" alt="empty"/>-->
+
   <h3>Size</h3>
 
     <p>It is possible to set width and hight and the browser will resize as requested. height="100" width="200":</p>
@@ -564,7 +569,7 @@
       If an image should not present, replace it with something else explicitly.
     </p>
     <p>
-      According to the HTML5 validator, alt is mandatory except under certain conditions,
+      According to the HTML5 validator, the <code>alt</code> attribute is mandatory except under certain conditions,
       so just use it always for your sanity.
     </p>
     <!--INVALID:-->
@@ -639,6 +644,7 @@
     <button onclick="document.getElementById('player').volume-=0.1">Volume Down</button>
   </div>
   <p>Multiple tracks: just change the src of the auto tag.</p>
+  <p>Powerful things can be done with it using the Javascript <a href="http://www.html5rocks.com/en/tutorials/webaudio/intro/">Audio API</a>.</p>
 
 <h2>#table</h2>
 
@@ -917,7 +923,7 @@ a
     </p>
     <p>
       <label for="label-target" style="border:1px solid black;">Label, click me!</label>
-      <input id="label-target">
+      <input id="label-target"/>
     </p>
 
   <h3>#input</h3>
@@ -927,12 +933,20 @@ a
     <p>size="3" <input type="text" size="3"></p>
     <p>size="5" <input type="text" size="5"></p>
     <p>placeholder="asdf" <input type="text" size="5" placeholder="asdf"></p>
-    <p>placeholder="asdf", value="default" <input type="text" size="5" placeholder="asdf" value="default"></p>
+    <p>placeholder="asdf", value="default" <input type="text" size="5" placeholder="asdf" value="default"/></p>
     <p>
       #file. Opens a file selector popup.
       Should almost always be used with `form method="post" enctype="multipart/form-data"`
-      <input type="file">
+      <input type="file"/>
     </p>
+
+    <h4>#autocomplete</h4>
+
+      <p>HTML5</p>
+      <p>Determines if browser should suggest auto complete values.</p>
+      <p>Default <code>on</code>.</p>
+      <p>TODO: what do browsers use exactly for the prediction? <code>name</code> attribute?</p>
+      <input type="text" name="" id="" value="" />
 
   <h3>#textarea</h3>
 
