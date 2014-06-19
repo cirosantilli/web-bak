@@ -78,6 +78,12 @@
     -->
 
     <!--
+    #import
+
+    http://www.html5rocks.com/en/tutorials/webcomponents/imports/
+    -->
+
+    <!--
     #shortcut icon ##favicon
 
       The image will show on most browsers on the tab before the title.
@@ -427,14 +433,13 @@
     <li>
       <p>Not present in the current encoding, such as Unicode character in an ASCII encoded file.</p>
       <p>Prefer Unicode for all non-whitespace characters.</p>
-      <p>Useful whitespace characters:
-      </p>
+      <p>Useful whitespace characters:</p>
       <ul>
         <li>non-breaking whitespace #nbsp; &nbsp; Whitespace at which lines cannot reflow.</li>
       </ul>
     </li>
   </ul>
-  <p>#nbsp example. Before&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After
+  <p>#nbsp example. Before&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After</p>
 
 <h2>#attributes</h2>
 
@@ -472,34 +477,35 @@
 
   <h3>#class</h3>
 
-    <p>Multiple classes are space separated as in: <code>"class0 class1 class2"</code>
+    <p>Multiple classes are space separated as in: <code>"class0 class1 class2"</code></p>
 
 <h2>#categories #flow content #phrasing #which element can contain which</h2>
 
-  <p>HTML5 has many element categories.
-  <p>Flow content and phrasing are two of the most important categories.
-  <p>Elements can be both flow content and phrasing at the same time.
-  <p>One of the most important thing this determines is which elements an element can contain. Each element has:
+  <p>HTML5 has many element categories.</p>
+  <p>Flow content and phrasing are two of the most important categories.</p>
+  <p>Elements can be both flow content and phrasing at the same time.</p>
+  <p>One of the most important thing this determines is which elements an element can contain. Each element has:</p>
   <ul>
-    <li>a list of categories it belongs to
-    <li>#Content model: a list of elements or categories it can contain
+    <li>a list of categories it belongs to</li>
+    <li>#Content model: a list of elements or categories it can contain</li>
   </ul>
-  <p>Important conclusions that can be taken from content models and categories include:
+  <p>Important conclusions that can be taken from content models and categories include:</p>
   <ul>
-    <li>html can only contain head followed by a body (but omission is possible for head and body)
-    <li>head contains metadata category elements: base, link, meta, noscript, script, style, template, title
-    <li>body contains flow content
-    <li>p is flow content and can only contain phrasing elements, therefore it cannot contain: p, div, ul
-    <li>ul can only contain li or script supporting elements
-    <li>li contains flow content. It can therefore contain and `p`, `ul`.
-    <li>div is and can contain flow content elements
+    <li>html can only contain head followed by a body (but omission is possible for head and body)</li>
+    <li>head contains metadata category elements: base, link, meta, noscript, script, style, template, title</li>
+    <li>body contains flow content</li>
+    <li>p is flow content and can only contain phrasing elements, therefore it cannot contain: p, div, ul</li>
+    <li>ul can only contain li or script supporting elements</li>
+    <li>li contains flow content. It can therefore contain and `p`, `ul`.</li>
+    <li>div is and can contain flow content elements</li>
   </ul>
 
   <h3>#block-level #inline #inline-block #replaced</h3>
 
     <p>
       HTML4 uses terms block-level, inline and inline-block. In most senses, all elements are either block-level or inline.
-    <p>HTML5 has many more categories.
+    </p>
+    <p>HTML5 has many more categories.</p>
     <ul>
       <li>block-level  corresponds roughly to HTML5 flow content
       <li>inline       corresponds roughly to phrasing
@@ -507,6 +513,7 @@
     <p>
       Inline replaced elements such as images which behave like elements with CSS `display:inline-block` property.
       They can be put inside other inline elements.
+    </p>
 
 <h2>#anchor #link</h2>
 
@@ -984,7 +991,49 @@ a
     <p class="border" contenteditable="true">contenteditable=true</p>
     <p class="border" contenteditable="false">contenteditable=false</p>
 
-<h2>#MathML</h2>
+<h2>#meter</h2>
+
+  <p>HTML5</p>
+  <p>A visual percentage measure.</p>
+  <p>
+    value="0.6"                        : <meter value="0.6"                        >60%        </meter><br/>
+    value="2"   min="0" max="10"       : <meter value="2"   min="0" max="10"       >2 out of 10</meter><br/>
+    value="2"   min="0" max="10" low=3 : <meter value="2"   min="0" max="10" low=3 >2 out of 10</meter><br/>
+    value="2"   min="0" max="10" high=1: <meter value="2"   min="0" max="10" high=1>2 out of 10</meter><br/>
+  </p>
+
+<h2>#ruby #rp #rt</h2>
+
+  <p>HTML5</p>
+  <p>
+    Main purpose: give phonetic reading for languages like Chinese,
+    which are very hard to learn to read because they have weak correspondence between text and sound.
+    Used  mostly in texts targeting students, teenagers or foreign learners.
+  </p>
+  <p>Low support as of 2014.</p>
+  <p>
+    Chinese pinyin:
+    <ruby>
+      河<rt>hé</rt>
+      蟹<rt>xiè</rt>
+    </ruby>
+  </p>
+  <p>
+    Nested: Japanese + Japanese phonetic symbols + Japanese romanisation:
+    <ruby><ruby>攻<rp>（</rp><rt>こう</rt><rp>）</rp>殻<rp>（</rp><rt>かく</rt><rp>）</rp>機<rp>（</rp><rt>き</rt><rp>）</rp>動<rp>（</rp><rt>どう</rt><rp>）</rp>隊<rp>（</rp><rt>たい</rt><rp>）</rp></ruby><rp>（</rp><rt>Kōkakukidōtai</rt><rp>）</rp></ruby>
+  </p>
+  <p>I bet this will be used by the Ruby programming language community at some point.</p>
+
+<h2>#time</h2>
+
+  <p>HTML5.</p>
+  <p>Semantic for times.</p>
+  <p>Does not render as anything special in major browsers.</p>
+  <p>Can have the <code>datetime</code> attribute to specify time for inner content.</p>
+  <p>No attribute: <time>10:00</time></p>
+  <p><code>datetime</code> attribute <time datetime="2008-02-14">Valentines day</time>.</p> 
+
+<h2>#MathML #math element</h2>
 
   <p>Standard way to represent mathematics.</p>
   <p>Uses an XML like language not suitable for direct user input, not LaTeX.</p>

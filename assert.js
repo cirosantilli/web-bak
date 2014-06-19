@@ -33,7 +33,7 @@ function assert_neq(actual, expect) {
   }
 }
 
-function assert_raises(func, err_constructor) {
+function assert_throws(func, err_constructor) {
     var had_err = false
     try {
       func()
@@ -46,7 +46,7 @@ function assert_raises(func, err_constructor) {
     }
 }
 
-function assert_not_raises(func) {
+function assert_not_throws(func) {
     var had_err = false
     try {
       func()

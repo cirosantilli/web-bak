@@ -87,7 +87,7 @@
   <p>
     More recently, it has also been used outside of browsers, often server side, through Node.js.
     This cheat shall consider mostly a world without Node.js: for a Node.js cheat see:
-    https://github.com/cirosantilli/nodejs
+    <a href="https://github.com/cirosantilli/nodejs">https://github.com/cirosantilli/nodejs</a>
   </p>
   <p>
     It can be embedded on the HTML given by the server to the browser inside `script` tags.
@@ -149,7 +149,7 @@
   <ul>
     <li>
       Mozilla Developer Network.
-      https://developer.mozilla.org
+      <a href="https://developer.mozilla.org">https://developer.mozilla.org</a>
       Lots of examples and comments about the standards and implementation status in other browsers.
     </li>
   </ul>
@@ -158,13 +158,13 @@
 
   <ul>
     <li>
-      GitHub: https://github.com/styleguide/javascript
+      GitHub's: <a href="https://github.com/styleguide/javascript">https://github.com/styleguide/javascript</a>
       <ul>
         <li>2 space indent</li>
         <li>no semicolons</li>
       </ul>
     <li>
-      Google: http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+      Google: <a href="http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml">http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml</a>
       <ul>
         <li>2 space indent</li>
         <li>semicolons</li>
@@ -172,7 +172,7 @@
       </ul>
     </li>
     <li>
-      Airbnb; https://github.com/airbnb/javascript
+      Airbnb; <a href="https://github.com/airbnb/javascript">https://github.com/airbnb/javascript</a>
       <ul>
         <li>semicolons</li>
       </ul>
@@ -249,7 +249,7 @@
     <p>In HTML5, the `script` tag *cannot* be self closing because it is neither `void` nor `foreign`.</p>
     <p>
       In HTML5 you cannot have src and a non empty innerHTML:
-      http://stackoverflow.com/questions/6528325/what-does-a-script-tag-with-src-and-content-mean
+      <a href="http://stackoverflow.com/questions/6528325/what-does-a-script-tag-with-src-and-content-mean">http://stackoverflow.com/questions/6528325/what-does-a-script-tag-with-src-and-content-mean</a>
     </p>
     <script src="external.js"></script>
     <script>
@@ -265,8 +265,10 @@
 
   <h3>#type attribute</h3>
 
-    <p>Before HTML5 it was mandatory to specify the language of the script as an attribute to the script tag:</p>
-    <code>type="text/javascript"</code>
+    <p>
+      Before HTML5 it was mandatory to specify the language of the script as an
+      attribute to the script tag: <code>type="text/javascript"</code>
+    </p>
     <p>In HTML5 js became the default, so the attribute is not needed anymore.</p>
 
   <h3>Close script tag inside Javascript #/scr'+'ipt</h3>
@@ -277,18 +279,18 @@
     </p>
     <p>
       A common technique to write a literal &lt;/script&gt; string inside Javascript it to break it up
-      with concatenation as `/scr'+'ipt`
+      with concatenation as <code>/scr'+'ipt</code>
     </p>
 
   <h3>#Strict mode #Use strict</h3>
 
-    <p>https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode</p>
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode</a></p>
     <p>ES5.</p>
     <p>Throws exceptions in a bunch of extra smart cases.</p>
     <p>Turn on for entire script element:</p>
     <script>
       'use strict'
-      assert_raises(
+      assert_throws(
         function() {
           01
         },
@@ -297,7 +299,7 @@
     </script>
     <p>Turn on for single function:</p>
     <script>
-      assert_raises(
+      assert_throws(
         function() {
           'use strict'
           01
@@ -306,7 +308,7 @@
       )
 
       // TODO why passes?
-      assert_raises(
+      assert_throws(
         function() {
           'use strict'
           01
@@ -1020,6 +1022,35 @@
       assert_eq(o.y, 1)
       assert_eq(Object.getPrototypeOf(o), Object.prototype)
 
+    // #What can be used as key
+
+      // Keys in literals must be either:
+      //
+      // - identifiers
+      // - string literals
+      // - numeric literals
+      //
+      // Anything else breaks up, including:
+      //
+      // - variables
+      // - return value of functions
+      //
+      // The alternatives are:
+      //
+      // - create the literal and then use `[]`.
+      // - use `eval`. Bad practice.
+      //
+      // Good:
+
+        var obj = {a:0}
+        var obj = {'a':0}
+        var obj = {0:0}
+
+      // `SyntaxError`: missing : after property id.
+
+          //{'a' + 'b':0},
+          //{('a' + 'b'):0},
+
   // #Object.prototype
 
     // Since literals have this prototype, its methods are shared amongst most objects.
@@ -1050,7 +1081,7 @@
 
       C.prototype.sum = function() { return this.x + this.y }
 
-    // This is what `new` does:
+    // This is what `new` does more or less:
 
       function newObject(func) {
         var args = Array.prototype.slice.call(arguments, 1)
@@ -1097,7 +1128,34 @@
       assert_eq(o2.x, 2)
       assert_eq(o.x,  1)
 
-  // #object oriented patterns
+    //#return value for constructor
+
+      // What the constructor can return:
+      // http://stackoverflow.com/questions/1978049/what-values-can-a-constructor-return-to-avoid-returning-this
+
+      // - if it returns an object, new returns the object
+      // - else, new returns the constructed object
+
+      // Therefore, returning `this` is the same as not returning anything.
+
+      // 0 is not an object, so the return is ignored:
+
+        var C = function() {
+          this.a = 0
+          return 0
+        }
+        assert_eq((new C()).a, 0)
+
+      // If an object is returned, it is used:
+
+        var C = function() {
+          this.a = 0
+          return {a:1}
+        }
+        assert_eq((new C()).a, 1)
+
+
+  // #object oriented patterns #classic object patterns
 
     // Now that you understand the internals, here are the patterns.
 
@@ -1106,6 +1164,7 @@
       // The standard way to write C++ class-like constructs is via functions + new.
       // http://stackoverflow.com/questions/13190097/whats-the-best-way-to-create-javascript-classes?lq=1
 
+        // Constructor.
         var C = function(i) {
           // Instance variable.
           this.i = i
@@ -1121,8 +1180,8 @@
           this.i += 1
         }
 
-        c = new C(0)
-        d = new C(10)
+        var c = new C(0)
+        var d = new C(10)
 
         assert_eq(c.i, 0)
         assert_eq(c.geti(), 0)
@@ -1138,17 +1197,17 @@
 
       // TODO
 
-        d0 = {a:0,  b:1}
-        d1 = {a:10, c:2}
-        d2 = {a:20, d:3}
+        var d0 = {a:0,  b:1}
+        var d1 = {a:10, c:2}
+        var d2 = {a:20, d:3}
         //assert_eq(d0.extend(d1, d2), {a:20, b:1, c:2, d:3})
 
   // #iterate dict #loop dict #for in
 
     // Only enumerable:
 
-      obj = {a:0, b:1}
-      keys = []
+      var obj = {a:0, b:1}
+      var keys = []
       for (key in obj) {
         keys.push(key)
       }
@@ -1161,12 +1220,24 @@
 
     // Get Array of enumerable property keys:
 
-      obj = {a:0, b:1}
-      keys = Object.keys(obj)
+      var obj = {a:0, b:1}
+      var keys = Object.keys(obj)
       keys.sort()
       assert_eq(keys[0], 'a')
       assert_eq(keys[1], 'b')
       assert_eq(keys.length, 2)
+
+  // #delete operator
+
+    // Remove from dict:
+
+      var obj = {0:1}
+      assert_eq(Object.keys(obj).length, 1)
+      delete obj[0]
+      assert_eq(Object.keys(obj).length, 0)
+
+    // On global scope: depends is variable or property of the global object:
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete#Examples
 
 // #Set
 
@@ -1185,7 +1256,7 @@
 
 // #function
 
-  // Return is optional:
+  // Return is optional. If no return, `undefined`.
 
     function maybe_return(b) {
       if (b) {
@@ -1297,7 +1368,8 @@
 
   // #var
 
-    // Create a new variable in current scope instead of using those variables as part of a closure if they exist outside.
+    // Create a new variable in current scope instead of using those variables
+    // as part of a closure if they exist outside.
 
     // It is a good practice to always use var, unless you explicitly expect the variable
     // to refer to something on the outer scope.
@@ -1342,6 +1414,16 @@
           var a
         }
       })()
+
+    // On the global scope,
+    //
+    // - variables defined without `var` are properties of the global object
+    // - those defined with var are new variables
+    //
+    // This difference in behavior can be observed, for example via `delete`.
+
+      //x = 42;         // creates the property x on the global object
+      //var y = 43;     // declares a new variable, y
 
   // #number of #arguments
 
@@ -1629,7 +1711,7 @@
         assert_eq(a.x, -1)
         assert_eq(b.x, -2)
 
-        assert_raises(
+        assert_throws(
           function() { global_undefined },
           ReferenceError
         )
@@ -2044,8 +2126,11 @@
 
   <h3>#document</h3>
 
-    <p>Interface to the DOM: www.w3.org/DOM/DOMTR</p>
-    <p>It is possible to access all DOM attributes of an element: http://www.w3schools.com/jsref/dom_obj_all.asp</p>
+    <p>Interface to the DOM: <a href="http://www.w3.org/DOM/DOMTR">http://www.w3.org/DOM/DOMTR</a></p>
+    <script>
+      assert_eq(document.constructor, HTMLDocument)
+    </script>
+    <p>It is possible to access all DOM attributes of an element: <a href="http://www.w3schools.com/jsref/dom_obj_all.asp">http://www.w3schools.com/jsref/dom_obj_all.asp</a></p>
 
     <h4>#write</h4>
 
@@ -2069,6 +2154,16 @@
         // TODO deterministic? Firefox and Chromium tests have passed.
         //assert_eq(a, 1)
       </script>
+
+    <h4>#referrer</h4>
+
+      <p>Last URL before current, if use clicked on a link to come here.</p>
+      <p>
+        May not always work?
+        <a href="http://stackoverflow.com/questions/3528324/how-do-you-get-the-previous-url-in-javascript">http://stackoverflow.com/questions/3528324/how-do-you-get-the-previous-url-in-javascript</a>
+      </p>
+      <div><code>document.referrer</code> = </div>
+      <script>previousElement().insertAdjacentHTML('beforeEnd', document.referrer)</script>
 
   <h3>#NodeList #HTMLCollection</h3>
 
@@ -2821,7 +2916,7 @@
   document.write('<h2>cookies</h2>' + document.cookie + '<br>')
 </script>
 
-<h2>#XMLHttpRquest #AJAX</h2>
+<h2>#XMLHttpRquest #xhr #AJAX</h2>
 
   <p>Make server requests without reloading the current page.</p>
   <p>
@@ -2910,6 +3005,15 @@
     <p>Some browsers have an option to allow that to happen for testing purposes.</p>
     <p>If this happens, you will get <code>xmlhttp.status == 0</code>.</p>
 
+    <h4>#CORS #cross-origin resource sharing</h4>
+
+      <p><a href="http://enable-cors.org/">http://enable-cors.org/</a></p>
+      <p>Spec that enables cross origin requests in a controlled manner.</p>
+
+  <h3>#responseType</h3>
+
+    <p>Set the response type header. TODO check.</p>
+
 <h2>#FileAPI</h2>
 
   <p>Local file IO.</p>
@@ -2928,5 +3032,32 @@
   <p>W3C spec.</p>
   <p>Wide support on desktop browsers.</p>
 
+<h2>#RequireJS #AMD #CommonJS #Browserify</h2>
+
+  <p><a href="http://stackoverflow.com/questions/16521471/relation-between-commonjs-amd-and-requirejs">http://stackoverflow.com/questions/16521471/relation-between-commonjs-amd-and-requirejs</a></p>
+  <p>
+    AMD and CommonJS are specifications that besides other things describe
+    how to modularize Javascript code.
+  </p>
+  <p>
+    RequireJS is the major implementation of AMD.
+    If it a single file regular Javascript library.
+  </p>
+  <p>Node.js implements CommonJS.</p>
+  <p>AMD is a fork of CommonJS.</p>
+  <p>AMD is more popular in browsers, CommonJS outside.</p>
+  <p>
+    AMD loads asynchronously, CommonJS synchronously. This is a major divergence point,
+    and explains why AMD is more popular on browsers.
+  </p>
+  <p>
+    The Browserify utility implements CommonJS for the browser,
+    by pre-compiling multiple files into one before serving.
+  </p>
+
+  <h3>#RequireJs</h3>
+
+    <p>Simple examples demo: <http://www.ringabell.org/en/un-simple-guide-pour-debuter-avec-requirejs/></p>
+    <p>Large multi file example: <https://github.com/requirejs/example-multipage>.</p>
 </body>
 </html>
