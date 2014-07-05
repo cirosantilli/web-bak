@@ -483,11 +483,15 @@
     <div data-val="'"></div>
     <div>Bad: unlike quot; not in HTML 4:</div>
     <div data-val="&apos;"></div>
-
     <p>
       Besides the quotes, only the ampersand &amp; also has to be escaped, or it would be parsed as an entity otherwise.
     </p>
     <div data-val="&amp;">&amp;</div>
+    <p>
+      Omitting quotes is OK for values that don't have spaces, but very insane
+      <a href="http://www.w3.org/TR/html5/syntax.html#attributes-0">http://www.w3.org/TR/html5/syntax.html#attributes-0</a>
+      <span style=background-color:red title=title>red</span>.
+    </p>
 
   <h3>Global attributes</h3>
 
@@ -523,6 +527,20 @@
         <li><span title="title">span</span></li>
         <li><span title="title">span</span></li>
       </ul>
+
+  <h3>#IDL attribute vs #content attribute</h3>
+
+    <p>
+      Not content attributes that are written in HTML tags,
+      but rather internal properties that are accessible through Javascript
+      properties of the DOM model.
+      For this reason they are often called properties.
+    </p>
+    <p>
+      Important confusing case: <code>checked</code> attribute vs property.
+      Changing the attribute also changes the property, but clicking on the checkbox
+      only changes the property, not the attribute.
+    </p>
 
 <h2>#categories #flow content #phrasing #which element can contain which</h2>
 
@@ -968,16 +986,40 @@ a
 
     <p>
       Any form field can have the <code>disabled</code> boolean attribute.
-      If present, it prevents the value of the field from being changed.
+      If present, it:
+    </p>
+    <ul>
+      <li>prevents the value of the field from being changed</li>
+      <li>does not send the disabled field on form submit</li>
+      <li>if on submit button, prevents form from being submitted</li>
+    </ul>
+    <form action="#disabled" class="border" id="disabled" method="get">
+      <input type="text" name="name0" value="enabled"/>
+      <input type="text" name="name1" value="disabled" disabled="disabled"/>
+      <button type="submit">Submit</button>
+      <button type="submit" disabled="disabled">Submit Disabled</button>
+    </form>
+
+    <p>The disabled IDL attribute (Javascript property) always matches the content attribute.</p>
+    <p>Even so, it is better to modify the IDL attribute instead of the content attribute,
+      making things more uniform with <code>checkbox</code> operation, and avoiding unnecessary HTML modification.
     </p>
     <p>
-      <button type="button">Enabled</button>
-      <button type="button" disabled>Disabled</button>
+      <button onclick="document.getElementById('disabled-toggle').removeAttribute('disabled')">
+        Remove disabled
+      </button>
+      <button onclick="document.getElementById('disabled-toggle').setAttribute('disabled', 'disabled')">
+        Add disabled
+      </button>
+      <input id="disabled-toggle" type="checkbox" disabled="disabled"/>
     </p>
 
     <h4>#boolean attribute</h4>
 
-      <p>Examples: <code>disabled</code> and <code>checked</code>.</p>
+      <p>
+        Examples: <code>disabled</code>, checkbox's <code>checked</code>,
+        <code>select</code>'s <code>selected</code>.
+      </p>
       <p>If not present: false. If present, true.</p>
       <p>Do not need a value, but if a value is given there are only two valid possibilities:</p>
       <ul>
@@ -988,6 +1030,23 @@ a
         The best option is using an exact lowercase match of the attribute,
         which is also XHTML5 portable.
       </p>
+      <p>
+        Mostly historical elements: new elements like <code>contenteditable</code>
+        get the saner <code>true</code> and <code>false</code> valid values.
+      </p>
+
+  <h3>#readonly attribute</h3>
+
+    <p>Boolean attribute.</p>
+    <p>
+      If true, field cannot be modified, but unlike disabled will be sent with the form
+      and its text can be selected.
+    </p>
+    <form action="#readonly" class="border" id="readonly" method="get">
+      <input type="text" name="name0" value="normal"/>
+      <input type="text" name="name1" value="readonly" readonly="readonly"/>
+      <button type="submit">Submit</button>
+    </form>
 
   <h3>#button</h3>
 
@@ -998,9 +1057,10 @@ a
       <li>reset:  reset data of enclosing form to default values.</li>
     </ul>
     <form action="#button-type" id="button-type">
-      <input type="text" name="a" value="0"/>
-      <button type="submit">Submit</button>
-      <button type="reset">Reset</button>
+      <input  type="text" name="a" value="0"/>
+      <button type="submit">submit</button>
+      <button type="reset">reset</button>
+      <button type="button">button</button>
     </form>
 
   <h3>#label</h3>
@@ -1019,56 +1079,108 @@ a
 
     <p>It is valid HTLM5 to omit the type attribute, but a bad practice due to browser inconsistencies.</p>
 
-    <h3>#text</h3>
+    <h4>#text</h4>
 
       <p>value="default": initial content in the text field: <input type="text" value="default"/></p>
       <p>size="3" <input type="text" size="3"/></p>
       <p>size="5" <input type="text" size="5"/></p>
       <p>placeholder="asdf": text that shows when the field is empty: <input type="text" size="5" placeholder="asdf"/></p>
       <p>placeholder="asdf", value="default" <input type="text" size="5" placeholder="asdf" value="default"/></p>
-      <p>
-        #file. Opens a file selector popup.
-        Should almost always be used with `form method="post" enctype="multipart/form-data"`
-        <input type="file"/>
-      </p>
 
-    <h3>#checkbox</h3>
+    <h4>#checkbox</h4>
 
       <p>The value sent is:</p>
       <ul>
         <li>if checked: the <code>name=value</code> pair</li>
         <li>otherwise: nothing is sent</li>
       </ul>
-      <form action="#" method="get">
-        <label for="checkbox">checkbox label: </label>
+      <form action="#checkbox" method="get">
         <input id="checkbox" name="name" type="checkbox" value="1" />
+        <label for="checkbox">checkbox label: </label>
         <button type="submit">Submit</button>
       </form>
 
-      <h4>#checked</h4>
+      <h5>#checked</h5>
 
+        <p><a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">http://www.w3.org/TR/html5/forms.html#attr-input-checked</a></p>
+        <p>Boolean attribute that determines the checkbox's initial checked state.</p>
         <p>
-          Boolean attribute that determines the checkbox's initial checked state.
-          <label for="checked">checkbox label: </label>
-          <input id="checked" type="checkbox" value="1" checked="checked"/>
+          If modified, also modifies the checked state if the checkbox hasn't been clicked on.
+          It it has, a dirty flag is set, and adding or removing the attribute does not modify the checked state.
         </p>
+        <p>Resetting a form resets the dirty flag.</p>
+        <p>
+          The conclusion is simple: only use this attribute to set the initial value of the checkbox:
+          never modify it with Javascript. Use the <code>checked</code> property instead.
+        </p>
+        <p>
+          Contrast this complex behavior with that of the <code>disabled</code> attribute,
+          which always matches the IDL attribute.
+        </p>
+        <form>
+          <button type="button" onclick="document.getElementById('checked-toggle').removeAttribute('checked')">
+            Remove checked
+          </button>
+          <button type="button" onclick="document.getElementById('checked-toggle').setAttribute('checked', 'checked')">
+            Add checked
+          </button>
+          <button type="reset">Reset</button>
+          <input id="checked-toggle" type="checkbox" checked="checked"/>
+        </form>
 
-    <h4>#autocomplete</h4>
+    <h4>#radio</h4>
 
-      <p>HTML5</p>
-      <p>Determines if browser should suggest auto complete values.</p>
-      <p>Default <code>on</code>.</p>
-      <p>TODO: what do browsers use exactly for the prediction? <code>name</code> attribute?</p>
+      <form action="#radio" id="radio" method="get">
+        <div><input type="radio" id="radio-a" name="name" value="a"><label for="radio-a">a</label></div>
+        <div><input type="radio" id="radio-b" name="name" value="b" checked="checked"><label for="radio-b">b</label></div>
+        <div><input type="radio" id="radio-c" name="name" value="c"><label for="radio-c">c</label></div>
+        <button type="submit">Submit</button>
+      </form>
+
+    <h4>#image type</h4>
+
+      <p>Shows image, user clicks, submits form and sends click coordinates as <code>name.x=1&amp;name.y=2</code></p>
+      <form action="#image-type" id="image-type" method="get">
+        <input type=image src="flower.jpg" name="name" alt="flower">
+      </form>
 
   <h3>#textarea</h3>
 
+    <p>Large text box.</p>
     <p>rows="3" cols="5"</p>
     <p><textarea>default</textarea></p>
     <p><textarea rows="3" cols="5">rows=3 cols=5</textarea></p>
 
-  <h3>#select #option</h3>
+  <h3>#file</h3>
 
-  <p>The default is marked with `selected="selected"`</p>
+    <p>
+      Opens a file selector popup.
+      Should almost always be used with <code>form method="post" enctype="multipart/form-data"</code>.
+      Accepts the <code>multiple</code> attribute.
+    </p>
+    <form action="#file" id="file" method="get">
+      <input type="file" name="file"/>
+      <button type="submit">Submit</button>
+    </form>
+
+    <h4>#multiple attribute</h4>
+
+      <p>Currently only valid for file and email.</p>
+      <p>
+        Multiple files, control select multiple files in the popup and submits.
+        Data is sent as: <code>file=path1&amp;file=path2</code>.
+      </p>
+      <form action="#file-multiple" id="file-multiple" method="get">
+        <input type="file" name="file" multiple="multiple"/>
+        <button type="submit">Submit</button>
+      </form>
+
+  <h3>#select #option #dropdown select</h3>
+
+    <p>
+      The boolean attribute <code>selected</code> marks the default.
+      Dirtiness analogous to checkbox's <code>checked</code>.
+    </p>
     <form action="#select" id="select">
       <select name="select-name">
         <option value="a">a text</option>
@@ -1078,16 +1190,129 @@ a
       <button type="submit">Submit</button>
     </form>
 
+    <h4>#optgroup</h4>
+
+      <p>Organize select options in categories.</p>
+      <form action="#optgroup" id="select">
+        <select>
+          <optgroup label="Swedish Cars">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+          </optgroup>
+          <optgroup label="German Cars">
+            <option value="mercedes">Mercedes</option>
+            <option value="audi">Audi</option>
+          </optgroup>
+        </select>
+      </form>
+
+  <h3>#password</h3>
+
+    <p>Hides the value. Does not autocomplete, Firefox suggests to remember the password.</p>
+    <form action="#password" id="password" method="get">
+      <input type="password" name="name"/>
+      <button type="submit">Submit</button>
+    </form>
+
+  <h3>#keygen</h3>
+
+    <p>Generates a RSA private public pair, sends the public, stores the private.</p>
+    <form action="#keygen" id="keygen" method="get">
+      <keygen name="name"/>
+      <button type="submit">Submit</button>
+    </form>
+    <p>TODO how to get the private key?</p>
+
+  <h3>#fieldset</h3>
+
+    <p>HTML5</p>
+    <p>Groups several form elements.</p>
+    <p>If disabled, all its elements are disabled.</p>
+    <p>TODO any more behavior changes? What is the name attribute for?</p>
+    <form action="#fieldset" id="fieldset" method="get">
+      <fieldset name="name">
+        <legend>legend</legend>
+        <input type="text" name="name0" placeholder="name0"/>
+        <input type="text" name="name1" placeholder="name1"/>
+        <button type="submit">Submit</button>
+      </fieldset>
+    </form>
+
+  <h3>#validation without Javascript</h3>
+
+    <p>HTML5 adds great form validation abilities through:</p>
+    <ul>
+      <li>extra input types like <code>email</code></li>
+      <li>attributes like <code>required</code>, <code>min</code> and <code>pattern</code></li>
+      <li>
+        pseudo classes like <code>:invalid</code> and <code>:required</code>
+        which can be used from CSS without Javascript
+      </li>
+    </ul>
+    <p>Invalid forms fields also raise the <code>oninvalid</code> event if you need some Javascript.</p>
+    <p>Browsers like Firefox show invalid fields with red default CSS.</p>
+    <p>
+      On submit, browsers can open a speech balloon with an error message over invalid fields.
+      It does not seem possible to customize the message without Javascript:
+      <a href="http://stackoverflow.com/questions/5272433/html5-form-required-attribute-set-custom-validation-message">http://stackoverflow.com/questions/5272433/html5-form-required-attribute-set-custom-validation-message</a>
+    </p>
+
+    <h4>#required attribute</h4>
+
+      <p>Try to submit with an empty field:</p>
+      <form action="#required" id="required" method="get">
+        <input type="text" name="name0" value="" required="required"/>
+        <button type="submit">Submit</button>
+      </form>
+
+    <h4>#pattern attribute</h4>
+
+      <p>Field must match a Javascript regexp to be valid.</p>
+      <form action="#pattern" id="pattern" method="get">
+        <input type="text" value="letters only or spaces only 012" pattern="[ a-zA-Z]*"/>
+        <button type="submit">Submit</button>
+      </form>
+
+    <h4>#number type #min #max</h4>
+
+      <p>Between 10 and 20:</p>
+      <form action="#number" id="number" method="get">
+        <input type="number" value="15" min="10" max="20"/>
+        <button type="submit">Submit</button>
+      </form>
+
+    <h4>#email</h4>
+
+      <p>
+        Matches a huge regexp that represents valid emails
+        <a href="http://www.w3.org/TR/html5/forms.html#valid-e-mail-address">http://www.w3.org/TR/html5/forms.html#valid-e-mail-address</a>
+      </p>
+      <form action="#email" id="email" method="get">
+        <input type="email" value="a@b.c"/>
+        <button type="submit">Submit</button>
+      </form>
+
+    <h4>#url</h4>
+
+      <p>
+        TODO what validation is done? HTML5 links to the URL standard:
+        <a href="http://url.spec.whatwg.org/">http://url.spec.whatwg.org/</a>
+      </p>
+
+    <h4>#time</h4>
+
+      <p>There are several time validators: month, week, etc.</p>
+
   <h3>#spellcheck attribute</h3>
 
     <p>Determines if the browser will spellcheck and highlight errors or not.</p>
     <p>Works for:</p>
     <ul>
-      <li>textarea
-      <li>input
-      <li>contenteditable elements
+      <li>textarea</li>
+      <li>input</li>
+      <li>contenteditable elements</li>
     </ul>
-    <textarea spellcheck="true">spellcheck=true right wrongg</textarea>
+    <textarea spellcheck="true" >spellcheck=true  right wrongg</textarea>
     <textarea spellcheck="false">spellcheck=false right wrongg</textarea>
 
   <h3>#contenteditable attribute</h3>
@@ -1096,8 +1321,34 @@ a
       If true, you can edit the content of the element like for a textarea.
       Tab cycles through such elements.
     </p>
-    <p class="border" contenteditable="true">contenteditable=true</p>
-    <p class="border" contenteditable="false">contenteditable=false</p>
+    <p class="border" contenteditable="true">p contenteditable=true</p>
+    <p class="border" contenteditable="false">p contenteditable=false</p>
+
+  <h3>#autocomplete attribute</h3>
+
+    <p>HTML5</p>
+    <p>Determines if browser should suggest auto complete values based on previous form submits.</p>
+    <p>Consider the <code>datalist</code> element if you have a predetermined suggestion list for the user.</p>
+    <p>Default <code>on</code>.</p>
+    <p>TODO: what do browsers use exactly for the prediction? URL + <code>name</code> attribute?</p>
+
+  <h3>#datalist #list</h3>
+
+    <p>
+      Suggest autocomplete data from fixed data set to text field.
+      Shows possibilities that match what user it typing.
+    </p>
+    <p>Also shows autocomplete values if enabled.</p>
+    <p>Options: "abcdef", "defghi", "ghijkl".</p>
+    <form action="#datalist" id="datalist">
+      <input list="datalist-id" name="name">
+      <datalist id="datalist-id">
+        <option value="abcdef">
+        <option value="defghi">
+        <option value="ghijkl">
+      </datalist>
+      <button type="submit">Submit</button>
+    </form>
 
 <h2>#meter</h2>
 
@@ -1109,6 +1360,12 @@ a
     value="2"   min="0" max="10" low=3 : <meter value="2"   min="0" max="10" low=3 >2 out of 10</meter><br/>
     value="2"   min="0" max="10" high=1: <meter value="2"   min="0" max="10" high=1>2 out of 10</meter><br/>
   </p>
+
+<h2>#progress</h2>
+
+  <p>Indicates progress of a process. Meant to be modified with Javascript.</p>
+  <p>How is it different from meter? HTML5 says: only to measure time.</p>
+  <p>22 out of 100: <progress value="22" max="100"></progress></p>
 
 <h2>#ruby #rp #rt</h2>
 

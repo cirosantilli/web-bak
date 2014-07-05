@@ -896,7 +896,7 @@
     // - http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/
     // - http://stackoverflow.com/questions/572897/how-does-javascript-prototype-work
 
-  // #attributes #[] #.
+  // #property #[] #.
 
     // Attributes can be accessed either via `.` or `[]`.
 
@@ -919,7 +919,7 @@
       assert_eq(o[2],   2)
       assert_eq(o['2'], 2)
 
-    // #attribute lookup order
+    // property lookup order
 
       // 1) Look in properties of object defined with `defineProperty` or `=`.
       // 2) If not found, look at [[Prototype]] attributes.
@@ -2415,6 +2415,7 @@
 
   <h3>Standards</h3>
 
+    <p>All HTML5 elements have a "DOM Interface IDL" section which specifies its properties.</p>
     <p>List of all DOM specs: <a href="http://www.w3.org/DOM/DOMTR">http://www.w3.org/DOM/DOMTR</a></p>
     <p>The entire DOM spec is split across multiple modules. Latest REC is DOM level 3.</p>
     <ul>
@@ -2683,8 +2684,9 @@
         //element.parentNode.removeChild(element);
       </script>
 
-  <h3>#getAttribute</h3>
+  <h3>#getAttribute #setAttribute #removeAttribute</h3>
 
+    <p><code>setAttribute</code> creates the attribute if it does not exist.</p>
     <script>
       assert_eq(strToElement('<p id="getAttribute"></p>').getAttribute('id'), 'getAttribute')
     </script>
