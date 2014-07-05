@@ -47,12 +47,17 @@ One important web standard that they **do not** specify is Javascript, which is 
 
 W3C has many important member organizations including companies, universities and others such as Microsoft, Apple, IBM, Google, Facebook, Twitter, Adobe.
 
-W3C has several levels of endorsement for standards:
+### Maturity levels of standards
 
-- WD (Working Draft):   lowest level of endorsement of material available to the public
-- REC (Recommendation): highest level, for stable and widely accepted features
-- NOTES:                make small revisions to a standard
-- retired:              standards that have been deprecated
+W3C has several levels of endorsement for standards. They are described on the "Process" document <http://www.w3.org/2005/10/Process-20051014/tr.html#maturity-levels>.
+
+- WD (Working Draft):            lowest level of endorsement of material available to the public
+- CR (Candidate Recommendation): higher
+- PR (Proposed Recommendation):  higher
+- REC (Recommendation):          highest level, for stable and widely accepted features
+- Working group note:            TODO
+- NOTES:                         make small revisions to a standard
+- retired:                       standards that have been deprecated
 
 ## IETF
 
@@ -61,3 +66,25 @@ Specifies networking protocols, in particular HTTP, which is used at many points
 Such protocols shall not be covered here.
 
 For an HTTP tutorial see: <https://github.com/cirosantilli/linux/blob/435a180e2104fe82584bec9719d9e45342c535a9/net/http.md>
+
+# Sources
+
+[Mozilla's MDN](https://developer.mozilla.org) is an open wiki with highly
+recommended content. Huge amount of content, examples, depth and implementation status.
+
+[Web Platform Docs WPD](http://docs.webplatform.org/wiki/Main_Page). Wiki with tutorials.
+
+[CSS Tricks](http://css-tricks.com/). Amazing CSS source. Create and maintained by Chris Coyier <http://chriscoyier.net/>,
+now has articles by many. Very high quality techniques. Closed source apparently.
+
+[HTML5 rocks](http://www.html5rocks.com/en/). New web technologies in general, not just HTML:
+CSS, Javascript, server side, etc. Google sponsored. [Open source](https://github.com/html5rocks/www.html5rocks.com).
+
+[w3schools](http://www.w3schools.com) is fine for beginners,
+but not open source, and thus cannot update fast enough,
+so may contain errors and has been criticized by many devs.
+Tutorials are a bit shallow.
+Insane Google rank, which makes may devs mad.
+
+[Can I use](http://caniuse.com/): implementation status of HTML, CSS and Javascript features.
+Closed source?

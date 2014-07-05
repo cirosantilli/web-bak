@@ -81,9 +81,9 @@
       )
     </script>
 
-<h2>Introduction</h2>
+<h2>#Introduction</h2>
 
-  <p>Javascript is a toy language designed to run in a browser.</p>
+  <p>Javascript is a language originally designed to run in a browser.</p>
   <p>
     More recently, it has also been used outside of browsers, often server side, through Node.js.
     This cheat shall consider mostly a world without Node.js: for a Node.js cheat see:
@@ -100,32 +100,24 @@
     Node.js adds such abilities to Javascript through its standard library.
   </p>
   <p>
-    Javascript is known for having some weird quirks. CoffeScript, a language that compiles to Javascript
-    but behaves more like Ruby, attempts to correct many of those quirks.
+    Javascript feels very Pythonic, but with less features and stdlib.
+    CoffeScript "Rubynises" it.
   </p>
+  <h3>#CoffeeScript</h3>
+    <p>
+      Javascript is known for having some weird quirks. CoffeScript, a language that transpiles to Javascript
+      but behaves more like Ruby, attempts to correct many of those quirks.
+    </p>
+  <h3>#TypeScript</h3>
+    <p>
+      Microsoft open source Js extension: every valid Js script also a valid TypeScript one.
+      Possible to compile it down to vanilla Javascript.
+    </p>
 
 <h2>#Standards #ECMAScript</h2>
 
   <p>Official language name: ECMA-262, or ECMAScript.</p>
   <p>Versions are often abbreviated as: ES5, ES6, etc.</p>
-  <ul>
-    <li>
-      <p>6, AKA #harmony</p>
-      <p>TODO where is the official draft?</p>
-      <p>Expected Dec 2014.</p>
-      <p>Good cheat: <a href="https://github.com/lukehoban/es6features">https://github.com/lukehoban/es6features</a></p>
-      <p>Promises: <a href="http://www.html5rocks.com/en/tutorials/es6/promises/">http://www.html5rocks.com/en/tutorials/es6/promises/</a></p>
-    </li>
-    <li>
-      <p>5.1, 2011: <a href="http://www.ecma-international.org/ecma-262/5.1/">http://www.ecma-international.org/ecma-262/5.1/</a></p>
-      <p>Generally implemented.</p>
-      <p>Fully implemented by Google's V8 engine for Chrome and Node.js.</p>
-      <p>http://www.ecma-international.org/publications/standards/Ecma-262.htm</p>
-    </li>
-    <li>v5: 2009</li>
-    <li>v4: was aborted</li>
-    <li>v3: 1999</li>
-  </ul>
   <p>
     ECMAScript does not include objects which browsers add to Javascript such as `document`, `window`, `XMLHttpRequest`,
     although it does furnish some global objects like JSON.
@@ -137,13 +129,56 @@
     <a href="https://github.com/driverdan/node-XMLHttpRequest">https://github.com/driverdan/node-XMLHttpRequest</a>
     thus allowing to use such objects in Node.js / browser portable code./
   </p>
+  <p>
+    Implementation status sources:
+    <a href="http://kangax.github.io/compat-table/es6/">http://kangax.github.io/compat-table/es6/</a>
+    <a href="http://caniuse.com/#cats=JS_API">http://caniuse.com/#cats=JS_API</a>
+  </p>
+
+  <h3>#ES6</h3>
+
+    <p>6, AKA #harmony</p>
+    <p>Expected Dec 2014.</p>
+    <p>
+      Official source: wiki editable only by contributors:
+      Unofficial draft by one of the contributors: <a href="http://people.mozilla.org/~jorendorff/es6-draft.html">http://people.mozilla.org/~jorendorff/es6-draft.html</a>
+    </p>
+    <p>Good cheat: <a href="https://github.com/lukehoban/es6features">https://github.com/lukehoban/es6features</a></p>
+    <p>
+      Promises: <a href="http://www.html5rocks.com/en/tutorials/es6/promises/">http://www.html5rocks.com/en/tutorials/es6/promises/</a>
+      Currently usable through several libraries.
+    </p>
+    <p>
+      Modules: attempts to unify CommonJS and AMD and end the mess.
+      <a href="http://www.html5rocks.com/en/tutorials/es6/promises/">http://www.html5rocks.com/en/tutorials/es6/promises/</a>
+      Currently usable with by transpiling:
+      <a href="https://github.com/square/es6-module-transpiler">https://github.com/square/es6-module-transpiler</a>
+      Tutorials:
+      <a href="http://www.2ality.com/2013/07/es6-modules.html">http://www.2ality.com/2013/07/es6-modules.html</a>
+    </p>
+
+  <h3>#ES5</h3>
+
+    <p>5.1, 2011: <a href="http://www.ecma-international.org/ecma-262/5.1/">http://www.ecma-international.org/ecma-262/5.1/</a></p>
+    <p>5: 2009.</p>
+    <p>Generally implemented.</p>
+    <p>Fully implemented by Google's V8 engine for Chrome and Node.js.</p>
+    <p>http://www.ecma-international.org/publications/standards/Ecma-262.htm</p>
+
+  <h3>#ES4</h3>
+
+    <p>was aborted</p>
+
+  <h3>#ES3</h3>
+
+    <p>1999</p>
 
 <h2>#Detect #version</h2>
 
   <p>Not possible?! <a href="http://stackoverflow.com/questions/7340726/detect-version-of-javascript">http://stackoverflow.com/questions/7340726/detect-version-of-javascript</a></p>
   <p>People recommend checking for individual features instead.</p>
 
-<h2>#sources</h2>
+<h2>#Sources</h2>
 
   <p>Besides the standards, also check out:</p>
   <ul>
@@ -151,6 +186,10 @@
       Mozilla Developer Network.
       <a href="https://developer.mozilla.org">https://developer.mozilla.org</a>
       Lots of examples and comments about the standards and implementation status in other browsers.
+    </li>
+    <li>
+      Some useful simple design patterns by GitHub:
+      <a href="https://github.com/styleguide/javascript/1.0">https://github.com/styleguide/javascript/1.0</a>
     </li>
   </ul>
 
@@ -322,114 +361,138 @@
         }
       )
     </script>
+<h2>#semicolon #;</h2>
 
-<script>
-// #exit
+  <p>Separates statements.</p>
 
-  // Stop interpreting the current script block now.
-
-    //exit()
-
-// #semicolon #;
-
-  // Separates statements.
-
+  <script>
     var i = 1; i = 2;
     assert_eq(i, 2);
+  </script>
 
-  // #ASI
+  <h3>#ASI</h3>
 
-    // Automatic semicolon insertion.
-
-    // In most cases, semicolons are automatically added by the parser at newlines:
-
+    <p>Good tutorial <a href="http://inimino.org/~inimino/blog/javascript_semicolons">http://inimino.org/~inimino/blog/javascript_semicolons</a></p>
+    <p>Automatic semicolon insertion.</p>
+    <p>In most cases, semicolons are automatically added by the parser at newlines:</p>
+    <script>
       var i = 1
       i = 2
       assert_eq(i, 2)
-
-    // There are a few complex cases however.
-
-    // http://inimino.org/~inimino/blog/javascript_semicolons
-
-    // Operators inhibit ASI to allow programmers to write:
-
+    </script>
+    <p>There are a few complex cases however.</p>
+    <p>Operators inhibit ASI to allow programmers to write:</p>
+    <script>
       var i = 1 +
-        1
+      1
       assert_eq(i, 2)
 
       var i = 1
         + 1
       assert_eq(i, 2)
-
-    // Because of ASI, many people use a coding style without semicolons,
-    // using them only for the only exception: lines that start with parenthesis:
-
+    </script>
+    <p>
+      Because of ASI, many people use a coding style without semicolons,
+      using them only for the only exception: lines that start with parenthesis:
+    </p>
+    <script>
       var i = 1
       ;(assert_eq(i, 1))
-
-    // One notable case where this happens is for IIFE scope preservation.
-
-    // TODO why are semicolons are not required are in single line functions:
-
+    </script>
+    <p>One notable case where this happens is for IIFE scope preservation.</p>
+    <p>TODO why are semicolons are not required are in single line functions:</p>
+    <script>
       var f = function() { return 0 }
       assert_eq(f(), 0)
-      // Instead of:
+      //Instead of:
       var f = function() { return 0; }
+    </script>
+    <p>Advantages of using semicolons:</p>
+    <ul>
+      <li>
+        slightly saner because you don't have to think if it will be added or not automatically,
+        but only slightly because the no insertion rule is intuitive, except for the parenthesis case.
+      </li>
+      <li>
+        slightly better for framework concatenation and minification,
+        but only slightly because good tools should be able to work around that, and the better compression
+        method is gzipping it anyways.
+      </li>
+    </ul>
+    <p>It is a controversial subject which style is better. This is one of the things CoffeScript takes care of.</p>
+    <p>GitHub style says no semicolons. Rationale: http://mislav.uniqpath.com/2010/05/semicolons/</p>
+    <p>Google says semicolons. Rationale: http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Semicolons</p>
 
-    // Advantages of using semicolons:
+<h2>#comments</h2>
 
-      // - slightly saner because you don't have to think if it will be added or not automatically,
-      //     but only slightly because the no insertion rule is intuitive, except for the parenthesis case.
-
-      // - slightly better for framework concatenation and minification,
-      //     but only slightly because good tools should be able to work around that, and the better compression
-      //     method is gzipping it anyways.
-
-    // It is a controversial subject which style is better. This is one of the things CoffeScript takes care of.
-
-    // GitHub style says no semicolons. Rationale: http://mislav.uniqpath.com/2010/05/semicolons/
-
-    // Google says semicolons. Rationale: http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml#Semicolons
-
-// #comments
-
-  // Like C++.
-
+  <p>Like C++.</p>
+  <script>
     // Single line.
 
-    /* Multi
+    /*
+      Multi
       line.
     */
+  </script>
 
-// #case
+<h2>#identifiers</h2>
 
-  // Javascript is case sensitive
+  <p>
+    Identifiers can contain very weird characters.
+    <a href="http://stackoverflow.com/questions/1661197/valid-characters-for-javascript-variable-names">http://stackoverflow.com/questions/1661197/valid-characters-for-javascript-variable-names</a>
+  </p>
+  <p>The first character is more restricted than the following ones, for example it cannot be a number.</p>
+  <p>
+    Some libraries make extensive use of such variables, notably JQuery which uses the dollar sign `$`
+    which is an alias for jQuery.
+  </p>
+  <p>Make sure to use <code>meta charset=UTF-8</code> if you really want to use non ASCII identifier chars.</p>
+  <script>
+    ;(function () {
+      var $ = 0
+      assert_eq($, 0)
 
-    var i = 1
-    var I = 2
-    assert_eq(i, 1)
-    assert_eq(I, 2)
-/*
-#identifiers
+      var ᾏ = 0
+      assert_eq(ᾏ, 0)
+    }())
+  </script>
 
-  Identifiers can contain very weird characters.
-  http://stackoverflow.com/questions/1661197/valid-characters-for-javascript-variable-names
+  <h3>#case</h3>
 
-  The first character is more restricted than the following ones, for example it cannot be a number.
+    <p>Javascript is case sensitive.</p>
+    <script>
+      var i = 1
+      var I = 2
+      assert_eq(i, 1)
+      assert_eq(I, 2)
+    </script>
+    <p>
+      It is unfortunate that many standard classes use all uppercase case for initials
+      or even worse: mixed standards like the insane <code>XMLHttpRequest</code>,
+      which has two case standards on a single identifier:
+      <code>XML</code> all uppercase and (insane) and <code>Http</code> camel.
+    </p>
 
-  Some libraries make extensive use of such variables, notably JQuery which uses the dollar sign `$`
-  which is an alias for jQuery.
+<h2>#scope</h2>
 
-  Make sure you head > meta > UTF-8 if you really want to use non ASCII identifier chars.
-*/
+  <p>
+    Only functions with <code>var</code> generate new scopes, not blocks like <code>if</code> in general.
+  </p>
+  <script>
+    var a = 0
+    {
+      var a = 1
+    }
+    assert_eq(a, 1)
 
-  // This is works, but let's not break jQuery shall we:
+    var a = 0
+    ;(function() {
+      var a = 1
+    }())
+    assert_eq(a, 0)
+  </script>
 
-    //var $ = 1
-    //assert_eq($, 1)
-
-    var ᾏ = 1
-    assert_eq(ᾏ, 1)
+<script>
 
 // #operators
 
@@ -453,8 +516,57 @@
     assert_eq(i, 1)
     assert_eq(j, 2)
 
-  // #boolean
+  // #void operator
 
+    // Evaluates expression and returns `undefined`.
+
+    // TODO applications, besides golfing for `undefined`, specially on discouraged `javascript:void(0) hrefs: ?
+    // <http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean>
+
+      var a = 0
+      assert_eq(void(a = 1), undefined)
+      assert_eq(a, 1)
+
+    // Since this is an operator, the parenthesis are not required. If added,
+    // what is inside of them is evaluated, so it also works:
+
+      assert_eq(void 0,  undefined)
+      assert_eq(void(0), undefined)
+
+    // But it might be required to avoid some parsing errors like
+    // ReferenceError: invalid assignment left hand side:
+
+      //void a = 0
+</script>
+    <h4>#javascript: pseudo URLs</h4>
+
+      <p>
+        Bad practice:
+        <a href="http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean">http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean</a>
+      </p>
+      <p>Evaluate Javascript and open it on the new page if the result is not <code>undefined</code>.</p>
+      <p>TODO: W3C standard?</p>
+      <p>
+        If <code>undefined</code>, do nothing, and unlike number sign URL, <code>#</code>don't go to the top of the page.
+      </p>
+      <p>
+        Often used with <code>void(0)</code>, which is golf for <code>undefined</code> to make links
+        which trigger scripts instead of opening pages. Used because the <code>href</code>
+        attribute is mandatory for valid HTML.
+      </p>
+      <p>
+        Also used instead of straight <code>undefined</code> because <code>undefined</code>
+        can be redefined to something else, while <code>void</code> can't.
+      </p>
+      <p>
+        Major problem with that technique: middle click still opens up a new tab / window
+        with address <code>javascript:void(0)</code> that shows nothing on the screen.
+      </p>
+      <p>Yes, go head and type <code>javascript:something</code> on you browser URL, it will work.</p>
+      <a href="javascript:1+1">javascript:1+1</a><br/>
+      <a href="javascript:void(0)">javascript:void(0)</a><br/>
+      <a href="#">#</a>
+<script>
 // #if
 
     if (false) {
@@ -643,6 +755,15 @@
       assert_eq(global_undefined, undefined)
     })()
 
+  // Undefined can be assigned to:
+
+    ;(function() {
+      var undefined = 0
+      assert_eq(undefined, 0)
+    })()
+
+  // If you ever to that, it's gone for good: TODO true?
+
 // #null
 
   // Null vs undefined: http://stackoverflow.com/questions/801032/why-is-null-an-object-and-whats-the-difference-between-null-and-undefined
@@ -800,7 +921,7 @@
 
     // #attribute lookup order
 
-      // 1) Look in properties of object defined with `defineProperty`.
+      // 1) Look in properties of object defined with `defineProperty` or `=`.
       // 2) If not found, look at [[Prototype]] attributes.
       // 3) If not found, look at [[Prototype]].[[Prototype]] attributes, and so on, until `null` if found.
       //     In that case, return `undefined`.
@@ -821,14 +942,30 @@
 
       assert_eq(Object.getPrototypeOf(o), null)
 
-    // Define some properties:
+    // #defineProperty
 
-      Object.defineProperty(o, 'x', {
-        value: 1,
-        writable: true,
-        enumerable: true,
-        configurable: true
-      })
+      // Low level interface for `a.b = c`.
+
+      // Allows further customizations of the property.
+
+      // Some of the default of this function differ from the defaults
+      // given by `a.b = c`, e.g. `configurable` and `enumerable` are:
+
+      // - true for `=`
+      // - false for `defineProperty`
+
+      // Define some properties:
+
+        Object.defineProperty(o, 'x', {
+          configurable: true,
+          enumerable: true,
+          value: 1,
+          writable: true,
+
+          // See getter and setter.
+          //get: function
+          //set:
+        })
 
     // #enumerable
 
@@ -1128,6 +1265,15 @@
       assert_eq(o2.x, 2)
       assert_eq(o.x,  1)
 
+    //#new C vs new C()
+
+      // They are the same: parenthesis an be omitted in this special case
+      // where there are no arguments.
+
+        var C = function() {}
+        assert_eq((new C).constructor, C)
+        assert_eq((new C()).constructor, C)
+
     //#return value for constructor
 
       // What the constructor can return:
@@ -1157,7 +1303,7 @@
 
   // #object oriented patterns #classic object patterns
 
-    // Now that you understand the internals, here are the patterns.
+    // Before going into this, you must understand how dot `.` resolves properties.
 
     // #instance methods and variables
 
@@ -1192,6 +1338,41 @@
         assert_eq(d.geti(), 10)
         d.inci()
         assert_eq(d.geti(), 11)
+
+    // #static variables and methods.
+
+      // Two possibilities:
+
+      // - function / constructor properties, probably best.
+      // - function prototype properties.
+
+        var C = function() {
+          // Best approach.
+          this.constructor.staticVariable += 1
+          // Worst approach.
+          this.constructor.prototype.staticVariableProto += 1
+        }
+        C.prototype.instanceGetStatic = function() {
+          return this.constructor.staticVariable
+        }
+        C.staticMethod = function() {
+          return this.staticVariable
+        }
+        C.staticVariable = 0
+        C.prototype.staticVariableProto = 0
+
+        assert_eq(C.staticVariable, 0)
+        assert_eq(C.prototype.staticVariableProto, 0)
+        assert_eq(C.staticMethod(), 0)
+
+        c = new C()
+        assert_eq(C.staticVariable, 1)
+        assert_eq(C.prototype.staticVariableProto, 1)
+        assert_eq(C.staticMethod(), 1)
+
+        assert_eq(c.constructor.staticVariable, 1)
+        assert_eq(c.staticVariableProto, 1)
+        assert_eq(c.instanceGetStatic(), 1)
 
     // #extend #inheritance
 
@@ -1238,11 +1419,44 @@
 
     // On global scope: depends is variable or property of the global object:
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete#Examples
+</script>
 
-// #Set
+  <h3>#callable object</h3>
 
-  // ES6
+    <p>Not possible, unless derived from function.</p>
 
+  <h3>#getters #setters #__defineGetter__ #__defineSetter__</h3>
+
+    <p>Allow property getting and assignment to do magic user define things.</p>
+    <p>In literals with <code>get</code> and <code>set</code>:</p>
+    <script>
+      var o = {
+        a: 7,
+        get b() {return this.a + 1;},
+        set c(x) {this.a = x / 2}
+      }
+      assert_eq(o.b, 8)
+      o.c = 50
+      assert_eq(o.a, 25)
+    </script>
+    <p>Programmatically with ES5 <code>defineProperty</code></p>
+    <p><code>__defineGetter__</code> and <code>__defineSetter__</code> are nonstandard extensions.</p>
+    <script>
+      var o = {}
+      Object.defineProperty(o, 'p', {
+        get: function() { return this._p + 1 },
+        set: function(x) { this._p = x * 2 }
+        // ERROR: too much recursion. TODO workaround without renaming internal property.
+        //set: function(x) { this.p = x * 2 }
+      })
+      o.p = 2
+      assert_eq(o.p, 5)
+    </script>
+
+<h2>#Set</h2>
+
+  <p>ES6</p>
+  <script>
     if (Set) {
       var s = new Set()
       s.add('a')
@@ -1253,6 +1467,24 @@
     } else {
       document.write('<p>#Set not present</p>')
     }
+  </script>
+
+<h2>#const</h2>
+
+  <p>
+    ES6 draft: <a href="http://wiki.ecmascript.org/doku.php?id=harmony:const">http://wiki.ecmascript.org/doku.php?id=harmony:const</a>
+  </p>
+  <p>Simply prevent update: don't even raise an error.</p>
+  <p>Better to also stick to the convention of <code>CAPS_UNDERSCORE</code> for constants.</p>
+  <script>
+    ;(function () {
+      const c = 0
+      c = 1
+      assert_eq(c, 0)
+    }())
+  </script>
+
+<script>
 
 // #function
 
@@ -1323,7 +1555,7 @@
 
     // vs call: http://stackoverflow.com/questions/1986896/what-is-the-difference-between-call-and-apply
 
-    // Main difference: pass array:
+    // Main difference: takes array of arguments:
 
       var f = function(x, y) { return this.x + x + y + 1; }
       assert_eq(f.apply({x: 100}, [0, 10]), 111)
@@ -1472,7 +1704,9 @@
 
     // Great article: <http://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/>
 
-    // This is fixed by the function that calls it at call time. Nothing is determined at definition time.
+    // This is fixed by the function that calls it at call time:
+    // it is therefore the work of the dot `.` operator.
+    // Nothing is determined at definition time (`new` operator).
 
     // ES5 says there is a primitive `[[Call]]` that both `func.call` and `[obj.]func()` call.
 
@@ -1548,6 +1782,29 @@
       // but you have to open up the definition of `new`, and you will see that
       // `F` is being called with `this` equal to `f` (what it returns).
 
+      // #this and callback in class oriented patterns
+
+        // This reassignment is specially hurting for callbacks inside class oriented patterns,
+        // and Js uses callbacks *a lot*.
+
+          var takeCallback = function(cb) {
+            return cb()
+          }
+          var C = function() {
+            this.instanceVariable = 0
+          }
+          C.prototype.instanceMethodFail = function() {
+            return takeCallback(function() {
+              // AHA! Although this is inside an instance method,
+              // it is also inside a callback, and this will be overwritten when called!
+              return this.instanceVariable
+            })
+          }
+          var c = new C
+          assert_eq(c.instanceMethodFail(), undefined)
+
+        // Solution: bind techniques.
+
       // #bind
 
         // We often want to "bind" the method to "its" object.
@@ -1572,6 +1829,9 @@
             obj.f = function() { return this }
             var boundF = obj.f.bind(obj);
             assert_eq(boundF(), obj)
+
+        // CoffeScript has a dedicated language feature to make binding super easy:
+        // fat arrow `=>` function definitions.
 
     //#this and jQuery
 
@@ -1912,7 +2172,7 @@
       var a = [1, 2, 0]
       a.sort()
 
-// #exception #try #catch #finaly
+// #exception #try #catch #finally
 
   // try catch finally
 
@@ -1928,6 +2188,13 @@
       a = 1
     }
     assert_eq(a, 1)
+
+  //#Error
+
+    // Anything can be thrown, but the Error is a good ES base class to throw,
+    // as it shows a stack trace it it explodes, while things like strings don't.
+
+      //new Error()
 
 // #Date
 
@@ -2004,9 +2271,14 @@
 
   <p>One of the most important objects.</p>
   <p>Offers an interface to the browser contents.</p>
-  <p>May be undefined on Node.js. This can be used to check if we are no Nodejs or browser.</p>
+  <p>May be undefined on Node.js. This can be used to check if we are no Node.js or browser.</p>
+  <p>
+    Appears to be documented at:
+    <a href="http://www.w3.org/TR/2009/WD-html5-20090423/browsers.html">http://www.w3.org/TR/2009/WD-html5-20090423/browsers.html</a>
+    on HTML5.
+  </p>
   <p>`window` is the global object in browser implementations: http://www.ecma-international.org/ecma-262/5.1/#sec-15.1</p>
-  <p>It is not present in Nodejs.</p>
+  <p>It is not present in Node.js.</p>
   <p>All global objects are attributes of window</p>
   <script>
     a = 1
@@ -2015,6 +2287,17 @@
     this.a = 3
     assert_eq(a, 3)
   </script>
+
+  <h3>#alert</h3>
+
+    <p>In-window popup that disables background.</p>
+    <p>
+      Practical, but not very customizable, cannot render HTML,
+      and often replaced by Javascript libraries.
+    </p>
+    <script>
+      //window.alert('<i>Here!</i>')
+    </script>
 
   <h3>#height #width #innerHeight #outerHeight</h3>
 
@@ -2079,9 +2362,10 @@
       )
     </script>
 
-  <h3>#setTimeout</h3>
+  <h3>#setTimeout #sleep</h3>
 
     <p>Callback once after given number of milliseconds.</p>
+    <p>Not part of ES5, but Node.js also implements an identical interface.</p>
     <button>
       Click me. Something will happen in 1 second.
     </button>
@@ -2114,6 +2398,11 @@
       }())
     </script>
 
+  <h3>#location</h3>
+
+    <p>Redirect to another page: <code>window.location.href = 'url'</code>.</p>
+    <p class="border" onclick="window.location.href='html2.html'">Click me to redirect to html2.html!</p>
+
   <h3>#non-standard attributes</h3>
 
     <p>Just for fun.</p>
@@ -2124,13 +2413,35 @@
 
 <h2>#DOM</h2>
 
+  <h3>Standards</h3>
+
+    <p>List of all DOM specs: <a href="http://www.w3.org/DOM/DOMTR">http://www.w3.org/DOM/DOMTR</a></p>
+    <p>The entire DOM spec is split across multiple modules. Latest REC is DOM level 3.</p>
+    <ul>
+      <li>core: <a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/">Core</a></li>
+      <li>events: <a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113/">Level 2 Events REC</a>.</li>
+      <li>xpath: </li>
+    </ul>
+    <p>
+      It is possible to access all DOM attributes of an element:
+      <a href="http://www.w3schools.com/jsref/dom_obj_all.asp">http://www.w3schools.com/jsref/dom_obj_all.asp</a>
+    </p>
+
+    <h4>#DOM0</h4>
+
+      <p>Informal name for pre W3C standard rules, specially those derived from Netscape behavior.</p>
+      <p>
+        Some still work widely across browsers, but have been superseded by a W3C standard method,
+        for instance returning <code>false</code> from <code>click</code> vs <code>preventDefault</code>.
+      </p>
+
   <h3>#document</h3>
 
-    <p>Interface to the DOM: <a href="http://www.w3.org/DOM/DOMTR">http://www.w3.org/DOM/DOMTR</a></p>
+    <p>DOM3 spec: <a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html">http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html</a></p>
+
     <script>
       assert_eq(document.constructor, HTMLDocument)
     </script>
-    <p>It is possible to access all DOM attributes of an element: <a href="http://www.w3schools.com/jsref/dom_obj_all.asp">http://www.w3schools.com/jsref/dom_obj_all.asp</a></p>
 
     <h4>#write</h4>
 
@@ -2189,6 +2500,15 @@
       <script>
         assert_eq(document.querySelectorAll('.querySelectorAll0 > .querySelectorAll1')[0].innerHTML, 'querySelectorAll')
       </script>
+
+    <h4>#evaluate</h4>
+
+    <p>
+      By Xpath. Working Group Note, not REC.
+      Implementation status: only not in desktop IE 10 as of 2014:
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/document.evaluate#Browser_compatibility">https://developer.mozilla.org/en-US/docs/Web/API/document.evaluate#Browser_compatibility</a>
+      Sample usage: <a href="http://stackoverflow.com/questions/10596417/is-there-a-way-to-get-element-by-xpath-in-javascript/14284815?noredirect=1#comment38086251_14284815">http://stackoverflow.com/questions/10596417/is-there-a-way-to-get-element-by-xpath-in-javascript/14284815?noredirect=1#comment38086251_14284815</a>
+    </p>
 
     <h4>#querySelector</h4>
 
@@ -2293,7 +2613,7 @@
       var elem = strToElement('<div id="children">a<i>b</i>c</div>')
     </script>
 
-    <p>Children and firstElementChild: only elements, no text:</p>
+    <p>children and firstElementChild: only elements, no text:</p>
     <script>
       assert_eq(elem.children[0].innerHTML,       'b')
       assert_eq(elem.firstElementChild.innerHTML, 'b')
@@ -2338,7 +2658,7 @@
 
       <p>Insert an element before another.</p>
       <p>Must work with elements: cannot insert string directly. Consider `insertAdjacentHTML` for that.</p>
-      <p>TODO what happens when element exists already? Copy?</p>
+      <p>TODO what happens when element exists already? Copy of events? Probably.</p>
       <script>
         var parent = strToElement('<div id="insertBefore">a<i>b</i>c</div>')
         var insertBeforeItalic = parent.children[0]
@@ -2406,6 +2726,11 @@
         assert_eq(document.createElement('img') .constructor, HTMLImageElement)
         assert_eq((new Image())                 .constructor, HTMLImageElement)
       </script>
+
+    <h4>#createTextNode</h4>
+
+      <p>Not an element, but can be a child.</p>
+      <p>Contains the text on the outside of other elements.</p>
 
     <h4>Create DOM tree from string.</h4>
 
@@ -2509,6 +2834,24 @@
         <ul>
           <li>change: value of input element changed.</li>
         </ul>
+
+    <h4>#checkbox</h4>
+
+      <h5>#checked</h5>
+
+        <p>Property that gets or sets checked state of checkbox.</p>
+        <script>
+          var p = strToElement('<p>Click checkbox: <input id="checkbox" type="checkbox" value="1" /></p>')
+          checkbox = p.children[0]
+          checkbox.addEventListener(
+            'change',
+            function(even) {
+              p.appendChild(document.createTextNode(' ' + even.target.checked))
+            },
+            false
+          )
+          insertBeforeScript(p)
+        </script>
 
     <h4>#canvas</h4>
 
@@ -2713,6 +3056,10 @@
         }())
       </script>
 
+      <h5>#window.onerror</h5>
+
+        <p>Catches js exceptions? TODO how is that related to load errors of the 'error' event?</p>
+
     <h4>#click</h4>
 
       <script>
@@ -2748,18 +3095,101 @@
         insertBeforeScript(elem)
       </script>
 
-      <h5>#window.onerror</h5>
+      <h5>#preventDefault</h5>
 
-        <p>Catches js exceptions? TODO how is that related to load errors of the 'error' event?</p>
+        <p>
+          Don't take the default action that would be taken on an event,
+          e.g. open link on anchor click. Works for middle click.
+        </p>
+        <script>
+          var f = function(prevent) {
+            var elem = document.createElement('a')
+            elem.href = 'http://example.com'
+            elem.innerHTML = 'prevent = ' + prevent
+            elem.addEventListener(
+              'click',
+              function(even) {
+                alert('click')
+                if (prevent) {
+                  even.preventDefault()
+                }
+              },
+              false
+            )
+            insertBeforeScript(elem)
+            insertBeforeScript(document.createElement('br'))
+          }
+          f(true)
+          f(false)
+        </script>
+
+      <h5>#return value of click callback</h5>
+
+        <p>On DOM0, if return is <code>false</code> then the default action, e.g. open link, is not taken.</p>
+        <p>This still works on most browsers, but the W3C way of doing it is <code>preventDefault</code></p>
+        <p>jQuery implements this interface on the callback passed to <code>on</code>.</p>
+
+    <h4>#submit event #submit() method</h4>
+
+      <p>
+        Like click but when submitting a form through the submit button.
+        Attached to the form itself.
+      </p>
+      <script>
+        var elem = strToElement(
+          '<form action="http://example.com" method="post" class="border">' +
+            '<button type="submit">Submit</button>' +
+          '</form>'
+        )
+        elem.addEventListener(
+          'click',
+          function(even) {
+            alert('click')
+            // Would prevent the submit:
+            //even.preventDefault()
+          },
+          false
+        )
+        elem.addEventListener(
+          'submit',
+          function(even) {
+            alert('submit')
+            even.preventDefault()
+          },
+          false
+        )
+        insertBeforeScript(elem)
+        insertBeforeScript(document.createElement('br'))
+      </script>
+
+      <p>Programmatically submit a form:</p>
+      <script>
+        var form = document.createElement('form')
+        form.action = 'http://example.com'
+        form.method = 'post'
+        var a = document.createElement('a')
+        a.href = '#'
+        a.innerHTML = 'Click me to form.submit()'
+        a.addEventListener(
+          'click',
+          function(even) {
+            form.submit()
+            even.preventDefault()
+          },
+          false
+        )
+        insertBeforeScript(form)
+        insertBeforeScript(a)
+      </script>
 
 <h2>#cookies</h2>
 
-  <p>A way of storing small data strings on user's computer hard disk</p>
+  <p>A way of storing small data strings on user's computer hard disk.</p>
   <p>
     View all cookies on Firefox:
     <a href="chrome://browser/content/preferences/cookies.xul">chrome://browser/content/preferences/cookies.xul</a>
   </p>
-  <p>Cookies are accessible through DOM</p>
+  <p>Cookies are accessible through DOM.</p>
   <p>Cookies can be set/get only for current domain.</p>
   <p>
     WARNING: some browsers may not keep cookies for local files (file://)
@@ -2916,7 +3346,7 @@
   document.write('<h2>cookies</h2>' + document.cookie + '<br>')
 </script>
 
-<h2>#XMLHttpRquest #xhr #AJAX</h2>
+<h2>#XMLHttpRequest #XHR #AJAX</h2>
 
   <p>Make server requests without reloading the current page.</p>
   <p>
@@ -2926,19 +3356,26 @@
     <li><a href="http://www.w3.org/TR/XMLHttpRequest/">level 1</a>, widely implemented</li>
     <li><a href="http://www.w3.org/TR/XMLHttpRequest2/">level 2</a>, recent with good implementation status</li>
   </ul>
-  <p>Both level 1 and 2 have the same constructor, but level 2 has further capabilities.</p>
+  <p>
+    Both level 1 and 2 have the same constructor,
+    but level 2 extends level 1 with further capabilities if implemented.
+  </p>
   <p>
     Not a part of ES, thus not available in Node.js.
     <a href="https://github.com/driverdan/node-XMLHttpRequest">node-XMLHttpRequest</a>
     is a wrapper for Node.js's stdlib HTTP implementation with interface exactly like this browser object.
   </p>
-
+  <p>
+    jQuery has an almost extension of XHR called <code>jqXHR</code>:
+    it contains most, but not all, properties of XHR, and is used by the jQuery API instead.
+  </p>
+  <p>Overview:</p>
   <script>
     var xmlhttp = new XMLHttpRequest()
     xmlhttp.open('GET',  'ajax/url', true)
-    xmlhttp.open('GET',  'ajax/url?a=1&b=2', true)
-    xmlhttp.open('POST', 'ajax/url', true)
-    xmlhttp.open('POST', 'ajax/url', true)
+    //xmlhttp.open('GET',  'ajax/url?a=1&b=2', true)
+    //xmlhttp.open('POST', 'ajax/url', true)
+    //xmlhttp.open('POST', 'ajax/url', true)
     xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
     xmlhttp.onreadystatechange = function() {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -2993,22 +3430,75 @@
 
     <p>Actually make the request.</p>
 
-  <h3>#same origin policy #cross origin XMLHttpRequest.</h3>
+  <h3>#Same origin policy #Cross origin XMLHttpRequest.</h3>
 
     <p>
-      For security reasons, browsers don't let you do Javascript HTTP requests
-      to different locations other than the current one by default,
-      otherwise those sites might be able to obtain your session cookies.
-      This is called the same origin policy:
+      For security reasons, browsers don't let you <b>read</b> HTTP requests
+      to different locations other than the current one by default.
+    </p>
+    <p>
+      Otherwise, a malicious website could might be able to obtain your session cookies or
+      make requests using them. This is called the same origin policy:
       <a href="http://en.wikipedia.org/wiki/Same_origin_policy">http://en.wikipedia.org/wiki/Same_origin_policy</a>
+    </p>
+    <p>
+      It is however perfectly possible to make cross site requests in HTML:
+      every external hyper link makes such <code>GET</code> request,
+      and nothing prevents a form from doing a <code>POST</code> request across domains.
+      Preventing such requests would make the web unusable: the only thing that <i>is</i> forbidden
+      is <b>reading</b> that information into Javascript.
+    </p>
+    <p>
+      The reason why it is not possible with XHR is that the <code>send</code>
+      always allows the Javascript to read the request response.
+    </p>
+    <p>
+      It is however possible to make <code>POST</code> requests from Javascript using
+      other techniques, which do not allow to read the response, and thus do not violate
+      the SOP, in particular:
+      <ul>
+        <li>
+          create a form and trigger the submit with Javascript,
+          <a href="http://stackoverflow.com/questions/298745/how-do-i-send-a-cross-domain-post-request-via-javascript">http://stackoverflow.com/questions/298745/how-do-i-send-a-cross-domain-post-request-via-javascript</a>
+        </li>
+        <li>jQuery post() <a href="http://api.jquery.com/jquery.post/">http://api.jquery.com/jquery.post/</a></li>
+      </ul>
+    </p>
+    <p>
+      Since it is a security measure like "don't publicly post your password",
+      there are not standards that specify it: only security best practices.
+      <a href="http://stackoverflow.com/questions/11423682/cross-domain-form-posting">http://stackoverflow.com/questions/11423682/cross-domain-form-posting</a>
+    </p>
+    <p>
+      The same origin policy is the basis for the Synchronizer Token Pattern that prevents CSRF.
+      If it were not used, then the attacker could obtain the token and make the request.
+      <a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet">https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet</a>
     </p>
     <p>Some browsers have an option to allow that to happen for testing purposes.</p>
     <p>If this happens, you will get <code>xmlhttp.status == 0</code>.</p>
 
     <h4>#CORS #cross-origin resource sharing</h4>
 
-      <p><a href="http://enable-cors.org/">http://enable-cors.org/</a></p>
-      <p>Spec that enables cross origin requests in a controlled manner.</p>
+      <p>
+        Jan 2014 W3C REC that enables cross origin XHR requests in a controlled manner.
+        <a href="http://www.w3.org/TR/cors/">http://www.w3.org/TR/cors/</a>.
+        Part of XHR2.
+        As of Jul 2014, widely implemented on the most recent version of browser families,
+        and plugins exist for most major server systems, including Apache, Nginx, Rack, etc.
+      </p>
+      <p>Promotional website: <a href="http://enable-cors.org/">http://enable-cors.org/</a></p>
+      <p>
+        On the Javascript side nothing needs to be done on XHR2:
+        if the server supports CORS, you do nothing.
+      </p>
+      <p>
+        Browser and server implementors several headers to deal with, and one extra request.
+        Simple tutorial including the HTTP interface:
+        <a href="http://www.html5rocks.com/en/tutorials/cors/">http://www.html5rocks.com/en/tutorials/cors/</a>
+      </p>
+      <p>
+        For a CORS request to be doable, the server must support it, and allow it for the safe pages of course.
+      </p>
 
   <h3>#responseType</h3>
 
@@ -3057,7 +3547,7 @@
 
   <h3>#RequireJs</h3>
 
-    <p>Simple examples demo: <http://www.ringabell.org/en/un-simple-guide-pour-debuter-avec-requirejs/></p>
-    <p>Large multi file example: <https://github.com/requirejs/example-multipage>.</p>
+    <p>Simple examples demo: <a href="http://www.ringabell.org/en/un-simple-guide-pour-debuter-avec-requirejs/">http://www.ringabell.org/en/un-simple-guide-pour-debuter-avec-requirejs/</a></p>
+    <p>Large multi file example: <a href="https://github.com/requirejs/example-multipage">https://github.com/requirejs/example-multipage</a></p>
 </body>
 </html>

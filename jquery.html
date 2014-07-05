@@ -35,6 +35,10 @@
     assert_eq($, jQuery)
   </script>
 
+<h2>#document $(document).ready(function) vs $(function)</h2>
+
+  <p><a href="http://stackoverflow.com/questions/2662778/what-is-the-difference-between-these-jquery-ready-functions">Same</a>.</p>
+
 <h2>#jQuery object</h2>
 
   <p>The only global exposed by the jQuery library. Everything is kept under it.</p>
@@ -43,12 +47,38 @@
 <h2>#selectors</h2>
 
   <p>jQuery can select multiple objects via CSS selectors.</p>
-  <p>This is currently possible with `document.querySelectorAll` in pure Javascript.</p>
+  <p>This is currently possible with <code>document.querySelectorAll</code> in pure Javascript.</p>
+  <p>
+    jQuery also has extensions to CSS selectors that look a lot like them, so watch out.
+    Such extensions are discouraged if an alternative exists, as they cannot benefit from direct <code>querySelectorAll</code> calls.
+    E.g.: <code>:checkbox</code> selector: <a href="http://api.jquery.com/checkbox-selector/">http://api.jquery.com/checkbox-selector/</a>
+    which can be replaced by the standard <code>[type=checkbox]</code>.
+  </p>
+  <p>
+    There are however some extensions which have no standard analogue like <code>:contains</code>,
+    which almost made it into CSS3.
+  </p>
 
   <script>
     document.write('<div class="jquery-selector0"><div class="jquery-selector1" data-0="jquery-selector"></div></div>')
     assert_eq($('.jquery-selector0 > .jquery-selector1')[0].getAttribute('data-0'), "jquery-selector")
   </script>
+
+<h2>#chain calls</h2>
+
+  <p>
+    Every jQuery method that operates or selects a collection of DOM elements
+    returns another jQuery object, which possibly operates in a new selection,
+    allowing to chain calls.
+  </p>
+
+  <h3>#end</h3>
+
+    <p>
+      Restore selected elements to previous states.
+      Does not consider methods which did not change the selected methods.
+      It is for jQuery what <code>tee</code> is for Bash.
+    </p>
 
 <h2>#fn</h2>
 

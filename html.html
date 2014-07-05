@@ -3,59 +3,12 @@
 <head>
   <meta charset="utf-8"/>
   <title>HTML Cheat Title</title>
-  <!--
-  #meta
-
-    As you may guess, contain document metadata.
-  -->
-
-    <!--
-    #charset
-
-      Indicates the document's encoding.
-
-      Very important document wide, so it must be within the first 512 bytes of the document.
-
-      Keep your sanity and use UTF-8 *everywhere*.
-
-      There seems to be no guarantee at all if glyphs are available to user agents or not:
-      <http://stackoverflow.com/questions/2702447/which-of-the-following-unicode-characters-should-be-used-in-html>
-
-      The only official recommendation we could find seems very vague: http://www.w3.org/TR/REC-html40/charset.html#h-5.4
-    -->
-
+  <!-- #meta -->
     <meta name="description" content="Desctiption 0" />
     <meta name="keywords" content="keyword0,keyword1,keyword2" />
     <meta name="author" content="First Last" />
-
-    <!--
-    #http-equiv
-
-      Set values of things that can be set on the HTTP headers.
-
-      Only a few values a supported:
-      <http://www.w3.org/TR/html51/document-metadata.html#attr-meta-http-equiv>
-    -->
-
-      <!--See lang attribute-->
-      <!--<meta http-equiv="Content-Language" content="en" />-->
-
-      <!--
-      #refresh
-
-        Automatically refresh page after 1 second or redirect to another page!
-
-        This is a non standard HTTP header that is standard on HTML.
-
-        Interesting way to automatically reload news feeds without javascript, reload modifications on this cheat,
-        or just annoy your users to hell.
-      -->
-
-        <!--Too annoying even for tests!-->
-        <!--<meta http-equiv="refresh" content="1">-->
-
-        <!-- Redirect instead of refresh. Just gave me an evil idea: HTML only infinite loop redirects!!! -->
-        <!--<meta http-equiv="refresh" content="5; url=http://example.com/">-->
+    <!--<meta http-equiv="refresh" content="1">-->
+    <!--<meta http-equiv="refresh" content="5; url=http://example.com/">-->
 
   <!--
   #link
@@ -206,6 +159,23 @@
       </ul>
       <p>TODO what about DOCTYPE?</p>
       <p>There are important syntax differences between HTML and XHTML, specially concerning end tags</p>
+
+      <h5>CDATA</h5>
+
+        <p><a href="http://stackoverflow.com/questions/7092236/what-is-cdata-in-html">SO thread</a></p>
+        <p><code>CDATA</code> is not treated specially in HTML5.</p>
+        <p>
+          It's main use in XHTML to allow characters like &amp;
+          to be written in <code>script</code> elements.
+        </p>
+        <p>
+          However in HTML5 this is not necessary, as opening script tags make the parser ignore everything
+          up to the closing tag.
+        </p>
+        <p>
+          To write code that is portable to both HTML5 and XHTLM5,
+          a common technique is to write the CDATA inside script on commented out lines.
+        </p>
 
   <h3>#validation</h3>
 
@@ -386,6 +356,49 @@
     <p>On all modern browsers, appears on the tab name.</p>
     <p>Has big importance to search engines.</p>
 
+  <h3>#meta</h3>
+
+    <p>As you may guess, contain document metadata.</p>
+    <p>
+      Besides a few standard <code>name</code> arguments, HTML5 says that anyone
+      can recommend a new <code>name</code> usage:
+      <a href="http://wiki.whatwg.org/wiki/MetaExtensions">http://wiki.whatwg.org/wiki/MetaExtensions</a>.
+      For instance, Rails defines <code>csrf-param</code> and <code>csrf-token</code> there.
+    </p>
+
+    <h4>#charset</h4>
+
+      <p>Indicates the document's encoding.</p>
+      <p>Very important document wide, so it must be within the first 512 bytes of the document.</p>
+      <p>Keep your sanity and use UTF-8 *everywhere*.</p>
+      <p>
+        There seems to be no requirement at all that certain glyphs are available to user agents or not:
+        <a href="http://stackoverflow.com/questions/2702447/which-of-the-following-unicode-characters-should-be-used-in-html">http://stackoverflow.com/questions/2702447/which-of-the-following-unicode-characters-should-be-used-in-html</a>
+      </p>
+      <p>The only official recommendation we could find seems very vague: http://www.w3.org/TR/REC-html40/charset.html#h-5.4</p>
+
+    <h4>#http-equiv</h4>
+
+      <p>Set values of things that can be set on the HTTP headers.</p>
+
+      <p>
+        Only a few values a supported:
+        <a href="http://www.w3.org/TR/html51/document-metadata.html#attr-meta-http-equiv">http://www.w3.org/TR/html51/document-metadata.html#attr-meta-http-equiv</a>
+      </p>
+
+      <p><code>Content-Language</code> is deprecated in favor of the global <code>lang</code> attribute.</p>
+
+      <h5>#refresh</h5>
+
+        <p>Automatically refresh page after 1 second or redirect to another page!</p>
+        <p>This is a non standard HTTP header that is standard on HTML.</p>
+        <p>
+          Interesting way to automatically reload news feeds without Javascript,
+          reload modifications on this cheat, or just annoy your users to hell.
+        </p>
+        <p>Too annoying even for tests!</p>
+        <p>Redirect instead of refresh. Evil idea: HTML-only infinite loop of redirects!</p>
+
 <h2>#body</h2>
 
   <p>Contains document "visible" content.</p>
@@ -427,7 +440,7 @@
       <ul>
         <li>greater than &amp;gt;  &gt;  Used in tags.</li>
         <li>less than    &amp;lt;  &lt;  Used in tags.</li>
-        <li>ampersand    &amp;amp; &amp; Used in entities.</li>
+        <li>ampersand    &amp;amp; &amp; Used in escape entities themselves.</li>
       </ul>
     </li>
     <li>
@@ -450,34 +463,66 @@
     HTML allows you to use any attribute prefixed by `data-`. Great addition!
   </p>
 
-  <p>Double or single quotes are both OK, the only difference is what must be escaped:</p>
-  <div data-val="attr"></div>
-  <div data-val='attr'></div>
-  <div data-val='"'></div>
-  <div data-val="&quot;"></div>
-  <div data-val="'"></div>
-  <div>Bad: unlike quot; not in HTML 4:</div>
-  <div data-val="&apos;"></div>
-
   <p>
-    Besides the quotes, only the ampersand &amp; also has to be escaped, or it would be parsed as an entity otherwise.
+    Each element can have a specific set of attributes:
+    these are specified on HTML5 on the documentation of each element under the
+    "Content attributes" section.
   </p>
-  <div data-val="&amp;">&amp;</div>
+  <p>
+    There are attributes which can be used for every element: those are called
+    <a href="http://www.w3.org/TR/html5/dom.html#global-attributes">Global attributes</a>
+  </p>
 
-  <h3>#id</h3>
+  <h2>#quoting and escaping in attributes</h2>
+
+    <p>Double or single quotes are both OK, the only difference is what must be escaped:</p>
+    <div data-val="attr"></div>
+    <div data-val='attr'></div>
+    <div data-val='"'></div>
+    <div data-val="&quot;"></div>
+    <div data-val="'"></div>
+    <div>Bad: unlike quot; not in HTML 4:</div>
+    <div data-val="&apos;"></div>
 
     <p>
-      Before HTML5, id attributes must start with `a-zA-Z`. In particular, no digits.
-      This restriction was lifted with HTML5, but it is still recommended to follow it for backwards compatibility.
+      Besides the quotes, only the ampersand &amp; also has to be escaped, or it would be parsed as an entity otherwise.
     </p>
-    <p>
-      `id` attributes must be unique across the entire document:
-      http://programmers.stackexchange.com/questions/127178/two-html-elements-with-same-id-attribute-how-bad-is-it-really
-    </p>
+    <div data-val="&amp;">&amp;</div>
 
-  <h3>#class</h3>
+  <h3>Global attributes</h3>
 
-    <p>Multiple classes are space separated as in: <code>"class0 class1 class2"</code></p>
+    <h4>#id</h4>
+
+      <p>
+        Before HTML5, id attributes must start with `a-zA-Z`. In particular, no digits.
+        This restriction was lifted with HTML5, but it is still recommended to follow it for backwards compatibility.
+      </p>
+      <p>
+        `id` attributes must be unique across the entire document:
+        http://programmers.stackexchange.com/questions/127178/two-html-elements-with-same-id-attribute-how-bad-is-it-really
+      </p>
+
+    <h4>#class</h4>
+
+      <p>Multiple classes are space separated as in: <code>"class0 class1 class2"</code></p>
+
+    <h4>#title</h4>
+
+      <p>
+        Most user agents shows as a tool tip on hover.
+        HTML5 discourages relying on it to show information as it cannot be seen by some user agents,
+        notably those without a mouse, like a tablet or cell phone.
+      </p>
+      <p>
+        It is not possible to style the tooltip directly, but there are good CSS ways to reproduce the 
+        tooltip effect allowing arbitrary style:
+        <a href="http://stackoverflow.com/questions/2011142/how-to-change-the-style-of-title-attribute-inside-the-anchor-tag">http://stackoverflow.com/questions/2011142/how-to-change-the-style-of-title-attribute-inside-the-anchor-tag</a>
+      </p>
+      <ul>
+        <li><a href="#" title="title">a</a></li>
+        <li><span title="title">span</span></li>
+        <li><span title="title">span</span></li>
+      </ul>
 
 <h2>#categories #flow content #phrasing #which element can contain which</h2>
 
@@ -528,7 +573,7 @@
   </a>
   <p>
     `href` is mandatory. If you don't need it, use a dummy value.
-    One common dummy when using the link for javascript AJAX is:
+    One common dummy when using the link for Javascript AJAX is:
     <a href="javascript:;">javascript:;</a>.
     What is the best option: http://stackoverflow.com/questions/134845/href-attribute-for-javascript-links-or-javascriptvoid0.
   </p>
@@ -540,6 +585,15 @@
       but may instruct users and search engines not to follow links.
       <a href="html2.html" rel="nofollow">rel="nofollow"</a>
     </p>
+
+  <h3>#target</h3>
+
+    <p>Where to open the link.</p>
+    <ul>
+      <li><a href="#" target="_blank">_bank</a>: new window or tab</li>
+      <li><a href="#" target="_self">_self</a>: on current frame. Default.</li>
+    </ul>
+    <p>The other values can only be seen with frames and I'm lazy to do it.</p>
 
 <h2>#img #images</h2>
 
@@ -873,8 +927,11 @@ a
 
   <h3>#form</h3>
 
-    <p>Contains everything needed to send data to the server, including inputs, input labels and a submit button.
-    <p>Important attributes:
+    <p>
+      Contains everything needed to send data to the server,
+      including inputs, input labels and a submit button.
+    <p>
+    <p>Important attributes:<p>
     <ul>
       <li>`action`: where to send the request to
       <li>
@@ -893,22 +950,47 @@ a
           <li>`text/plain`: useless?
         </ul>
     </ul>
-    <p>To see what forms do exactly, consider using `nc` or an ECHO server.
-    <p>Multipart form to `localhost:8000`:
-    <form action="http://localhost:8000" method="post" enctype="multipart/form-data" class="border">
-      <p><input type="text" name="text" value="text default">
-      <p><input type="file" name="file1">
-      <p><input type="file" name="file2">
-      <p><button type="submit">Submit</button>
+    <p>To see what forms do exactly, consider using `nc` or an ECHO server.</p>
+    <p>Multipart form to http://example.com:</p>
+    <form action="http://example.com" method="post" enctype="multipart/form-data" class="border">
+      <p><input type="text" name="text" value="text default"></p>
+      <p><input type="file" name="file1"></p>
+      <p><input type="file" name="file2"></p>
+      <p><button type="submit">Submit</button></p>
     </form>
+    <p>
+      Sending the form is like clicking a link: the browser attempts to render the reply,
+      sets the URL on the address bar, etc. For this reason, the most common action after
+      submitting a form is to redirect to somewhere else.
+    </p>
 
-  <h3>#button</h3>
+  <h3>#disabled attribute</h3>
 
-    <p>If `disabled` attribute present, button cannot be clicked:</p>
+    <p>
+      Any form field can have the <code>disabled</code> boolean attribute.
+      If present, it prevents the value of the field from being changed.
+    </p>
     <p>
       <button type="button">Enabled</button>
       <button type="button" disabled>Disabled</button>
     </p>
+
+    <h4>#boolean attribute</h4>
+
+      <p>Examples: <code>disabled</code> and <code>checked</code>.</p>
+      <p>If not present: false. If present, true.</p>
+      <p>Do not need a value, but if a value is given there are only two valid possibilities:</p>
+      <ul>
+        <li>empty string</li>
+        <li>equal to the attribute case insensitive</li>
+      </ul>
+      <p>
+        The best option is using an exact lowercase match of the attribute,
+        which is also XHTML5 portable.
+      </p>
+
+  <h3>#button</h3>
+
     <p>`type`: should always be specified to avoid browser inconsistencies:</p>
     <ul>
       <li>button:	nothing special about it. Mostly used with Javascript</li>
@@ -936,16 +1018,40 @@ a
   <h3>#input</h3>
 
     <p>It is valid HTLM5 to omit the type attribute, but a bad practice due to browser inconsistencies.</p>
-    <p>value="default" <input type="text" value="default"></p>
-    <p>size="3" <input type="text" size="3"></p>
-    <p>size="5" <input type="text" size="5"></p>
-    <p>placeholder="asdf" <input type="text" size="5" placeholder="asdf"></p>
-    <p>placeholder="asdf", value="default" <input type="text" size="5" placeholder="asdf" value="default"/></p>
-    <p>
-      #file. Opens a file selector popup.
-      Should almost always be used with `form method="post" enctype="multipart/form-data"`
-      <input type="file"/>
-    </p>
+
+    <h3>#text</h3>
+
+      <p>value="default": initial content in the text field: <input type="text" value="default"/></p>
+      <p>size="3" <input type="text" size="3"/></p>
+      <p>size="5" <input type="text" size="5"/></p>
+      <p>placeholder="asdf": text that shows when the field is empty: <input type="text" size="5" placeholder="asdf"/></p>
+      <p>placeholder="asdf", value="default" <input type="text" size="5" placeholder="asdf" value="default"/></p>
+      <p>
+        #file. Opens a file selector popup.
+        Should almost always be used with `form method="post" enctype="multipart/form-data"`
+        <input type="file"/>
+      </p>
+
+    <h3>#checkbox</h3>
+
+      <p>The value sent is:</p>
+      <ul>
+        <li>if checked: the <code>name=value</code> pair</li>
+        <li>otherwise: nothing is sent</li>
+      </ul>
+      <form action="#" method="get">
+        <label for="checkbox">checkbox label: </label>
+        <input id="checkbox" name="name" type="checkbox" value="1" />
+        <button type="submit">Submit</button>
+      </form>
+
+      <h4>#checked</h4>
+
+        <p>
+          Boolean attribute that determines the checkbox's initial checked state.
+          <label for="checked">checkbox label: </label>
+          <input id="checked" type="checkbox" value="1" checked="checked"/>
+        </p>
 
     <h4>#autocomplete</h4>
 
@@ -953,13 +1059,12 @@ a
       <p>Determines if browser should suggest auto complete values.</p>
       <p>Default <code>on</code>.</p>
       <p>TODO: what do browsers use exactly for the prediction? <code>name</code> attribute?</p>
-      <input type="text" name="" id="" value="" />
 
   <h3>#textarea</h3>
 
     <p>rows="3" cols="5"</p>
-    <p><textarea>default</textarea>
-    <p><textarea rows="3" cols="5">rows=3 cols=5</textarea>
+    <p><textarea>default</textarea></p>
+    <p><textarea rows="3" cols="5">rows=3 cols=5</textarea></p>
 
   <h3>#select #option</h3>
 
@@ -987,7 +1092,10 @@ a
 
   <h3>#contenteditable attribute</h3>
 
-    <p>If true, you can edit the content of the element like for a textarea. Tab cycles through such elements.</p>
+    <p>
+      If true, you can edit the content of the element like for a textarea.
+      Tab cycles through such elements.
+    </p>
     <p class="border" contenteditable="true">contenteditable=true</p>
     <p class="border" contenteditable="false">contenteditable=false</p>
 
@@ -1020,7 +1128,9 @@ a
   </p>
   <p>
     Nested: Japanese + Japanese phonetic symbols + Japanese romanisation:
-    <ruby><ruby>攻<rp>（</rp><rt>こう</rt><rp>）</rp>殻<rp>（</rp><rt>かく</rt><rp>）</rp>機<rp>（</rp><rt>き</rt><rp>）</rp>動<rp>（</rp><rt>どう</rt><rp>）</rp>隊<rp>（</rp><rt>たい</rt><rp>）</rp></ruby><rp>（</rp><rt>Kōkakukidōtai</rt><rp>）</rp></ruby>
+    <ruby><ruby>攻<rp>（</rp><rt>こう</rt><rp>）</rp>殻<rp>（</rp><rt>かく</rt><rp>
+    </rp>機<rp>（</rp><rt>き</rt><rp>）</rp>動<rp>（</rp><rt>どう</rt><rp>）</rp>隊<rp>
+    （</rp><rt>たい</rt><rp>）</rp></ruby><rp>（</rp><rt>Kōkakukidōtai</rt><rp>）</rp></ruby>
   </p>
   <p>I bet this will be used by the Ruby programming language community at some point.</p>
 
@@ -1031,7 +1141,7 @@ a
   <p>Does not render as anything special in major browsers.</p>
   <p>Can have the <code>datetime</code> attribute to specify time for inner content.</p>
   <p>No attribute: <time>10:00</time></p>
-  <p><code>datetime</code> attribute <time datetime="2008-02-14">Valentines day</time>.</p> 
+  <p><code>datetime</code> attribute <time datetime="2008-02-14">Valentine's day</time>.</p> 
 
 <h2>#MathML #math element</h2>
 
@@ -1057,20 +1167,20 @@ a
   <p>In the past, before server side scripting, widely used to reuse code fragments such as indexes.
   <p>Now generally frowned upon for navigation.</p>
   <ul>
-    <li>`frame` was invalidated in HTML5.
-    <li>`iframe`, inline frame, is still valid in HTML5.
+    <li>`frame` was invalidated in HTML5.</li>
+    <li>`iframe`, inline frame, is still valid in HTML5.</li>
   </ul>
   <iframe src="iframe.html">iframe failed to load</iframe>
   <p>iframe always has a fixed size, which you can change with CSS:</p>
   <iframe src="iframe.html" style="width:600px; height:50px;">iframe failed to load</iframe>
   <p>
-    disable scroll in HTML5 CSS3 is not yet widely supported:
+    Disable scroll in HTML5 CSS3 is not yet widely supported:
     http://stackoverflow.com/questions/1691873/safari-chrome-webkit-cannot-hide-iframe-vertical-scrollbar
   </p>
   <p>
     The frame content is like `alt` for images.
-    Your browser may simply ignore it in case of failure if he has something better to do (Firefox 27 shows the not found page
-    with a reload button.)
+    Your browser may simply ignore it in case of failure if he has something better to do
+    (Firefox 27 shows the not found page with a reload button.)
   </p>
   <div><iframe src="i-do-no-exist.html">i-do-not-exist.html failed to load</iframe></div>
 </body>

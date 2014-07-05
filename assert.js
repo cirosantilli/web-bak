@@ -42,7 +42,7 @@ function assert_throws(func, err_constructor) {
       assert_eq(err.constructor, err_constructor)
     }
     if (!had_err) {
-      report_error('Did not raise.')
+      report_error('Did not throw.')
     }
 }
 

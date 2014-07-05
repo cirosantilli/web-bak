@@ -44,7 +44,8 @@
     .plus0 + .plus1 { color:red; }
     .tilde0 ~ .tilde2 { color:red; }
 
-    /* Pseudo */
+    /* #pseudo classes */
+
       .plus0 + .plus1 { color:red; }
       .first-letter::first-letter { border:1px solid black; }
       .selection-red::selection { color:red; background:yellow; }
@@ -57,6 +58,8 @@
       .hover-left:hover + .hover-right { background-color:red; }
       .hover-out:hover > .hover-in { background-color:red; }
       .hover-out:hover > .hover-in { background-color:red; }
+      .checked:checked + label { background-color:red; }
+      .empty:empty { background-color: red; }
 
       /* TODO why fails without after? */
       a.literal-link::after { content: " <" attr(href) ">"; }
@@ -91,13 +94,15 @@
     /*
     Boilerplate classes.
     */
+
+      .blue { color:blue; }
       .border { border:1px solid black; }
-      .wide { width:300px; }
+      .inline-block { display:inline-block; vertical-align:top;}
       .strip { height:10px; width:300px; }
+      .square { border:1px solid black; height:50px; width:50px; }
       .red { color:red; }
       .red-back { background-color:red; }
-      .blue { color:blue; }
-      .inline-block { display:inline-block; }
+      .wide { width:300px; }
 
     /* #table
 
@@ -145,20 +150,20 @@
 
 <ul data-toc></ul>
 
-<h2>Standards</h2>
+<h2>#Standards</h2>
 
-  <p>CSS is specified by W3C <a href="http://www.w3.org/TR/#tr_CSS">here</a>
-  <p>CSS versions are called levels.
+  <p>CSS is specified by W3C <a href="http://www.w3.org/TR/#tr_CSS">here</a></p>
+  <p>CSS versions are called levels.</p>
   <p>
     Versions 1 and 2 were monolithic specs. Versions 3 and 4 were split up into modules
     that can evolve and be versioned and implemented separately,
     but it is still common to refer to all modules of a given level as CSS3 or CSS4.
-
-  <p>As of early 2014
+  </p>
+  <p>As of early 2014:</p>
   <ul>
-    <li>CSS2 is all REC
-    <li>almost all modules of CSS3 are REC and have wide browser support, the others are almost REC.
-    <li>some level 4 modules exist and are WD, with little browser support.
+    <li>CSS2 is all REC</li>
+    <li>Almost all modules of CSS3 are REC and have wide browser support, the others are almost REC.</li>
+    <li>Some level 4 modules exist and are WD, with little browser support.</li>
   </ul>
 
 <h2>#Vendor prefixes</h2>
@@ -166,9 +171,8 @@
   <p>
     Vendor prefixes are prefixes added before new properties, standard or not, while they are still in test phase.
     Once they leave test phase, they may be removed by the browser developers.
-
-  <p>Vendor prefixes used by the main modern browsers are:
-
+  </p>
+  <p>Vendor prefixes used by the main modern browsers are:</p>
   <pre>
     Firefox:-moz-
     Internet Explorer:-ms-
@@ -176,37 +180,38 @@
     Opera:-o-
     Chrome/Safari/iOS:-webkit-
   </pre>
-
   <p>
-    Most of them are quite obvious, except maybe for <code>webkit</code>, which is the
+    Most of them are quite obvious, except maybe for <code>WebKit</code>, which is the
     <a href="http://stackoverflow.com/questions/3468154/what-is-webkit-and-how-is-it-related-to-css">
       rendering engine
     </a>
     for both Safari and Chrome.
+  </p>
 
 <h2>#location</h2>
 
-  <p>The following CSSs affect a document:
+  <p>The following CSS affects a document:</p>
   <ul>
     <li>
       author:rules written by the web designer. They can be either:
       <ul>
-        <li style="color:red;">#inline:put directly on the element it will affect
-        <li class="internal">#internal / #embedded:put on the header or body. Affect only current document.
-        <li class="external">#external:put on external files, used via the `link` tag.
+        <li style="color:red;">#inline:put directly on the element it will affect</li>
+        <li class="internal">#internal / #embedded:put on the header or body. Affect only current document.</li>
+        <li class="external">#external:put on external files, used via the `link` tag.</li>
       </ul>
+    </li>
     <li>user:a local stylesheet that the browser's user tells the browser where to find in the HD.</li>
     <li>user agent (most often the browser):a default internal stylesheet for the browser</li>
   </ul>
 
 <h2>#Precedence #Specificity</h2>
 
-  <p>This describes how user agents should decide the value of a property when multiple values may apply.
-
-  <p>First read this <a href="http://css-tricks.com/specifics-on-css-specificity/">good tutorial</a> to get the general idea.
+  <p>This describes how user agents should decide the value of a property when multiple values may apply.</p>
+  <p>First read this <a href="http://css-tricks.com/specifics-on-css-specificity/">good tutorial</a> to get the general idea.</p>
   <p>
     Next attack the <a href="www.w3.org/TR/CSS21/cascade.html">official CSS2 docs</a> (quite readable),
     and in particular <a href="http://www.w3.org/TR/CSS21/cascade.html#cascading-order">the cascade part</a>.
+  </p>
 
   <pre>
   Slightly paraphrasing the standard to make it more readable:
@@ -272,82 +277,116 @@
 
 <h2>#Selectors</h2>
 
-  <p>Space, descendant:<code>a b</code>:<code>b</code> is any descendant of <code>a</code>
+  <p>Space, descendant:<code>a b</code>:<code>b</code> is any descendant of <code>a</code></p>
 
-  <p><code>a &gt; b</code>:<code>b</code> is a child of <code>a</code>
+  <p><code>a &gt; b</code>:<code>b</code> is a child of <code>a</code></p>
 
-  <p>Star, universal:<code>*</code>:all elements. Bad idea because of performance and logic.
+  <p>Star, universal:<code>*</code>:all elements. Bad idea because of performance and logic.</p>
   <p><code>a *</code>:any descendant of <code>a</code></p>
-  <p><code>a * b</code>:<code>b</code> that is a descendant of <code>a</code> of level 2 or more
+  <p><code>a * b</code>:<code>b</code> that is a descendant of <code>a</code> of level 2 or more</p>
   <p>
     <a href="http://stackoverflow.com/questions/1014861/is-there-a-css-parent-selector">There is not parent selector as of CSS3</a>
     Probable rationale:such selector requires the browser to parse backwards in order to make a change,
     meaning that browsers may have to render an element twice.
+  </p>
 
-  <p>
-    Plus, adjacent selector:first next sibling. Acts on the 1 one element:
-    <span class="border plus0">0</span>
-    <span class="border plus1">1</span>
-    <span class="border plus2">2</span>
-    <span class="border plus1">1</span>
+  <h3>#+ #plus #next sibling</h3>
 
-  <p>
-    tilde ~:any next sibling
-    <span class="border tilde0">0</span>
-    <span class="border tilde1">1</span>
-    <span class="border tilde2">2</span>
+    <p>
+      First next sibling.
+      <span class="border plus1">1</span>
+      <span class="border plus0">0</span>
+      <span class="border plus1">1</span>
+      <span class="border plus2">2</span>
+      <span class="border plus1">1</span>
+    </p>
 
-  <p>
-    <a href="http://stackoverflow.com/questions/1817792/css-previous-sibling-selector">
-      There is no selector for previous siblings as of CSS3. It will be possible via Selectors level 4 via the exclamation mark.
-    </a>.
-    Probable rationale:such selector requires the browser to parse backwards in order to make a change,
-    meaning that browsers may have to render an element twice.
+  <h3>#~ #tilde #any sibling</h3>
 
-  <p>
-    #comma:has very low precedence. It is necessary to repeat both sides fully.
-    Only current solution are SASS-like languages.
+    <p>
+      Every next sibling
+      <span class="border tilde2">2</span>
+      <span class="border tilde0">0</span>
+      <span class="border tilde1">1</span>
+      <span class="border tilde2">2</span>
+      <span class="border tilde1">1</span>
+      <span class="border tilde2">2</span>
+    </p>
+
+  <h3>#previous element selector</h3>
+
+    <p>
+      <a href="http://stackoverflow.com/questions/1817792/css-previous-sibling-selector">
+        There is no selector for previous siblings as of CSS3.
+        It will be possible via Selectors level 4 via the exclamation mark.
+      </a>.
+      Probable rationale:such selector requires the browser to parse backwards in order to make a change,
+      meaning that browsers may have to render an element twice.
+    </p>
+
+  <h3>#, #comma</h3>
+
+    <p>
+      Has very low precedence. It is necessary to repeat both sides fully.
+      Only current solution are SASS-like languages.
+    </p>
 
   <h3>#pseudo element</h3>
 
     <p>
-      Pseudo elements are selectors for things that are not real HTML elements, such as the first letter of the content of a paragraph.
+      Pseudo elements are selectors for things that are not real HTML elements,
+      such as the first letter of the content of a paragraph.
+    </p>
     <p>
       Before CSS3, pseudo elements were specified with a single colon as in <code>tag:element</code>.
       After CSS3, they use double colon as in <code>tag::element</code> to differentiate them from pseudo classes more clearly.
       Single colon syntax is still supported.
+    </p>
     <p>
       Pseudo element styles cannot be specified inline.
+    </p>
 
     <h4>#first letter</h4>
 
-      <p class="first-letter">first letter
+      <p class="first-letter">first letter</p>
 
     <h4>#selection</h4>
 
-      <pre>
-        *NOT* in CSS3, but almost went in and has reasonable browser support. Might come back later.
-        ::selection {color:red;background:yellow;}
-        ::-moz-selection {color:red;background:yellow;}
-        Only supports a few attributes.
-        `-moz-`
-      </pre>
+      <p>Style of the selected text.</p>
+      <p>
+        Not in CSS3, but almost went in and has reasonable browser support.
+        Might come back later.
+      </p>
+      <p>Only supports a few attributes.</p>
+      <p><code>-moz-</code> required on Firefox.</p>
       <p>
         <span class="selection-red">Select</span>
         <span class="selection-blue">this text!</span>
+      </p>
 
-    <h4>#content selector</h4>
+    <h4>#content #contains</h4>
 
       <p>
-        As of CSS3 it is not possible to select by content:http://stackoverflow.com/questions/1520429/css-3-content-selector.
-        It does however appear in some CCS3 drafts, so maybe in CSS4...
+        As of CSS3 it is not possible to select by content:
+        <a href="http://stackoverflow.com/questions/1520429/css-3-content-selector.">http://stackoverflow.com/questions/1520429/css-3-content-selector</a>
+      </p>
+      <p><code>:contains()</code> appeared in some CSS3 drafts but didn't make it, maybe in CSS4...</p>
+      <p>One special case is possible however: <code>:empty</code>.</p>
+
+    <h4>#empty</h4>
+
+      <div class="empty inline-block square"></div>
+      <div class="empty inline-block square">a</div>
 
   <h3>#pseudo classes</h3>
 
     <p>
-      Classes that are not really classes such as <code>a:visited</code>, <code>a:link</code> for links.
+      Classes that are not really classes such as <code>a:visited</code>,
+      <code>a:link</code> for links.
+    </p>
 
     <h4>#hover</h4>
+
       <div>`hover` can be used for any element, not just anchors:</div>
       <div class="hover border">hover me to make me red!</div>
       <p>Possible to select elements based on hover status of another.</p>
@@ -355,12 +394,14 @@
         Siblings:
         <span class="hover-left border">Hover me!</span>
         <span class="hover-right border">to make me red</span>
+      </p>
       <p>
         First child:
         <span class="hover-out border" style="position:relative; margin-left:100px;">
           Hover me!
           <span class="hover-in border" style="position:absolute; right:100%;">to make me red</span>
         </span>
+      </p>
 
     <h4>#last child</h4>
       <p class="last-child">
@@ -372,6 +413,7 @@
           <span>last</span>
           <span>child</span>
         </span>
+      </p>
 
     <h4>#nth-child</h4>
 
@@ -386,23 +428,46 @@
           <span>2</span>
           <span>3</span>
         </span>
+      </p>
 
     <h4>#not</h4>
 
-      <p>Selector that negates a property.
-      <p>As of CSS3, can only take *simple selectors*: http://www.w3.org/TR/css3-selectors/#negation
-      <p>So for example, no: `a:not(div.nothere *)` to avoid targeting all elements inside a div: you have to duplicate code.
-      <p>Pseudo selectors are out too.
+      <p>Selector that negates a property.</p>
+      <p>As of CSS3, can only take *simple selectors*: http://www.w3.org/TR/css3-selectors/#negation</p>
+      <p>So for example, no: `a:not(div.nothere *)` to avoid targeting all elements inside a div: you have to duplicate code.</p>
+      <p>Pseudo selectors are out too.</p>
+
+    <h4>#checked</h4>
+
+      <p>For check boxes and radio button inputs.</p>
+      <p>
+        <input id="checked" class="checked" type="checkbox" value="1">
+        <label for="checked">Click the checkbox!</label>
+      </p>
 
   <h3>#asterisk #*</h3>
 
-    <p>*:all elements recursively</p>
+    <p>All elements recursively.</p>
+
+  <h3>#[] #square brackets</h3>
+
+    <p>Family of class based selectors:</p>
+    <ul>
+      <li><code>[attribute]</code>: has attribute</li>
+      <li><code>[attribute=value]</code>: has attribute with given value</li>
+      <li><code>~=</code>: contains value, space delimited, like class</li>
+      <li><code>|=</code>: starts with value, followed by space or hyphen</li>
+      <li><code>^=</code>: starts with value, not necessarily followed by space or hyphen</li>
+      <li><code>$=</code>: ends with value, preceded by space or hyphen</li>
+      <li><code>*=</code>: ends with value, not necessarily preceded by space or hyphen</li>
+    </ul>
 
   <h3>#scoped</h3>
 
     <p>
       Very low browser support as of 2013 but great thing:sets scope of a style block
       in the body to only the parent element. Example (turned off because of low support):
+    </p>
     <div>
       <div>
         <!--<style scoped>* {color:red}</style>-->
@@ -415,13 +480,13 @@
 
 <h2>#color specification</h2>
 
-  <p>Colors are used in many places across CSS, but all of them can take the same values:
+  <p>Colors are used in many places across CSS, but all of them can take the same values:</p>
   <ul>
-    <li>named: `red`, `BurlyWood`, `transparent`. Case insensitive.
-    <li>6 digit hex: `#RRGGBB`, `#0088FF`
-    <li>3 digit hex: `#RGB`, `#08F`, same as `#RRGGBB`
-    <li>rgb function: `rgb(0, 128, 256)`
-    <li>rgba function for the transparency: `rgb(0, 128, 256, 0.3)`
+    <li>named: `red`, `BurlyWood`, `transparent`. Case insensitive.</li>
+    <li>6 digit hex: `#RRGGBB`, `#0088FF`</li>
+    <li>3 digit hex: `#RGB`, `#08F`, same as `#RRGGBB`</li>
+    <li>rgb function: `rgb(0, 128, 256)`</li>
+    <li>rgba function for the transparency: `rgb(0, 128, 256, 0.3)`</li>
   </ul>
 
   <h3>#alpha #transparency</h3>
@@ -433,27 +498,29 @@
       <div style="background-color:rgba(0, 255, 0, 1.0);" class="wide border">green 1.0</div>
     </div>
 
-<h2>#length specification</h2>
+<h2>#length specification units</h2>
 
   <ul>
-    <li>#px: pixels
-    <li>#ex: height of the `x` of current font == height of all lowercase letters in most fonts. 1ex == 0.5em in many fonts.
-    <li>#75%, 125%: multiplies the would be font size by a percentage
-    <li>#em: height of upper case letters of the font.
+    <li>#px: pixels</li>
+    <li>
+      #ex: height of the `x` of current font == height of all lowercase letters in most fonts. 1ex == 0.5em in many fonts.
+    </li>
+    <li>#75%, 125%: multiplies the would be font size by a percentage</li>
+    <li>#em: height of upper case letters of the font.</li>
     <li>#ch: specify sizes relative to the size of characters. Useful if you want a div that fits exactly X characters into it.
-
-      <p>Low support as of 2014: http://www.quirksmode.org/css/units-values/.
-
+      <p>Low support as of 2014: http://www.quirksmode.org/css/units-values/.</p>
       <p>
         Good workaround: use content to set the number of chars,put it on background so that the chars are not selectable,
         set the front div transparent.
+      </p>
+    </li>
   </ul>
 
 <h2>#properties</h2>
 
   <h3>#initial</h3>
 
-    <p>Any property can be set to its default CSS value by the `initial` special value.
+    <p>Any property can be set to its default CSS value by the `initial` special value.</p>
 
   <h3>#inherit</h3>
 
@@ -461,97 +528,163 @@
     <div class="border">ab<span>c</span></div>
     <div class="border">ab<span style="border:inherit;">c</span></div>
 
-  <h3>#line-height</h3>
+  <h3>#text #font properties</h3>
 
-    <p>By default the line is centered vertically on its height.
-    <div class="border" style="line-height:50px;">50px</div>
-    <div class="border" style="line-height:100px;">100px</div>
+    <p>First understand some font parameters:</p>
+    <img src="typography-line-terms.svg" alt="typography-line-terms" style="height:200px;"/>
 
-  <h3>#font-weight</h3>
+    <h4>#line-height</h4>
 
-    <p style="font-weight:bold;">font-weight bold
-    <p style="font-weight:normal;">font-weight normal
-    <p style="font-weight:900;">font-weight 900
+      <p>Minimum vertical space lines occupy.</p>
+      <p>Unitless means percentage of current font size.</p>
+      <p>Characters are centered vertically on the line height.</p>
+      <p>Default value: around 1.2, can vary slightly with the font.</p>
+      <p>It is better to always use unit less values.</p>
+      <p></p>
+      <div class="border" style="line-height:50px;">50px</div>
+      <div class="border" style="line-height:100px;">100px</div>
 
-  <h3>#font-size</h3>
+      <p>
+        font-size larger than line-height: occupied space is given by line-height,
+        font overflows neighbouring elements / lines:
+      </p>
+      <div class="border" style="font-size:50px; line-height:25px; width:250px;">
+                                 font-size:50px; line-height:25px;
+      </div>
 
-    <div style="position:relative;">
-      <div class="border inline-block" style="height:100px; position:absolute; width:100%;"></div>
-      <div class="border inline-block" style="height:50px;  position:absolute; width:100%;"></div>
-      100px
-      <div class="border inline-block" style="font-size:100px; padding:0px; vertical-align:top;">IAxp</div>
-      <div class="border inline-block" style="font-size:50px; padding:0px; vertical-align:top;">IAxp</div>
-    </div>
+      <div style="height:50px;"></div>
+      <div class="border">
+        out
+        <span class="border" style="font-size:50px; line-height:0.5;">
+                                    font-size:50px; line-height:0.5;
+        </span>
+      </div>
 
-  <h3>#font-family</h3>
+      <div style="height:25px;"></div>
+      <div class="border">
+        out
+        <span class="border" style="font-size:50px; line-height:2;">
+                                    font-size:50px; line-height:2;
+        </span>
+      </div>
 
-    <p>Fall back list of fonts.
-    <p>
-      Fonts can either be precise font names, or generic families.
-      Start with the more specific and then let fall back to more general ones.
-    <p style='font-family:"Courier New",Courier,monospace;"Times New Roman",Georgia,Serif;'>font-family Courier New
+    <h4>#font-size</h4>
 
-  <h3>#text-decoration</h3>
+      <p>
+        At line-height:1, baseline can overflow slightly to lower div,
+        but a small margin is left at the top.
+      </p>
+      <div style="margin-bottom: 50px; position:relative;">
+        <div class="border inline-block" style="height:50px; line-height:50px; position:absolute; width:100%;">
+          50px
+        </div>
+        <div class="border inline-block" style="line-height:1; font-size:50px; margin:0px 0px 0px 200px; padding:0px; vertical-align:top;">
+          font-size:50px; line-height:1; Ahpx
+        </div>
+      </div>
 
-    <div style="text-decoration:none;">none</div>
-    <div style="text-decoration:overline;">overline</div>
-    <div style="text-decoration:line-through;">line-through</div>
-    <div style="text-decoration:underline;">underline</div>
+      <div class="border" style="font-size:50px; line-height:1;">
+        50px
+        A
+        |
+        <span style="font-size:1em;">1em</span>
+        |
+        x
+        <span style="font-size:1ex;">1ex</span>
+        |
+        <span style="font-size:50%;">50%</span>
+      </div>
 
-  <h3>#text-transform</h3>
+    <h4>#font-weight</h4>
 
-    <div style="text-transform:none;">none none</div>
-    <div style="text-transform:capitalize;">capitalize capitalize</div>
-    <div style="text-transform:uppercase;">uppercase uppercase</div>
-    <div style="text-transform:lowercase;">LOWERCASE</div>
-    <div>There is no lowercase analogous to capitalize.</div>
+      <p>How thick the characters are.</p>
+      <p style="font-weight:bold;">font-weight bold</p>
+      <p style="font-weight:normal;">font-weight normal</p>
+      <p style="font-weight:900;">font-weight 900</p>
 
-  <h3>#text-align</h3>
+    <h4>#font-family</h4>
 
-    <p>Set the horizontal alignment for inner text and inline elments.</p>
-    <div class="border" style="width:300px; height:50px; text-align:left;">left</div>
-    <div class="border" style="width:300px; height:50px; text-align:center;">center</div>
-    <div class="border" style="width:300px; height:50px; text-align:right;">right</div>
-    <div class="border" style="width:300px; height:50px; text-align:right;"><span>right in span</span></div>
-    <div class="border" style="width:300px; height:50px; text-align:right;"><div>right in div</div></div>
+      <p>Fall back list of fonts.</p>
+      <p>
+        Fonts can either be precise font names, or generic families.
+        Start with the more specific and then let fall back to more general ones.
+      </p>
+      <p style='font-family:"Courier New",Courier,monospace;"Times New Roman",Georgia,Serif;'>font-family Courier New</p>
 
-    <h4>Center text vertically</h4>
-      <p>To center vertically also see:http://stackoverflow.com/questions/8865458/how-to-align-text-vertical-center-in-div-with-css
-      <p>Best solution forgetting IE7 support. Also makes divs like inline-block.
-      <div class="border" style="width:100px; height:100px; text-align:left;   display:table-cell; vertical-align:middle;">left</div>
-      <div class="border" style="width:100px; height:100px; text-align:center; display:table-cell; vertical-align:middle;">center</div>
-      <div class="border" style="width:100px; height:100px; text-align:right;  display:table-cell; vertical-align:middle;">right</div>
+    <h4>#text-decoration</h4>
 
-  <h3>#whitespace</h3>
+      <div style="text-decoration:none;">none</div>
+      <div style="text-decoration:overline;">overline</div>
+      <div style="text-decoration:line-through;">line-through</div>
+      <div style="text-decoration:underline;">underline</div>
 
-    <pre>
-              New lines 	Spaces and tabs 	Text wrapping
-    normal 	  Collapse 	  Collapse 	        Wrap
-    pre 	    Preserve 	  Preserve 	        No wrap
-    nowrap 	  Collapse 	  Collapse 	        No wrap
-    pre-wrap 	Preserve 	  Preserve 	        Wrap
-    pre-line 	Preserve 	  Collapse 	        Wrap
-    </pre>
+    <h4>#text-transform</h4>
 
-  <h3>#white-space-collapse #bikeshedding</h3>
+      <div style="text-transform:none;">none none</div>
+      <div style="text-transform:capitalize;">capitalize capitalize</div>
+      <div style="text-transform:uppercase;">uppercase uppercase</div>
+      <div style="text-transform:lowercase;">LOWERCASE</div>
+      <div>There is no lowercase analogous to capitalize.</div>
 
-      <p>TODO
+    <h4>#text-align</h4>
+
+      <p>Set the horizontal alignment for inner text and inline elments.</p>
+      <div class="border" style="width:300px; height:50px; text-align:left;">left</div>
+      <div class="border" style="width:300px; height:50px; text-align:center;">center</div>
+      <div class="border" style="width:300px; height:50px; text-align:right;">right</div>
+      <div class="border" style="width:300px; height:50px; text-align:right;"><span>right in span</span></div>
+      <div class="border" style="width:300px; height:50px; text-align:right;"><div>right in div</div></div>
+
+      <h5>Center text vertically</h5>
+
+        <p>http://stackoverflow.com/questions/8865458/how-to-align-text-vertical-center-in-div-with-css</p>
+        <p>
+          <code>line-height</code> == <code>height</code>. Good implementation status.
+          Not DRY, but can be made so with SASS.
+        </p>
+        <div class="border" style="width:100px; height:100px; line-height:100px;">center</div>
+
+        <p>
+          <code>display:table-cell</code> + <code>vertical-align:middle</code>.
+          Lower browser support, but dry. Makes the element like <code>display:inline-block</code>.
+        </p>
+        <div class="border" style="width:100px; height:100px; text-align:left;   display:table-cell; vertical-align:middle;">left</div>
+        <div class="border" style="width:100px; height:100px; text-align:center; display:table-cell; vertical-align:middle;">center</div>
+        <div class="border" style="width:100px; height:100px; text-align:right;  display:table-cell; vertical-align:middle;">right</div>
+
+    <h4>#whitespace</h4>
+
+      <pre>
+                New lines 	Spaces and tabs 	Text wrapping
+      normal 	  Collapse 	  Collapse 	        Wrap
+      pre 	    Preserve 	  Preserve 	        No wrap
+      nowrap 	  Collapse 	  Collapse 	        No wrap
+      pre-wrap 	Preserve 	  Preserve 	        Wrap
+      pre-line 	Preserve 	  Collapse 	        Wrap
+      </pre>
+
+    <h4>#white-space-collapse #bikeshedding</h4>
+
+      <p>TODO</p>
 
   <h3>#background</h3>
 
     <h4>#background-image</h4>
 
-      <p style="background-image:url('flower.jpg');">background image
+      <p style="background-image:url('flower.jpg');">background image</p>
       <p>
         In many situations such as Icons, CSS background images are used instead of img tags. Discussion:
         <a href="http://stackoverflow.com/questions/492809/when-to-use-img-vs-css-background-image">CSS background images vs img</a>
-        If you are going to use CSS, then you will likely to use `background-size:contain; background-repeat:no-repeat;` to control well the image size.
-      <p>CSS sprites:put many smaller images on a single image to make less HTTP requests
+        If you are going to use CSS, then you will likely to use `background-size:contain; background-repeat:no-repeat;`
+        to control well the image size.
+      </p>
+      <p>CSS sprites:put many smaller images on a single image to make less HTTP requests</p>
       <p>
         quotes are optional but if you don't use them you have to escape many special chars, so just use them always:
         <a href="http://stackoverflow.com/questions/851724/css-background-image-what-is-the-correct-usage">http://stackoverflow.com/questions/851724/css-background-image-what-is-the-correct-usage</a>
+      </p>
 
-      <p>base64 background image:http://stackoverflow.com/questions/1124149/is-embedding-background-image-data-into-css-as-base64-good-or-bad-practice
+      <p>base64 background image:http://stackoverflow.com/questions/1124149/is-embedding-background-image-data-into-css-as-base64-good-or-bad-practice</p>
       <div style="width:50px; height:50px;
         background-image:url(data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7);
       ">
@@ -570,24 +703,26 @@
 
   <h3>#content</h3>
 
-    <p>Modifies tag content.
+    <p>Modifies tag content.</p>
     <p>
       While it shows on the page, it is not part of the DOM, so it may not be selectable by Javascript,
       or found on browser page searches. TODO check.
-    <p><span class="content-before content-after border">inner</span>
-    <p><span class="content border">Does not work without :before or :after.</span>
+    </p>
+    <p><span class="content-before content-after border">inner</span></p>
+    <p><span class="content border">Does not work without :before or :after.</span></p>
 
   <h3>#box model</h3>
 
-    <p>Describes what are margins, borders and paddings.
+    <p>Describes what are margins, borders and paddings.</p>
     <p>
       `margin` and `padding` can take 1, 2, 3 or 4 arguments:http://www.htmldog.com/reference/cssproperties/margin/. 
       They are just shorthands for setting the four margins at once.
+    </p>
 
     <h4>#collapse margins</h4>
 
-      <p>If two vertical margins are adjacent, only the largest one is used:http://www.w3.org/TR/CSS2/box.html
-      <p>TODO make example work. First need to better understand vertical align...
+      <p>If two vertical margins are adjacent, only the largest one is used:http://www.w3.org/TR/CSS2/box.html</p>
+      <p>TODO make example work. First need to better understand vertical align...</p>
       <div style="vertical-align:top;">
         <div class="border" style="display:table-cell; width:100px; height:100px; margin:0px; text-align:center;">
           200x200
@@ -604,32 +739,42 @@
       <p>
         Only works for vertical margins. Does *not* work for horizontal margins nor padding + margin.
         (TODO what to do on those cases).
+      </p>
 
     <h4>#border</h4>
 
       <h4>duplicate border problem</h4>
 
-        <p>Borders side by size will both appear:<span class="border">a</span><span class="border">b</span>
-        <p>For tables, the border collapse property solves this. For other elements, see some workarounds here:http://stackoverflow.com/questions/5737693/simulating-border-collapse-in-lists-no-tables
+        <p>Borders side by size will both appear:<span class="border">a</span><span class="border">b</span></p>
+        <p>
+          For tables, the border collapse property solves this. For other elements,
+          see some workarounds here:http://stackoverflow.com/questions/5737693/simulating-border-collapse-in-lists-no-tables
+        </p>
         <p>-1px margin trick seems to be the only alternative to manually setting either one border or another.
           <span style="border-right:1px solid black;">a</span><span style="border-left:1px solid black; margin-left:-1px;">b</span>
         </p>
 
       <h4>#border-radius</h4>
+
         <div class="border" style="width:100px; height:100px; border-radius:10px;">10px</div>
         <div class="border" style="width:100px; height:100px; border-radius:50px;">50px</div>
 
   <h3>#width #height #min-width #max-width</h3>
 
+    <div class="border">
+      <div class="border" style="height:50px; width:50px; padding-top:25px;">
+      </div>
+    </div>
+
     <h4>#box-sizing</h4>
 
-      <p>By default, exclude padding, border and margin.
-      <p>CSS3 introduces the `box-sizing` property, which allows to determine what the width includes.
+      <p>By default, width does not count padding, border and margin.<p>
+      <p>CSS3 introduces the `box-sizing` property, which allows to determine what the width includes.<p>
       <ul>
-        <li>`border-box`:            include padding and border, *not* margin.
-        <li>`content-box` (default): exclude padding, border and margin.
+        <li>`border-box`:            include padding and border, *not* margin.</li>
+        <li>`content-box` (default): exclude padding, border and margin.</li>
       </ul>
-      <p>There seems to be no way of also including the margin.
+      <p>There seems to be no way of also including the margin.</p>
 
     <div class="border" style="width:5px;">width:5px</div>
     <!--if width > max-width use max-width-->
@@ -639,6 +784,7 @@
     <p>
       Inline elements ignore width and height properties.
       One solution is to use the `display` property, in particular the `inline-block` value.
+    </p>
 
   <h3>#overflow #scroll</h3>
 
@@ -728,7 +874,7 @@
         qwer asdf qwer asdf qwer adsf qwer adsf qwer
       </div>
 
-      <p>span display:block height:100px. Looks exactly like a `div` without display:
+      <p>span display:block height:100px. Looks exactly like a `div` without display:</p>
       <p class="border" style="width:250px;">
         asdf qwer asdf qwer asdf qwer
         <span class="border" style="display:block; height:100px;">
@@ -741,7 +887,8 @@
 
         <p>
           Empty inline-block with fixed `width`: for the default vertical-align:baseline
-          alignment is done at the bottom of the element: http://stackoverflow.com/questions/8215638/difference-between-baseline-of-empty-and-non-empty-inline-blocks
+          alignment is done at the bottom of the element:
+          http://stackoverflow.com/questions/8215638/difference-between-baseline-of-empty-and-non-empty-inline-blocks
         </p>
         <div class="border" style="width:250px;">
           asdf
@@ -758,19 +905,22 @@
 
       <h5>Space between inline-block elements.</h5>
 
-        <p>Space counts between two inline-block elements.
-        <p>For this reason, two width 50% inline-block elements with a space between them will stack up and not side by side.
-        <p>With space:
+        <p>Space counts between two inline-block elements.</p>
+        <p>
+          For this reason, two width 50% inline-block elements with a space between
+          them will stack up and not side by side.
+        </p>
+        <p>With space:</p>
         <div class="border" style="width:250px;">
           <div class="border" style="box-sizing:border-box; display:inline-block; width:50%;">width:50%</div>
           <div class="border" style="box-sizing:border-box; display:inline-block; width:50%;">width:50%</div>
         </div>
-        <p>Without space:
+        <p>Without space:</p>
         <div class="border" style="width:250px;">
           <div class="border" style="box-sizing:border-box; display:inline-block; width:50%;">width:50%</div><div class="border" style="box-sizing:border-box; display:inline-block; width:50%;">width:50%</div>
         </div>
 
-        <p>CSS solutions without modifying HTML: http://stackoverflow.com/questions/5078239/how-to-remove-the-space-between-inline-block-elements/5078297#5078297
+        <p>CSS solutions without modifying HTML: http://stackoverflow.com/questions/5078239/how-to-remove-the-space-between-inline-block-elements/5078297#5078297</p>
         <ul>
           <li>font-width:0
           <li>sometimes float left
@@ -779,9 +929,9 @@
 
     <h4>#flex</h4>
 
-      <p>Very flexible positioning.
-      <p>Still W3C CR.
-      <p>Amazing guide: http://css-tricks.com/snippets/css/a-guide-to-flexbox/
+      <p>Very flexible positioning.</p>
+      <p>Still W3C CR.</p>
+      <p>Amazing guide: http://css-tricks.com/snippets/css/a-guide-to-flexbox/</p>
 
     <h4>#table-cell</h4>
 
@@ -810,7 +960,7 @@
 
   <h3>#float #clear</h3>
 
-    <p>Makes elements move horizontally as much as possible until they find:
+    <p>Makes elements move horizontally as much as possible until they find:</p>
     <ul>
       <li>the parent container</li>
       <li>another floating element</li>
@@ -893,19 +1043,19 @@
   <h3>#position</h3>
 
     <p>http://www.barelyfitz.com/screencast/html-training/css/positioning/</p>
-    <p>
-      #relative #absolute:
 
-      - object is moved to a new location relative to the first non static positioned parent,
+    <h4>#relative #absolute</h4>
+
+      <p>
+        Object is moved to a new location relative to the first non static positioned parent,
         above or below whatever is there depending on the Z indexes
-
-      Relative:
-
-      - space that would be occupied remains occupied.
-
-      Absolute:
-
-      - element is completely removed from normal flow, it is as if it were not there.
+      </p>
+      <p>
+        Relative: space that would be occupied remains occupied.
+      </p>
+      <p>
+        Absolute: element is completely removed from normal flow, it is as if it were not there.
+      </p>
     </p>
 
     <div style="margin-left:100px; width:50px; height:50px; background-color:red; position:relative;">
@@ -957,7 +1107,8 @@
 
       <p>
         Even a 0px width 1px border box can be selected and for that reason is not a good watermark.
-        Currently it does not seem possible to make the hovering element not selectable in pure CSS: stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselectable
+        Currently it does not seem possible to make the hovering element not selectable in pure CSS:
+        stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselectable
         although many browsers support the non W3C `user-select: none`.
       </p>
 
@@ -967,7 +1118,7 @@
 
   <h3>#cursor</h3>
 
-      <div>Determines what the cursor looks like on hover. Takes a list in case on is not present.</div>
+      <p>Determines what the cursor looks like on hover. Takes a list in case on is not present.</p>
       <div>
         <div style="cursor:default;" class="border">default</div>
         <div style="cursor:pointer;" class="border">pointer</div>
@@ -978,7 +1129,28 @@
           Firefox says that the image must be smaller than 128×128px.
           Some sources state that Windows limits it to 32x32, so use 32x32.
         </div>
+        <div style="cursor:not-allowed;" class="border">not-allowed</div>
       </div>
+
+  <h3>#pointer-events</h3>
+
+    <p>One useful value in HTML: none, others only for SVG.</p>
+    <p>Experimental: was considered for inclusion in CSS3, but was postponed to CSS4.</p>
+    <div class="border" style="pointer-events:none;" title="title">
+      title tool tips don't show
+    </div>
+    <div class="border" style="pointer-events:none; cursor:help:">
+      cursor: styles don't show
+    </div>
+    <button style="pointer-events:none;" type="submit">
+      button shows no on hover or click effect.
+    </button>
+    <a href="#" style="pointer-events:none;">
+      anchor neither
+    </a>
+    <div onclick="alert('onclick')" style="pointer-events:none;">
+      onclick events are not fired
+    </div>
 
 <h2>#functions</h2>
 
@@ -1007,9 +1179,10 @@
 
     <h4>#list-style-position</h4>
 
-      <p>By default, positioning happens to the text, and bullets as absolutely positioned
-      In particular, this means that `margin-left` is relative to the text, *not* the bullets by default!
-      This can be changed by the `list-style-position:inside` property.
+      <p>
+        By default, positioning happens to the text, and bullets as absolutely positioned
+        In particular, this means that `margin-left` is relative to the text, *not* the bullets by default!
+        This can be changed by the `list-style-position:inside` property.
       </p>
       <div>inside:</div>
       <ul class="list-style-position">
@@ -1045,6 +1218,7 @@
       <textarea style="width:50px; height:50px; padding:10px;" class="border"></textarea>
 
       <h5>#resize</h5>
+
         <p>
           Textarea can be resized by users by dragging by default.
           It is possible to prevent resizing horizontally or vertically.
@@ -1094,12 +1268,13 @@
     </table>
 
     <h4>Fit to content with width 100%</h4>
+
       <p>
         Make cells fit to their content on a width:100% table, except for one large cell.
         http://stackoverflow.com/questions/4582631/are-shrink-to-fit-table-cells-possible
       </p>
 
-      <p>No formatting:</p>
+      <p>No formatting, BAD:</p>
       <table class="td-border" style="width:100%;">
         <tr>
           <td>small</td>
@@ -1108,7 +1283,7 @@
         </tr>
       </table>
 
-      <p>width:1px; whitespace:nowrap on all but last columns:</p>
+      <p>width:1px; whitespace:nowrap on all but last column:</p>
       <table class="td-border" id="table-fit-to-content" style="width:100%;">
         <tr>
           <td>small</td>
