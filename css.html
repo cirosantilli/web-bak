@@ -47,11 +47,7 @@
     /* #pseudo classes */
 
       .plus0 + .plus1 { color:red; }
-      .first-letter::first-letter { border:1px solid black; }
-      .selection-red::selection { color:red; background:yellow; }
-      .selection-red::-moz-selection { color:red; background:yellow; }
-      .selection-blue::selection { color:blue; background:green; }
-      .selection-blue::-moz-selection { color:blue; background:green; }
+
       .nth-child > :nth-child(2) { border:1px solid black; }
       .last-child > :last-child { border:1px solid black; }
       .hover:hover { background-color:red; }
@@ -60,7 +56,6 @@
       .hover-out:hover > .hover-in { background-color:red; }
       .checked:checked + label { background-color:red; }
       .empty:empty { background-color: red; }
-
       /* TODO why fails without after? */
       a.literal-link::after { content: " <" attr(href) ">"; }
       [data-attr]::after { content: " <" attr(data-attr) ">"; }
@@ -68,6 +63,17 @@
         font-family: icons; /* BYO icon font, mapped smartly */
         content: attr(data-icon);
       }
+
+    /* #pseudo elements */
+
+      .first-letter::first-letter { border:1px solid black; }
+      .selection-red::selection { color:red; background:yellow; }
+      .selection-red::-moz-selection { color:red; background:yellow; }
+      .selection-blue::selection { color:blue; background:green; }
+      .selection-blue::-moz-selection { color:blue; background:green; }
+      .before-after:before { color:red; }
+      .before-after:after { color:blue; }
+      .target:target { color:red; }
 
     /* Attributes */
     .content-before::before { content:"before "; }
@@ -104,10 +110,10 @@
       .red-back { background-color:red; }
       .wide { width:300px; }
 
-    /* #table
+    /*
+    #table
 
-      Minimal table sane format.
-
+    Minimal table sane format.
     */
       div.table table {
         border-collapse: collapse;
@@ -132,6 +138,17 @@
         width: 1px;
       }
 
+    /*
+    #media query
+    */
+      @media all    { #media-device .all    { color: red; } }
+      @media print  { #media-device .print  { color: red; } }
+      @media screen { #media-device .screen { color: red; } }
+
+      @media                         (max-width:  500px) { #media-width-rainbow { background-color: purple; } }
+      @media (min-width:  501px) and (max-width:  750px) { #media-width-rainbow { background-color: blue; } }
+      @media (min-width:  751px) and (max-width: 1000px) { #media-width-rainbow { background-color: green; } }
+      @media (min-width: 1001px)                         { #media-width-rainbow { background-color: red; } }
   </style>
 
   <!-- Not part of the cheat: only to improve usability. TODO factor out without breaking pre Jekyll HTLM -->
@@ -143,6 +160,19 @@
         headings: "h1,h2,h3,h4,h5,h6"
       });
     </script>
+
+  <!-- #triangle -->
+    <style>
+      div.triangle-up {
+        width: 0;
+        height: 0;
+        border-left: 25px solid transparent;
+        border-right: 25px solid transparent;
+        border-bottom: 25px solid black;
+        font-size: 0;
+        line-height: 0;
+      }
+    </style>
 </head>
 <body>
 
@@ -193,15 +223,18 @@
   <p>The following CSS affects a document:</p>
   <ul>
     <li>
-      author:rules written by the web designer. They can be either:
+      Author: rules written by the web designer. They can be either:
       <ul>
-        <li style="color:red;">#inline:put directly on the element it will affect</li>
-        <li class="internal">#internal / #embedded:put on the header or body. Affect only current document.</li>
-        <li class="external">#external:put on external files, used via the `link` tag.</li>
+        <li style="color:red;">
+          #inline: put directly on the element it will affect.
+          Cannot contain selectors or parenthesis.
+        </li>
+        <li class="internal">#internal / #embedded: put on the header or body. Affect only current document.</li>
+        <li class="external">#external: put on external files, used via the `link` tag.</li>
       </ul>
     </li>
-    <li>user:a local stylesheet that the browser's user tells the browser where to find in the HD.</li>
-    <li>user agent (most often the browser):a default internal stylesheet for the browser</li>
+    <li>User: a local stylesheet that the browser's user tells the browser where to find in the HD.</li>
+    <li>User agent (most often the browser):a default internal stylesheet for the browser</li>
   </ul>
 
 <h2>#Precedence #Specificity</h2>
@@ -277,18 +310,9 @@
 
 <h2>#Selectors</h2>
 
-  <p>Space, descendant:<code>a b</code>:<code>b</code> is any descendant of <code>a</code></p>
+  <p>Space: any descendant: <code>a b</code>:<code>b</code> is any descendant of <code>a</code></p>
 
   <p><code>a &gt; b</code>:<code>b</code> is a child of <code>a</code></p>
-
-  <p>Star, universal:<code>*</code>:all elements. Bad idea because of performance and logic.</p>
-  <p><code>a *</code>:any descendant of <code>a</code></p>
-  <p><code>a * b</code>:<code>b</code> that is a descendant of <code>a</code> of level 2 or more</p>
-  <p>
-    <a href="http://stackoverflow.com/questions/1014861/is-there-a-css-parent-selector">There is not parent selector as of CSS3</a>
-    Probable rationale:such selector requires the browser to parse backwards in order to make a change,
-    meaning that browsers may have to render an element twice.
-  </p>
 
   <h3>#+ #plus #next sibling</h3>
 
@@ -331,6 +355,41 @@
       Only current solution are SASS-like languages.
     </p>
 
+  <h3>#star #asterisk #*</h3>
+
+    <p>Any element. Generally bad idea since too general.</p>
+    <p><code>a *</code>: any descendant of <code>a</code></p>
+    <p><code>a * b</code>:<code>b</code> that is a descendant of <code>a</code> of level 2 or more</p>
+
+  <h3>#[] #square brackets</h3>
+
+    <p>Family of class based selectors:</p>
+    <ul>
+      <li><code>[attribute]</code>: has attribute</li>
+      <li><code>[attribute=value]</code>: has attribute with given value</li>
+      <li><code>~=</code>: contains value, space delimited, like class</li>
+      <li><code>|=</code>: starts with value, followed by space or hyphen</li>
+      <li><code>^=</code>: starts with value, not necessarily followed by space or hyphen</li>
+      <li><code>$=</code>: ends with value, preceded by space or hyphen</li>
+      <li><code>*=</code>: ends with value, not necessarily preceded by space or hyphen</li>
+    </ul>
+
+  <h3>#scoped</h3>
+
+    <p>
+      Very low browser support as of 2013 but great thing:sets scope of a style block
+      in the body to only the parent element. Example (turned off because of low support):
+    </p>
+    <div>
+      <div>
+        <!--<style scoped>* {color:red}</style>-->
+        In scope.
+      </div>
+      <div>
+        Outside scope.
+      </div>
+    </div>
+
   <h3>#pseudo element</h3>
 
     <p>
@@ -364,20 +423,6 @@
         <span class="selection-blue">this text!</span>
       </p>
 
-    <h4>#content #contains</h4>
-
-      <p>
-        As of CSS3 it is not possible to select by content:
-        <a href="http://stackoverflow.com/questions/1520429/css-3-content-selector.">http://stackoverflow.com/questions/1520429/css-3-content-selector</a>
-      </p>
-      <p><code>:contains()</code> appeared in some CSS3 drafts but didn't make it, maybe in CSS4...</p>
-      <p>One special case is possible however: <code>:empty</code>.</p>
-
-    <h4>#empty</h4>
-
-      <div class="empty inline-block square"></div>
-      <div class="empty inline-block square">a</div>
-
   <h3>#pseudo classes</h3>
 
     <p>
@@ -404,6 +449,7 @@
       </p>
 
     <h4>#last child</h4>
+
       <p class="last-child">
         <span>the</span>
         <span>last</span>
@@ -445,38 +491,35 @@
         <label for="checked">Click the checkbox!</label>
       </p>
 
-  <h3>#asterisk #*</h3>
+    <h4>#target</h4>
 
-    <p>All elements recursively.</p>
+      <p>Matches only the element whose id matches the <code>#id</code> of the current URL.</p>
+      <p><a href="#target1">target1</a> <span class="target" id="target1">target1</span></p>
+      <p><a href="#target2">target2</a> <span class="target" id="target2">target2</span></p>
+      <p>Major application: making modals</p>
 
-  <h3>#[] #square brackets</h3>
+    <h4>select by #content #contains</h4>
 
-    <p>Family of class based selectors:</p>
-    <ul>
-      <li><code>[attribute]</code>: has attribute</li>
-      <li><code>[attribute=value]</code>: has attribute with given value</li>
-      <li><code>~=</code>: contains value, space delimited, like class</li>
-      <li><code>|=</code>: starts with value, followed by space or hyphen</li>
-      <li><code>^=</code>: starts with value, not necessarily followed by space or hyphen</li>
-      <li><code>$=</code>: ends with value, preceded by space or hyphen</li>
-      <li><code>*=</code>: ends with value, not necessarily preceded by space or hyphen</li>
-    </ul>
+      <p>
+        As of CSS3 it is not possible to select by content:
+        <a href="http://stackoverflow.com/questions/1520429/css-3-content-selector.">http://stackoverflow.com/questions/1520429/css-3-content-selector</a>
+      </p>
+      <p><code>:contains()</code> appeared in some CSS3 drafts but didn't make it, maybe in CSS4...</p>
+      <p>One special case is possible however: <code>:empty</code>.</p>
 
-  <h3>#scoped</h3>
+    <h4>#empty</h4>
 
-    <p>
-      Very low browser support as of 2013 but great thing:sets scope of a style block
-      in the body to only the parent element. Example (turned off because of low support):
-    </p>
-    <div>
-      <div>
-        <!--<style scoped>* {color:red}</style>-->
-        In scope.
-      </div>
-      <div>
-        Outside scope.
-      </div>
-    </div>
+      <div class="empty inline-block square"></div>
+      <div class="empty inline-block square">a</div>
+
+    <h4>#parent</h4>
+
+      <p>
+        <a href="http://stackoverflow.com/questions/1014861/is-there-a-css-parent-selector">There is not parent selector as of CSS3</a>
+        maybe in CSS4.
+        Probable rationale: such selector requires the browser to parse backwards in order to make a change,
+        meaning that browsers may have to render an element twice.
+      </p>
 
 <h2>#color specification</h2>
 
@@ -701,7 +744,7 @@
       <p>Linear red blue:<span style="display:inline-block; width:50px; height:50px; background:linear-gradient(red, blue);"></span></p>
       <p>Linear to left top red blue:<span style="display:inline-block; width:50px; height:50px; background:linear-gradient(to left top, red, blue);"></span> </p>
 
-  <h3>#content</h3>
+  <h3>#content #before #after</h3>
 
     <p>Modifies tag content.</p>
     <p>
@@ -709,7 +752,8 @@
       or found on browser page searches. TODO check.
     </p>
     <p><span class="content-before content-after border">inner</span></p>
-    <p><span class="content border">Does not work without :before or :after.</span></p>
+    <p><span class="content border">Does not work without <code>::before</code> or <code>::after</code>.</span></p>
+    <p><code>before</code> and <code>after</code> only have effect if together with <code>content</code>. TODO check</p>
 
   <h3>#box model</h3>
 
@@ -754,10 +798,48 @@
           <span style="border-right:1px solid black;">a</span><span style="border-left:1px solid black; margin-left:-1px;">b</span>
         </p>
 
-      <h4>#border-radius</h4>
+      <h5>#border-radius</h5>
 
         <div class="border" style="width:100px; height:100px; border-radius:10px;">10px</div>
         <div class="border" style="width:100px; height:100px; border-radius:50px;">50px</div>
+
+    <h4>#outline</h4>
+
+      <p>Similar to border but: <a href="http://stackoverflow.com/questions/1158515/difference-between-outline-and-border">http://stackoverflow.com/questions/1158515/difference-between-outline-and-border</a></p>
+
+      <p>On inline elements that wrap, outline closes the box, border doe not:</p>
+      <p style=" font-size:20px; width:200px;">
+        a a a a a a a a a a a a a a a a a a
+        <span style="outline:1px solid red;">
+        o o o o o o o o o o o o o o o o o o
+        </span>
+        a a a a a a a a a a a a a a a a a a
+        <span style="border:1px solid red;">
+        b b b b b b b b b b b b b b b b b b
+        </span>
+      </p>
+
+      <p>Outline does not take space, it simply goes over other elements.</p>
+      <div style="border:50px solid black;">border</div>
+      <div style="margin:40px 0px; outline:50px solid blue;">outline</div>
+      <p style="font-size:20px;">After outline. After outline. After outline. After outline. After outline.</p>
+
+      <p>The outline stays outside of the border:</p>
+      <div style="border:25px solid black; outline:25px solid blue; margin:25px 0px;">
+        border:25px solid black; outline:25px solid blue;
+      </div>
+
+      <p>
+        Outline does not support some border properties like <code>radius</code>
+        and styling individual sides.
+      </p>
+
+      <h5>#outline-offset</h5>
+
+        <p>Offset only: not on border.</p>
+        <div style="border:10px solid black; outline:10px solid blue; outline-offset:10px; margin:20px 0px;">
+          border:10px solid black; outline:10px solid blue; outline-offset:10px;
+        </div>
 
   <h3>#width #height #min-width #max-width</h3>
 
@@ -1278,7 +1360,7 @@
 
       <p>
         Make cells fit to their content on a width:100% table, except for one large cell.
-        http://stackoverflow.com/questions/4582631/are-shrink-to-fit-table-cells-possible
+        <a href="http://stackoverflow.com/questions/4582631/are-shrink-to-fit-table-cells-possible">http://stackoverflow.com/questions/4582631/are-shrink-to-fit-table-cells-possible</a>
       </p>
 
       <p>No formatting, BAD:</p>
@@ -1298,5 +1380,88 @@
           <td>very very very very very very very very large</td>
         </tr>
       </table>
+
+<h2>#media queries #@media</h2>
+
+  <p>Determine (query) properties of the current device and set custom CSS rules for it.</p>
+  <p>
+    Cannot be used on inline style:
+    <a href="http://stackoverflow.com/questions/9808233/is-it-possible-to-put-css-media-rules-inline">http://stackoverflow.com/questions/9808233/is-it-possible-to-put-css-media-rules-inline</a>
+  </p>
+
+  <h3>Device type</h3>
+
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media">https://developer.mozilla.org/en-US/docs/Web/CSS/@media</a></p>
+    <p>Most devices are not implemented on Firefox, so don't rely much on this feature yet.</p>
+    <p>Important devices include (active will be red):</p>
+    <ul id="media-device">
+      <li class="all"   >all:    any device. Default.</li>
+      <li class="print" >print:
+        display must split into pages. Non-trivial.
+        Try telling your browser to print this with Ctrl + P to a PDF.
+        Firefox 30 shows it in red only in the PDF as expected.
+      </li>
+      <li class="screen">screen: most desktops and laptops</li>
+    </ul>
+
+    <h4>#print media</h4>
+
+      <p>Tips on how to get it right. Very difficult.</p>
+      <p>Also show link destination on PDFs:</p>
+      <pre>
+        @media print {
+          a[href]:after {
+            content: " (" attr(href) ") ";
+          }
+        }
+      </pre>
+
+  <h3>Device properties</h3>
+
+    <p>
+      It is possible to make complex queries with the <code>and</code>
+      and comma <code>,</code> operators.
+    </p>
+    <p>Interesting properties include:</p>
+    <ul id="media-device">
+      <li>width, min-width, max-width: current window width</li>
+      <li>
+        device-width, min and max. Device capability. Less useful than width,
+        since a browser can be resized to, say, half screen size, and this won't change.
+      </li>
+    </ul>
+    <div class="border" id="media-width-rainbow">
+      <a href="#media-width-rainbow">This div changes color with your browser width. Go and resize it!</a>
+    </div>
+
+<h2>#Combos and related techniques</h2>
+
+  <h3>#Triangles</h3>
+
+    <div class="triangle-up"></div>
+    <p>Works because orthogonal borders split linearly angles, thus 45 degrees for equal width borders.</p>
+    <div style="height:100px; width:100px; border-bottom:20px solid blue; border-right:40px solid green;"></div>
+
+  <h3>#Modals</h3>
+
+    <p>
+      Modals are dialogs that block the window that actions originated them, like Javascript <code>alert</code>:
+      <a href="http://en.wikipedia.org/wiki/Modal_window">http://en.wikipedia.org/wiki/Modal_window</a>
+    </p>
+
+    <p>It is possible to make modals without Javascript with only CSS through the <code>target</code> property.</p>
+
+    <h4>#Lightbox</h4>
+    <p>
+      Lightbox is a modal for displaying images.
+      It was originally the name of a plugin, which became so popular
+      that the term has since been used to describe the type of effect in general.
+      <a href="http://en.wikipedia.org/wiki/Lightbox_%28JavaScript%29">http://en.wikipedia.org/wiki/Lightbox_%28JavaScript%29</a>
+    </p>
+
+  <h3>#Color palette from image</h3>
+
+    <p><a href="http://lifehacker.com/5153828/create-a-color-palette-from-a-single-image">http://lifehacker.com/5153828/create-a-color-palette-from-a-single-image</a></p>
+    <p>Get dominant colors from a picture, so you can design using those colors for uniformity.</p>
 </body>
 </html>

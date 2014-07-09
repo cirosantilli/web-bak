@@ -6,19 +6,9 @@
   <!--
     Use all components. It is possible to use only certain elements if desired.
   -->
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
-  <!--
-  #Font Awesome Font Icons
-
-    Really good icon option as it resizes and recolors perfectly.
-
-    Actually defines a font that contains icons.
-
-    Designed to work well with bootstrap, so commonly associated that it is served from the bootstrap CDN.
-  -->
-
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <!-- #Font Awesome -->
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 		<style>
 			/* *Must* use :before. TODO why? */
@@ -29,33 +19,81 @@
 				font-size: 18px;
 			}
 		</style>
+	<style>
+    body {
+      /* Otherwise the margin is reset to 0px, and it hurts the eyes. */
+      margin-left: 10px;
+    }
+	</style>
 </head>
 <body>
 
 <h1>Twitter Bootstrap Cheat</h1>
-<pre>
-<http://getbootstrap.com/>
 
-Twitter Bootstrap is a front end library: it contains CSS and Javascript that is useful across a large variety of sites.
+<p><a href="http://getbootstrap.com/">http://getbootstrap.com/</a></p>
+<p>
+  Twitter Bootstrap is a front end library:
+  it contains CSS and Javascript that is useful across a large variety of sites.
+</p>
+<p>The main advantages of using TBS are:</p>
+<ul>
+  <li>
+    Widely used. Number 1 project on GitHub.
+    People will understand what you mean when you use it.
+  </li>
+  <li>it corrects many CSS browser inconsistencies</li>
+</ul>
+<p>TBS is was created by Twitter, then released as open source in 2012.</p>
+<p>
+  It is officially called just Bootstrap now,
+  although the term TBS is still widely used to disambiguate.
+</p>
+<p>Just use it **always** and avoid many browser incompatibilities later on.</p>
 
-The main advantages of using TBS are:
+<h2>#Grid system</h2>
 
-- its widely used. Number 1 project on GitHub. People will understand what you mean when you use it.
-- it corrects many CSS browser inconsistencies
+  <p>12 columns for wide screens, stack up on narrow ones.</p>
+  <p>System helps to write a single code that will run on any screen width.</p>
 
-TBS is was created by Twitter, then released as open source in 2012.
+<h2>#Element styles</h2>
 
-It is officially called just Bootstrap now, although the term TBS is still widely used to disambiguate.
+  <code>code</code>
+  <kbd>kbd</kbd>
 
-Just use it **always** and avoid many browser incompatibilities later on.
-</pre>
-<code>code</code>
-<kbd>kbd</kbd>
+<h2>#forms</h2>
 
-<h1>#Navbar</h1>
+  <h3>#form control</h3>
+
+    <p>Is the term used on the HTML5 spec for the form fields like text and checkboxes.</p>
+
+  <div class="checkbox disabled">
+    <label>
+      <input type="checkbox" value="" disabled>
+      Option two is disabled
+    </label>
+  </div>
+
+  <form role="form">
+    <div class="form-group">
+      <label for="text-field">Text field
+      <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputFile">File input</label>
+      <input type="file" id="exampleInputFile">
+      <p class="help-block">Example block-level help text here.</p>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"> Check me out
+      </label>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+
+<h2>#navbar</h2>
 
   <p>Choosing the current button to highlight should be done server side.</p>
-
   <div class="container">
       <!-- Static navbar -->
       <div class="navbar navbar-inverse" role="navigation">
@@ -97,14 +135,19 @@ Just use it **always** and avoid many browser incompatibilities later on.
       </div>
     </div> <!-- /container -->
 
-<h1>#Font Awesome</h2>
+<h2>#Font Awesome</h2>
+
+  <p>Really good icon option as it resizes and recolors perfectly.</p>
+  <p>Actually defines a font that contains icons.</p>
+  <p>Designed to work well with bootstrap, so commonly associated that it is served from the bootstrap CDN.</p>
   <p><a href="http://fontawesome.io">Home Page</a>. <i class="fa fa-camera-retro"></i> <i class="fa-icon-book"></i></p>
-  <ul class="nav nav-pills nav-stacked">
+  <ul class="nav nav-pills nav-stacked" style="width:400px;">
     <li class="active"><a href="#"><i class="fa fa-home fa-fw"></i> Home</a></li>
     <li><a href="#"><i class="fa fa-book fa-fw"></i> Library</a></li>
     <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Applications</a></li>
     <li><a href="#"><i class="fa fa-cogs fa-fw"></i> Settings</a></li>
   </ul>
-	<p>Use with custom class: <span class="fa-custom"><span></p>
+	<p>Use with custom class: <span class="fa-custom"></span></p>
+
 </body>
 </html>

@@ -493,7 +493,7 @@
       <span style=background-color:red title=title>red</span>.
     </p>
 
-  <h3>Global attributes</h3>
+  <h3>#Global attributes</h3>
 
     <h4>#id</h4>
 
@@ -502,7 +502,7 @@
         This restriction was lifted with HTML5, but it is still recommended to follow it for backwards compatibility.
       </p>
       <p>
-        `id` attributes must be unique across the entire document:
+        `id` attributes must be unique across the entire document or it is invalid:
         http://programmers.stackexchange.com/questions/127178/two-html-elements-with-same-id-attribute-how-bad-is-it-really
       </p>
 
@@ -527,6 +527,23 @@
         <li><span title="title">span</span></li>
         <li><span title="title">span</span></li>
       </ul>
+
+    <h4>#hidden</h4>
+
+      <p>HTML5</p>
+      <p>Boolean attribute.</p>
+      <p>IE11+</p>
+      <p>
+        Vs CSS <code>display:none</code>:
+        <a href="http://stackoverflow.com/questions/6708247/what-is-the-difference-between-the-hidden-attribute-html5-and-the-displaynone">http://stackoverflow.com/questions/6708247/what-is-the-difference-between-the-hidden-attribute-html5-and-the-displaynone</a>
+        <code>hidden</code> never shows, <code>display:none</code> might show in some devices but not on others.
+        TODO understand better with examples.
+      </p>
+      <p>
+        Before hidden.
+        <span hidden="hidden">Hidden.</span>
+        After hidden.
+      </p>
 
   <h3>#IDL attribute vs #content attribute</h3>
 
@@ -982,6 +999,20 @@ a
       submitting a form is to redirect to somewhere else.
     </p>
 
+  <h3>#name attribute</h3>
+
+    <p>For most form elements, gives the name of the parameter that will be sent on th request.</p>
+    <p>If missing:</p>
+    <ul>
+      <li>the HTML is still valid</li>
+      <li>the value is not submitted</li>
+    </ul>
+    <form action="#name" class="border" id="name" method="get">
+      <input type="text" name="name" value="has name"/>
+      <input type="text"             value="no name" />
+      <button type="submit">Submit</button>
+    </form>
+
   <h3>#disabled attribute</h3>
 
     <p>
@@ -1047,6 +1078,12 @@ a
       <input type="text" name="name1" value="readonly" readonly="readonly"/>
       <button type="submit">Submit</button>
     </form>
+    <p>
+      Invalid for checkboxes:
+      <!--<input type="checkbox" readonly>-->
+      <a href="http://stackoverflow.com/questions/155291/can-html-checkboxes-be-set-to-readonly">http://stackoverflow.com/questions/155291/can-html-checkboxes-be-set-to-readonly</a>
+      Just disable them.
+    </p>
 
   <h3>#button</h3>
 
@@ -1071,8 +1108,25 @@ a
       may focus or toggle its corresponding form control.
     </p>
     <p>
-      <label for="label-target" style="border:1px solid black;">Label, click me!</label>
-      <input id="label-target"/>
+      The most flexible way to use labels is with the <code>for</code>
+      attribute pointing to the input id:
+    </p>
+    <p class="border">
+      <input type="checkbox" id="label-target" style="margin-right:20px;"/>
+      <label for="label-target">External label, click me!</label>
+    </p>
+    <p>
+      It is also possible to put the input inside the label.
+      This allows not to give IDs to inputs and to click on the space between the checkbox and the label,
+      but is harder to style and less logical.
+      Discussions:
+      <a href="http://ux.stackexchange.com/questions/35289/input-checkboxes-wrapped-inside-labels">http://ux.stackexchange.com/questions/35289/input-checkboxes-wrapped-inside-labels</a>
+    </p>
+    <p class="border">
+      <label>
+        <input type="checkbox" style="margin-right:20px;"/>
+        Surrounding label, click me!
+      </label>
     </p>
 
   <h3>#input</h3>
@@ -1094,9 +1148,11 @@ a
         <li>if checked: the <code>name=value</code> pair</li>
         <li>otherwise: nothing is sent</li>
       </ul>
-      <form action="#checkbox" method="get">
-        <input id="checkbox" name="name" type="checkbox" value="1" />
-        <label for="checkbox">checkbox label: </label>
+      <form action="#checkbox" id="checkbox" method="get">
+        <label>
+          <input name="name" type="checkbox" value="1" />
+          label
+        </label>
         <button type="submit">Submit</button>
       </form>
 
@@ -1117,23 +1173,36 @@ a
           Contrast this complex behavior with that of the <code>disabled</code> attribute,
           which always matches the IDL attribute.
         </p>
-        <form>
+        <form action="#checked" id="checked" method="get">
           <button type="button" onclick="document.getElementById('checked-toggle').removeAttribute('checked')">
             Remove checked
           </button>
           <button type="button" onclick="document.getElementById('checked-toggle').setAttribute('checked', 'checked')">
             Add checked
           </button>
-          <button type="reset">Reset</button>
           <input id="checked-toggle" type="checkbox" checked="checked"/>
+          <button type="reset">Reset</button>
+          <button type="submit">Submit</button>
         </form>
+        <p>
+          <b>Beware!</b> Some browsers like Firefox might remember the checkbox value from old submits,
+          and override this attribute. Your logic should not depend on it's initial state.
+          Ways to disable this: <a href="http://stackoverflow.com/questions/299811/why-does-the-checkbox-stay-checked-when-reloading-the-page">http://stackoverflow.com/questions/299811/why-does-the-checkbox-stay-checked-when-reloading-the-page</a>
+        </p>
 
     <h4>#radio</h4>
 
-      <form action="#radio" id="radio" method="get">
-        <div><input type="radio" id="radio-a" name="name" value="a"><label for="radio-a">a</label></div>
-        <div><input type="radio" id="radio-b" name="name" value="b" checked="checked"><label for="radio-b">b</label></div>
-        <div><input type="radio" id="radio-c" name="name" value="c"><label for="radio-c">c</label></div>
+      <p>
+        A good way to give a title for all the buttons is through a
+        <code>fieldset</code> + <code>legend</code> pair.
+      </p>
+      <form action="#radio" class="border" id="radio" method="get">
+        <fieldset>
+          <legend>Name</legend>
+          <div><label><input type="radio" name="name" value="a"> a</label></div>
+          <div><label><input type="radio" name="name" value="b" checked="checked"> b</label></div>
+          <div><label><input type="radio" name="name" value="c"> c</label></div>
+        </fieldset>
         <button type="submit">Submit</button>
       </form>
 
@@ -1193,7 +1262,7 @@ a
     <h4>#optgroup</h4>
 
       <p>Organize select options in categories.</p>
-      <form action="#optgroup" id="select">
+      <form action="#optgroup" id="optgroup">
         <select>
           <optgroup label="Swedish Cars">
             <option value="volvo">Volvo</option>
