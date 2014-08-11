@@ -130,8 +130,13 @@
   <h3>#HTML5</h3>
 
     <p>
+      Formally, only HTML related stuff described in the,
       WD of 2008, expected REC for 2014: <a href="http://www.w3.org/TR/html5/">HTML5 standard</a>
       The huge time lapse is in part due to wars on the future of Flash replacement.
+    </p>
+    <p>
+      Informally, an umbrella term for new web standards in general,
+      e.g. as used on the name of HTML5 Rocks website.
     </p>
     <p>
       Not all HTML5 is not XML, just pretty close to it.
@@ -419,6 +424,7 @@
 <h2>#References #Character references #Entities </h2>
 
   <p>HTML5 uses only the term "references": http://www.w3.org/TR/html5/infrastructure.html#syntax-references</p>
+
   <p>There are two kinds of entities:</p>
   <ul>
     <li>named. E.g.:   &amp;gt;   &gt;</li>
@@ -430,9 +436,11 @@
       </ul>
     </li>
   </ul>
+
   <p>HTML5 adopts exactly the same references as XML, but earlier versions do not, so watch out.</p>
   <p>Notably: &quot; is on the official list of valid HTML 4 entities, but &apos; is not.</p>
   <p>Entities are considered in both data and attribute values.</p>
+
   <p>Escape sequences intended for characters that:</p>
   <ul>
     <li>
@@ -452,6 +460,9 @@
       </ul>
     </li>
   </ul>
+
+  <p>It is not necessary to escape quotes outside of attributes: " '</p>
+
   <p>#nbsp example. Before&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After</p>
 
 <h2>#attributes</h2>
@@ -462,7 +473,6 @@
     You can also cheat this by referencing a custom !DOCTYPE declaration, but this is really overkill.
     HTML allows you to use any attribute prefixed by `data-`. Great addition!
   </p>
-
   <p>
     Each element can have a specific set of attributes:
     these are specified on HTML5 on the documentation of each element under the
@@ -471,6 +481,10 @@
   <p>
     There are attributes which can be used for every element: those are called
     <a href="http://www.w3.org/TR/html5/dom.html#global-attributes">Global attributes</a>
+  </p>
+  <p>
+    Attributes are case sensitive, but inside a single element there can be no two attributes
+    which are the same lowercased.
   </p>
 
   <h2>#quoting and escaping in attributes</h2>
@@ -484,7 +498,8 @@
     <div>Bad: unlike quot; not in HTML 4:</div>
     <div data-val="&apos;"></div>
     <p>
-      Besides the quotes, only the ampersand &amp; also has to be escaped, or it would be parsed as an entity otherwise.
+      Besides the quotes, only the ampersand &amp; also has to be escaped,
+      or it would be parsed as an entity otherwise.
     </p>
     <div data-val="&amp;">&amp;</div>
     <p>
@@ -766,7 +781,10 @@
 
   <h3>#thead, #tbody and #tfoot</h3>
 
-    <p>thead must come *before* tbody and tfoot in valid HTML, as any sane programmer should do.</p>
+    <p>
+      <code>thead</code> must come *before* <code>tbody</code> and <code>tfoot</code> in valid HTML,
+      as any sane programmer should do.
+    </p>
     <table>
       <thead>
         <tr>
@@ -784,6 +802,58 @@
         <tr>
           <td>body 0</td>
           <td>body 1</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>#tbody automatic insertion</h4>
+
+      <p>
+        <code>tbody</code> is automatically inserted on the DOM
+        around groups of rows without a surrounding <code>tbody</code>.
+        <a href="http://stackoverflow.com/questions/938083/why-do-browsers-insert-tbody-element-into-table-elements">http://stackoverflow.com/questions/938083/why-do-browsers-insert-tbody-element-into-table-elements</a>
+      </p>
+      <p>Automatic addition can be verified with CSS, Javascript or Firebug like tools.</p>
+      <p>
+        However, the sanest thing to do is to only omit <code>tbody</code> for a trivial table where there is a single one:
+        handle any more complex case explicitly with multiple <code>tbody</code> elements.
+      </p>
+      <p>There can be multiple <code>tbody</code> elements on a single table.</p>
+
+  <h3>#group rows</h3>
+
+    <p>
+      Can only contain table related elements like <code>tr</code>and script supporting.
+      To group columns, use <code>tbody</code>, which can be used multiple times.
+    </p>
+    <p>
+      Don't forget that <code>tbody</code> is added automatically
+      in most cases around groups of rows without a surrounding <code>tbody</code>
+    </p>
+
+    <table>
+      <tbody style="background-color:blue;">
+        <tr>
+          <td>0</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>3</td>
+        </tr>
+      </tbody>
+      <tr>
+        <td>4</td>
+        <td>5</td>
+      </tr>
+      <tbody style="background-color:green;">
+        <tr>
+          <td>6</td>
+          <td>7</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>9</td>
         </tr>
       </tbody>
     </table>
@@ -902,12 +972,6 @@ b</code></p>
   <p>Common combo with <code>pre</code> to preserve spaces and make it a block element:</p>
   <pre><code>a
 b</code></pre>
-  <p>My preferred solution: just use <code>code</code> and CSS:</p>
-  <code style="white-space:pre; display:block">a
-b</code>
-
-  <code style="white-space:pre; display:block">a
-b</code>
 
 <h2>#pre</h2>
 
@@ -915,24 +979,21 @@ b</code>
   <p>Can only contain phrasing content elements like span or b.</p>
   <p>Since it can contain elements, smaller and greater than signs are *not* automatically escaped.</p>
   <p>
-    I think that this is a bad tag because it implies style rather than meaning
-    and style should be left for CSS, and it can in this case via <code>white-space:pre</code>.
+    A similar effect can be achieved with the CSS <code>white-space:pre;</code> attribute,
+    although there are some behavior differences.
   </p>
-  <p>
-    The only difference between `pre` and CSS `white-space:pre` is that `pre` ignores the first character
-    if it is a newline, while `white-space:pre` does not.
-  </p>
-  <div>Newline space:</div>
+
+  <p>Newline space:</p>
   <pre class="border">a
  b</pre>
 
-  <div>Newline before and after:</div>
+  <p>Newline before and after:</p>
   <pre class="border">
 a
  b
   </pre>
 
-  <div>Whitespace newline before and after:</div>
+  <p>Whitespace newline before and after:</p>
   <pre class="border"> 
 a
  b
@@ -950,13 +1011,7 @@ a
 
 a
  b
-
-  </pre>
-  <p>Newline before and after style="white-space:pre"</p>
-  <div class="border" style="white-space:pre">
-a
- b
-  </div>
+</pre>
 
 <h2>#forms</h2>
 
@@ -968,9 +1023,9 @@ a
     <p>
     <p>Important attributes:<p>
     <ul>
-      <li>`action`: where to send the request to
+      <li><code>action</code>: where to send the request to
       <li>
-        `method`: what HTTP method to use. Can only be:
+        <code>method</code>: what HTTP method to use. Can only be:
         <ul>
           <li>get: send data on the URL URL encoded, which has size limitations.
           <li>post: sends data on the body URL encoded.
@@ -1208,17 +1263,54 @@ a
 
     <h4>#image type</h4>
 
-      <p>Shows image, user clicks, submits form and sends click coordinates as <code>name.x=1&amp;name.y=2</code></p>
+      <p>
+        Shows image, user clicks, submits form and sends click coordinates as
+        <code>name.x=1&amp;name.y=2</code>.
+      </p>
       <form action="#image-type" id="image-type" method="get">
-        <input type=image src="flower.jpg" name="name" alt="flower">
+        <input type="image" src="flower.jpg" name="name" alt="flower">
+      </form>
+
+    <h4>#submit type</h4>
+
+      <p>
+        Works like a button to submit the form, but has less styling capabilities,
+        so just use <code>button type="submit"</code> instead.
+        <a href="http://stackoverflow.com/questions/7117639/input-type-submit-vs-button-tag-are-they-interchangeable">http://stackoverflow.com/questions/7117639/input-type-submit-vs-button-tag-are-they-interchangeable</a>
+      </p>
+      <form action="#type-submit" id="type-submit" method="get">
+        <input type="text" name="name" value="value"/>
+        <input type="submit" value="type=submit"/>
       </form>
 
   <h3>#textarea</h3>
 
-    <p>Large text box.</p>
-    <p>rows="3" cols="5"</p>
+    <p>Large box for inputting text.</p>
     <p><textarea>default</textarea></p>
-    <p><textarea rows="3" cols="5">rows=3 cols=5</textarea></p>
+
+    <h4>#rows #cols</h4>
+
+      <p>
+        How many chars will fit into the <code>textarea</code>
+        vertically and horizontally
+      </p>
+      <p>
+        Many browsers set the textarea font to monospace by default,
+        and in that case <code>cols</code> is accurate.
+        Otherwise, cols is not accurate since different characters can have
+        different widths.
+      </p>
+
+      <p>cols="3" rows="3"</p>
+      <p><textarea cols="3" rows="3" style="pading:0;">MMM
+MMM
+iii</textarea></p>
+
+      <p><textarea cols="3" rows="3" style="font-family:inherit;">MMM
+MMM
+iii</textarea></p>
+
+      <p>TODO what does cols mean, since font widths vary with different characters?</p>
 
   <h3>#file</h3>
 
@@ -1324,6 +1416,8 @@ a
       On submit, browsers can open a speech balloon with an error message over invalid fields.
       It does not seem possible to customize the message without Javascript:
       <a href="http://stackoverflow.com/questions/5272433/html5-form-required-attribute-set-custom-validation-message">http://stackoverflow.com/questions/5272433/html5-form-required-attribute-set-custom-validation-message</a>
+      With Javascript, the message can be customized with <code>setCustomValidity</code>
+      inside the <code>onError</code> callback.
     </p>
 
     <h4>#required attribute</h4>
@@ -1333,6 +1427,7 @@ a
         <input type="text" name="name0" value="" required="required"/>
         <button type="submit">Submit</button>
       </form>
+      <p>Firefox 30 shows an arrow box with "Please fill out this field." </p>
 
     <h4>#pattern attribute</h4>
 

@@ -48,14 +48,17 @@
 
       .plus0 + .plus1 { color:red; }
 
-      .nth-child > :nth-child(2) { border:1px solid black; }
+      .nth-child2 :nth-child(2) { background: red; }
+      .nth-child-3n-1 > :nth-child(3n-1) { background: red; }
       .last-child > :last-child { border:1px solid black; }
       .hover:hover { background-color:red; }
       .hover-left:hover + .hover-right { background-color:red; }
       .hover-out:hover > .hover-in { background-color:red; }
       .hover-out:hover > .hover-in { background-color:red; }
       .checked:checked + label { background-color:red; }
+      .focus:focus { background-color:red; }
       .empty:empty { background-color: red; }
+      .only-child:only-child { background-color: red; }
       /* TODO why fails without after? */
       a.literal-link::after { content: " <" attr(href) ">"; }
       [data-attr]::after { content: " <" attr(data-attr) ">"; }
@@ -182,7 +185,7 @@
 
 <h2>#Standards</h2>
 
-  <p>CSS is specified by W3C <a href="http://www.w3.org/TR/#tr_CSS">here</a></p>
+  <p>CSS is specified by W3C at: <a href="http://www.w3.org/TR/#tr_CSS">http://www.w3.org/TR/#tr_CSS</a></p>
   <p>CSS versions are called levels.</p>
   <p>
     Versions 1 and 2 were monolithic specs. Versions 3 and 4 were split up into modules
@@ -191,9 +194,29 @@
   </p>
   <p>As of early 2014:</p>
   <ul>
-    <li>CSS2 is all REC</li>
-    <li>Almost all modules of CSS3 are REC and have wide browser support, the others are almost REC.</li>
+    <li>CSS2 is all REC <a href="http://www.w3.org/TR/CSS2/">http://www.w3.org/TR/CSS2/</a></li>
+    <li>
+      Many modules of CSS3 have gone past WD and have wide browser support,
+      some are REC.
+    </li>
     <li>Some level 4 modules exist and are WD, with little browser support.</li>
+  </ul>
+  <p>Important modules include:</p>
+  <ul>
+    <li>
+      <a href="http://www.w3.org/TR/2014/CR-css-syntax-3-20140220/">http://www.w3.org/TR/2014/CR-css-syntax-3-20140220/</a>
+      CSS core syntax. CR.
+    </li>
+    <li>
+      <a href="http://www.w3.org/TR/css3-selectors/">http://www.w3.org/TR/css3-selectors/</a>.
+      Selectors 3 REC: how to select specific elements.
+      Also important for Javascript DOM manipulation.
+      Level 4 WD: <a href="http://www.w3.org/TR/selectors4/">http://www.w3.org/TR/selectors4/</a>
+    </li>
+    <li>
+      <a href="http://www.w3.org/TR/css-style-attr/">http://www.w3.org/TR/css-style-attr/</a>.
+      Style attribute: what can go into the global HTML <code>style=""</code> attribute:
+    </li>
   </ul>
 
 <h2>#Vendor prefixes</h2>
@@ -361,12 +384,12 @@
     <p><code>a *</code>: any descendant of <code>a</code></p>
     <p><code>a * b</code>:<code>b</code> that is a descendant of <code>a</code> of level 2 or more</p>
 
-  <h3>#[] #square brackets</h3>
+  <h3>#[] #square brackets #attribute selector</h3>
 
-    <p>Family of class based selectors:</p>
+    <p>Family of attribute based selectors:</p>
     <ul>
       <li><code>[attribute]</code>: has attribute</li>
-      <li><code>[attribute=value]</code>: has attribute with given value</li>
+      <li><code>[attribute="value"]</code>: has attribute with given value</li>
       <li><code>~=</code>: contains value, space delimited, like class</li>
       <li><code>|=</code>: starts with value, followed by space or hyphen</li>
       <li><code>^=</code>: starts with value, not necessarily followed by space or hyphen</li>
@@ -448,6 +471,21 @@
         </span>
       </p>
 
+    <h4>#checked</h4>
+
+      <p>For check boxes and radio button inputs.</p>
+      <p>
+        <input id="checked" class="checked" type="checkbox">
+        <label for="checked">Click the checkbox!</label>
+      </p>
+
+    <h4>#focus</h4>
+
+      <p>
+        <input class="focus"/>
+        <input class="focus"/>
+      </p>
+
     <h4>#last child</h4>
 
       <p class="last-child">
@@ -463,17 +501,41 @@
 
     <h4>#nth-child</h4>
 
-      <p class="nth-child">
-        Child 2:
+      <p><a href="http://www.w3.org/TR/css3-selectors/#nth-child-pseudo">http://www.w3.org/TR/css3-selectors/#nth-child-pseudo</a></p>
+
+      <p>One given nth child <code>nth-child(2)</code>:</p>
+      <p class="nth-child2">
+        text
         <span>1</span>
         <span>2</span>
         <span>3</span>
         <span>
-          nested
+          nested text
           <span>1</span>
           <span>2</span>
           <span>3</span>
         </span>
+      </p>
+
+      <p>
+        All nth children in an arithmetic progression given by <code>an + b</code>,
+        <code>a</code> default to 1, and n is a fixed symbol.
+      </p>
+      <p>
+        There are also two special constants <code>even</code> and <code>odd</code> which are shortcuts for
+        <code>2n</code> and <code>2n+1</code>.
+      </p>
+
+      <p class="nth-child-3n-1">
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+        <span>6</span>
+        <span>7</span>
+        <span>8</span>
+        <span>9</span>
       </p>
 
     <h4>#not</h4>
@@ -482,14 +544,6 @@
       <p>As of CSS3, can only take *simple selectors*: http://www.w3.org/TR/css3-selectors/#negation</p>
       <p>So for example, no: `a:not(div.nothere *)` to avoid targeting all elements inside a div: you have to duplicate code.</p>
       <p>Pseudo selectors are out too.</p>
-
-    <h4>#checked</h4>
-
-      <p>For check boxes and radio button inputs.</p>
-      <p>
-        <input id="checked" class="checked" type="checkbox" value="1">
-        <label for="checked">Click the checkbox!</label>
-      </p>
 
     <h4>#target</h4>
 
@@ -512,6 +566,11 @@
       <div class="empty inline-block square"></div>
       <div class="empty inline-block square">a</div>
 
+    <h4>#only-child</h4>
+
+      <div><i class="only-child">italic1</i></div>
+      <div><i class="only-child">italic1</i> <i class="only-child">italic2</i></div>
+
     <h4>#parent</h4>
 
       <p>
@@ -520,6 +579,12 @@
         Probable rationale: such selector requires the browser to parse backwards in order to make a change,
         meaning that browsers may have to render an element twice.
       </p>
+
+    <h4>Select #arbitrary elements when something happens</h4>
+
+      <p>No, it is not possible, only elements that have a direct child / sibling relationship with the selected one.</p>
+      <p><a href="http://stackoverflow.com/questions/1824030/could-it-be-possible-to-make-css-selector-affect-other-elements-in-the-page-with">http://stackoverflow.com/questions/1824030/could-it-be-possible-to-make-css-selector-affect-other-elements-in-the-page-with</a></p>
+      <p>Why someone might want to do it: when I hover element A, element B disappears.</p>
 
 <h2>#color specification</h2>
 
@@ -541,23 +606,46 @@
       <div style="background-color:rgba(0, 255, 0, 1.0);" class="wide border">green 1.0</div>
     </div>
 
+  <h3>#currentColor</h3>
+
+    <p>CSS3 color: <a href="http://www.w3.org/TR/css3-color/#currentcolor">http://www.w3.org/TR/css3-color/#currentcolor</a></p>
+    <p>Use the current text color.</p>
+    <div style="color:red;">
+      Before
+      <span style="background-color:currentColor;">
+        Inside
+      </span>
+      After
+    </div>
+    <p>Cannot be tricked to act as an arbitrary variable: <a href="http://css-tricks.com/currentcolor/">http://css-tricks.com/currentcolor/</a>.</p>
+    <p>Used to be <code>-moz-use-text-color</code> before it was standardized in CSS3.</p>
+
 <h2>#length specification units</h2>
 
   <ul>
     <li>#px: pixels</li>
-    <li>
-      #ex: height of the `x` of current font == height of all lowercase letters in most fonts. 1ex == 0.5em in many fonts.
-    </li>
     <li>#75%, 125%: multiplies the would be font size by a percentage</li>
-    <li>#em: height of upper case letters of the font.</li>
-    <li>#ch: specify sizes relative to the size of characters. Useful if you want a div that fits exactly X characters into it.
+    <li>
+      #em: height of current font. Historically, width of letter <code>M</code>,
+      which is also equal to it's height in many fonts.
+    </li>
+    <li>
+      #ex: height of the `x` of current font == height of all lowercase letters in most fonts.
+      1ex == 0.5em in many fonts. Some browsers just define it to be 0.5em.
+      So don't rely on it.
+    </li>
+    <li>
+      <p>#ch: width of the character <code>0</code> of the font.</p>
       <p>Low support as of 2014: http://www.quirksmode.org/css/units-values/.</p>
+      <p>Most useful with mono-space fonts styles, where all the widths are equal.</p>
       <p>
-        Good workaround: use content to set the number of chars,put it on background so that the chars are not selectable,
-        set the front div transparent.
+        Good workaround: use content to set the number of chars,
+        put it on background so that the chars are not selectable,
+        and set the front div transparent.
       </p>
     </li>
   </ul>
+  <p>The value <code>0</code> does not need an unit.</p>
 
 <h2>#properties</h2>
 
@@ -567,9 +655,14 @@
 
   <h3>#inherit</h3>
 
-    <div>Not all properties are inherited, but if you give the `inherit` value to a property it will be inherited.</div>
-    <div class="border">ab<span>c</span></div>
-    <div class="border">ab<span style="border:inherit;">c</span></div>
+    <p>
+      Some properties are inherited by default, others not.
+      If this property is given, it forces to inherit the value.
+    </p>
+    <p>Example: <code>border</code> is not inherited by default:</p>
+    <div class="border">outside span <span                        >inside span</span></div>
+    <div class="border">outside span <span style="border:inherit;">inside span</span></div>
+    <p>Good way to DRY things out in pure CSS.</p>
 
   <h3>#text #font properties</h3>
 
@@ -671,11 +764,13 @@
 
     <h4>#text-align</h4>
 
-      <p>Set the horizontal alignment for inner text and inline elments.</p>
+      <p>Set the horizontal alignment for inner text and inline elements.</p>
       <div class="border" style="width:300px; height:50px; text-align:left;">left</div>
       <div class="border" style="width:300px; height:50px; text-align:center;">center</div>
       <div class="border" style="width:300px; height:50px; text-align:right;">right</div>
       <div class="border" style="width:300px; height:50px; text-align:right;"><span>right in span</span></div>
+      <div class="border" style="width:300px; height:50px; text-align:right;"><div>right in div</div></div>
+      <div class="border" style="width:300px; height:50px; text-align:right;"><div style="border:1px solid black; display:inline-block;">right in div inline-block</div></div>
       <div class="border" style="width:300px; height:50px; text-align:right;"><div>right in div</div></div>
 
       <h5>Center text vertically</h5>
@@ -705,6 +800,24 @@
       pre-wrap 	Preserve 	  Preserve 	        Wrap
       pre-line 	Preserve 	  Collapse 	        Wrap
       </pre>
+
+    <h4>#white-space:pre</h4>
+
+      <p>Achieves similar effect to the <code>pre</code> HTML element, but:</p>
+      <ul>
+        <li><code>pre</code> ignores the first character if it is a newline, while <code>`white-space:pre</code> does not.</li>
+        <li>Firefox on copy paste does not preserve newlines for <code>white-space:pre</code>, but does for <code>pre</code>.
+          <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=116083">https://bugzilla.mozilla.org/show_bug.cgi?id=116083</a>
+        </li>
+      </ul>
+      <p>Just because of the Firefox "bug", it is better to use <p>pre</p> elements instead of the CSS.</p>
+
+      <p>Newline before and after style="white-space:pre"</p>
+      <div class="border" style="white-space:pre">
+a
+ b
+  </div>
+      <textarea>Paste the above here to see is the newline is present. Not present on Firefox 30.</textarea>
 
     <h4>#white-space-collapse #bikeshedding</h4>
 
@@ -841,32 +954,67 @@
           border:10px solid black; outline:10px solid blue; outline-offset:10px;
         </div>
 
-  <h3>#width #height #min-width #max-width</h3>
+  <h3>#width #height</h3>
 
     <div class="border">
       <div class="border" style="height:50px; width:50px; padding-top:25px;">
       </div>
     </div>
 
+    <p>
+      Inline elements ignore width and height properties.
+      One solution is to set <code>display</code> to <code>inline-block</code> or <code>block</code>.
+    </p>
+
+    <p>If phrasing contents cannot break at a point and are larger than the width, they just spill out:</p>
+    <div style="border:1px solid black; width:50px";>
+      0123456789 0123456789 0123456789 0123456789 0123456789
+      0123
+      0123
+      0123
+      0123
+    </div>
+
+    <h4>#max-width</h4>
+
+      <p>If <code>width</code> &gt; <code>max-width</code>, use <code>max-width</code> instead.</p>
+      <div class="border" style="width:200px;">width:400px</div>
+      <div class="border" style="width:200px; max-width:100px;">width:400; max-width:200px</div>
+
     <h4>#box-sizing</h4>
 
       <p>By default, width does not count padding, border and margin.<p>
-      <p>CSS3 introduces the `box-sizing` property, which allows to determine what the width includes.<p>
+      <p>CSS3 introduces the <code>box-sizing</code> property, which allows to determine what the width includes.<p>
       <ul>
         <li>`border-box`:            include padding and border, *not* margin.</li>
         <li>`content-box` (default): exclude padding, border and margin.</li>
       </ul>
       <p>There seems to be no way of also including the margin.</p>
 
-    <div class="border" style="width:5px;">width:5px</div>
-    <!--if width > max-width use max-width-->
-    <!--if max-width > width use width-->
-    <div class="border" style="width:50px; max-width:5px;">width:50; max-width:5px</div>
+    <h4>height #100%</h4>
 
-    <p>
-      Inline elements ignore width and height properties.
-      One solution is to use the `display` property, in particular the `inline-block` value.
-    </p>
+      <p>Fill the parent.</p>
+      <p>
+        <b>Only works if the parent height fixed by CSS</b>,
+        not automatically calculated from the content of other elements.
+      </p>
+
+      <p>Fixed height:</p>
+      <div style="border: 1px solid black; height:100px;">
+        <div style="background:red; display:inline-block; height:100%;">a</div>
+        <div style="background:blue; display:inline-block; height:100px;">a</div>
+      </div>
+
+      <p>Not fixed height:</p>
+      <div style="border: 1px solid black;">
+        <div style="background:red; display:inline-block; height:100%;">a</div>
+        <div style="background:blue; display:inline-block; height:100px;">a</div>
+      </div>
+
+      <p>
+        How to do it:
+        <a href="http://stackoverflow.com/questions/1122381/how-to-force-child-div-to-100-of-parents-div-without-specifying-parents-heigh">http://stackoverflow.com/questions/1122381/how-to-force-child-div-to-100-of-parents-div-without-specifying-parents-heigh</a>
+      </p>
 
   <h3>#overflow #scroll</h3>
 
@@ -1057,9 +1205,8 @@
 
     <ul>
       <li>Even the content of block elements are displaced by a floating element.</li>
-      <li>Only elements that come after the block are displaced</li>
-      <li>The actual block element still occupies the same position</li>
-      <li>Only elements up to the height of the float are affected</li>
+      <li>Only elements that come after the block are displaced.</li>
+      <li>Only elements up to the height of the float are affected.</li>
     </ul>
     <div class="border wide">
       <div class="border">before</div>
@@ -1091,12 +1238,12 @@
 
     <p>`clear` only works for block elements:</p>
     <div class="border wide">
-      <span class="border" style="clear:left;">clear left</span>
-      <span class="border" style="float:left;">float left</span>
+      <span class="border" style="clear:left;">clear left span</span>
+      <span class="border" style="float:left;">float left span</span>
       <span class="border">after</span>
     </div>
 
-    <p>align right:</p>
+    <p>With text-align:right:</p>
     <div class="border wide" style="text-align:right;">
       <div class="border">before</div>
       <div class="border" style="float:right;">float right</div>
@@ -1115,6 +1262,11 @@
       <div class="border">before</div>
       <div class="border" style="float:right;">float right</div>
       <div class="border">after</div>
+    </div>
+
+    <p>The floating element is removed from the normal flow and does not occupy its original space.</p>
+    <div class="border wide">
+      <div class="border" style="float:right;">float right div</div>
     </div>
 
   <h3>#vertical-align</h3>
@@ -1149,19 +1301,64 @@
       <div style="display:inline-block; width:20px; height:20px; background-color:blue; position:absolute; right:100%;"></div>
     </div>
 
-    <p>Center horizontally: margin auto technique:</p>
-    <div style="width:50px; height:20px; background-color:red; margin:0px auto;">
-    </div>
+    <h4>#center horizontally</h4>
 
-    <p>
-      Center vertically and horizontally: http://stackoverflow.com/questions/7720730/how-to-align-the-absolute-position-to-center
-    </p>
-    <p>
-      Negative margin technique (not DRY, needs to know size of the element):
-    </p>
-    <div style="width:50px; height:50px; background-color:red; position:relative;">
-      <div style="display:inline-block; width:20px; height:20px; margin-top:-10px; margin-left:-10px; background-color:blue; position:absolute; top:50%; left:50%;"></div>
-    </div>
+      <p>Center horizontally: margin auto technique:</p>
+      <div><div style="width:200px; background-color:red; margin:0px auto;">centered div</div></div>
+
+      <p>
+        Only works for stuff for which you can specify widths, therefore not on phrasing content like <code>span</code>
+        <code>text-align:center</code> can be used in that case.
+      </p>
+      <div style="text-align:center;"><span style="background-color:red;">centered span</span></div>
+
+    <h4>#center vertically</h4>
+
+      <p>
+        Center vertically and horizontally: http://stackoverflow.com/questions/7720730/how-to-align-the-absolute-position-to-center
+      </p>
+      <p>
+        Why <code>margin: auto;</code> does not work vertically:
+        <a href="http://stackoverflow.com/questions/12415661/using-marginauto-to-vertically-align-div">http://stackoverflow.com/questions/12415661/using-marginauto-to-vertically-align-div</a>
+        Spec explicitly specifies heights are 0 when <code>auto</code>:
+        <a href="http://www.w3.org/TR/CSS2/visudet.html#normal-block">http://www.w3.org/TR/CSS2/visudet.html#normal-block</a>
+      </p>
+
+      <p>
+        Unknown height: the only possibility seems to be tables or <code>display:table-cell;</code>
+        + <code>vertical-align: middle;</code>.
+      </p>
+      <div class="border" style="display:table-cell; height:100px; vertical-align:middle;">
+        Centered vertically.
+      </div>
+
+      <p>
+        Known size parent height: negative margin technique:
+      </p>
+      <div style="width:100px; height:100px; background-color:red; position:relative;">
+        <div style="display:inline-block; width:50px; height:50px; margin-top:-25px;
+          margin-left:-25px; background-color:blue; position:absolute; top:50%; left:50%;"></div>
+      </div>
+
+      <p>Phrasing content + known height: <code>line-height == height</code> technique:</p>
+      <div class="border" style="height:100px; line-height:100px;">
+        Centered vertically.
+      </div>
+
+      <p>Also possible for a checkbox, but not very nice because you cannot click anywhere to modify it:</p>
+      <div class="border" style="height:100px; line-height:100px;">
+        <input type="checkbox" />
+      </div>
+
+      <p>
+        To make the entire div clickable, put the label around the input,
+        make the label inline-block, 100% height and width.
+      </p>
+      <div class="border" style="height:100px; line-height:100px;">
+        <label style="display:inline-block; height:100%; width:100%;">
+          <input type="checkbox" />
+        </label>
+      </div>
 
     <p>
       Since an absolutely positioned div leaves the normal page flow,
@@ -1304,11 +1501,24 @@
         <p>
           Textarea can be resized by users by dragging by default.
           It is possible to prevent resizing horizontally or vertically.
+          through the <code>resize</code> property.
         </p>
-        <textarea style="width:50px; height:50px; resize:both;" class="border">resize:both</textarea>
-        <textarea style="width:50px; height:50px; resize:vertical;" class="border">resize:vertical</textarea>
-        <textarea style="width:50px; height:50px; resize:horizontal;" class="border">resize:horizontal</textarea>
-        <textarea style="width:50px; height:50px; resize:none;" class="border">none</textarea>
+        <textarea style="width:50px; height:50px; resize:both;"       class="border">both</textarea>
+        <textarea style="width:50px; height:50px; resize:vertical;"   class="border">vertical</textarea>
+        <textarea style="width:50px; height:50px; resize:horizontal;" class="border">horizontal</textarea>
+        <textarea style="width:50px; height:50px; resize:none;"       class="border">none</textarea>
+
+        <p>Max / Min Width / Height are enforced on what the user can resize:</p>
+        <textarea class="border" style="height:100px; min-width:50px; max-width:200px;
+          min-height:50px; max-height:200px; resize:both; width:100px;"
+        >min / max dimensions: 50px / 200px</textarea>
+
+        <p>The following options do not seem possible without Javascript:</p>
+        <ul>
+          <li>resize by dragging the bottom border instead of bottom corner</li>
+          <li>resize elements other than textareas</li>
+          <li>automatically resize the textarea to show all of it's inner content</li>
+        </ul>
 
     <h4>#fieldset</h4>
 
@@ -1316,6 +1526,17 @@
         HTML + CSS editable dropdown select:
         <a href="https://mdn.mozillademos.org/files/4563/editable_select.html">https://mdn.mozillademos.org/files/4563/editable_select.html</a>
       </p>
+
+    <h4>#checkbox #radio</h4>
+
+      <p>It is not currently easy to style those elements.</p>
+      <p>It is not easy either to explain why they have a given size.
+        Example, the following show a height of 14px on the inspector, but their spans are 20px hight.
+      </p>
+      <div>
+        <span class="border"><input style="line-height:1px; padding:0; margin:0;" type="checkbox"></span>
+        <span class="border"><input style="line-height:1px; padding:0; margin:0;" type="radio"></span>
+      </div>
 
   <h3>#tables</h3>
 

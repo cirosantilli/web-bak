@@ -14,10 +14,12 @@
     function(even) {
       var doc = new jsPDF()
       doc.text(20, 20, '0')
-      doc.text(20, 30, '1 A very very very very very very very very very very long line.')
+      doc.text(20, 30, '1 A very very very very very very very very very very'
+        + 'very very very very very very very very very very long line.'
+      )
       doc.addPage()
       doc.text(20, 20, '2')
-      doc.save('Test.pdf')
+      doc.save('test.pdf')
     },
     false
   )

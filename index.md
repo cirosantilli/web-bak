@@ -16,7 +16,8 @@ Most useful cheats:
 
 Some Web frontend technologies require libraries to make tests with, and might be somewhere else:
 
-- **XPATH**: XML selector language. Cheat at: <https://github.com/cirosantilli/rails-cheat/blob/98f582dce03d5643b2c301e8bb2788dd520df00f/app/test/integration/capybara_test.rb>
+- **XPATH**: XML selector language. Cheat at:
+    <https://github.com/cirosantilli/rails-cheat/blob/98f582dce03d5643b2c301e8bb2788dd520df00f/app/test/integration/capybara_test.rb>
 
 Less useful cheats:
 
@@ -43,14 +44,21 @@ W3C specifies many of the key web standards including:
 - XML:  <http://www.w3.org/TR/xml/>
 - CGI
 
-One important web standard that they **do not** specify is Javascript, which is specified by Ecma international <http://www.ecma-international.org/>
+One important web standard that they **do not** specify is Javascript,
+which is specified by Ecma international <http://www.ecma-international.org/>
 
-W3C has many important member organizations including companies, universities and others such as Microsoft, Apple, IBM, Google, Facebook, Twitter, Adobe.
+W3C has many important member organizations including companies,
+universities and others such as Microsoft, Apple, IBM, Google, Facebook, Twitter, Adobe.
 
 ### Maturity levels of standards
 
-W3C has several levels of endorsement for standards. They are described on the "Process" document <http://www.w3.org/2005/10/Process-20051014/tr.html#maturity-levels>.
+W3C has several levels of endorsement for standards.
+They are described on the "Process" document:
+<http://www.w3.org/2005/10/Process-20051014/tr.html#maturity-levels>.
 
+- ED (Editor's Draft):           most recent version the editor is working on.
+                                 No formal endorsement, updated often.
+                                 <http://stackoverflow.com/questions/6692762/what-is-the-difference-between-a-w3c-working-draft-and-an-editors-draft>
 - WD (Working Draft):            lowest level of endorsement of material available to the public
 - CR (Candidate Recommendation): higher
 - PR (Proposed Recommendation):  higher
@@ -59,13 +67,40 @@ W3C has several levels of endorsement for standards. They are described on the "
 - NOTES:                         make small revisions to a standard
 - retired:                       standards that have been deprecated
 
+### Versions
+
+Like any decent document, W3C standards are have versions,
+and it is possible to link either to a branch or specific version of the document.
+
+The initial paragraph of the documents always contains links to:
+
+- latest stable version: `http://www.w3.org/TR/webrtc/`
+- bleeding edge version, AKA "editor's draft": `http://dev.w3.org/2011/webrtc/editor/webrtc.html`
+- specific versions: `http://dev.w3.org/2011/webrtc/editor/archives/20140617/webrtc.html`
+
+Link to the one that makes most sense.
+
+## WHATWG
+
+Specs group, split from W3C because they disagreed:
+<http://wiki.whatwg.org/wiki/FAQ#WHATWG_and_the_W3C_HTML_WG>
+
+Started by Mozilla, Apple and Safari.
+<http://wiki.whatwg.org/wiki/FAQ#What_is_the_WHATWG.3F>
+
+Claim to be more practical oriented.
+
+W3C tries to keep in touch, e.g. HTML5 has on WHATWG editor.
+
 ## IETF
 
-Specifies networking protocols, in particular HTTP, which is used at many points of W3C documentation.
+Internet Engineering Task Force.
+
+Specifies mainly networking protocols, in particular HTTP, which is used at many points of W3C documentation.
 
 Such protocols shall not be covered here.
 
-For an HTTP tutorial see: <https://github.com/cirosantilli/linux/blob/435a180e2104fe82584bec9719d9e45342c535a9/net/http.md>
+For an HTTP tutorial see: <https://github.com/cirosantilli/net/http.md>
 
 # Sources
 
@@ -74,7 +109,8 @@ recommended content. Huge amount of content, examples, depth and implementation 
 
 [Web Platform Docs WPD](http://docs.webplatform.org/wiki/Main_Page). Wiki with tutorials.
 
-[CSS Tricks](http://css-tricks.com/). Amazing CSS source. Create and maintained by Chris Coyier <http://chriscoyier.net/>,
+[CSS Tricks](http://css-tricks.com/). Amazing CSS source.
+Create and maintained by Chris Coyier <http://chriscoyier.net/>,
 now has articles by many. Very high quality techniques. Closed source apparently.
 
 [HTML5 rocks](http://www.html5rocks.com/en/). New web technologies in general, not just HTML:

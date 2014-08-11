@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <title>js</title>
+  <title>Javascript Cheatsheet</title>
   <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
   <style>
    .border { border:1px solid black; }
@@ -321,11 +321,16 @@
       with concatenation as <code>/scr'+'ipt</code>
     </p>
 
-  <h3>#Strict mode #Use strict</h3>
+  <h3>#Strict mode #Use strict directive</h3>
 
     <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode</a></p>
     <p>ES5.</p>
-    <p>Throws exceptions in a bunch of extra smart cases.</p>
+    <p>Throws exceptions in a bunch of extra smelly cases.</p>
+    <p>
+      Seems to be the only current directive,
+      although there are extension directives like asm.js <code>"use asm"</code>
+    </p>
+
     <p>Turn on for entire script element:</p>
     <script>
       'use strict'
@@ -336,6 +341,7 @@
         SyntaxError
       )
     </script>
+
     <p>Turn on for single function:</p>
     <script>
       assert_throws(
@@ -361,6 +367,7 @@
         }
       )
     </script>
+
 <h2>#semicolon #;</h2>
 
   <p>Separates statements.</p>
@@ -2196,30 +2203,48 @@
 
       //new Error()
 
-// #Date
-
-  //new Date() // current date and time
-  //new Date(milliseconds) //milliseconds since 1970/01/01
-  //new Date(dateString)
-
-    var d = new Date(2000, 1, 2, 3, 4, 5, 6)
-    assert_eq(d.getFullYear()    , 2000)
-    assert_eq(d.getMonth()       , 1)
-    assert_eq(d.getDate()        , 2) // Day of the month.
-    assert_eq(d.getHours()       , 3)
-    assert_eq(d.getMinutes()     , 4)
-    assert_eq(d.getSeconds()     , 5)
-    assert_eq(d.getMilliseconds(), 6)
-
-// #dialogs
-
-  // A bit too invasive.
-
-  // User must respond before he can do anything else.
-
-    //alert("an alert")
-    //var v = prompt("what:", "default")
 </script>
+
+<h2>#Date</h2>
+
+  <p>
+    <b>Gotcha</b>: <code>month</code> is 0-based,
+    e.g. <code>1</code> means February!
+  </p>
+
+  <p>Explicit constructor and getters for <i>local</i> time:</p>
+  <script>
+    var date = new Date(2000, 1, 2, 3, 4, 5, 6)
+    assert_eq(date.getFullYear()    , 2000)
+    assert_eq(date.getMonth()       , 1)
+    assert_eq(date.getDate()        , 2) // Day of the month.
+    assert_eq(date.getHours()       , 3)
+    assert_eq(date.getMinutes()     , 4)
+    assert_eq(date.getSeconds()     , 5)
+    assert_eq(date.getMilliseconds(), 6)
+  </script>
+
+  <p>Other constructors:</p>
+  <script>
+    new Date(1) //milliseconds since 1970/01/01
+    new Date('2000-02-02T02:04:05.006Z')
+  </script>
+
+  <p>
+    Create a UTC date object with <code>new Date(Date.UTC(2000, 1, 2, 3, 4, 5, 6))</code>.
+    Works because <code>Date.UTC</code> returns the number of milliseconds in UTC.
+  </p>
+  <p>
+    <code>toISOString</code>, ES5,
+    ISO 8601 <a href="http://en.wikipedia.org/wiki/ISO_8601">http://en.wikipedia.org/wiki/ISO_8601</a>
+    By default ends in <code>Z</code>, thus it is the UTC time, not local time!
+  </p>
+  <script>
+    assert_eq((new Date(Date.UTC(2000, 1, 2, 3, 4, 5, 6))).toISOString(), '2000-02-02T03:04:05.006Z')
+  </script>
+  <script>
+    document.write('<p>Current UTC datetime: ' + (new Date()).toISOString() + '</p>')
+  </script>
 
 <h2>#JSON</h2>
 
@@ -2273,9 +2298,8 @@
   <p>Offers an interface to the browser contents.</p>
   <p>May be undefined on Node.js. This can be used to check if we are no Node.js or browser.</p>
   <p>
-    Appears to be documented at:
+    Documented under HTML5 browsers section:
     <a href="http://www.w3.org/TR/2009/WD-html5-20090423/browsers.html">http://www.w3.org/TR/2009/WD-html5-20090423/browsers.html</a>
-    on HTML5.
   </p>
   <p>`window` is the global object in browser implementations: http://www.ecma-international.org/ecma-262/5.1/#sec-15.1</p>
   <p>It is not present in Node.js.</p>
@@ -2288,16 +2312,14 @@
     assert_eq(a, 3)
   </script>
 
-  <h3>#alert</h3>
+  <h3>#alert #modal #dialog</h3>
 
-    <p>In-window popup that disables background.</p>
+    <p>In-window modal (disables background) popup dialog.</p>
     <p>
-      Practical, but not very customizable, cannot render HTML,
-      and often replaced by Javascript libraries.
+      Practical, but not very customizable, cannot render HTML in it,
+      and often replaced by Javascript libraries or CSS <code>:target</code>.
     </p>
-    <script>
-      //window.alert('<i>Here!</i>')
-    </script>
+    <button onclick="window.alert('Here!')" type="button">Open popup</button>
 
   <h3>#height #width #innerHeight #outerHeight</h3>
 
@@ -2324,31 +2346,17 @@
     <script>previousElement().insertAdjacentHTML('beforeEnd', window.pageYOffset)</script>
     <p>scrollby: TODO window.scrollBy(100,100)</p>
 
-  <h3>#open</h3>
-
-    <p>Opens up new windows / tabs on the browser.</p>
-    <p>Popup blockers usually block this.</p>
-    <p>Good way to annoy users =)</p>
-    <p>Returns a window object.</p>
-    <button>Click me to run window.open.</button>
-    <script>
-      previousElement().addEventListener(
-        'click',
-        function() {
-          var myWindow = window.open('', 'name', 'width=200, height=100');
-        },
-        false
-      )
-    </script>
-    <p>TODO: what is the `name` parameter?</p>
-
   <h3>#setInterval #clearInterval</h3>
 
     <p>Run a function every n milliseconds.</p>
-    <p>500ms: <span id="setInterval">0</span> <span class="border" id="clearInterval">Click me to stop.</span></p>
+    <p>
+      500ms:
+      <span id="setInterval">0</span>
+      <button id="clearInterval" type="button">Stop.</button>
+    </p>
     <script>
       var setIntervalCount = 0
-      var interval0 = window.setInterval(function(){
+      var interval0 = window.setInterval(function() {
         setIntervalCount++
         document.getElementById('setInterval').innerHTML = setIntervalCount.toString()
       }, 500)
@@ -2398,16 +2406,68 @@
       }())
     </script>
 
+  <h3>#open</h3>
+
+    <p>Opens up new windows / tabs on the browser.</p>
+    <p>Popup blockers usually block this.</p>
+    <p>Good way to annoy users =)</p>
+    <p>Returns a window object.</p>
+    <button>Click me to run window.open.</button>
+    <script>
+      previousElement().addEventListener(
+        'click',
+        function() {
+          var myWindow = window.open('', 'name', 'width=200, height=100');
+        },
+        false
+      )
+    </script>
+    <p>TODO: what is the `name` parameter?</p>
+
   <h3>#location</h3>
 
-    <p>Redirect to another page: <code>window.location.href = 'url'</code>.</p>
-    <p class="border" onclick="window.location.href='html2.html'">Click me to redirect to html2.html!</p>
+    <h4>#href #redirect</h4>
+
+      <p>Redirect to another page: <code>window.location.href = 'url'</code>.</p>
+      <p><button onclick="window.location.href='html2.html'" type="button">Redirect to html2.html!</button></p>
+
+    <h4>#reload</h4>
+
+      <p>Reload current page page: <code>window.location.reload()</code>.</p>
+      <p><button onclick="window.location.reload()" type="button">Reload this page!</button></p>
+      <script>
+        document.write('<p>Last page load time: ' + (new Date()).toISOString() + '</p>')
+      </script>
+
+  <h3>#history</h3>
+
+    <p>HTML5</p>
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history">https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history</a></p>
+    <p>Do not trigger <code>DOMContentLoaded</code>.</p>
+    <p>
+      Still not consistent across browsers. A popular alternative is the History.js library
+      <a href="https://github.com/browserstate/history.js">https://github.com/browserstate/history.js</a>
+      which provides the <code>History</code> object and a similar property interface to that of the standard.
+    </p>
+
+    <h4>#Modify current URL without reloading the page</h4>
+
+      <p><a href="http://stackoverflow.com/a/3503206/895245">http://stackoverflow.com/a/3503206/895245</a></p>
+      <p>Great to store state while making AJAX or preloaded modifications.</p>
+      <p>User can still go back to previous URLs because this history is being modified.</p>
+      <p>
+        May not work on <code>file:///</code> for security concerns.
+        Try on <code>localhost</code> with <code>python -m SimpleHTTPServer</code>
+      </p>
+      <p>
+        <span class="border" onclick="window.history.pushState('page1', 'Title1', '/new-url-1');">click me for new-url-1!</span>
+        <span class="border" onclick="window.history.pushState('page2', 'Title2', '/new-url-2');">click me for new-url-2!</span>
+      </p>
 
   <h3>#non-standard attributes</h3>
 
     <p>Just for fun.</p>
     <ul>
-      <li>history: browser history</li>
       <li>navigator: navigator metadata</li>
     </ul>
 
@@ -2600,6 +2660,22 @@
       assert_eq(strToElement('<button>Button innerHTML</button>').innerHTML, 'Button innerHTML')
     </script>
 
+    <p>
+      TODO are multiple whitespaces preserved? Inconclusive question:
+      <a href="http://stackoverflow.com/questions/213845/javascript-removing-whitespace-when-it-shouldnt">http://stackoverflow.com/questions/213845/javascript-removing-whitespace-when-it-shouldnt</a>
+      Passing on Firefox 30 and Chromium 34, but maybe unspecified:
+      Same for <code>getAttribute</code>.
+    </p>
+    <script>
+      var elem = strToElement('<p>a  b</p>')
+      assert_eq(elem.innerHTML, 'a  b')
+    </script>
+    <p id="innerHTML">a  b</p>
+    <script>
+      var elem = document.getElementById('innerHTML')
+      assert_eq(elem.innerHTML, 'a  b')
+    </script>
+
   <h3>#outerHTML</h3>
 
     <p>Like `innerHTML`, but also includes the tags. Less support than `innerHTML` but increasing.</p>
@@ -2726,7 +2802,8 @@
         assert_eq(document.createElement('adsf').constructor, HTMLUnknownElement)
         assert_eq(document.createElement('div') .constructor, HTMLDivElement)
         assert_eq(document.createElement('img') .constructor, HTMLImageElement)
-        assert_eq((new Image())                 .constructor, HTMLImageElement)
+        // TODO Fails on chromium 34. Error, or unspecified?
+        //assert_eq((new Image())                 .constructor, HTMLImageElement)
       </script>
 
     <h4>#createTextNode</h4>
@@ -2831,6 +2908,14 @@
         textarea_func()
       </script>
 
+      <p>
+        The default value can be retrieved with the <code>defaultValue</code> property:
+        it's the text that was put inside the <code>textarea</code> tags in the HTML.
+        This differs from <code>input</code> elements,
+        where the default value is set through the <code>value</code> property (and can also be retrieved
+        with this property).
+      </p>
+
       <h5>#keypress #keydown #keyup #textinput #change</h5>
 
         <ul>
@@ -2877,20 +2962,25 @@
   <p>Each event is attached to an element.</p>
   <p>Events propagate</p>
   <p>Like the rest of the DOM, it is a bit messy to find where events are defined.</p>
-  <p>A good source is Firefox's documentation https://developer.mozilla.org/en-US/docs/Web/Reference/Events</p>
+  <p>
+    A good source is Firefox's documentation
+    <a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a>
+  </p>
   <p>The major standards are:</p>
   <ul>
-    <li>http://www.w3.org/TR/DOM-Level-3-Events/</li>
+    <li>DOM related events: <a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></li>
     <li>
-      Random points of HTML5 like
-      http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#the-end
-      for `DOMContentLoaded`
+      Random points of HTML5 like:
+      <a href="http://www.w3.org/TR/html5/browsers.html#beforeunloadevent">http://www.w3.org/TR/html5/browsers.html#beforeunloadevent</a>
     </li>
   </ul>
 
   <h3>#addEventListener</h3>
 
-    <p>Allows to add an unlimited amount of handlers per event. Better choice than `on` events like `onload`.</p>
+    <p>
+      Allows to add an unlimited amount of handlers per event.
+      Better choice than <code>on</code> attributes like <code>onload</code>.
+    </p>
     <p>Can be used together with `on` events. TODO check.</p>
     <p>TODO do all events have a on version and an `addEventListener` one?</p>
 
@@ -3184,6 +3274,56 @@
         insertBeforeScript(a)
       </script>
 
+    <h3>#beforeunload</h3>
+
+      <p><a href="http://www.w3.org/TR/html5/browsers.html#beforeunloadevent">http://www.w3.org/TR/html5/browsers.html#beforeunloadevent</a></p>
+      <p>Before the user exits the current page by either of:</p>
+      <ul>
+        <li>closing the tab</li>
+        <li>closing the entire browser</li>
+        <li>clicking a link that would load in current page</li>
+        <li>refreshing the current page</li>
+      </ul>
+      <p>Can be cancelled, preventing the exit.</p>
+      <p>How to use: <a href="http://stackoverflow.com/questions/1119289/how-to-show-the-are-you-sure-you-want-to-navigate-away-from-this-page-when-ch">http://stackoverflow.com/questions/1119289/how-to-show-the-are-you-sure-you-want-to-navigate-away-from-this-page-when-ch</a></p>
+      <p>TODO:</p>
+      <ul>
+        <li>
+          <code>alert</code> does not work inside the handler,
+          probably because otherwise malicious code could prevent you from ever leaving the page.
+          Where is this written on HTML5?
+        </li>
+        <li>
+          On Firefox 30, the custom message which should be set with <code>returnValue</code> is not being shown.
+          It is known that some browsers don't follow the default and use the actual return value of the
+          callback as message, but Firefox should work no?
+          Related bug: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=588292">https://bugzilla.mozilla.org/show_bug.cgi?id=588292</a>
+          Docs: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window.onbeforeunload">https://developer.mozilla.org/en-US/docs/Web/API/Window.onbeforeunload</a>
+        </li>
+        <li>In HTML5, does <code>preventDefault</code> work?</li>
+      </ul>
+      <p>
+        <button type="button" onclick="beforeunload_events = true; this.innerHTML += ' Activated!'">
+          Click me to activate the beforeunload tests!
+        </button>
+        <a href="http://example.com">Click me to leave the page after activating the beforeunload event.</a>
+      </p>
+      <script>
+        var beforeunload_events = false;
+        window.addEventListener(
+          'beforeunload',
+          function(event) {
+            if (beforeunload_events) {
+              event.returnValue = 'Are you sure to leave this page?'
+            }
+          }
+        )
+      </script>
+      <p>
+        Application: "Are you sure you want to exit?" while editing large textareas.
+        Check if the textarea has been modified since first load, and if yes show the message.
+      </p>
+
 <h2>#cookies</h2>
 
   <p>A way of storing small data strings on user's computer hard disk.</p>
@@ -3352,14 +3492,25 @@
 
   <p>Make server requests without reloading the current page.</p>
   <p>
-    2 W3C specs:
+    W3C WD: <a href="http://www.w3.org/TR/XMLHttpRequest/">http://www.w3.org/TR/XMLHttpRequest/</a>,
+    widely implemented.
   </p>
+  <p>The name is only historical and currently horrible, as this object can:</p>
   <ul>
-    <li><a href="http://www.w3.org/TR/XMLHttpRequest/">level 1</a>, widely implemented</li>
-    <li><a href="http://www.w3.org/TR/XMLHttpRequest2/">level 2</a>, recent with good implementation status</li>
+    <li>receive and send any data, not just XML</li>
+    <li>receive and send other request types besides HTTP, e.g. FTP</li>
   </ul>
   <p>
-    Both level 1 and 2 have the same constructor,
+    so neither <code>XML</code> nor <code>HTTP</code> in the name make sense anymore,
+    should be just <code>Request</code>...
+  </p>
+  <p>
+    TODO I'm confused about what is the difference between level 1 and level 2.
+    It seems that in the past, there ware two W3C documents, XMLHttpRequest and XHMLHttpRequest2
+    <a href="http://www.w3.org/TR/XMLHttpRequest2/">http://www.w3.org/TR/XMLHttpRequest2/</a>
+    Now it the level 2 latest version points to the level 1 URL, so I imagine they have been merged,
+    and that the only difference is informal between old and new methods, so:
+    both level 1 and 2 have the same constructor,
     but level 2 extends level 1 with further capabilities if implemented.
   </p>
   <p>
@@ -3369,7 +3520,8 @@
   </p>
   <p>
     jQuery has an almost extension of XHR called <code>jqXHR</code>:
-    it contains most, but not all, properties of XHR, and is used by the jQuery API instead.
+    it contains most, but not all, properties of XHR, plus some extra behavior,
+    and is used by the jQuery API instead of the plain XHR.
   </p>
   <p>Overview:</p>
   <script>
@@ -3408,7 +3560,7 @@
   <h3>#response #onreadystatechange</h3>
 
     <p>Response should be used from a callback function on asynchronous mode.</p>
-    <p>`onreadystatechange` callback is called every time the readyState property changes.</p>
+    <p>`onreadystatechange` callback is called every time the <code>readyState</code> property changes.</p>
     <p>Its possible values are:</p>
     <ul>
       <li>0: request not initialized</li>
@@ -3504,13 +3656,21 @@
 
   <h3>#responseType</h3>
 
-    <p>Set the response type header. TODO check.</p>
+    <p>Set the response type request header. TODO check.</p>
 
 <h2>#FileAPI</h2>
 
   <p>Local file IO.</p>
   <p>W3C spec.</p>
   <p>Tutorial: <a href="http://www.html5rocks.com/en/tutorials/file/dndfiles/">http://www.html5rocks.com/en/tutorials/file/dndfiles/</a></p>
+
+<h2>#WebRTC</h2>
+
+  <p>Web Real Time Communication.</p>
+  <p>Developed by Chrome and Mozilla (probably to counter Skype)</p>
+  <p>W3C WD: <a href="http://www.w3.org/TR/webrtc/">http://www.w3.org/TR/webrtc/</a></p>
+  <p>HTML5 rocks: <a href="http://www.html5rocks.com/en/tutorials/webrtc/basics/">http://www.html5rocks.com/en/tutorials/webrtc/basics/</a></p>
+  <p>Publicity page demo section: <a href="http://www.webrtc.org/demo">http://www.webrtc.org/demo</a></p>
 
 <h2>#Web Audio API</h2>
 
@@ -3524,32 +3684,73 @@
   <p>W3C spec.</p>
   <p>Wide support on desktop browsers.</p>
 
-<h2>#RequireJS #AMD #CommonJS #Browserify</h2>
+<h2>#Geolocation API</h2>
 
-  <p><a href="http://stackoverflow.com/questions/16521471/relation-between-commonjs-amd-and-requirejs">http://stackoverflow.com/questions/16521471/relation-between-commonjs-amd-and-requirejs</a></p>
+  <p>Javascript access to the device's location, like GPS or other methods.</p>
+  <p>W3C spec: <a href="http://www.w3.org/TR/geolocation-API/">http://www.w3.org/TR/geolocation-API/</a></p>
+  <p>HTML5 intro: <a href="http://www.html5rocks.com/en/tutorials/geolocation/trip_meter/">http://www.html5rocks.com/en/tutorials/geolocation/trip_meter/</a></p>
   <p>
-    AMD and CommonJS are specifications that besides other things describe
-    how to modularize Javascript code.
+    The browser may require your permission to give those informations to the Javascript.
+    Firefox shows: "Would you like to share your location with the file ...?"
   </p>
-  <p>
-    RequireJS is the major implementation of AMD.
-    If it a single file regular Javascript library.
-  </p>
-  <p>Node.js implements CommonJS.</p>
-  <p>AMD is a fork of CommonJS.</p>
-  <p>AMD is more popular in browsers, CommonJS outside.</p>
-  <p>
-    AMD loads asynchronously, CommonJS synchronously. This is a major divergence point,
-    and explains why AMD is more popular on browsers.
-  </p>
-  <p>
-    The Browserify utility implements CommonJS for the browser,
-    by pre-compiling multiple files into one before serving.
-  </p>
+  <p>Many sources can be used to get the location, including the IP address and a GPS if present.</p>
+  <script>
+    var geoFunc = function() {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        document.getElementById('geolocation').innerHTML =
+          position.coords.latitude + ' ' + position.coords.longitude
+      })
+    }
+  </script>
+  <div>
+    <button onclick="geoFunc();" type="button">Show position.</button>
+    latitude longitude = <span id="geolocation"></span>
+  </div>
 
-  <h3>#RequireJs</h3>
+<h2>#Orientation API</h2>
 
-    <p>Simple examples demo: <a href="http://www.ringabell.org/en/un-simple-guide-pour-debuter-avec-requirejs/">http://www.ringabell.org/en/un-simple-guide-pour-debuter-avec-requirejs/</a></p>
-    <p>Large multi file example: <a href="https://github.com/requirejs/example-multipage">https://github.com/requirejs/example-multipage</a></p>
+  <p>Accelerometers, gyroscopes and compasses, present specially in mobile devices like phones.</p>
+  <p>HTML5 intro: <a href="http://www.html5rocks.com/en/tutorials/device/orientation/">http://www.html5rocks.com/en/tutorials/device/orientation/</a></p>
+
+<h2>#Extensions</h2>
+
+  <h3>#asm.js</h3>
+
+    <p>Mozilla subset of Javascript that can be compiled.</p>
+    <p>Work in progress, only implemented on very recent Firefox.</p>
+    <p>
+      Subset so small that although Turing complete it is not practical to write directly:
+      it is meant to be transpiled from C++ using LLVM + Emscripten.
+    </p>
+
+<h2>#Third party</h2>
+
+  <h3>#RequireJS #AMD #CommonJS #Browserify</h3>
+
+    <p><a href="http://stackoverflow.com/questions/16521471/relation-between-commonjs-amd-and-requirejs">http://stackoverflow.com/questions/16521471/relation-between-commonjs-amd-and-requirejs</a></p>
+    <p>
+      AMD and CommonJS are specifications that besides other things describe
+      how to modularize Javascript code.
+    </p>
+    <p>
+      RequireJS is the major implementation of AMD.
+      If it a single file regular Javascript library.
+    </p>
+    <p>Node.js implements CommonJS.</p>
+    <p>AMD is a fork of CommonJS.</p>
+    <p>AMD is more popular in browsers, CommonJS outside.</p>
+    <p>
+      AMD loads asynchronously, CommonJS synchronously. This is a major divergence point,
+      and explains why AMD is more popular on browsers.
+    </p>
+    <p>
+      The Browserify utility implements CommonJS for the browser,
+      by pre-compiling multiple files into one before serving.
+    </p>
+
+    <h4>#RequireJs</h4>
+
+      <p>Simple examples demo: <a href="http://www.ringabell.org/en/un-simple-guide-pour-debuter-avec-requirejs/">http://www.ringabell.org/en/un-simple-guide-pour-debuter-avec-requirejs/</a></p>
+      <p>Large multi file example: <a href="https://github.com/requirejs/example-multipage">https://github.com/requirejs/example-multipage</a></p>
 </body>
 </html>
