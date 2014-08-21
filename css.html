@@ -218,6 +218,10 @@
       Style attribute: what can go into the global HTML <code>style=""</code> attribute:
     </li>
   </ul>
+  <p>
+    CSS is not Turing complete, unless you consider user interactions to be part of the Turing machine.
+    <a href="http://stackoverflow.com/questions/2497146/is-css-turing-complete">http://stackoverflow.com/questions/2497146/is-css-turing-complete</a>
+  </p>
 
 <h2>#Vendor prefixes</h2>
 
@@ -226,13 +230,12 @@
     Once they leave test phase, they may be removed by the browser developers.
   </p>
   <p>Vendor prefixes used by the main modern browsers are:</p>
-  <pre>
-    Firefox:-moz-
-    Internet Explorer:-ms-
-    iOS:-webkit-
-    Opera:-o-
-    Chrome/Safari/iOS:-webkit-
-  </pre>
+  <ul>
+    <li>Firefox: -moz-</li>
+    <li>Chrome/Safari/iOS: -webkit-</li>
+    <li>Opera: -o-</li>
+    <li>Internet Explorer: -ms-</li>
+  </ul>
   <p>
     Most of them are quite obvious, except maybe for <code>WebKit</code>, which is the
     <a href="http://stackoverflow.com/questions/3468154/what-is-webkit-and-how-is-it-related-to-css">
@@ -240,6 +243,8 @@
     </a>
     for both Safari and Chrome.
   </p>
+  <p>Full list: <a href="http://stackoverflow.com/questions/5411026/list-of-css-vendor-prefixes">http://stackoverflow.com/questions/5411026/list-of-css-vendor-prefixes</a></p>
+  <p>CSS2 has a non-normative section listing important vendor prefixes: <a href="http://www.w3.org/TR/CSS21/syndata.html#vendor-keyword-history">http://www.w3.org/TR/CSS21/syndata.html#vendor-keyword-history</a></p>
 
 <h2>#location</h2>
 
@@ -790,38 +795,52 @@
         <div class="border" style="width:100px; height:100px; text-align:center; display:table-cell; vertical-align:middle;">center</div>
         <div class="border" style="width:100px; height:100px; text-align:right;  display:table-cell; vertical-align:middle;">right</div>
 
-    <h4>#whitespace</h4>
+    <h4>#white-space</h4>
 
       <pre>
-                New lines 	Spaces and tabs 	Text wrapping
-      normal 	  Collapse 	  Collapse 	        Wrap
-      pre 	    Preserve 	  Preserve 	        No wrap
-      nowrap 	  Collapse 	  Collapse 	        No wrap
-      pre-wrap 	Preserve 	  Preserve 	        Wrap
-      pre-line 	Preserve 	  Collapse 	        Wrap
+          New lines 	Spaces and tabs 	Text wrapping
+normal 	  Collapse 	  Collapse 	        Wrap
+pre 	    Preserve 	  Preserve 	        No wrap
+nowrap 	  Collapse 	  Collapse 	        No wrap
+pre-wrap 	Preserve 	  Preserve 	        Wrap
+pre-line 	Preserve 	  Collapse 	        Wrap
       </pre>
 
-    <h4>#white-space:pre</h4>
+      <h5>#white-space:pre</h5>
 
-      <p>Achieves similar effect to the <code>pre</code> HTML element, but:</p>
-      <ul>
-        <li><code>pre</code> ignores the first character if it is a newline, while <code>`white-space:pre</code> does not.</li>
-        <li>Firefox on copy paste does not preserve newlines for <code>white-space:pre</code>, but does for <code>pre</code>.
-          <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=116083">https://bugzilla.mozilla.org/show_bug.cgi?id=116083</a>
-        </li>
-      </ul>
-      <p>Just because of the Firefox "bug", it is better to use <p>pre</p> elements instead of the CSS.</p>
+        <p>Achieves similar effect to the <code>pre</code> HTML element, but:</p>
+        <ul>
+          <li><code>pre</code> ignores the first character if it is a newline, while <code>`white-space:pre</code> does not.</li>
+          <li>Firefox on copy paste does not preserve newlines for <code>white-space:pre</code>, but does for <code>pre</code>.
+            <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=116083">https://bugzilla.mozilla.org/show_bug.cgi?id=116083</a>
+          </li>
+        </ul>
+        <p>Just because of the Firefox "bug", it is better to use <p>pre</p> elements instead of the CSS.</p>
 
-      <p>Newline before and after style="white-space:pre"</p>
-      <div class="border" style="white-space:pre">
+        <p>Newline before and after style="white-space:pre"</p>
+        <div class="border" style="white-space:pre">
 a
  b
   </div>
-      <textarea>Paste the above here to see is the newline is present. Not present on Firefox 30.</textarea>
+        <textarea>Paste the above here to see is the newline is present. Not present on Firefox 30.</textarea>
 
     <h4>#white-space-collapse #bikeshedding</h4>
 
       <p>TODO</p>
+
+    <h4>#overflow-wrap #word-wrap</h4>
+
+      <p><code>word-wrap</code> is the old name of the property, which was in older CSS3 drafts and has been widely implemented.</p>
+      <p><code>overflow-wrap</code> is the current name in the CSS3 draft.</p>
+      <p>Values:</p>
+      <ul>
+        <li><code>normal</code>: lines can only wrap at the default points like spaces.</li>
+        <li>
+          <code>break-word</code>: lines can wrap at any character.
+          This only has to happen if there would not be enough space to fit the line in the container:
+          browsers still prefer to break at spaces where possible.
+        </li>
+      </ul>
 
   <h3>#background</h3>
 
@@ -981,6 +1000,13 @@ a
       <div class="border" style="width:200px;">width:400px</div>
       <div class="border" style="width:200px; max-width:100px;">width:400; max-width:200px</div>
 
+      <p>If the screen becomes smaller than the <code>max-width</code>, the div shrinks.</p>
+      <p>
+        Great for mobile / browser websites, where you want to set the maximum size for large browsers,
+        and shrink as needed for smaller screens.
+      </p>
+      <div class="border" style="max-width:800px;">max-width:800px</div>
+
     <h4>#box-sizing</h4>
 
       <p>By default, width does not count padding, border and margin.<p>
@@ -1018,7 +1044,12 @@ a
 
   <h3>#overflow #scroll</h3>
 
-    <p>See content that is larger than parent.</p>
+    <p>Determines what happens when the inner content is larger than it's parent.</p>
+    <p>Has a level 3 module just for it: <a href="http://www.w3.org/TR/css-overflow-3/">http://www.w3.org/TR/css-overflow-3/</a></p>
+    <p>
+      <code>overflow</code> appears in CSS2, <code>-x</code> and <code>-y</code> versions only in the level 3 module,
+      possibly because of potentially weird combinations of both: <a href="http://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue">http://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue</a>
+    </p>
 
     <p>overflow-y:scroll: always show scrollbar. Only activate if inner larger.</p>
     <div style="width:200px; height:100px; padding:5px; overflow-y:scroll;" class="border">
@@ -1034,7 +1065,7 @@ a
       </div>
     </div>
 
-    <p>overflow-y:auto: only show scroll if inner larger</p>
+    <p>overflow-y:auto: only show scroll if inner larger than specified.</p>
     <div style="width:200px; height:100px; padding:5px; overflow-y:auto;" class="border">
       200x100
       <div style="width:100px; height:50px; backgroud:linear-gradient(red,blue);" class="border">
@@ -1048,17 +1079,20 @@ a
       </div>
     </div>
 
-    <p>default: none. If inner element is larger than out, without scroll, it just falls out:</p>
+    <p>Initial value: <code>visible</code>. If inner element is larger than outer, it just falls out:</p>
     <div style="width:200px; height:50px; padding:5px;" class="border">
       test<br/>test<br/>test<br/>test<br/>test<br/>test<br/>
     </div>
 
-    <p>If no scroll, the overflow can be hidden with `overflow:hidden` </p>
+    <p>If no scroll, the overflow can be hidden with `overflow:hidden`</p>
     <div style="width:200px; height:50px; padding:5px; overflow:hidden;" class="border">
       test<br/>test<br/>test<br/>test<br/>test<br/>test<br/>
     </div>
 
-    <p>Scrollbar style: http://stackoverflow.com/questions/7725652/css-scrollbar-style-cross-browser</p>
+    <p>
+      Scrollbar style:
+      <a href="http://stackoverflow.com/questions/7725652/css-scrollbar-style-cross-browser">http://stackoverflow.com/questions/7725652/css-scrollbar-style-cross-browser</a>
+    </p>
 
   <h3>#display</h3>
 
@@ -1197,6 +1231,18 @@ a
       <li>an element with clear</li>
     </ul>
 
+    <p>The prototypical use case of float is to put an image on a page and let text flow around it.</p>
+    <p>The height at which the element appears is the same as it would appear if it were inline.</p>
+    <div class="border" style="width:300px;">
+      a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+      a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+      <div class="border" style="float:right; height:100px; width:100px;">float right div</div>
+      AFTER a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+      a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+      a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+    </div>
+
+    <p>Simple float left example:</p>
     <div class="border wide">
       <span class="border">before</span>
       <span class="border" style="float:left;">float left</span>
@@ -1222,7 +1268,7 @@ a
       <div class="border">after2</div>
     </div>
 
-    <p>This can be prevented via the clear property:</p>
+    <p>The <code>clear</code> property can be used to prevent elements from being displaced by <code>float</code>:</p>
     <div class="border wide">
       <div class="border" style="clear:left;">clear before</div>
       <div class="border" style="float:left;">float left</div>
@@ -1236,7 +1282,7 @@ a
       <div class="border">after2</div>
     </div>
 
-    <p>`clear` only works for block elements:</p>
+    <p><code>clear</code> only works for block elements:</p>
     <div class="border wide">
       <span class="border" style="clear:left;">clear left span</span>
       <span class="border" style="float:left;">float left span</span>
@@ -1264,15 +1310,30 @@ a
       <div class="border">after</div>
     </div>
 
-    <p>The floating element is removed from the normal flow and does not occupy its original space.</p>
-    <div class="border wide">
-      <div class="border" style="float:right;">float right div</div>
-    </div>
+    <h4>Occupy vertical space with float</h4>
+
+      <p>The floating element is removed from the normal flow and does not occupy its original vertical space:</p>
+      <div class="border wide" style="margin-bottom:35px;">
+        <div class="border" style="float:right; height:30px;">float right div</div>
+      </div>
+      <div class="border" style="width:300px;">
+        a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+        <div class="border" style="float:right; height:100px; width:100px;">float right div</div>
+        AFTER a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+      </div>
+
+      <p>Possible solutions: <a href="http://www.quirksmode.org/css/clearing.html">http://www.quirksmode.org/css/clearing.html</a></p>
+      <p><code>overflow:auto;</code> does the trick for some mysterious reason.</p>
+      <div class="border wide" style="margin-bottom:35px; overflow:auto;">
+        <div class="border" style="float:right; height:30px;">float right div</div>
+      </div>
 
   <h3>#vertical-align</h3>
 
-    <p>Does very different things on tables and on inline elements:http://phrogz.net/CSS/vertical-align/</p>
-    <p>TODO</p>
+    <p>
+      Does very different things on tables and on inline elements:
+      <a href="http://phrogz.net/CSS/vertical-align/">http://phrogz.net/CSS/vertical-align/</a>
+    </p>
 
   <h3>#position</h3>
 
@@ -1443,6 +1504,10 @@ a
     <p>Specially to set icons: <span data-icon="&#x25a8;"></span></p>
 
 <h2>#elements</h2>
+
+  <h3>#html element vs #body</h3>
+
+    <p>TODO</p>
 
   <h3>#links</h3>
 

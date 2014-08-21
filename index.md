@@ -27,6 +27,7 @@ Less useful cheats:
 - [Browserify](browserify/)
 - [jQuery](jquery.html)
 - [jsPDF](jspdf/)
+- [PDF.js](pdfjs.html)
 
 Js syntax highlighters: <http://softwaremaniacs.org/blog/2011/05/22/highlighters-comparison/>
 
@@ -101,6 +102,10 @@ Specifies mainly networking protocols, in particular HTTP, which is used at many
 Such protocols shall not be covered here.
 
 For an HTTP tutorial see: <https://github.com/cirosantilli/net/http.md>
+
+# Style guides
+
+- HTML and CSS: <https://github.com/mdo/code-guide>
 
 # Sources
 

@@ -456,14 +456,32 @@
       <p>Prefer Unicode for all non-whitespace characters.</p>
       <p>Useful whitespace characters:</p>
       <ul>
-        <li>non-breaking whitespace #nbsp; &nbsp; Whitespace at which lines cannot reflow.</li>
+        <li>nbsp</li>
       </ul>
     </li>
   </ul>
 
   <p>It is not necessary to escape quotes outside of attributes: " '</p>
 
-  <p>#nbsp example. Before&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After</p>
+  <h3>#nbsp</h3>
+
+    <p>Similar to a regular space, but:</p>
+    <ul>
+      <li>
+        Lines cannot break at that point by default as they could with regular spaces.
+        Also see the <code>overflow-wrap</code> CSS property to allow breaks anywhere.
+      </li>
+      <li>
+        Multiple consecutive nbsps characters are displayed.
+        Firefox copy to clipboard copies them as regular spaces.
+      </li>
+    </ul>
+    <p>
+      It seems to be the only whitespace with a named reference, but other whitespace character width variations exist in Unicode:
+      <a href="http://en.wikipedia.org/wiki/Non-breaking_space#Width_variations">http://en.wikipedia.org/wiki/Non-breaking_space#Width_variations</a>
+      like the en and em spaces.
+    </p>
+    <p>Before&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After</p>
 
 <h2>#attributes</h2>
 
@@ -614,7 +632,7 @@
 
   <a href="#href">link to destination</a>
   <p id="href">link destination</p>
-  <p>`a` cannot contain `a`.
+  <p>`a` cannot contain `a`.</p>
   <div><div></div></div>
   <a href="html2.html">
     <span>p</span>
@@ -622,10 +640,15 @@
     <!-- The innermost anchor wins the link direction: -->
   </a>
   <p>
-    `href` is mandatory. If you don't need it, use a dummy value.
-    One common dummy when using the link for Javascript AJAX is:
-    <a href="javascript:;">javascript:;</a>.
-    What is the best option: http://stackoverflow.com/questions/134845/href-attribute-for-javascript-links-or-javascriptvoid0.
+    The <code>href</code> is not mandatory.
+    It seems that it was either not mandatory in HTML4 or it's absence was not implemented well in older browsers,
+    so it is common to see dummy values like <a href="javascript:;">javascript:;</a> or <a href="#">#</a>
+    for anchors that are only Javascript targets in older code. What is the best option
+    <a href="http://stackoverflow.com/questions/134845/href-attribute-for-javascript-links-or-javascriptvoid0.">http://stackoverflow.com/questions/134845/href-attribute-for-javascript-links-or-javascriptvoid0.</a>
+  </p>
+  <p>
+    Anchors without an <code>href</code> are specified to look like regular text:
+    <a>I am an anchor without <code>href</code>!</a>
   </p>
 
   <h3>#nofollow</h3>
@@ -1013,6 +1036,23 @@ a
  b
 </pre>
 
+<h2>#menu</h2>
+
+  <p>Add buttons to the right click context menu.</p>
+  <p>Currently only supported in Firefox.</p>
+  <p>TODO: where is defined in HTML5? <a href="http://stackoverflow.com/questions/4447321/adding-to-browser-context-menu">http://stackoverflow.com/questions/4447321/adding-to-browser-context-menu</a></p>
+
+  <menu type="context" id="supermenu">
+    <menuitem label="a" onclick="alert('a')"></menuitem>
+    <menuitem label="b" onclick="alert('b')" icon="http://cdn1.iconfinder.com/data/icons/silk2/arrow_rotate_clockwise.png"></menuitem>
+    <menu label="submenu">
+      <menuitem label="a" onclick="alert('a')"></menuitem>
+      <menuitem label="b" onclick="alert('b')"></menuitem>
+    </menu>
+  </menu>
+
+  <a href='#' contextmenu="supermenu">Right click me</a>
+
 <h2>#forms</h2>
 
   <h3>#form</h3>
@@ -1031,7 +1071,7 @@ a
           <li>post: sends data on the body URL encoded.
         </ul>
       <li>
-        `enctype`: value of the `content-type` header
+        <code>enctype</code>`: value of the <code>content-type</code> header:
         <ul>
           <li>`application/x-www-form-urlencoded`: default. URL encode.
           <li>
@@ -1040,7 +1080,7 @@ a
           <li>`text/plain`: useless?
         </ul>
     </ul>
-    <p>To see what forms do exactly, consider using `nc` or an ECHO server.</p>
+    <p>To see what forms do exactly, consider using the <code>netcat</code> utility or an ECHO server.</p>
     <p>Multipart form to http://example.com:</p>
     <form action="http://example.com" method="post" enctype="multipart/form-data" class="border">
       <p><input type="text" name="text" value="text default"></p>

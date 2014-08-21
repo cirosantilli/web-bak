@@ -783,6 +783,10 @@
 
 // #string
 
+  // Both `'` and `"` are identical, except for escaping themselves.
+
+  // Google style says prefer `'` since it makes it easier to embed HTML, whose attributes use double quotes `"`.
+
     var s = "abc"
     var s = 'abc'
     var s = "\n"
@@ -799,21 +803,23 @@
 
   // #multiline string literals
 
-    // http://stackoverflow.com/questions/805107/creating-multiline-strings-in-javascript
+    //#without newlines inserted
 
-    // More efficient, less sane when changing indentation levels:
+      // http://stackoverflow.com/questions/805107/creating-multiline-strings-in-javascript
 
-      assert_eq("a\
- b", "a b")
+      // More efficient, less sane when changing indentation levels:
 
-    // Less efficient unless optimized, saner when changing indentation levels, Google style:
+        assert_eq('a\
+ b', 'a b')
 
-      assert_eq("a" +
-          "b", "ab")
+      // Less efficient unless optimized, saner when changing indentation levels, Google style:
 
-    // With Js 6 there will be a backtick quoted multiline literal called `NoSubstitutionTemplate`.
+        assert_eq('a' +
+            'b', 'ab')
 
-    //var htmlString = `Say hello to
+    // In ES6 there will be a backtick quoted multiline literal called `NoSubstitutionTemplate`.
+
+      //var htmlString = `Say hello to
 //multi-line
 //strings!`
 
@@ -821,28 +827,28 @@
 
     // URL encode:
 
-      assert_eq(escape(" "), "%20")
-      assert_eq(unescape(escape(" ")), " ")
+      assert_eq(escape(' '), '%20')
+      assert_eq(unescape(escape(' ')), ' ')
 
   // #replace
 
     // Perl-like regex replace
 
-      assert_eq("a0ba1b".replace(/a(.)b/g, "$1"), "01")
+      assert_eq('a0ba1b'.replace(/a(.)b/g, '$1'), '01')
 
   // #concat #+
 
     // Creates new string that is the concatenation of two others.
 
-      var s = "a"
-      assert_eq(s + "b", "ab")
-      assert_eq(s, "a")
+      var s = 'a'
+      assert_eq(s + 'b', 'ab')
+      assert_eq(s, 'a')
 
-      var s = "a"
-      assert_eq(s.concat("b"), "ab")
-      assert_eq(s, "a")
+      var s = 'a'
+      assert_eq(s.concat('b'), 'ab')
+      assert_eq(s, 'a')
 
-      assert_eq("a".concat("b").concat("c"), "abc")
+      assert_eq('a'.concat('b').concat('c'), 'abc')
 
   // #lower #upper
 
@@ -1511,7 +1517,9 @@
     // http://stackoverflow.com/questions/336859/var-functionname-function-vs-function-functionname
 
     // Without var, hoisting looks for the last definition.
+
     // Conclusion: never use multiple functions with the same name.
+
     // Conclusion 2: always use `f = function` so you don't have to worry about conclusion 1.
 
       function redefine_func() { return 0; }
@@ -2002,6 +2010,13 @@
         //  )
         //}())
 
+    // #Named IIFE
+
+      // You can also give a name to an IIFE function, although this is not very useful,
+      // as it can only be accessed from inside the function itself.
+
+        assert_eq((function f(x) {return x + 1}(1)), 2)
+
     // #Module pattern
 
       // Use IIFE + closures to create objects with private members.
@@ -2312,14 +2327,45 @@
     assert_eq(a, 3)
   </script>
 
-  <h3>#alert #modal #dialog</h3>
+  <h3>#modal #dialog</h3>
 
-    <p>In-window modal (disables background) popup dialog.</p>
+    <p>In-window modals (popup that disables background).</p>
     <p>
-      Practical, but not very customizable, cannot render HTML in it,
-      and often replaced by Javascript libraries or CSS <code>:target</code>.
+      Practical, but not very customizable, cannot render HTML in it.
+      Whitespace is preserved.
     </p>
-    <button onclick="window.alert('Here!')" type="button">Open popup</button>
+    <p>
+      Often replaced by more flexible Javascript libraries or CSS <code>:target</code>.
+      Bootstrap offers:
+      <a href="http://getbootstrap.com/javascript/#modals">http://getbootstrap.com/javascript/#modals</a>
+    </p>
+    <p>The following built-in modals exist:</p>
+
+    <h4>#alert</h4>
+
+      <p>
+        Show an important message. Only a single continue button exists,
+        so no information can be retrieved from the user.
+      </p>
+      <button onclick="window.alert('Alert. Newline:\nafter.' +
+          ' Many   spaces.\n<b>not bold</b>')" type="button">Open popup</button>
+
+    <h4>#confirm</h4>
+
+      <p>
+        Get a boolean value from the user. Common for: "are you sure you want to quit?"
+        messages to avoid data loss while editing potentially large textareas.
+      </p>
+      <button onclick="window.alert('You said: ' + window.confirm('Yes or no?'))" type="button">Open popup</button>
+
+    <h4>#prompt</h4>
+
+      <p>
+        Get a string value from the user.
+        Very rare because it does not scale well: it is only a matter of time before you need another field.
+        Also makes the site unusable if Js is off. Use HTML forms instead.
+      </p>
+      <button onclick="window.alert('You said: ' + window.prompt('Enter a string.', 'Default value.'))" type="button">Open popup</button>
 
   <h3>#height #width #innerHeight #outerHeight</h3>
 
@@ -2470,6 +2516,26 @@
     <ul>
       <li>navigator: navigator metadata</li>
     </ul>
+
+    <h4>#resizeTo</h4>
+
+      <p>Change the window size of the browser.</p>
+      <p>Chrome and IE WONTFIX, so unlikely to end up in a spec.</p>
+      <p><a href="http://stackoverflow.com/questions/7452040/cross-browser-resize-browser-window-in-javascript">http://stackoverflow.com/questions/7452040/cross-browser-resize-browser-window-in-javascript</a></p>
+
+    <h4>#moveTo</h4>
+
+      <p>Move browser window to position on screen. Same status as <code>resizeTo</code>.</p>
+
+    <h4>#fullscreen</h4>
+
+      <p><a href="http://stackoverflow.com/questions/1125084/how-to-make-in-javascript-full-screen-windows-stretching-all-over-the-screen">http://stackoverflow.com/questions/1125084/how-to-make-in-javascript-full-screen-windows-stretching-all-over-the-screen</a></p>
+      <p>
+        Starting to get a specification at:
+        <a href="http://fullscreen.spec.whatwg.org/">http://fullscreen.spec.whatwg.org/</a>,
+        but still very early stage. Already has incompatible implementations on major browsers.
+        Most implementations first asks user if he wants to do it the first time.
+      </p>
 
 <h2>#DOM</h2>
 
@@ -2916,10 +2982,18 @@
         with this property).
       </p>
 
-      <h5>#keypress #keydown #keyup #textinput #change</h5>
+      <h5>#keypress #keydown #keyup #textinput #change #input</h5>
 
+        <p>Events that are activated when:</p>
         <ul>
-          <li>change: value of input element changed.</li>
+          <li>
+            <code>change</code>: value of input element changed.
+            Only triggered for input text fields when you <i>lose focus</i> of field
+            not on keypress. To do that, use <code>input</code>.
+          </li>
+          <li>
+            <code>input</code>: when the value changes, before losing focus.
+          </li>
         </ul>
 
     <h4>#checkbox</h4>
