@@ -331,8 +331,8 @@
   <p>CDNs often offer CSS and Javascript in protocol relative URLs.</p>
   <p>Specified in RFC 3986, with the rest of the URI specs: http://tools.ietf.org/html/rfc3986#section-4.2 </p>
   <p>
-    Drawback: if you open your files with the `file://` protocol, it will also use the `file` protocol and fail.
-    Workaround: use  a web server on `http://localhost`.
+    Drawback: if you open your files with the `file://` protocol, they will keep using the `file` protocol and fail
+    for files from CDNs. Workaround: use  a web server on `http://localhost`.
   </p>
   <p>Well implemented on modern browsers.</p>
 
@@ -667,6 +667,54 @@
       <li><a href="#" target="_self">_self</a>: on current frame. Default.</li>
     </ul>
     <p>The other values can only be seen with frames and I'm lazy to do it.</p>
+
+  <h3>#download</h3>
+
+    <p>
+      If present, the linked resourced will be downloaded
+      with the name of the value of this attribute instead of navigated to.
+    </p>
+    <p>
+      For certain MIME types, in particular those that the browser cannot display,
+      and possibly user configured, downloading may be the default browser action.
+    </p>
+    <p>Download an HTML: <a download="newname.html" href="html2.html">html2.html</a>.</p>
+
+<h2>#URI schemes officially supported in HTML</h2>
+
+  <p>TODO check if all each of them are supported in HTML5.</p>
+
+  <h3>#data: URI scheme</h3>
+
+    <p>Contain the data of the link inline.</p>
+    <p>Defined in: <a href="http://tools.ietf.org/html/rfc2397">http://tools.ietf.org/html/rfc2397</a></p>
+    <p>
+      Good or bad:
+      <a href="http://stackoverflow.com/questions/1124149/is-embedding-background-image-data-into-css-as-base64-good-or-bad-practice">http://stackoverflow.com/questions/1124149/is-embedding-background-image-data-into-css-as-base64-good-or-bad-practice</a>
+      Mostly bad because browsers have a little feature called cache.
+    </p>
+    <p>
+      TODO: does HTML5 say you can use them in anchors?
+      HTML5 does mention it in some parts, but I could not find the passage.
+    </p>
+    <p><a  href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==">Click me.</a></p>
+    <p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
+        alt="Red dot" /></p>
+
+  <h3>#file: URI scheme</h3>
+
+    <p>Cannot work from browser because would be a security gap.</p>
+    <p><a href="file:///home/ciro/.bashrc">/home/ciro/.bashrc</a></p>
+
+  <h3>#skype: URI scheme</h3>
+
+    <p><a href="skype:ciro.santilli">skype:ciro.santilli</a></p>
+    <p>Not doing anything in Firefox 31.</p>
+
+  <h3>#mailto: URI scheme</h3>
+
+    <p>Open default email client with the email pre-filled.</p>
+    <p><a href="mailto:a@a.com">mailto:a@a.com</a></p>
 
 <h2>#img #images</h2>
 
@@ -1040,18 +1088,20 @@ a
 
   <p>Add buttons to the right click context menu.</p>
   <p>Currently only supported in Firefox.</p>
-  <p>TODO: where is defined in HTML5? <a href="http://stackoverflow.com/questions/4447321/adding-to-browser-context-menu">http://stackoverflow.com/questions/4447321/adding-to-browser-context-menu</a></p>
+  <p>
+    TODO: is it defined in HTML5? <a href="http://stackoverflow.com/questions/4447321/adding-to-browser-context-menu">http://stackoverflow.com/questions/4447321/adding-to-browser-context-menu</a>
+    Appears to be in early draft, or didn't make it into HTML5.
+  </p>
 
-  <menu type="context" id="supermenu">
-    <menuitem label="a" onclick="alert('a')"></menuitem>
-    <menuitem label="b" onclick="alert('b')" icon="http://cdn1.iconfinder.com/data/icons/silk2/arrow_rotate_clockwise.png"></menuitem>
-    <menu label="submenu">
-      <menuitem label="a" onclick="alert('a')"></menuitem>
-      <menuitem label="b" onclick="alert('b')"></menuitem>
-    </menu>
-  </menu>
-
-  <a href='#' contextmenu="supermenu">Right click me</a>
+  <!--<menu type="context" id="supermenu">-->
+    <!--<menuitem label="a" onclick="alert('a')"></menuitem>-->
+    <!--<menuitem label="b" onclick="alert('b')" icon="http://cdn1.iconfinder.com/data/icons/silk2/arrow_rotate_clockwise.png"></menuitem>-->
+    <!--<menu label="submenu">-->
+      <!--<menuitem label="a" onclick="alert('a')"></menuitem>-->
+      <!--<menuitem label="b" onclick="alert('b')"></menuitem>-->
+    <!--</menu>-->
+  <!--</menu>-->
+  <!--<a href='#' contextmenu="supermenu">Right click me</a>-->
 
 <h2>#forms</h2>
 
@@ -1366,11 +1416,13 @@ iii</textarea></p>
 
     <h4>#multiple attribute</h4>
 
+      <p>Indicates that the input field takes multiple values.</p>
       <p>Currently only valid for file and email.</p>
       <p>
         Multiple files, control select multiple files in the popup and submits.
         Data is sent as: <code>file=path1&amp;file=path2</code>.
       </p>
+      <p>Boolean attribute.</p>
       <form action="#file-multiple" id="file-multiple" method="get">
         <input type="file" name="file" multiple="multiple"/>
         <button type="submit">Submit</button>
@@ -1477,14 +1529,6 @@ iii</textarea></p>
         <button type="submit">Submit</button>
       </form>
 
-    <h4>#number type #min #max</h4>
-
-      <p>Between 10 and 20:</p>
-      <form action="#number" id="number" method="get">
-        <input type="number" value="15" min="10" max="20"/>
-        <button type="submit">Submit</button>
-      </form>
-
     <h4>#email</h4>
 
       <p>
@@ -1507,34 +1551,43 @@ iii</textarea></p>
 
       <p>There are several time validators: month, week, etc.</p>
 
-  <h3>#spellcheck attribute</h3>
+  <h3>#number type #min #max #step</h3>
 
-    <p>Determines if the browser will spellcheck and highlight errors or not.</p>
-    <p>Works for:</p>
+    <p>Effects;</p>
     <ul>
-      <li>textarea</li>
-      <li>input</li>
-      <li>contenteditable elements</li>
+      <li>validation</li>
+      <li>allows <code>valueAsNumber</code> in Javascript</li>
     </ul>
-    <textarea spellcheck="true" >spellcheck=true  right wrongg</textarea>
-    <textarea spellcheck="false">spellcheck=false right wrongg</textarea>
+    <p>Between 10 and 20:</p>
+    <form action="#number" id="number" method="get">
+      <input type="number" value="15" min="10" max="20"/>
+      <button type="submit">Submit</button>
+    </form>
+    <p>Can also specify a <code>step</code> which determines which allows only certain multiples to be valid.</p>
 
-  <h3>#contenteditable attribute</h3>
+  <h3>#valueAsNumber IDL property</h3>
 
     <p>
-      If true, you can edit the content of the element like for a textarea.
-      Tab cycles through such elements.
+      In Javascript, <code>input.value</code> is still a string even for numeric inputs like
+      <code>type=number</code> or <code>type=range</code>.
+      and you would have to use <code>parseInt</code> to get an integer in Javascript.
+      For those elements however, it is possible to use the
+      <code>valueAsNumber</code> property to get a number directly.
     </p>
-    <p class="border" contenteditable="true">p contenteditable=true</p>
-    <p class="border" contenteditable="false">p contenteditable=false</p>
 
-  <h3>#autocomplete attribute</h3>
+  <h3>#range type</h3>
 
-    <p>HTML5</p>
-    <p>Determines if browser should suggest auto complete values based on previous form submits.</p>
-    <p>Consider the <code>datalist</code> element if you have a predetermined suggestion list for the user.</p>
-    <p>Default <code>on</code>.</p>
-    <p>TODO: what do browsers use exactly for the prediction? URL + <code>name</code> attribute?</p>
+    <p>Draggable slider:</p>
+    <form action="#range" id="number" method="get">
+      10
+      <input type="range" value="15" min="10" max="20" step="2"/>
+      20
+      <button type="submit">Submit</button>
+    </form>
+    <p>
+      Seems that you need Javascript to show the current value:
+      <a href="http://stackoverflow.com/questions/10004723/html5-input-type-range-show-range-value">http://stackoverflow.com/questions/10004723/html5-input-type-range-show-range-value</a>
+    </p>
 
   <h3>#datalist #list</h3>
 
@@ -1553,6 +1606,57 @@ iii</textarea></p>
       </datalist>
       <button type="submit">Submit</button>
     </form>
+
+  <h3>#spellcheck attribute</h3>
+
+    <p>Determines if the browser will spellcheck and highlight errors or not.</p>
+    <p>Works for:</p>
+    <ul>
+      <li>textarea</li>
+      <li>input</li>
+      <li>contenteditable elements</li>
+    </ul>
+    <textarea spellcheck="true" >spellcheck=true  right wrongg</textarea>
+    <textarea spellcheck="false">spellcheck=false right wrongg</textarea>
+    <p>Can be turned on or off through the <code>spellcheck</code> Javascript IDL attribute.</p>
+
+  <h3>#autofocus</h3>
+
+    <p>Boolean attributes: automatically focus on element on page load.</p>
+    <p>As a consequence, the page will roll and focus on it.</p>
+    <p>Not adding demo here not to annoy readers to death: dedicated demo at: <a href="autofocus.html">21/adding-to-browser-context-menu">http://stackoverflow.com/questions/4447321/adding-to-brow    <p>Not adding demo here not to annoy readers to death: dedicated demo at: <a href="autofocus.html">t to annoy readers to death: dedicated demo at: <a href="autofocus.html"></a></p>
+
+  <h3>#autocapitalize #autocorrect</h3>
+
+    <p>
+      Not in HTML5:
+      <a href="http://stackoverflow.com/questions/5333416/autocapitalize-attribute-on-input-element-used-for-ios-breaks-validation">http://stackoverflow.com/questions/5333416/autocapitalize-attribute-on-input-element-used-for-ios-breaks-validation</a>
+    </p>
+
+  <h3>#contenteditable attribute</h3>
+
+    <p>
+      If true, you can edit the content of the element like for a textarea.
+      Tab cycles through such elements.
+    </p>
+    <p class="border" contenteditable="true">p contenteditable=true</p>
+    <p class="border" contenteditable="false">p contenteditable=false</p>
+
+  <h3>#autocomplete attribute</h3>
+
+    <p>HTML5</p>
+    <p>Determines if browser should suggest auto complete values based on previous form submits.</p>
+    <p>Consider the <code>datalist</code> element if you have a predetermined suggestion list for the user.</p>
+    <p>Default <code>on</code>.</p>
+    <p>TODO: what do browsers use exactly for the prediction? URL + <code>name</code> attribute?</p>
+
+  <h3>#output</h3>
+
+    <p>Output of a calculation with inputs given by the user, often in forms and with Javascript input.</p>
+    <p>
+      TODO: is it purely semantic without any special behaviors, like a span?
+      It seems so: <a href="http://stackoverflow.com/questions/20700499/what-is-the-purpose-of-for-attribute-in-output-element">http://stackoverflow.com/questions/20700499/what-is-the-purpose-of-for-attribute-in-output-element</a>
+    </p>
 
 <h2>#meter</h2>
 
@@ -1603,6 +1707,22 @@ iii</textarea></p>
   <p>Can have the <code>datetime</code> attribute to specify time for inner content.</p>
   <p>No attribute: <time>10:00</time></p>
   <p><code>datetime</code> attribute <time datetime="2008-02-14">Valentine's day</time>.</p> 
+
+<h2>#drag and drop #draggable attribute</h2>
+
+  <p>
+    HTML5 adds built-in drag-and-drop DnD support complete with a Javascript API.
+    Until this, DnD was implemented by libraries through mouse events.
+  </p>
+  <p><a href="http://www.html5rocks.com/en/tutorials/dnd/basics/">http://www.html5rocks.com/en/tutorials/dnd/basics/</a></p>
+  <p>
+    By default for a long time now, images and anchors have had a drag effect that produces a ghost image,
+    but with no specified effects. This is probably done to support drag and drop to other applications.
+  </p>
+  <p>
+    Drag and drop is made available through the <code>draggable</code> attribute,
+    although in some browsers like Firefox you wont see any difference unless Javascript bindings are being used.
+  </p>
 
 <h2>#MathML #math element</h2>
 

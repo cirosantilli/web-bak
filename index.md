@@ -111,6 +111,8 @@ For an HTTP tutorial see: <https://github.com/cirosantilli/net/http.md>
 
 [Mozilla's MDN](https://developer.mozilla.org) is an open wiki with highly
 recommended content. Huge amount of content, examples, depth and implementation status.
+Their HTML5 front page beautifully summarizes the main themes on HTML5:
+<https://developer.mozilla.org/en/docs/web/Guide/HTML/HTML5>
 
 [Web Platform Docs WPD](http://docs.webplatform.org/wiki/Main_Page). Wiki with tutorials.
 
@@ -127,5 +129,21 @@ so may contain errors and has been criticized by many devs.
 Tutorials are a bit shallow.
 Insane Google rank, which makes may devs mad.
 
-[Can I use](http://caniuse.com/): implementation status of HTML, CSS and Javascript features.
-Closed source?
+[HTML5 Doctor](http://html5doctor.com/). Similar to HTML5 rocks,
+but 6 guys from famous web related companies. Lots of examples.
+
+## Implementation status
+
+Implementation status sources:
+
+[All modernizr tests](http://modernizr.github.io/Modernizr/test/), cross referenced to Can I use.
+
+[Can I use](http://caniuse.com/).
+
+[kangax compatibility table](http://kangax.github.io/compat-table/es6).
+
+## Demos
+
+A bunch of small examples, which is basically my approach in this repository.
+
+[HTML5 demos](https://github.com/remy/html5demos)

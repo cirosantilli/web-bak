@@ -129,11 +129,6 @@
     <a href="https://github.com/driverdan/node-XMLHttpRequest">https://github.com/driverdan/node-XMLHttpRequest</a>
     thus allowing to use such objects in Node.js / browser portable code./
   </p>
-  <p>
-    Implementation status sources:
-    <a href="http://kangax.github.io/compat-table/es6/">http://kangax.github.io/compat-table/es6/</a>
-    <a href="http://caniuse.com/#cats=JS_API">http://caniuse.com/#cats=JS_API</a>
-  </p>
 
   <h3>#ES6</h3>
 
@@ -545,16 +540,17 @@
 
       //void a = 0
 </script>
-    <h4>#javascript: pseudo URLs</h4>
+    <h4>#javascript: URI scheme</h4>
 
       <p>
         Bad practice:
         <a href="http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean">http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean</a>
       </p>
       <p>Evaluate Javascript and open it on the new page if the result is not <code>undefined</code>.</p>
-      <p>TODO: W3C standard?</p>
+      <p>TODO: W3C standard? Likely not, since not even in IANA.</p>
       <p>
-        If <code>undefined</code>, do nothing, and unlike number sign URL, <code>#</code>don't go to the top of the page.
+        If <code>undefined</code>, do nothing, and unlike number sign URL,
+        <code>#</code>don't go to the top of the page.
       </p>
       <p>
         Often used with <code>void(0)</code>, which is golf for <code>undefined</code> to make links
@@ -1398,7 +1394,7 @@
 
   // #iterate dict #loop dict #for in
 
-    // Only enumerable:
+    // Only enumerable keys are looped over:
 
       var obj = {a:0, b:1}
       var keys = []
@@ -3732,11 +3728,137 @@
 
     <p>Set the response type request header. TODO check.</p>
 
-<h2>#FileAPI</h2>
+<h2>#File API</h2>
 
   <p>Local file IO.</p>
-  <p>W3C spec.</p>
+  <p>W3C spec: <a href="http://www.w3.org/TR/file-upload/">http://www.w3.org/TR/file-upload/</a></p>
   <p>Tutorial: <a href="http://www.html5rocks.com/en/tutorials/file/dndfiles/">http://www.html5rocks.com/en/tutorials/file/dndfiles/</a></p>
+  <p>The file API is purposefully restricted in many aspects for security.</p>
+  <p>For example, you cannot get directory listings: all path selections are done through the browser's built-in popup.</p>
+
+  <h3>#upload</h3>
+
+    <p>The first thing you have to do is get the files from the user.</p>
+    <p>There are two main methods:</p>
+    <ul>
+      <li><code>input type="file"</code></li>
+      <li>drag and drop</li>
+    </ul>
+    <p>
+      Naturally, for security reasons you can't just read file paths from the user's computer:
+      he has to explicitly take some action to give you the files.
+    </p>
+
+    <h4>input type=file</h4>
+
+      <p>TODO</p>
+
+    <h4>#Drag and Drop file upload</h4>
+
+      <p>
+        The <code>drop</code> event has a <code>dataTransfers.file</code> property,
+        which contains a list of File API <code>File</code> objects.
+        Therefore, it is possible to do drag and drop file upload in HTML5!
+      </p>
+      <p>
+        Worse method than <code>input type=file</code>, because it is only usable from large screens
+        and you can have multiple windows open and suitably positioned.
+      </p>
+      <p>
+        The advantage of drag and drop is that if you already have a file browser open,
+        you don't have to search for the file path again.
+      </p>
+      <p>
+        Some browsers like Firefox 31 support drag and drop into a regular <code>input type=file</code> element.
+        This would be the perfect behaviour, allowing both input methods in one, but unfortunately it seems that it is not standardized:
+        <a href="http://stackoverflow.com/questions/2677565/how-to-drag-and-drop-file-attachment-into-the-browser">http://stackoverflow.com/questions/2677565/how-to-drag-and-drop-file-attachment-into-the-browser</a>
+      </p>
+
+      <div id="file-drop" style="border:1px dashed black; height:300px; width:300px;">Drop files here!</div>
+      <script>
+        var file_drop = document.getElementById('file-drop');
+        // TODO why is this necessary? If I leave it out,
+        // dragging something into the browser makes it open the file instead.
+        file_drop.addEventListener(
+          'dragover',
+          function handleDragOver(evt) {
+            evt.stopPropagation()
+            evt.preventDefault()
+            // TODO: what is this?
+            evt.dataTransfer.dropEffect = 'copy'
+          },
+          false
+        )
+        file_drop.addEventListener(
+          'drop',
+          function(evt) {
+            evt.stopPropagation()
+            evt.preventDefault()
+            var files = evt.dataTransfer.files  // FileList object.
+            var file = files[0]                  // File     object.
+            alert(file.name)
+          },
+          false
+        )
+      </script>
+
+      <p>Now try dragging the image into the drop area: <code>file</code> is now undefined.</p>
+      <img src="flower.jpg"/>
+
+  <h3>Using the files</h3>
+
+    <p>There is a limited amount of information you can get from files:</p>
+    <ul>
+      <li><code>name</code>: the basename</li>
+      <li><code>lastModifiedDate</code>: <code>Date</code> object</li>
+      <li><code>size</code>: in bytes</li>
+    </ul>
+    <p>The spec explicitly says that you can't get the full path.</p>
+    <p>
+      To get the contents of a <code>File</code>, you must use the <code>FileReader</code> object on it,
+      which allows for flexible asynchronous data read in chunks.
+    </p>
+
+  <h3>Directory upload</h3>
+
+    <p>Seems not to be possible.</p>
+    <p>
+      Through drag and drop:
+      <a href="http://stackoverflow.com/questions/3590058/does-html5-allow-drag-drop-upload-of-folders-or-a-folder-tree">http://stackoverflow.com/questions/3590058/does-html5-allow-drag-drop-upload-of-folders-or-a-folder-tree</a>
+      Already implemented in Chrome 21, but not standardized.
+    </p>
+    <p>
+      Through <code>input type=file</code>:
+      <a href="http://stackoverflow.com/questions/9518335/select-directory-for-html5-multiple-file-input-in-firefox">http://stackoverflow.com/questions/9518335/select-directory-for-html5-multiple-file-input-in-firefox</a>
+    </p>
+
+  <h3>#download file</h3>
+
+    <p><a href="http://stackoverflow.com/questions/2897619/using-html5-javascript-to-generate-and-save-a-file">http://stackoverflow.com/questions/2897619/using-html5-javascript-to-generate-and-save-a-file</a></p>
+    <p>
+      Note that file download can be achieved with an <code>href download="filename"</code>,
+      so if the file is generated server side, the cleanest way is to make it available on a URL and use it.
+    </p>
+    <p>
+      If the file is generated by client on the browser by Javascript,
+      things are complicated, and probably the best option is to use <a href="https://github.com/eligrey/FileSaver.js/">https://github.com/eligrey/FileSaver.js/</a>
+    </p>
+    <p>Possible but imperfect HTLM5 solutions include:</p>
+    <ul>
+      <li>
+        generate a <code>download</code> link with a <code>data:</code> URL.
+        Fails in some browsers. Size limitations.
+      </li>
+      <li><code>window.saveAs</code>: not in HTML5</li>
+      <li><code>FileSaver</code> API was considered for HTML5 by was dropped</li>
+    </ul>
+
+    <h4>#download drag and drop</h4>
+
+      <p>
+        Possible as a magic Chrome extension, but not in any standard:
+        <a href="http://stackoverflow.com/questions/5416748/drag-a-file-from-browser-to-desktop">http://stackoverflow.com/questions/5416748/drag-a-file-from-browser-to-desktop</a>
+      </p>
 
 <h2>#WebRTC</h2>
 
