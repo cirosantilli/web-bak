@@ -1,3 +1,7 @@
+---
+title: appcache
+---
+
 HTML5 mechanism http://www.w3.org/TR/2014/WD-html5-20140617/browsers.html#offline
 to instruct the browser to use a local cache of the page,
 so it works even if the website is offline.

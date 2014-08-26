@@ -1,6 +1,5 @@
 ---
 title: Web Frontend Cheatsheets
-layout: default
 ---
 
 Web frontend cheatsheets: HTML, CSS, Javascript and related technologies.
@@ -26,7 +25,7 @@ Less useful cheats:
 - [Bower](bower/)
 - [Browserify](browserify/)
 - [jQuery](jquery.html)
-- [jsPDF](jspdf/)
+- [jspdf.html](jspdf.html): jsPDF.
 - [PDF.js](pdfjs.html)
 
 Js syntax highlighters: <http://softwaremaniacs.org/blog/2011/05/22/highlighters-comparison/>

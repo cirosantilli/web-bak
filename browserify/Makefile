@@ -1,11 +1,11 @@
 .PHONY: all clean
 
 all:
-	npm install uniq
+	npm install -g browserify
 	browserify main.js > bundle.js
-
-run: all
-	firefox index.html
 
 clean:
 	rm -f bundle.js
+
+view: all
+	xdg-open index.html

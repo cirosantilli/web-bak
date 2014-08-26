@@ -1,6 +1,5 @@
 ---
 title: Bower
-layout: default
 ---
 
 Live demo: run `make` then open <test.html>.

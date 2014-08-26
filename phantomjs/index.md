@@ -1,6 +1,5 @@
 ---
 title: PhantomJS
-layout: default
 ---
 
 PhantomJS allows you to run Javascript on web pages without a browser much like Node.js
