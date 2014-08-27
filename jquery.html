@@ -4,13 +4,47 @@
   <meta charset="UTF-8"/>
   <title>jQuery</title>
   <link rel="shortcut icon" type="image/x-icon" href="flower.jpg"/>
+
+  <!-- The actual libraries used in this demo. -->
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css"/>
+
   <style>
    .border { border:1px solid black; }
+   .square { width:100px; height:100px; }
+   .square200 { width:200px; height:200px; }
+
+    /* Style of all handles. */
+    #resizable-style-s .ui-resizable-handle {
+      background: blue;
+    }
+    /* Style of the south handle only. */
+    #resizable-style-s .ui-resizable-s {
+      height: 10px;
+      background: black;
+    }
+    #resizable-no-diag-grip .ui-resizable-se {
+      background-image: none;
+    }
+    #resizable-textarea + .ui-resizable-s {
+      background-color: gray;
+      /*background-image: url('flower-small.jpg');*/
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='10' width='8'><text x='0' y='7' font-size='8' fill='white'>▼</text></svg>");
+      background-repeat: no-repeat;
+      background-position: center;
+      border: 1px solid black;
+      bottom: 0;
+      color: red;
+      height:10px;
+    }
+    #resizable-textarea + .ui-resizable-s::before {
+      content:"ASDF ";
+    }
   </style>
-  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
   <script src="assert.js"></script>
 </head>
-<body onload="document.getElementById('onload').innerHTML = 'onload'">
+<body>
 
 <h1>#jQuery</h1>
 
@@ -96,5 +130,71 @@
       <a href="http://stackoverflow.com/questions/1224133/is-it-possible-to-do-value-in-jquery">http://stackoverflow.com/questions/1224133/is-it-possible-to-do-value-in-jquery</a>
     </p>
 
+<h2>#jQuery UI</h2>
+
+  <h3>jQuery UI</h3>
+
+    <p>Has some cool out of the box functionality.</p>
+
+    <h4>#resizable</h4>
+
+      <p>Drag resize any element.</p>
+      <p>Adds styleable handles to allow that.</p>
+
+      <div id="resizable" class="border square"></div>
+      <script>$('#resizable').resizable()</script>
+
+      <p>4 edge handles, no corners. Resizing on the top breaks the UI, so you should disable it.</p>
+      <div id="resizable-4handles" class="border square"></div>
+      <script>$('#resizable-4handles').resizable({handles:'n, e, s, w'})</script>
+
+      <p>4 handles and corners:</p>
+      <div id="resizable-4handles-corners" class="border square"></div>
+      <script>$('#resizable-4handles-corners').resizable({handles:'all'})</script>
+
+      <p>Individual corners with <code>ne</code> etc.</p>
+
+      <p><code>minHeight</code>, <code>minWidth</code> and max analogues:</p>
+      <div class="border" style="height:300px; width:300px; position:relative; border-color:green;">
+        <div class="border" style="height:100px; width:100px; position:absolute; top:0; left:0; border-color:red;"></div>
+        <div class="border" style="height:200px; width:200px; position:absolute; top:0; left:0; border:1px dotted black;"></div>
+        <div id="resizable-minmax" class="border" style="height:200px; width:200px; position:absolute; top:0; left:0;"></div>
+      </div>
+      <script>
+        $('#resizable-minmax').resizable({
+          minHeight:100,
+          maxHeight:300,
+          minWidth:100,
+          maxWidth:300,
+        })
+      </script>
+
+      <p>Remove diagonal grip:</p>
+      <div id="resizable-no-diag-grip" class="border square"></div>
+      <script>$('#resizable-no-diag-grip').resizable()</script>
+
+      <h5>#style resizable</h5>
+
+        <p>To style the elements, take a look at the generated divs with your browser's inspector.</p>
+        <p>For <code>div</code>s, the grippies are put inside the div.</p>
+        <p>
+          For <code>textarea</code>, a container <code>div</code>
+          is created that contains the text area and the grippie div.
+          This is probably done to overcome styling difficulties with textareas.
+        </p>
+
+      <p>Perfectly styled resizeable textarea:</p>
+      <textarea id="resizable-textarea" class="square200"></textarea>
+      <script>$('#resizable-textarea').resizable({handles:'s'})</script>
+      <p>TODO: the right border of the grippie does not appear!</p>
+      <p>TODO: how to get before::content to show? Where is it? Good workaround: centered background image.</p>
+
+    <h4>#draggable</h4>
+
+      <p>Drag elements around to any position positions.</p>
+      <p>The space occupied by the element does not change.</p>
+
+      <div id="draggable" class="border square"></div>
+      <script>$('#draggable').draggable()</script>
 </body>
 </html>

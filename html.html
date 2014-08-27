@@ -861,10 +861,10 @@ b</code></pre>
 
     <h3>legend caption</h3>
 
-      <p>fig + figcaption is good practice in HTML5.</p>
+      <p>fig + <code>figcaption</code> is good practice in HTML5.</p>
       <p>
-        figcaption has no special display,
-        It is only semantic and the real work must be done with css.
+        <code>figcaption</code> has no special display,
+        It is only semantic and the real work must be done with CSS.
       </p>
       <p>Browsers may however place it in a sensible place such as the bottom if no style data is found.</p>
       <figure>
@@ -902,6 +902,10 @@ b</code></pre>
       <p>Single long line (clutters less the screen):</p>
       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM0AAADNCAMAAAAsYgRbAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABJQTFRF3NSmzMewPxIG//ncJEJsldTou1jHgAAAARBJREFUeNrs2EEKgCAQBVDLuv+V20dENbMY831wKz4Y/VHb/5RGQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0PzMWtyaGhoaGhoaGhoaGhoaGhoxtb0QGhoaGhoaGhoaGhoaGhoaMbRLEvv50VTQ9OTQ5OpyZ01GpM2g0bfmDQaL7S+ofFC6xv3ZpxJiywakzbvd9r3RWPS9I2+MWk0+kbf0Hih9Y17U0nTHibrDDQ0NDQ0NDQ0NDQ0NDQ0NTXbRSL/AK72o6GhoaGhoRlL8951vwsNDQ0NDQ1NDc0WyHtDTEhDQ0NDQ0NTS5MdGhoaGhoaGhoaGhoaGhoaGhoaGhoaGposzSHAAErMwwQ2HwRQAAAAAElFTkSuQmCC"
       alt="data image" />
+
+      <p>Even cooler with SVG where you can have a plain text data URI:</p>
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1'><circle cx='50' cy='50' r='40' fill='red' stroke='black'/></svg>"
+      alt="data image SVG" />
 
   <h2>#audio</h2>
 
@@ -1007,10 +1011,10 @@ b</code></pre>
     <p>
       Unlike the embedded version, <code>img</code> <code>svg</code> element
       <i>must</i> have the <code>xmlns</code> and <code>version</code> attributes!
-      TODO: what is the version of the embedded SVG?
+      TODO: what is the version of the embedded SVG? Can it be specified on the element?
     </p>
 
-    <p><code>obejct</code>:</p>
+    <p><code>object</code>:</p>
     <object type="image/svg+xml" data="svg.svg"  class="border" style="height:100px; width:100px;"></object>
 
     <h4>Style SVG with CSS</h4>

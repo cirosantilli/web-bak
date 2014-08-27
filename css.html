@@ -224,6 +224,9 @@
       <a href="http://www.w3.org/TR/css-style-attr/">http://www.w3.org/TR/css-style-attr/</a>.
       Style attribute: what can go into the global HTML <code>style=""</code> attribute:
     </li>
+    <li>
+      <a href="http://www.w3.org/TR/css-fonts-3/">http://www.w3.org/TR/css-fonts-3/</a>
+    </li>
   </ul>
   <p>
     CSS is not Turing complete, unless you consider user interactions to be part of the Turing machine,
@@ -339,7 +342,7 @@
 
   Note about the counts:
 
-  - Combinators:+, >, ~ don't count by themselves. Selectors on both of their sides do count equally.
+  - Combinators:+, &gt;, ~ don't count by themselves. Selectors on both of their sides do count equally.
   - The universal selector * does not count.
   - `:not` itself does not count, only what is inside of it.
 
@@ -670,6 +673,11 @@
     </li>
   </ul>
   <p>The value <code>0</code> does not need an unit.</p>
+  <p>
+    In addition to the common <code>length</code> measures,
+    some properties can also have special keyword values,
+    like <code>font-size</code>'s <code>small</code> and <code>medium</code>.
+  </p>
 
 <h2>#properties</h2>
 
@@ -731,7 +739,7 @@
     <h4>#font-size</h4>
 
       <p>
-        At line-height:1, baseline can overflow slightly to lower div,
+        At <code>line-height:1</code>, baseline can overflow slightly to lower div,
         but a small margin is left at the top.
       </p>
       <div style="margin-bottom: 50px; position:relative;">
@@ -755,6 +763,26 @@
         <span style="font-size:50%;">50%</span>
       </div>
 
+      <p>In addition to the standard length measures, the font size can also be one of the following keywords:</p>
+      <ul>
+        <li>
+          Absolute size: <code>xx-small | x-small | small | medium | large | x-large | xx-large</code>.
+          Each one corresponds to a size factor, <code>medium</code> being the default of <code>1</code>.
+        </li>
+        <li>
+          Relative size: <code>larger | smaller</code>.
+          Move to the next / previous font size relative to the current one.
+        </li>
+      </ul>
+      <p>
+        TODO check: the value is absolute, not relative to current size.
+        The multiplier is relative to the browser's defaults?
+      </p>
+      <p>
+        It is probably a better idea to just stick to <code>em</code> everywhere,
+        and then set the absolute value once on the root element.
+      </p>
+
     <h4>#font-weight</h4>
 
       <p>How thick the characters are.</p>
@@ -770,6 +798,22 @@
         Start with the more specific and then let fall back to more general ones.
       </p>
       <p style='font-family:"Courier New",Courier,monospace,"Times New Roman",Georgia,Serif;'>font-family Courier New</p>
+
+    <h4>#font-stretch</h4>
+
+      <p>
+        Stretch the font horizontally. Only a few keywords are possible,
+        and if not present in the font it may happen that nothing changes.
+      </p>
+      <p style="font-stretch:ultra-condensed;">ultra-condensed</p>
+      <p style="font-stretch:ultra-stretched;">ultra-stretched</p>
+
+    <h4>Font loading</h4>
+
+      <p>
+        There is a module dedicated to that:
+        <a href="http://www.w3.org/TR/css-font-loading-3/">http://www.w3.org/TR/css-font-loading-3/</a>
+      </p>
 
     <h4>#text-decoration</h4>
 
@@ -884,6 +928,9 @@ a
       ">
       </div>
 
+      <p>Center horizontally:</p>
+      <div class="border" style="background-image:url('flower-small.jpg'); background-repeat:no-repeat; background-position:center; height:50px;"></div>
+
     <h4>#background-color</h4>
 
       <div style="background-color:red; width:100px; height:10px;"></div>
@@ -903,8 +950,11 @@ a
       or found on browser page searches. TODO check.
     </p>
     <p><span class="content-before content-after border">inner</span></p>
-    <p><span class="content border">Does not work without <code>::before</code> or <code>::after</code>.</span></p>
-    <p><code>before</code> and <code>after</code> only have effect if together with <code>content</code>. TODO check</p>
+    <p>Does not work without <code>::before</code> or <code>::after</code>.</p>
+    <p>
+      <code>content</code> is the only current application of <code>::before</code> and <code>::after</code>
+      only have effect if together with <code>content</code>. TODO check
+    </p>
 
   <h3>#box model</h3>
 
@@ -938,7 +988,7 @@ a
 
     <h4>#border</h4>
 
-      <h4>duplicate border problem</h4>
+      <h4>Duplicate border problem</h4>
 
         <p>Borders side by size will both appear:<span class="border">a</span><span class="border">b</span></p>
         <p>
@@ -953,6 +1003,14 @@ a
 
         <div class="border" style="width:100px; height:100px; border-radius:10px;">10px</div>
         <div class="border" style="width:100px; height:100px; border-radius:50px;">50px</div>
+
+      <h5>#border-width</h5>
+
+      <p>
+        In addition to the common length specifiers,
+        can also be one of the following keywords: <code>small | medium | thick.</code>
+      </p>
+      <p>The exact thickness of those keywords is unspecified except that small &lt;= medium &lt;= thick.</p>
 
     <h4>#outline</h4>
 
@@ -1358,9 +1416,11 @@ a
       Therefore, if your text only has either a maximum ascent or a maximum descent, align might look a bit off.
     </p>
 
-  <h3>#position</h3>
+  <h3>#Positioning</h3>
 
-    <p>http://www.barelyfitz.com/screencast/html-training/css/positioning/</p>
+    <p>Positioning related properties.</p>
+
+    <p>Good tutorial: <a href="http://www.barelyfitz.com/screencast/html-training/css/positioning/">http://www.barelyfitz.com/screencast/html-training/css/positioning/</a></p>
 
     <h4>#relative #absolute</h4>
 
@@ -1444,18 +1504,25 @@ a
         </label>
       </div>
 
-    <p>
-      Since an absolutely positioned div leaves the normal page flow,
-      its width is undetermined, and you have to set it with the width property (TODO check):
-    </p>
+      <p>
+        Since an absolutely positioned div leaves the normal page flow,
+        its width is undetermined, and you have to set it with the width property (TODO check):
+      </p>
 
-    <div style="margin-left:300px; width:50px; height:50px; background-color:red; position:relative;">
-      <div class="border" style="display:inline-block; position:absolute; right:100%;">no fixed width</div>
-    </div>
-    <br/>
-    <div style="margin-left:300px; width:50px; height:50px; background-color:red; position:relative;">
-      <div class="border" style="display:inline-block; width:200px; position:absolute; right:100%;">with fixed width</div>
-    </div>
+      <div style="margin-left:300px; width:50px; height:50px; background-color:red; position:relative;">
+        <div class="border" style="display:inline-block; position:absolute; right:100%;">no fixed width</div>
+      </div>
+      <br/>
+      <div style="margin-left:300px; width:50px; height:50px; background-color:red; position:relative;">
+        <div class="border" style="display:inline-block; width:200px; position:absolute; right:100%;">with fixed width</div>
+      </div>
+
+    <h4>#bottom #top #left #right</h4>
+
+      <p>
+        Specify absolute position inside it's relative element,
+        with respect to the edges of the parent.
+      </p>
 
     <h4>#z-index</h4>
 
@@ -1526,7 +1593,17 @@ a
     <p>Common combo with data: <span data-attr="val"></span></p>
     <p>Specially to set icons: <span data-icon="&#x25a8;"></span></p>
 
-<h2>#elements</h2>
+<h2>#Elements</h2>
+
+  <p>Styling properties or combos specific to certain HTML elements.</p>
+
+  <h3>#Built-in elements that cannot be styled</h3>
+
+    <p>
+      There are a few elements which cannot be styled easily,
+      either because the standards don't say anything about how they should look,
+      and / or because they are reused from the user's desktop.
+    </p>
 
   <h3>#html element vs #body</h3>
 
@@ -1534,9 +1611,12 @@ a
 
   <h3>#links</h3>
 
-    <p>Make div into link:http://stackoverflow.com/questions/796087/make-a-div-into-a-link</p>
+    <p>
+      Make div into link:
+      <a href="http://stackoverflow.com/questions/796087/make-a-div-into-a-link">http://stackoverflow.com/questions/796087/make-a-div-into-a-link</a>
+    </p>
 
-  <h3>#title attribute</h3>
+  <h3>#title attribute popup</h3>
 
     <p>
       The popup cannot be styled: only replaced by an element that appears on hover:
@@ -1587,11 +1667,10 @@ a
     <h4>#textarea</h4>
 
       <p>Textareas don't inherit font and background color from parent: you must set it explicitly.</p>
-
       <p>The padding works as expected and separates the input text from the border:</p>
       <textarea style="width:50px; height:50px; padding:10px;" class="border"></textarea>
 
-      <h5>#resize</h5>
+      <h5>#resize by dragging</h5>
 
         <p>
           Textarea can be resized by users by dragging by default.
@@ -1610,10 +1689,31 @@ a
 
         <p>The following options do not seem possible without Javascript:</p>
         <ul>
-          <li>resize by dragging the bottom border instead of bottom corner</li>
-          <li>resize elements other than textareas</li>
-          <li>automatically resize the textarea to show all of it's inner content</li>
+          <li>
+            Resize by dragging the bottom border / edge instead of bottom corner.
+            jQuery UI resizable seems like a good option.
+            Like JSFiddle, 4 textareas: <a href="http://stackoverflow.com/questions/8819328/how-to-adjust-the-size-of-multiple-adjacent-textareas-like-in-jsfiddle-net">http://stackoverflow.com/questions/8819328/how-to-adjust-the-size-of-multiple-adjacent-textareas-like-in-jsfiddle-net</a>
+            Likely what I want on all four corners: <a href="http://stackoverflow.com/questions/12808217/how-can-i-make-all-4-corners-of-my-div-have-resizable-handles-with-jquery">http://stackoverflow.com/questions/12808217/how-can-i-make-all-4-corners-of-my-div-have-resizable-handles-with-jquery</a>
+            Style jQuery UI resizable handle: <a href="http://stackoverflow.com/questions/6451285/jquery-ui-resizable-how-to-thicken-handle">http://stackoverflow.com/questions/6451285/jquery-ui-resizable-how-to-thicken-handle</a>
+          </li>
+          <li>
+            Make the textarea always be as high as the content in it.
+            <a href="stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize">stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize</a>
+            jQuery possibility: <a href="https://github.com/jackmoore/autosize">https://github.com/jackmoore/autosize</a>
+          </li>
+          <li>Resize elements other than textareas by dragging.</li>
         </ul>
+        <p>
+          Great article including a bunch of useful things you may want to do with textareas:
+          <a href="http://css-tricks.com/textarea-tricks/">http://css-tricks.com/textarea-tricks/</a>
+        </p>
+
+      <h5>Style the textarea #grabber #handle</h5>
+
+        <p>
+          Not standard possible:
+          <a href="http://stackoverflow.com/questions/13126917/can-i-style-the-resize-grabber-of-textarea">http://stackoverflow.com/questions/13126917/can-i-style-the-resize-grabber-of-textarea</a>
+        </p>
 
     <h4>#fieldset</h4>
 
