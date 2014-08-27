@@ -185,7 +185,7 @@
 
 <h2>#Standards</h2>
 
-  <p>CSS is specified by W3C at: <a href="http://www.w3.org/TR/#tr_CSS">http://www.w3.org/TR/#tr_CSS</a></p>
+  <p>CSS W3C standards are listed at: <a href="http://www.w3.org/TR/#tr_CSS">http://www.w3.org/TR/#tr_CSS</a></p>
   <p>CSS versions are called levels.</p>
   <p>
     Versions 1 and 2 were monolithic specs. Versions 3 and 4 were split up into modules
@@ -197,10 +197,14 @@
     <li>CSS2 is all REC <a href="http://www.w3.org/TR/CSS2/">http://www.w3.org/TR/CSS2/</a></li>
     <li>
       Many modules of CSS3 have gone past WD and have wide browser support,
-      some are REC.
+      a few are REC.
     </li>
     <li>Some level 4 modules exist and are WD, with little browser support.</li>
   </ul>
+  <p>
+    Official W3C test suite:
+    <a href="http://www.w3.org/Style/CSS/Test/Overview.en.html">http://www.w3.org/Style/CSS/Test/Overview.en.html</a>
+  </p>
   <p>Important modules include:</p>
   <ul>
     <li>
@@ -214,14 +218,24 @@
       Level 4 WD: <a href="http://www.w3.org/TR/selectors4/">http://www.w3.org/TR/selectors4/</a>
     </li>
     <li>
+      Backgrounds and borders: <a href="http://www.w3.org/TR/css3-background/">http://www.w3.org/TR/css3-background/</a>
+    </li>
+    <li>
       <a href="http://www.w3.org/TR/css-style-attr/">http://www.w3.org/TR/css-style-attr/</a>.
       Style attribute: what can go into the global HTML <code>style=""</code> attribute:
     </li>
   </ul>
   <p>
-    CSS is not Turing complete, unless you consider user interactions to be part of the Turing machine.
+    CSS is not Turing complete, unless you consider user interactions to be part of the Turing machine,
+    which does not make for a good hacking method unless you the end user wants to be hacked:
     <a href="http://stackoverflow.com/questions/2497146/is-css-turing-complete">http://stackoverflow.com/questions/2497146/is-css-turing-complete</a>
   </p>
+
+  <h3>#XML #SVG</h3>
+
+    <p>CSS can be used to style arbitrary XML documents in addition to HTML, including SVG.</p>
+    <p>Like in HTML, this can be done through external, embedded or inline styles.</p>
+    <p>The following W3C document is a tutorial on how to do it: <a href="http://www.w3.org/Style/styling-XML.en.html">http://www.w3.org/Style/styling-XML.en.html</a></p>
 
 <h2>#Vendor prefixes</h2>
 
@@ -591,6 +605,11 @@
       <p><a href="http://stackoverflow.com/questions/1824030/could-it-be-possible-to-make-css-selector-affect-other-elements-in-the-page-with">http://stackoverflow.com/questions/1824030/could-it-be-possible-to-make-css-selector-affect-other-elements-in-the-page-with</a></p>
       <p>Why someone might want to do it: when I hover element A, element B disappears.</p>
 
+    <h4>#root</h4>
+
+      <p>In HTML, always (TODO check: iframes?) refers to the root <code>html</code> element.</p>
+      <p>However in SVG, it refers to the SVG root element.</p>
+
 <h2>#color specification</h2>
 
   <p>Colors are used in many places across CSS, but all of them can take the same values:</p>
@@ -750,7 +769,7 @@
         Fonts can either be precise font names, or generic families.
         Start with the more specific and then let fall back to more general ones.
       </p>
-      <p style='font-family:"Courier New",Courier,monospace;"Times New Roman",Georgia,Serif;'>font-family Courier New</p>
+      <p style='font-family:"Courier New",Courier,monospace,"Times New Roman",Georgia,Serif;'>font-family Courier New</p>
 
     <h4>#text-decoration</h4>
 
@@ -1054,13 +1073,13 @@ a
     <p>overflow-y:scroll: always show scrollbar. Only activate if inner larger.</p>
     <div style="width:200px; height:100px; padding:5px; overflow-y:scroll;" class="border">
       200x100
-      <div style="width:100px; height:50px; backgroud:linear-gradient(red,blue);" class="border">
+      <div style="width:100px; height:50px; background:linear-gradient(red,blue);" class="border">
         100x50
       </div>
     </div>
     <div style="width:200px; height:100px; padding:5px; overflow-y:scroll;" class="border">
       200x100
-      <div style="width:100px; height:200px; backgroud:linear-gradient(red,blue);" class="border">
+      <div style="width:100px; height:200px; background:linear-gradient(red,blue);" class="border">
         100x200
       </div>
     </div>
@@ -1068,13 +1087,13 @@ a
     <p>overflow-y:auto: only show scroll if inner larger than specified.</p>
     <div style="width:200px; height:100px; padding:5px; overflow-y:auto;" class="border">
       200x100
-      <div style="width:100px; height:50px; backgroud:linear-gradient(red,blue);" class="border">
+      <div style="width:100px; height:50px; background:linear-gradient(red,blue);" class="border">
         100x50
       </div>
     </div>
     <div style="width:200px; height:100px;  padding:5px; overflow-y:auto;" class="border">
       200x100
-      <div style="width:100px; height:200px; backgroud:linear-gradient(red,blue);" class="border">
+      <div style="width:100px; height:200px; background:linear-gradient(red,blue);" class="border">
         100x200
       </div>
     </div>
@@ -1334,6 +1353,10 @@ a
       Does very different things on tables and on inline elements:
       <a href="http://phrogz.net/CSS/vertical-align/">http://phrogz.net/CSS/vertical-align/</a>
     </p>
+    <p>
+      <code>middle</code> aligns in the middle of the maximum ascent and descent.
+      Therefore, if your text only has either a maximum ascent or a maximum descent, align might look a bit off.
+    </p>
 
   <h3>#position</h3>
 
@@ -1460,10 +1483,10 @@ a
 
       <p>Determines what the cursor looks like on hover. Takes a list in case on is not present.</p>
       <div>
-        <div style="cursor:default;" class="border">default</div>
-        <div style="cursor:pointer;" class="border">pointer</div>
+        <div style="cursor:default;"   class="border">default</div>
+        <div style="cursor:pointer;"   class="border">pointer</div>
         <div style="cursor:crosshair;" class="border">crosshair</div>
-        <div style="cursor:help;" class="border">help</div>
+        <div style="cursor:help;"      class="border">help</div>
         <div style="cursor:url('flower-small.jpg'),pointer;" class="border">
           url('flower-small.jpg').
           Firefox says that the image must be smaller than 128×128px.
@@ -1512,6 +1535,13 @@ a
   <h3>#links</h3>
 
     <p>Make div into link:http://stackoverflow.com/questions/796087/make-a-div-into-a-link</p>
+
+  <h3>#title attribute</h3>
+
+    <p>
+      The popup cannot be styled: only replaced by an element that appears on hover:
+      <a href="http://stackoverflow.com/questions/2011142/how-to-change-the-style-of-title-attribute-inside-the-anchor-tag">http://stackoverflow.com/questions/2011142/how-to-change-the-style-of-title-attribute-inside-the-anchor-tag</a>
+    </p>
 
   <h3>#lists</h3>
 

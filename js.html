@@ -2305,13 +2305,13 @@
 
 <h2>#window</h2>
 
+  <p>
+    Documented on the HTML5 browsers section:
+    <a href="http://www.w3.org/TR/html5/browsers.html#the-window-object">http://www.w3.org/TR/html5/browsers.html#the-window-object</a>
+  </p>
   <p>One of the most important objects.</p>
   <p>Offers an interface to the browser contents.</p>
   <p>May be undefined on Node.js. This can be used to check if we are no Node.js or browser.</p>
-  <p>
-    Documented under HTML5 browsers section:
-    <a href="http://www.w3.org/TR/2009/WD-html5-20090423/browsers.html">http://www.w3.org/TR/2009/WD-html5-20090423/browsers.html</a>
-  </p>
   <p>`window` is the global object in browser implementations: http://www.ecma-international.org/ecma-262/5.1/#sec-15.1</p>
   <p>It is not present in Node.js.</p>
   <p>All global objects are attributes of window</p>
@@ -2468,10 +2468,12 @@
 
   <h3>#location</h3>
 
-    <h4>#href #redirect</h4>
-
-      <p>Redirect to another page: <code>window.location.href = 'url'</code>.</p>
-      <p><button onclick="window.location.href='html2.html'" type="button">Redirect to html2.html!</button></p>
+    <p><a href="http://www.w3.org/TR/html5/browsers.html#location">http://www.w3.org/TR/html5/browsers.html#location</a></p>
+    <p>
+      Note that it implements
+      <a href="http://www.w3.org/TR/html5/infrastructure.html#urlutils">http://www.w3.org/TR/html5/infrastructure.html#urlutils</a>
+      which contains many properties like <code>href</code> and <code>hash</code>.
+    </p>
 
     <h4>#reload</h4>
 
@@ -2480,6 +2482,29 @@
       <script>
         document.write('<p>Last page load time: ' + (new Date()).toISOString() + '</p>')
       </script>
+
+    <h4>#assign</h4>
+
+      <p>Set URL and navigate to it. Old URL gets added to history.</p>
+
+    <h4>#replace</h4>
+
+      <p>Same as <code>assign</code> but old URL does not get added to history.</p>
+
+    <h4>#href #redirect</h4>
+
+      <p>Same as: <code>window.location.assign('url')</code>.</p>
+      <p><button onclick="window.location.href='html2.html'" type="button">Redirect to html2.html!</button></p>
+
+    <h4>#hash</h4>
+
+      <p>Same as: <code>window.location.assign('#fragment')</code>.</p>
+      <ul>
+        <li>page height jumps leaving the target ID at the top</li>
+        <li>the URL is changed</li>
+      </ul>
+      <p><button onclick="window.location.hash='location-hash'" type="button">Go to <code>#location-hash</code>.</button></p>
+      <p id="location-hash">My id is <code>location-hash</code>.</p>
 
   <h3>#history</h3>
 

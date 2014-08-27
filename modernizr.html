@@ -12,34 +12,40 @@
   Checks the features by running them one by one and seeing if the browser gives a sensible response
   instead of something bad like <code>undefined</code>.
 </p>
+<h2>CSS</h2>
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.min.js"></script>
-<script>
+  <p>Special classes are given that only take effect if a feature is missing, e.g. <code>no-svg</code>.</p>
 
-  // Run single test.
-  //if (Modernizr.draganddrop) {
-  //  document.write('draganddrop present')
-  //} else {
-  //  document.write('draganddrop not present')
-  //}
+<h2>Javascript</h2>
 
-  // Run all tests: mostly for fun: TODO not working well
-  // http://stackoverflow.com/questions/18553644/is-there-a-way-to-perform-all-modernizr-tests-all-at-once
-  var output = '<table>'
-  for (var feature in Modernizr) {
-    output += '<tr>'
-    if (typeof Modernizr[feature] === "boolean") {
-      output += '<td>' + feature + '</td>'
-      if (Modernizr[feature]) {
-        output += '<td>1</td>'
-      } else {
-        output += '<td>0</td>'
+  <p>Features are detected on a boolean dictionary of features.</p>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.min.js"></script>
+  <script>
+
+    // Run single test.
+    //if (Modernizr.draganddrop) {
+    //  document.write('draganddrop present')
+    //} else {
+    //  document.write('draganddrop not present')
+    //}
+
+    // Run all tests: mostly for fun: TODO not working well
+    // http://stackoverflow.com/questions/18553644/is-there-a-way-to-perform-all-modernizr-tests-all-at-once
+    var output = '<table>'
+    for (var feature in Modernizr) {
+      output += '<tr>'
+      if (typeof Modernizr[feature] === "boolean") {
+        output += '<td>' + feature + '</td>'
+        if (Modernizr[feature]) {
+          output += '<td>1</td>'
+        } else {
+          output += '<td>0</td>'
+        }
       }
+      output += '<tr/>'
     }
-    output += '<tr/>'
-  }
-  output += '<table>'
-  document.write(output)
-</script>
+    output += '<table>'
+    document.write(output)
+  </script>
 </body>
 </html>
