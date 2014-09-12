@@ -274,7 +274,7 @@
       future script blocks still execute. There is no way to prevent future script blocks from executing.
     </p>
     <script>
-      global_undefined
+      //global_undefined
     </script>
 
   <h3>#src attribute</h3>
@@ -282,7 +282,7 @@
     <p>Source a script from a separate `.js` file.</p>
     <p>In HTML5, the `script` tag *cannot* be self closing because it is neither `void` nor `foreign`.</p>
     <p>
-      In HTML5 you cannot have src and a non empty innerHTML:
+      In HTML5 you cannot have <code>src</code> and a non empty <code>innerHTML</code>:
       <a href="http://stackoverflow.com/questions/6528325/what-does-a-script-tag-with-src-and-content-mean">http://stackoverflow.com/questions/6528325/what-does-a-script-tag-with-src-and-content-mean</a>
     </p>
     <script src="external.js"></script>
@@ -478,7 +478,8 @@
 <h2>#scope</h2>
 
   <p>
-    Only functions with <code>var</code> generate new scopes, not blocks like <code>if</code> in general.
+    Only functions with <code>var</code> generate new scopes,
+    not blocks like <code>if</code> in general.
   </p>
   <script>
     var a = 0
@@ -494,52 +495,64 @@
     assert_eq(a, 0)
   </script>
 
-<script>
+<h2>#operators</h2>
 
-// #operators
+  <h3>#tilde operator #~</h3>
 
-  // #tilde operator #~
+    <p>Binary negation.</p>
+    <p>Common application: transform `-1` into `0` on `indexOf` (jQuery `inArray`).</p>
+    <p>Works because number representation is fixed at 2's complement and in that case:</p>
+    <ul>
+      <li><code>~-1 == 0</code>~-1 == 0</li>
+      <li>there is no other number such that <code>~x == 0</code></li>
+    </ul>
 
-    // Binary negation.
-
-    // Common application: transform `-1` into `0` on `indexOf` (jQuery `inArray`).
-
-    // Works because number representation is fixed at 2's complement and in that case:
-
-    // - ~-1 == 0
-    // - there is no other number such that ~x == 0.
-
+    <script>
       assert_eq(~-1,  0)
       assert_eq(~ 0, -1)
+    </script>
 
-  // #comma operator
+  <h3>#comma operator</h3>
 
-    i = 1, j = 2
-    assert_eq(i, 1)
-    assert_eq(j, 2)
+    <script>
+      i = 1, j = 2
+      assert_eq(i, 1)
+      assert_eq(j, 2)
+    </script>
 
-  // #void operator
+  <h3>#void operator</h3>
 
-    // Evaluates expression and returns `undefined`.
+    <p>Evaluates expression and returns `undefined`.</p>
+    <p>
+      TODO applications, besides golfing for `undefined`, specially on discouraged `javascript:void(0) hrefs: ?
+      <a href="http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean">http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean</a>
+    </p>
 
-    // TODO applications, besides golfing for `undefined`, specially on discouraged `javascript:void(0) hrefs: ?
-    // <http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean>
-
+    <script>
       var a = 0
       assert_eq(void(a = 1), undefined)
       assert_eq(a, 1)
+    </script>
 
-    // Since this is an operator, the parenthesis are not required. If added,
-    // what is inside of them is evaluated, so it also works:
+    <p>
+      Since this is an operator, the parenthesis are not required. If added,
+      what is inside of them is evaluated, so it also works:
+    </p>
 
+    <script>
       assert_eq(void 0,  undefined)
       assert_eq(void(0), undefined)
+    </script>
 
-    // But it might be required to avoid some parsing errors like
-    // ReferenceError: invalid assignment left hand side:
+    <p>
+      But it might be required to avoid some parsing errors like
+      <code>ReferenceError: invalid assignment left hand side</code>:
+    </p>
 
+    <script>
       //void a = 0
-</script>
+    </script>
+
     <h4>#javascript: URI scheme</h4>
 
       <p>
@@ -570,6 +583,8 @@
       <a href="javascript:void(0)">javascript:void(0)</a><br/>
       <a href="#">#</a>
 <script>
+// TODO: convert comments on this script to HTML
+
 // #if
 
     if (false) {
@@ -748,7 +763,8 @@
 
     assert_eq({}.no_yet_defined, undefined)
 
-  // Before ES5, it was possible to redefine `undefined`, so the safest way to check for undefined is via typeof:
+    // Before ES5, it was possible to redefine `undefined` TODO check, in ES5?
+    // so the safest way to check for undefined is via `typeof`:
 
     ;(function() {
       var global_undefined
@@ -758,7 +774,7 @@
       assert_eq(global_undefined, undefined)
     })()
 
-  // Undefined can be assigned to:
+  // Undefined can be assigned to: TODO true?
 
     ;(function() {
       var undefined = 0
@@ -1494,6 +1510,7 @@
   </script>
 
 <script>
+// TODO: convert comments on this script to HTML
 
 // #function
 
@@ -2558,11 +2575,23 @@
         Most implementations first asks user if he wants to do it the first time.
       </p>
 
+    <h4>#pointer lock</h4>
+
+      <p><a href="https://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html">https://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html</a></p>
+      <p><a href="http://www.html5rocks.com/en/tutorials/pointerlock/intro/">http://www.html5rocks.com/en/tutorials/pointerlock/intro/</a></p>
+      <p>
+        Locks the pointer into the screen.
+        Allows for similar effect to common first person shooters.
+      </p>
+      <p>Still in very early stage as of 2014.</p>
+
 <h2>#DOM</h2>
+
+  <p>Interface to interact with both HTML and XML elements from a tree point of view.</p>
 
   <h3>Standards</h3>
 
-    <p>All HTML5 elements have a "DOM Interface IDL" section which specifies its properties.</p>
+    <p>All HTML5 elements have a "DOM Interface IDL" section which specifies its available properties.</p>
     <p>List of all DOM specs: <a href="http://www.w3.org/DOM/DOMTR">http://www.w3.org/DOM/DOMTR</a></p>
     <p>The entire DOM spec is split across multiple modules. Latest REC is DOM level 3.</p>
     <ul>
@@ -3459,6 +3488,8 @@
     <p>TODO: how to avoid getting the session hijacked?</p>
 
 <script>
+// TODO: convert comments on this script to HTML
+
   // #path
 
     // Cookies can be set only for the **current** path and its parents.

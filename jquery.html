@@ -5,16 +5,13 @@
   <title>jQuery</title>
   <link rel="shortcut icon" type="image/x-icon" href="flower.jpg"/>
 
-  <!-- The actual libraries used in this demo. -->
+  <!-- Main jQuery lib. -->
   <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+  <!-- jQuery UI. -->
   <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css"/>
-
   <style>
-   .border { border:1px solid black; }
-   .square { width:100px; height:100px; }
-   .square200 { width:200px; height:200px; }
-
     /* Style of all handles. */
     #resizable-style-s .ui-resizable-handle {
       background: blue;
@@ -30,7 +27,7 @@
     #resizable-textarea + .ui-resizable-s {
       background-color: gray;
       /*background-image: url('flower-small.jpg');*/
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='10' width='8'><text x='0' y='7' font-size='8' fill='white'>▼</text></svg>");
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='10' width='10'><text x='0' y='8' font-size='10' fill='white'>=</text></svg>");
       background-repeat: no-repeat;
       background-position: center;
       border: 1px solid black;
@@ -41,6 +38,15 @@
     #resizable-textarea + .ui-resizable-s::before {
       content:"ASDF ";
     }
+  </style>
+
+  <!-- jQuery plugins. -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/autosize.js/1.18.4/jquery.autosize.min.js"></script>
+
+  <style>
+   .border { border:1px solid black; }
+   .square { width:100px; height:100px; }
+   .square200 { width:200px; height:200px; }
   </style>
   <script src="assert.js"></script>
 </head>
@@ -71,7 +77,10 @@
 
 <h2>#document $(document).ready(function) vs $(function)</h2>
 
-  <p><a href="http://stackoverflow.com/questions/2662778/what-is-the-difference-between-these-jquery-ready-functions">Same</a>.</p>
+  <p>
+    They are all the same:
+    <a href="http://stackoverflow.com/questions/2662778/what-is-the-difference-between-these-jquery-ready-functions">http://stackoverflow.com/questions/2662778/what-is-the-difference-between-these-jquery-ready-functions</a>.
+  </p>
 
 <h2>#jQuery object</h2>
 
@@ -183,11 +192,17 @@
           This is probably done to overcome styling difficulties with textareas.
         </p>
 
-      <p>Perfectly styled resizeable textarea:</p>
+      <p>Perfectly styled down resizeable textarea:</p>
       <textarea id="resizable-textarea" class="square200"></textarea>
-      <script>$('#resizable-textarea').resizable({handles:'s'})</script>
-      <p>TODO: the right border of the grippie does not appear!</p>
-      <p>TODO: how to get before::content to show? Where is it? Good workaround: centered background image.</p>
+      <script>$('#resizable-textarea').resizable({handles:'s', minHeight:50})</script>
+      <p>TODO: the right border of the grippie does not appear.</p>
+      <p>
+        TODO: how to get before::content to show? Where is it?
+      </p>
+      <p>
+        Good workaround: centered background image, possibly SVG with text.
+        TODO: how to stretch the SVG text to that the equals sign = becomes very wide to be more visible?
+      </p>
 
     <h4>#draggable</h4>
 
@@ -196,5 +211,18 @@
 
       <div id="draggable" class="border square"></div>
       <script>$('#draggable').draggable()</script>
+
+<h2>#plugins</h2>
+
+  <p>jQuery plugins often monkey-patch the jQuery object to add new methods to it.</p>
+
+  <h3>#autosize</h3>
+
+    <p>Make the textarea automatically resize to fit content.</p>
+
+    <textarea style="width:200px;" id="autosize">a
+b
+c</textarea>
+<script>$('#autosize').autosize()</script>
 </body>
 </html>

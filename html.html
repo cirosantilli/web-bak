@@ -9,43 +9,6 @@
     <meta name="author" content="First Last" />
     <!--<meta http-equiv="refresh" content="1">-->
     <!--<meta http-equiv="refresh" content="5; url=http://example.com/">-->
-
-  <!--
-  #link
-
-    The link element links to different types of external documents.
-
-    The `rel` attribute specifies what is the type.
-
-    One notable exception of external document that is not referred to via
-    link ref are scripts such as javascript, which must be referred to with
-    script href [for some reason](http://stackoverflow.com/questions/2631635/can-i-load-javascript-code-using-link-tag).
-  -->
-
-    <!--
-    #style
-
-      Links to external stylesheet files such as CSS.
-
-      See CSS cheat.
-    -->
-
-    <!--
-    #import
-
-    http://www.html5rocks.com/en/tutorials/webcomponents/imports/
-    -->
-
-    <!--
-    #shortcut icon ##favicon
-
-      The image will show on most browsers on the tab before the title.
-
-      It is like an icon of a desktop application.
-
-      A standard name for the icon image is `favicon.ico`.
-    -->
-
     <style>
       .border { border:1px solid black; }
     </style>
@@ -70,45 +33,44 @@
     </style>
 </head>
 <body>
-  <!--
-  TODO: validate localhost page in the iframe
-  TODO: get only the red green title from the page inside the iframe.
-
-  Not sure this id possible because of the required cross site:
-
-  <div><iframe src="http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html"
-      id="validation-container"></iframe></div>
-
-  Attempts:
-  -->
-    <!--
-      The content is empty, why?
-      <script>
-          var elem = document.getElementById("validation-container")
-          alert(elem.contentDocument.getElementsByTagName('body')[0])
-      </script>
-    -->
-    <!--
-      This seems not to be possible because of the cross site request.
-      <script>
-        var xmlhttp = new XMLHttpRequest()
-        var elem = document.getElementById("validation-container")
-        xmlhttp.open("GET", "http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html", true)
-        xmlhttp.onreadystatechange = function() {
-          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            elem.innerHTML = xmlhttp.responseText
-            alert(xmlhttp.responseText)
-          }
-          alert(xmlhttp.readyState + " " + xmlhttp.status)
-        }
-        // This seems to be one failing point:
-        elem.innerHTML = "<html><body>a</body></html>"
-        xmlhttp.send()
-      </script>
-    -->
-
 <h1>#HTML Cheatsheet</h1>
 
+<!--
+TODO: validate localhost page in the iframe
+TODO: get only the red green title from the page inside the iframe.
+
+Not sure this id possible because of the required cross site:
+
+<div><iframe src="http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html"
+    id="validation-container"></iframe></div>
+
+Attempts:
+
+The content is empty, why?
+
+  <script>
+      var elem = document.getElementById("validation-container")
+      alert(elem.contentDocument.getElementsByTagName('body')[0])
+  </script>
+
+This seems not to be possible because of the cross site request:
+
+  <script>
+    var xmlhttp = new XMLHttpRequest()
+    var elem = document.getElementById("validation-container")
+    xmlhttp.open("GET", "http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html", true)
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        elem.innerHTML = xmlhttp.responseText
+        alert(xmlhttp.responseText)
+      }
+      alert(xmlhttp.readyState + " " + xmlhttp.status)
+    }
+    // This seems to be one failing point:
+    elem.innerHTML = "<html><body>a</body></html>"
+    xmlhttp.send()
+  </script>
+-->
 <div style="float:right;">
   Validation of <b>live</b> site (<b>not</b> localhost one):<br/>
   <iframe src="http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html"
@@ -131,6 +93,7 @@
   <p>
     The <a href="http://www.w3schools.com/">w3schools</a> website is not affiliated in any way to W3C.
     It is said that it contains many errors, and its certification is worthless: it is the cplusplus.com of the web.
+    It's major flaw is not pointing to the standards that corroborate it's affirmations.
   </p>
 
   <h3>#HTML5</h3>
@@ -168,14 +131,29 @@
         <li>XHTML uses <code>application/xhtml+xml</code> and is strict XML</li>
         <li>HTML  uses <code>text/html</code> and is <i>not</i> XML</li>
       </ul>
-      <p>TODO what about DOCTYPE?</p>
-      <p>There is not even any inclusion relation between XML and HTML, since e.g:</p>
+      <p>There is not inclusion relation in any direction between the XML and HTML.</p>
+
+      <p>Features that only exist in HTML and not in XML include:</p>
       <ul>
-        <li>XML has <code>CDATA</code> and HTML not</li>
-        <li>HTML allows attributes without values, and XML not</li>
+        <li>self closing elements only exist in HTML</li>
+        <li>attributes without value</li>
+        <li>attribute values without quotes</li>
+        <li>hundreds of named character references, XML has only 5</li>
       </ul>
 
-      <h5>CDATA</h5>
+      <p>Features that only exist in XML and not in HTML include:</p>
+      <ul>
+        <li>CDATA</li>
+        <li>
+          processing instructions. In particular, the obligatory <code>?xml</code>
+          XML declaration does not need, and cannot be used in HTML
+        </li>
+        <li>
+          special exclamation mark constructs, except <code>!DOCTYPE</code> and comments which are present in both.
+        </li>
+      </ul>
+
+      <h5>#CDATA</h5>
 
         <p><a href="http://stackoverflow.com/questions/7092236/what-is-cdata-in-html">SO thread</a></p>
         <p><code>CDATA</code> is not treated specially in HTML5.</p>
@@ -188,29 +166,18 @@
           up to the closing tag.
         </p>
         <p>
-          To write code that is portable to both HTML5 and XHTLM5,
+          To write code that is portable to both HTML5 and XHTML5,
           a common technique is to write the CDATA inside script on commented out lines.
         </p>
 
-      <h5>#Self closing elements</h5>
+      <h5>#HTML5 DTD</h5>
 
         <p>
-          Some elements in HTML automatically close, including some non-empty ones,
-          e.g. <code>p</code> and <code>li</code>! Insanity not present in XML.
+          HTML5 is cannot be described by a DTD or XSD: they are not expressive enough:
+          <a href="http://stackoverflow.com/questions/4053917/where-is-the-html5-document-type-definition">http://stackoverflow.com/questions/4053917/where-is-the-html5-document-type-definition</a>
         </p>
-        <p>Example:</p>
-        <p>Self closing p1
-        <p>Self closing p2
-        <ul>
-          <li>Self closing li1
-          <li>Self closing li2
-        </ul>
 
-      <h5>Attributes without value</h5>
-
-        <p>All boolean attributes can have no value. Not valid XML.</p>
-
-  <h3>#validation</h3>
+  <h3>#Validation</h3>
 
     <p>W3C offers an HTML validation service at: http://validator.w3.org/</p>
     <p>You can either upload your file, or give it an URL.</p>
@@ -219,7 +186,7 @@
       for example the Firefox Web Developer extension.
     </p>
 
-<h2>#style</h2>
+<h2>#Style guides</h2>
 
   <p>Google style guide: http://google-styleguide.googlecode.com/svn/trunk/htmlcssguide.xml
 
@@ -238,7 +205,7 @@
       </li>
     </ul>
 
-<h2>#debugging</h2>
+<h2>#Debugging</h2>
 
   <p>In order to understand what is going on, you will want to use browser tools.</p>
 
@@ -254,15 +221,15 @@
       Shortcut: Ctrl + Alt + L
     </p>
 
-<h2>#syntax</h2>
+<h2>#Syntax</h2>
 
   <p>http://www.w3.org/TR/html5/syntax.html</p>
 
   <h3>#element vs #tag #start tag #end tag</h3>
 
-    <p>`&lt;p&gt;a&lt;/p&gt;` is an element</p>
+    <p><code>&lt;p&gt;a&lt;/p&gt;</code> is an element</p>
     <p>
-      `&lt;p&gt;` and `&lt;/p&gt;` are a start and end tag respectively.
+      <code>&lt;p&gt;</code> and <code>&lt;/p&gt;</code> are a start and end tag respectively.
       The standard does not mention the terms "opening" or "closing" tags, so don't use them.
     </p>
 
@@ -299,24 +266,24 @@
     <p>void elements are the only elements which *cannot* have an end tag.</p>
     <p>As a consequence, they cannot have any content, which justifies their name.</p>
 
-  <h3>#self closing slash</h3>
+  <h3>#Self closing slash</h3>
 
     <ul>
       <li>
         HTML5: only void and foreign elements may have a self closing slash.
         <ul>
-          <li>void elements: `&lt;br /&gt;` == `&lt;br&gt;`: the slash is omitted
+          <li>void elements: <code>&lt;br /&gt;</code> == <code>&lt;br&gt;</code>: the slash is omitted
           <li>foreign elements: same as XHTML
         </ul>
       </li>
-      <li>In XHTML, `&lt;p /&gt;` == `&lt;p /&gt;&lt;/p&gt;`</li>
+      <li>In XHTML, <code>&lt;p /&gt;</code> == <code>&lt;p /&gt;&lt;/p&gt;</code></li>
       <li>
-        HTML4: `&lt;p /&gt;` == `&lt;p&gt;&gt;`. The slash can appear on any element,
+        HTML4: <code>&lt;p /&gt;</code> == <code>&lt;p&gt;&gt;</code>. The slash can appear on any element,
         and it is the same as the greater than sign.
       </li>
     </ul>
 
-  <h3>#optional tags #omit tags</h3>
+  <h3>#Optional tags #omit tags</h3>
 
     <ul>
       <li>
@@ -329,8 +296,9 @@
           <li>
             p elements has by far the most complex rule. Quoting:
             p element's end tag may be omitted if the p element is immediately followed by an
-            address, article, aside, blockquote, div, dl, fieldset, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr, main, nav, ol, p, pre, section, table, or ul, element,
-            or if there is no more content in the parent element and the parent element is not an a element.
+            address, article, aside, blockquote, div, dl, fieldset, footer, form,
+            h1, h2, h3, h4, h5, h6, header, hgroup, hr, main, nav, ol, p, pre, section, table, or ul, element,
+            or if there is no more content in the parent element and the parent element is not an element.
           </li>
           <li>
             li element's end tag may be omitted if the li element is immediately followed by another li element
@@ -344,42 +312,53 @@
       <li>Foreign elements can be self closing, but the meaningless slash is not meaningless.</li>
     </ul>
 
-  <h3>#minimal valid HTML5</h3>
+  <h3>#Minimal valid HTML5</h3>
 
-    <p>http://stackoverflow.com/questions/9797046/whats-a-valid-html5-document</p>
-    <p>Contained in: `min.html`.</p>
+    <p>
+      <a href="http://stackoverflow.com/questions/9797046/whats-a-valid-html5-document">http://stackoverflow.com/questions/9797046/whats-a-valid-html5-document</a>
+    </p>
+    <p>Example at: <a href="min.html">min.html</a>.</p>
+    <p>Works because of tag omission.</p>
     <p>Such minimalism may break on IE8 as noted in the SO thread.</p>
-    <p>A saner and more portable minimal template is `html2.html`.</p>
+    <p>A saner and more portable minimal template is <a href="main2.html">main2.html</a>.</p>
 
-<h2>#protocol relative URL #URL without protocol</h2>
+<h2>#URL</h2>
 
-  <p>E.g.: `//google.com` instead of `http://google.com`.</p>
-  <p>Browser uses the same protocol as the current one.</p>
-  <p>Useful to be dry when using HTTPS vs HTTP for resources that can be retrieved in both forms.</p>
-  <p>CDNs often offer CSS and Javascript in protocol relative URLs.</p>
-  <p>Specified in RFC 3986, with the rest of the URI specs: http://tools.ietf.org/html/rfc3986#section-4.2 </p>
+<h2>#valid URL</h2>
+
+  <p>HTML defines a valid URL as: <a href="http://url.spec.whatwg.org/">http://url.spec.whatwg.org/</a></p>
   <p>
-    Drawback: if you open your files with the `file://` protocol, they will keep using the `file` protocol and fail
-    for files from CDNs. Workaround: use  a web server on `http://localhost`.
+    Valid URLs are required on all attributes that take URLs like <code>href</code> or <code>src</code>:
+    in particular you must escape special chars like spaces,
+    even if the parameter quotes would be enough to determine the URL.
   </p>
-  <p>Well implemented on modern browsers.</p>
+  <p>
+    However it seems that this definition of URL allows IRIs,
+    which allow many Unicode characters, to appear directly.
+    TODO check.
+    See:
+    <a href="http://stackoverflow.com/questions/2742852/unicode-characters-in-urls">http://stackoverflow.com/questions/2742852/unicode-characters-in-urls</a>
+    <a href="http://stackoverflow.com/questions/1547899/which-characters-make-a-url-invalid">http://stackoverflow.com/questions/1547899/which-characters-make-a-url-invalid</a>
+  </p>
+  <p><a href="你好">你好</a></p>.
 
 <h2>#doctype</h2>
 
   <p>The first line determines the document type.</p>
-  <p>HTML5 has one single possibility: `&lt;!DOCTYPE html&gt;`. It is case insensitive.</p>
+  <p>HTML5 has one single possibility: <code>&lt;!DOCTYPE html&gt;</code>. It is case insensitive.</p>
   <p>HTML4 has multiple possibilities</p>
   <p>XHTML5 has only accepts uppercase, so just stick to the uppercase version.</p>
 
 <h2>#html element</h2>
 
-  <p>Can be omitted: http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags</p>
+  <p>Can be omitted: <a href="http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags">http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags</a></p>
 
 <h2>#head</h2>
 
   <p>Contains document metadata.</p>
   <p>
-    Can be omitted: http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags
+    Can be omitted:
+    <a href="http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags">http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags</a>
     TODO how toes HTML decide what is inside of it and what is inside the body? Can all head tags only be inside it?
   </p>
 
@@ -435,41 +414,62 @@
 <h2>#body</h2>
 
   <p>Contains document "visible" content.</p>
-  <p>Can be omitted: http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags</p>
+  <p>
+    Can be omitted:
+    <a href="http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags">http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags</a>
+  </p>
 
   <h3>#lang attribute</h3>
 
     <p>
-      It is recommended that you always set the `lang` attribute of the `html`
+      It is recommended that you always set the <code>lang</code> attribute of the <code>html</code>
       tag to help search engines.
     </p>
     <p>
       In HTML5, can be used on any tag an sets the language of the element,
       but the most common place to put it by far is in the body element.
     </p>
-    <p>`meta http-equiv="Content-Language"` is deprecated.</p>
+    <p><code>meta http-equiv="Content-Language"</code> is deprecated.</p>
 
-<h2>#References #Character references #Entities </h2>
+<h2>#Character references #Entities</h2>
 
-  <p>HTML5 uses only the term "references": http://www.w3.org/TR/html5/infrastructure.html#syntax-references</p>
-
+  <p>
+    HTML5 uses only the term "Character references":
+    <a href="http://www.w3.org/TR/html5/syntax.html#character-references">http://www.w3.org/TR/html5/syntax.html#character-references</a>
+  </p>
+  <p>
+    The term "entity" is only used in XML, and has no exact analogue in HTML,
+    since XML entities can be defined in the document with the <code>!ENTITY</code> construct,
+    and can be defined to mean multiple characters, including other entities, which leads to the billion laughs vulnerability.
+    Even so, some authors informally say "Entity" when talking about HTML Characters references.
+  </p>
+  <p>The term entity is not used: it is only used for a similar concept in XML.</p>
   <p>There are two kinds of entities:</p>
   <ul>
-    <li>named. E.g.:   &amp;gt;   &gt;</li>
-    <li>numeric: Refer to Unicode code points. Start with the number sign `#`.
+    <li>
+      <p>named. E.g.: &amp;gt; &gt;</p>
+      <p>Full list: <a href="http://www.w3.org/TR/html5/syntax.html#named-character-references">http://www.w3.org/TR/html5/syntax.html#named-character-references</a></p>
+      <p>There is a bunch of accents and mathematical characters.</p>
+      <p>XML on the other hand only defines the 5 that need to be escaped in some context: &amp; &lt; &gt; &quot; &apos;.</p>
+      <p>
+        HTML 4.1 did not have <code>&amp;apos;</code>: you had to use a numeric reference: &amp;#x27;.
+        It was introduced in HTML5. The insanity!
+      </p>
+    </li>
+    <li>
+      numeric: refers to Unicode code points. Starts with the number sign <code>#</code>.
       <ul>
-        <li>decimal:   &amp;#60;  &#60;</li>
-        <li>hex:       &amp;#x3C; &#x3C;</li>
-        <li>TODO: possible to use Unicode can be achieved directly like &amp;#4E2D;?</li>
+        <li>decimal: &amp;#60;  &#60;</li>
+        <li>hex:     &amp;#x3C; &#x3C;</li>
       </ul>
     </li>
   </ul>
 
-  <p>HTML5 adopts exactly the same references as XML, but earlier versions do not, so watch out.</p>
+  <p>HTML5 adopts exactly the same references as XML, but earlier versions do not, so watch out. TODO check.</p>
   <p>Notably: &quot; is on the official list of valid HTML 4 entities, but &apos; is not.</p>
   <p>Entities are considered in both data and attribute values.</p>
 
-  <p>Escape sequences intended for characters that:</p>
+  <p>Escape sequences are intended for characters that:</p>
   <ul>
     <li>
       Have an specific meaning to HTML. Important ones:
@@ -489,8 +489,6 @@
     </li>
   </ul>
 
-  <p>It is not necessary to escape quotes outside of attributes: " '</p>
-
   <h3>#nbsp</h3>
 
     <p>Similar to a regular space, but:</p>
@@ -505,11 +503,16 @@
       </li>
     </ul>
     <p>
-      It seems to be the only whitespace with a named reference, but other whitespace character width variations exist in Unicode:
+      It seems to be the only whitespace with a named reference,
+      but other whitespace character width variations exist in Unicode:
       <a href="http://en.wikipedia.org/wiki/Non-breaking_space#Width_variations">http://en.wikipedia.org/wiki/Non-breaking_space#Width_variations</a>
       like the en and em spaces.
     </p>
     <p>Before&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After</p>
+
+  <h3>#apos</h3>
+
+    <p>Not in HTML4, so avoid it and use <code>&amp;quot;</code> instead. In HTML5 and XML.</p>
 
 <h2>#attributes</h2>
 
@@ -517,7 +520,7 @@
     <a href="http://stackoverflow.com/questions/1735230/can-i-add-custom-attribute-to-html-tag">Using non standard tags makes your document invalid</a>.
     It is still likely to render correctly on all browsers.
     You can also cheat this by referencing a custom !DOCTYPE declaration, but this is really overkill.
-    HTML allows you to use any attribute prefixed by `data-`. Great addition!
+    HTML allows you to use any attribute prefixed by <code>data-</code>. Great addition!
   </p>
   <p>
     Each element can have a specific set of attributes:
@@ -533,38 +536,47 @@
     which are the same lowercased.
   </p>
 
-  <h2>#quoting and escaping in attributes</h2>
+  <h3>#quoting and escaping in attributes</h3>
 
-    <p>Double or single quotes are both OK, the only difference is what must be escaped:</p>
+    <p>The only characters that must be escaped inside quotes are the quote itself (same type), and &amp;.</p>
     <div data-val="attr"></div>
-    <div data-val='attr'></div>
     <div data-val='"'></div>
+    <div data-val='<'></div>
+    <div data-val='>'></div>
     <div data-val="&quot;"></div>
     <div data-val="'"></div>
-    <div>Bad: unlike quot; not in HTML 4:</div>
-    <div data-val="&apos;"></div>
+    <p>
+      &amp;apos; is not in HTML 4, even if it is in XML and HTML5!
+      This is a very strong argument towards using double quotes for attribute values.
+    </p>
+    <div data-val='&apos;'></div>
     <p>
       Besides the quotes, only the ampersand &amp; also has to be escaped,
       or it would be parsed as an entity otherwise.
     </p>
     <div data-val="&amp;">&amp;</div>
-    <p>
-      Omitting quotes is OK for values that don't have spaces, but very insane
-      <a href="http://www.w3.org/TR/html5/syntax.html#attributes-0">http://www.w3.org/TR/html5/syntax.html#attributes-0</a>
-      <span style=background-color:red title=title>red</span>.
-    </p>
+
+    <h4>Quote omission</h4>
+
+      <p>
+        Omitting quotes is OK for values that don't have spaces, but very insane
+        <a href="http://www.w3.org/TR/html5/syntax.html#attributes-0">http://www.w3.org/TR/html5/syntax.html#attributes-0</a>
+        <span style=background-color:red title=title>red with title</span>.
+      </p>
+      <p>This is not possible in XML.</p>
 
   <h3>#Global attributes</h3>
 
     <h4>#id</h4>
 
       <p>
-        Before HTML5, id attributes must start with `a-zA-Z`. In particular, no digits.
+        Before HTML5, id attributes must start with <code>a-zA-Z</code>. In particular, no digits.
         This restriction was lifted with HTML5, but it is still recommended to follow it for backwards compatibility.
       </p>
       <p>
-        `id` attributes must be unique across the entire document or it is invalid:
-        http://programmers.stackexchange.com/questions/127178/two-html-elements-with-same-id-attribute-how-bad-is-it-really
+        <code>id</code> attributes must be unique across the entire document or it is invalid.
+        Implementation statuses:
+        <a href="http://programmers.stackexchange.com/questions/127178/two-html-elements-with-same-id-attribute-how-bad-is-it-really">http://programmers.stackexchange.com/questions/127178/two-html-elements-with-same-id-attribute-how-bad-is-it-really</a>
       </p>
 
     <h4>#class</h4>
@@ -637,7 +649,7 @@
     <li>body contains flow content</li>
     <li>p is flow content and can only contain phrasing elements, therefore it cannot contain: p, div, ul</li>
     <li>ul can only contain li or script supporting elements</li>
-    <li>li contains flow content. It can therefore contain and `p`, `ul`.</li>
+    <li>li contains flow content. It can therefore contain and <code>p</code>, <code>ul</code>.</li>
     <li>div is and can contain flow content elements</li>
   </ul>
 
@@ -648,11 +660,11 @@
     </p>
     <p>HTML5 has many more categories.</p>
     <ul>
-      <li>block-level  corresponds roughly to HTML5 flow content
-      <li>inline       corresponds roughly to phrasing
+      <li>block-level  corresponds roughly to HTML5 flow content</li>
+      <li>inline       corresponds roughly to phrasing</li>
     </ul>
     <p>
-      Inline replaced elements such as images which behave like elements with CSS `display:inline-block` property.
+      Inline replaced elements such as images which behave like elements with CSS <code>display:inline-block</code> property.
       They can be put inside other inline elements.
     </p>
 
@@ -687,7 +699,7 @@ a
 a
  b
 </span></pre>
-  <div>You cannot put HTML4 block-level elements such as `p` inside `pre` (another block level element)</div>
+  <div>You cannot put HTML4 block-level elements such as <code>p</code> inside <code>pre</code> (another block level element)</div>
 
   <div>2 Newlines before and after:</div>
   <pre class="border">
@@ -704,8 +716,8 @@ a
   </p>
   <p>
     In the past, some tags were used to indicate format and not semantics.
-    Many were marked obsolete on HTML5 such as `center` in favor of CSS, but some acquired
-    semantic meaning related to the context in which they were most often used in, such as `b` for emphasis.
+    Many were marked obsolete on HTML5 such as <code>center</code> in favor of CSS, but some acquired
+    semantic meaning related to the context in which they were most often used in, such as <code>b</code> for emphasis.
   </p>
   <ul>
     <li><mark>#mark</mark>: highlight</li>
@@ -778,7 +790,7 @@ a
 
   <h3>#code</h3>
 
-    <p>The Inline element `code` is still often used for computer code representation.</p>
+    <p>The Inline element <code>code</code> is still often used for computer code representation.</p>
     <p>It does not imply whitespace preservation:</p>
     <p><code>a
 b</code></p>
@@ -816,27 +828,27 @@ b</code></pre>
     so don't do it unless the page entire page can be cached and you won't be reusing the element across pages.
   </p>
 
-  <h2>#img #images</h2>
+  <h3>#img #images</h3>
 
     <p>img elements are neither inline nor block: they are replaced inline elements.
 
-    <h3>src</h3>
+    <h4>src</h4>
 
       <p>Must be non empty or invalid HTML5:</p>
       <!--<img src="" alt="empty"/>-->
 
-    <h3>Size</h3>
+    <h4>Size</h4>
 
       <p>It is possible to set width and hight and the browser will resize as requested. height="100" width="200":</p>
       <img src="flower.jpg" height="100" width="300" alt=""/>
-      <p>Setting only width or height makes browser keep proportion. `width=300`</p>
+      <p>Setting only width or height makes browser keep proportion. <code>width=300</code></p>
       <img src="flower.jpg" width="300" alt=""/>
       <p>
         What is the best way to set image size: CSS (width and height apply to replaced inline elements) or HTML?
         http://stackoverflow.com/questions/2414506/should-image-size-be-defined-in-the-img-tag-height-width-attributes-or-in-css
       </p>
 
-    <h3>alt</h3>
+    <h4>alt</h4>
 
       <p>If:</p>
       <ul>
@@ -859,7 +871,7 @@ b</code></pre>
       <p>With alt text:
       <img src="i_dont_exist.format_not_supported" alt="alt text">
 
-    <h3>legend caption</h3>
+    <h4>legend caption</h4>
 
       <p>fig + <code>figcaption</code> is good practice in HTML5.</p>
       <p>
@@ -872,21 +884,9 @@ b</code></pre>
         <img src="flower.jpg" height="50" width="50">
       </figure>
 
-    <h3>base64</h3>
+    <h4>data URL images</h4>
 
-      <p>
-        Many browsers support base64 inline images
-        <a href="http://stackoverflow.com/questions/1207190/embedding-base64-images">http://stackoverflow.com/questions/1207190/embedding-base64-images</a>
-        TODO does W3C require them?
-      </p>
-      <p>
-        Obvious tradeoff: one less HTTP request, but harder to reuse image +
-        might occupy many screens of code or very long lines.
-      </p>
-      <p>
-        Reuse might be possible with CSS + background images, but is probably a bad idea:
-        <a href="http://stackoverflow.com/questions/1124149/is-embedding-background-image-data-into-css-as-base64-good-or-bad-practice">http://stackoverflow.com/questions/1124149/is-embedding-background-image-data-into-css-as-base64-good-or-bad-practice</a>
-      </p>
+      <p>Some examples to show that data URLs work:</p>
 
       <!-- Does not validate not sure why: -->
       <!--<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM0AAAD-->
@@ -903,15 +903,17 @@ b</code></pre>
       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM0AAADNCAMAAAAsYgRbAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABJQTFRF3NSmzMewPxIG//ncJEJsldTou1jHgAAAARBJREFUeNrs2EEKgCAQBVDLuv+V20dENbMY831wKz4Y/VHb/5RGQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0PzMWtyaGhoaGhoaGhoaGhoaGhoxtb0QGhoaGhoaGhoaGhoaGhoaMbRLEvv50VTQ9OTQ5OpyZ01GpM2g0bfmDQaL7S+ofFC6xv3ZpxJiywakzbvd9r3RWPS9I2+MWk0+kbf0Hih9Y17U0nTHibrDDQ0NDQ0NDQ0NDQ0NDQ0NTXbRSL/AK72o6GhoaGhoRlL8951vwsNDQ0NDQ1NDc0WyHtDTEhDQ0NDQ0NTS5MdGhoaGhoaGhoaGhoaGhoaGhoaGhoaGposzSHAAErMwwQ2HwRQAAAAAElFTkSuQmCC"
       alt="data image" />
 
-      <p>Even cooler with SVG where you can have a plain text data URI:</p>
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1'><circle cx='50' cy='50' r='40' fill='red' stroke='black'/></svg>"
-      alt="data image SVG" />
+      <p>
+        Also possible for SVG, but remember: <code>src</code> must be a valid URL,
+        so it can't contain things like spaces.
+      </p>
+      <!--<img alt="data image SVG" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1'><circle cx='50' cy='50' r='40' fill='red' stroke='black'/></svg>"/>-->
 
-  <h2>#audio</h2>
+  <h3>#audio</h3>
 
     <p>Added in HTML5.</p>
     <p>Takes multiple formats, plays the first supported only.</p>
-    <p>`controls` attribute adds controls like play / pause:</p>
+    <p><code>controls</code> attribute adds controls like play / pause:</p>
     <audio controls>
       <source src="horse.ogg" type="audio/ogg">
       <source src="horse.mp3" type="audio/mpeg">
@@ -946,8 +948,8 @@ b</code></pre>
     <p>In the past, before server side scripting, widely used to reuse code fragments such as indexes.
     <p>Now generally frowned upon for navigation.</p>
     <ul>
-      <li>`frame` was invalidated in HTML5.</li>
-      <li>`iframe`, inline frame, is still valid in HTML5.</li>
+      <li><code>frame</code> was invalidated in HTML5.</li>
+      <li><code>iframe</code>, inline frame, is still valid in HTML5.</li>
     </ul>
     <iframe src="iframe.html">iframe failed to load</iframe>
     <p>iframe always has a fixed size, which you can change with CSS:</p>
@@ -957,7 +959,7 @@ b</code></pre>
       http://stackoverflow.com/questions/1691873/safari-chrome-webkit-cannot-hide-iframe-vertical-scrollbar
     </p>
     <p>
-      The frame content is like `alt` for images.
+      The frame content is like <code>alt</code> for images.
       Your browser may simply ignore it in case of failure if he has something better to do
       (Firefox 27 shows the not found page with a reload button.)
     </p>
@@ -1035,11 +1037,54 @@ b</code></pre>
       <p>External:</p>
       <object type="image/svg+xml" data="svg-style-external.svg"  class="border" style="height:100px; width:100px;"></object>
 
+    <h4>Javascript in SVG</h4>
+
+      <p>You can include script tags inside SVG and compliant browsers must execute it.</p>
+      <p>This allows for interactive SVGs, but also XSS attacks, which is probably why GitHub does not server SVGs.
+        <a href="http://stackoverflow.com/questions/13808020/include-an-svg-hosted-on-github-in-markdown/25606546#25606546">http://stackoverflow.com/questions/13808020/include-an-svg-hosted-on-github-in-markdown/25606546#25606546</a>
+      </p>
+      <p>
+        It seems that most browsers will only execute inline SVG,
+        not embedded in objects like <code>img</code> but this behaviour is not standardized.
+      </p>
+      <ul>
+        <li>spec: <a href="http://www.w3.org/TR/SVG/script.html">http://www.w3.org/TR/SVG/script.html</a></li>
+        <li>demo: <a href="http://www.w3.org/TR/SVG/images/script/script01.svg">http://www.w3.org/TR/SVG/images/script/script01.svg</a></li>
+      </ul>
+
+    <h4>XML vulnerabilities</h4>
+
+      <p>
+        Chromium 36 and Firefox 31 both crash (and may make your system crash) on a billion laughs exploit:
+        <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=798374">https://bugzilla.mozilla.org/show_bug.cgi?id=798374</a>
+        <a href="https://code.google.com/p/chromium/issues/detail?id=231562">https://code.google.com/p/chromium/issues/detail?id=231562</a>
+      </p>
+
+  <h3>#link</h3>
+
+    <p>The link element links to different types of external documents.</p>
+    <p>The <code>rel</code> attribute specifies what is the type.</p>
+    <p>
+      One notable exception of external document that is not referred to via
+      link ref are scripts such as javascript, which must be referred to with script <code>href</code>.
+      Why? <a href="http://stackoverflow.com/questions/2631635/can-i-load-javascript-code-using-link-tag">http://stackoverflow.com/questions/2631635/can-i-load-javascript-code-using-link-tag</a>
+    </p>
+
+    <h4>#import</h4>
+
+      <p><a href="http://www.html5rocks.com/en/tutorials/webcomponents/imports/">http://www.html5rocks.com/en/tutorials/webcomponents/imports/</a></p>
+
+    <h4>#shortcut icon ##favicon</h4>
+
+      <p>The image will show on most browsers on the tab before the title.</p>
+      <p>It is like an icon of a desktop application.</p>
+      <p>A standard name for the icon image is <code>favicon.ico</code>.</p>
+
 <h2>#Links #Anchors</h2>
 
   <a href="#href">link to destination</a>
   <p id="href">link destination</p>
-  <p>`a` cannot contain `a`.</p>
+  <p><code>a</code> cannot contain <code>a</code>.</p>
   <div><div></div></div>
   <a href="html2.html">
     <span>p</span>
@@ -1235,7 +1280,7 @@ b</code></pre>
         <td>body 1</td>
       </tr>
     </table>
-    <p>Caption on bottom. The `align` attribute is not in HTML5 (deprecated in 4.01). Use CSS `caption-side` instead.</p>
+    <p>Caption on bottom. The <code>align</code> attribute is not in HTML5 (deprecated in 4.01). Use CSS <code>caption-side</code> instead.</p>
     <table>
       <caption style="caption-side:bottom;">caption 0</caption>
       <tr>
@@ -1254,22 +1299,25 @@ b</code></pre>
     <p>
     <p>Important attributes:<p>
     <ul>
-      <li><code>action</code>: where to send the request to
+      <li><code>action</code>: where to send the request to</li>
       <li>
         <code>method</code>: what HTTP method to use. Can only be:
         <ul>
-          <li>get: send data on the URL URL encoded, which has size limitations.
-          <li>post: sends data on the body URL encoded.
+          <li>get: send data on the URL URL encoded, which has size limitations.</li>
+          <li>post: sends data on the body URL encoded.</li>
         </ul>
+      </li>
       <li>
-        <code>enctype</code>`: value of the <code>content-type</code> header:
+        <code>enctype</code>: value of the <code>content-type</code> header:
         <ul>
-          <li>`application/x-www-form-urlencoded`: default. URL encode.
+          <li><code>application/x-www-form-urlencoded</code>: default. URL encode.
           <li>
-            `multipart/form-data`: can only be used if the `method` is `post`.
-            Best option for uploading large data such as files via `input type="file"`.
-          <li>`text/plain`: useless?
+            <code>multipart/form-data</code>: can only be used if the <code>method</code> is <code>post</code>.
+            Best option for uploading large data such as files via <code>input type="file"</code>.
+          </li>
+          <li><code>text/plain</code>: useless?</li>
         </ul>
+      </li>
     </ul>
     <p>To see what forms do exactly, consider using the <code>netcat</code> utility or an ECHO server.</p>
     <p>Multipart form to http://example.com:</p>
@@ -1373,10 +1421,10 @@ b</code></pre>
 
   <h3>#button</h3>
 
-    <p>`type`: should always be specified to avoid browser inconsistencies:</p>
+    <p><code>type</code>: should always be specified to avoid browser inconsistencies:</p>
     <ul>
       <li>button:	nothing special about it. Mostly used with Javascript</li>
-      <li>submit: do the enclosing form's `action`.</li>
+      <li>submit: do the enclosing form's <code>action</code>.</li>
       <li>reset:  reset data of enclosing form to default values.</li>
     </ul>
     <form action="#button-type" id="button-type">
@@ -1513,6 +1561,54 @@ b</code></pre>
         <input type="text" name="name" value="value"/>
         <input type="submit" value="type=submit"/>
       </form>
+
+    <h4>#datalist #list</h4>
+
+      <p>
+        Suggest autocomplete data from fixed data set to text field.
+        Shows possibilities that match what user it typing.
+      </p>
+      <p>Also shows autocomplete values if enabled.</p>
+      <p>Options: "abcdef", "defghi", "ghijkl".</p>
+      <form action="#datalist" id="datalist">
+        <input list="datalist-id" name="name">
+        <datalist id="datalist-id">
+          <option value="abcdef">
+          <option value="defghi">
+          <option value="ghijkl">
+        </datalist>
+        <button type="submit">Submit</button>
+      </form>
+
+  <h3>#size attribute</h3>
+
+    <p>In theory, should set the visible size of elements to show exactly that many characters / items.</p>
+    <p>
+      In practice, modern web browsers don't implement this consistently, so don't use it:
+      <a href="http://stackoverflow.com/questions/1077483/html-input-size-attribute-not-working">http://stackoverflow.com/questions/1077483/html-input-size-attribute-not-working</a>
+      <a href="http://stackoverflow.com/questions/15760089/select-size-attribute-size-not-working-in-chrome-safari">http://stackoverflow.com/questions/15760089/select-size-attribute-size-not-working-in-chrome-safari</a>
+    </p>
+    <p><code>size="2"</code> <input type="text" size="2" value="12345678"/></p>
+    <p><code>size="4"</code> <input type="text" size="4" value="12345678"/></p>
+
+  <h3>#maxlength</h3>
+
+    <p>Limits on UI the number of characters the user can input.</p>
+    <p><code>maxlength="6"</code> <input type="text" maxlength="6" value="1234"/></p>
+    <p><code>textarea maxlength="6"</code>. Newlines count: <textarea maxlength="6">12&#x0A;45</textarea></p>
+    <p><code>maxlength="6" value="1234576"</code>. TODO: valid?:</p>
+    <form action="#maxlength-value-conflict" id="maxlength-value-conflict" method="get">
+      <input type="text" maxlength="6" name="name" value="1234567"/>
+      <button type="submit"/>Submit</button>
+    </form>
+
+  <h3>#minlength</h3>
+
+    <p>
+      Should behave like <code>maxlength</code>,
+      but hasn't been implemented on Firefox 31 nor Chrome 36 nor in the Validator.
+    </p>
+    <!--<p><code>minlength="3" </code><input type="text" minlength="3" value="1234"/></p>-->
 
   <h3>#textarea</h3>
 
@@ -1681,12 +1777,21 @@ iii</textarea></p>
         <button type="submit">Submit</button>
       </form>
 
+    <h4>#tel</h4>
+
+      <p>
+        HTML5 says it does not enforce a syntax like URL or email,
+        probably because there is no single standard for telephones, so this is mostly semantic.
+      </p>
+
     <h4>#url</h4>
 
       <p>
         TODO what validation is done? HTML5 links to the URL standard:
         <a href="http://url.spec.whatwg.org/">http://url.spec.whatwg.org/</a>
+        Validation seems not implemented in Firefox 31.
       </p>
+      <p><input type="url" value="http://a.com"/></p>
 
     <h4>#time</h4>
 
@@ -1746,24 +1851,6 @@ iii</textarea></p>
     <p>Indicates progress of a process. Meant to be modified with Javascript.</p>
     <p>How is it different from meter? HTML5 says: only to measure time.</p>
     <p>22 out of 100: <progress value="22" max="100"></progress></p>
-
-  <h3>#datalist #list</h3>
-
-    <p>
-      Suggest autocomplete data from fixed data set to text field.
-      Shows possibilities that match what user it typing.
-    </p>
-    <p>Also shows autocomplete values if enabled.</p>
-    <p>Options: "abcdef", "defghi", "ghijkl".</p>
-    <form action="#datalist" id="datalist">
-      <input list="datalist-id" name="name">
-      <datalist id="datalist-id">
-        <option value="abcdef">
-        <option value="defghi">
-        <option value="ghijkl">
-      </datalist>
-      <button type="submit">Submit</button>
-    </form>
 
   <h3>#spellcheck attribute</h3>
 
@@ -1850,7 +1937,7 @@ iii</textarea></p>
     <li>#xmp</li>
   </ul>
 
-  <h2>#menu</h2>
+  <h3>#menu</h3>
 
     <p>Add buttons to the right click context menu.</p>
     <p>Currently only supported in Firefox.</p>

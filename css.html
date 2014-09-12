@@ -234,6 +234,8 @@
     <a href="http://stackoverflow.com/questions/2497146/is-css-turing-complete">http://stackoverflow.com/questions/2497146/is-css-turing-complete</a>
   </p>
 
+  <p>Validator:<a href="http://www.css-validator.org/#validate_by_input">http://www.css-validator.org/#validate_by_input</a></p>
+
   <h3>#XML #SVG</h3>
 
     <p>CSS can be used to style arbitrary XML documents in addition to HTML, including SVG.</p>
@@ -792,12 +794,20 @@
 
     <h4>#font-family</h4>
 
-      <p>Fall back list of fonts.</p>
+      <p>List of fonts, if first not present, fall back to next.</p>
       <p>
         Fonts can either be precise font names, or generic families.
         Start with the more specific and then let fall back to more general ones.
       </p>
       <p style='font-family:"Courier New",Courier,monospace,"Times New Roman",Georgia,Serif;'>font-family Courier New</p>
+      <p></p>
+
+    <h4>Font loading</h4>
+
+      <p>
+        There is a module dedicated to that:
+        <a href="http://www.w3.org/TR/css-font-loading-3/">http://www.w3.org/TR/css-font-loading-3/</a>
+      </p>
 
     <h4>#font-stretch</h4>
 
@@ -807,13 +817,6 @@
       </p>
       <p style="font-stretch:ultra-condensed;">ultra-condensed</p>
       <p style="font-stretch:ultra-stretched;">ultra-stretched</p>
-
-    <h4>Font loading</h4>
-
-      <p>
-        There is a module dedicated to that:
-        <a href="http://www.w3.org/TR/css-font-loading-3/">http://www.w3.org/TR/css-font-loading-3/</a>
-      </p>
 
     <h4>#text-decoration</h4>
 
@@ -869,6 +872,17 @@ pre-wrap 	Preserve 	  Preserve 	        Wrap
 pre-line 	Preserve 	  Collapse 	        Wrap
       </pre>
 
+      <div class="border" style="height:100px; width:100px; white-space:normal;">a     b c d e f g h i j k l m n o p q
+2</div>
+      <div class="border" style="height:100px; width:100px; white-space:pre;">a     b c d e f g h i j k l m n o p q
+2</div>
+      <div class="border" style="height:100px; width:100px; white-space:nowrap;">a     b c d e f g h i j k l m n o p q
+2</div>
+      <div class="border" style="height:100px; width:100px; white-space:pre-wrap;">a     b c d e f g h i j k l m n o p q
+2</div>
+      <div class="border" style="height:100px; width:100px; white-space:pre-line;">a     b c d e f g h i j k l m n o p q
+2</div>
+
       <h5>#white-space:pre</h5>
 
         <p>Achieves similar effect to the <code>pre</code> HTML element, but:</p>
@@ -878,7 +892,7 @@ pre-line 	Preserve 	  Collapse 	        Wrap
             <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=116083">https://bugzilla.mozilla.org/show_bug.cgi?id=116083</a>
           </li>
         </ul>
-        <p>Just because of the Firefox "bug", it is better to use <p>pre</p> elements instead of the CSS.</p>
+        <p>Just because of the Firefox "bug", it is better to use <code>pre</code> elements instead of the CSS.</p>
 
         <p>Newline before and after style="white-space:pre"</p>
         <div class="border" style="white-space:pre">
@@ -887,13 +901,21 @@ a
   </div>
         <textarea>Paste the above here to see is the newline is present. Not present on Firefox 30.</textarea>
 
+    <h4>#tab-size</h4>
+
+      <p>Specify the size of the tab character.</p>
+      <p>Default value: 8.</p>
+
     <h4>#white-space-collapse #bikeshedding</h4>
 
       <p>TODO</p>
 
     <h4>#overflow-wrap #word-wrap</h4>
 
-      <p><code>word-wrap</code> is the old name of the property, which was in older CSS3 drafts and has been widely implemented.</p>
+      <p>
+        <code>word-wrap</code> is the old name of the property,
+        which was in older CSS3 drafts and has been widely implemented.
+      </p>
       <p><code>overflow-wrap</code> is the current name in the CSS3 draft.</p>
       <p>Values:</p>
       <ul>
@@ -924,8 +946,14 @@ a
 
       <p>It is possible to use <code>data:</code> URIs for the background image:</p>
       <div style="width:50px; height:50px;
-        background-image:url(data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7);
-      ">
+        background-image:url(data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7);"
+      >
+      </div>
+
+      <p>SVG background:</p>
+      <div style="width:50px; height:50px;
+        background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1'><circle cx='50' cy='50' r='40' fill='red' stroke='black'/></svg>&quot;)"
+      >
       </div>
 
       <p>Center horizontally:</p>
@@ -1063,7 +1091,7 @@ a
     </p>
 
     <p>If phrasing contents cannot break at a point and are larger than the width, they just spill out:</p>
-    <div style="border:1px solid black; width:50px";>
+    <div style="border:1px solid black; width:50px;">
       0123456789 0123456789 0123456789 0123456789 0123456789
       0123
       0123
@@ -1434,7 +1462,6 @@ a
       <p>
         Absolute: element is completely removed from normal flow, it is as if it were not there.
       </p>
-    </p>
 
     <div style="margin-left:100px; width:50px; height:50px; background-color:red; position:relative;">
       <div style="display:inline-block; width:20px; height:20px; background-color:blue; position:absolute; left:-20px;"></div>
@@ -1550,17 +1577,22 @@ a
 
       <p>Determines what the cursor looks like on hover. Takes a list in case on is not present.</p>
       <div>
-        <div style="cursor:default;"   class="border">default</div>
-        <div style="cursor:pointer;"   class="border">pointer</div>
-        <div style="cursor:crosshair;" class="border">crosshair</div>
-        <div style="cursor:help;"      class="border">help</div>
+        <div style="cursor:default;"     class="border">default</div>
+        <div style="cursor:pointer;"     class="border">pointer</div>
+        <div style="cursor:crosshair;"   class="border">crosshair</div>
+        <div style="cursor:help;"        class="border">help</div>
         <div style="cursor:url('flower-small.jpg'),pointer;" class="border">
-          url('flower-small.jpg').
+          <code>url('flower-small.jpg')</code>.
           Firefox says that the image must be smaller than 128×128px.
           Some sources state that Windows limits it to 32x32, so use 32x32.
         </div>
         <div style="cursor:not-allowed;" class="border">not-allowed</div>
+        <div style="cursor:none;"        class="border">none</div>
       </div>
+      <p>
+        There is also a related concept to border none: pointer locks,
+        which make the mouse act like in a first person shooter,and never leave the screen.
+      </p>
 
   <h3>#pointer-events</h3>
 
@@ -1584,7 +1616,9 @@ a
 
 <h2>#functions</h2>
 
-  <h3>#attr</h3>
+  <p><a href="http://dev.w3.org/csswg/css-values/#functional-notation">http://dev.w3.org/csswg/css-values/#functional-notation</a></p>
+
+  <h3>#attr()</h3>
 
     <p>
       On CSS 2, can only be used for the content attribute. On CSS3 gained other uses.
@@ -1592,6 +1626,21 @@ a
     <p>Literal link: <a class="literal-link" href="http://www.w3.org/TR"></a></p>
     <p>Common combo with data: <span data-attr="val"></span></p>
     <p>Specially to set icons: <span data-icon="&#x25a8;"></span></p>
+
+  <h3>#url() functional notation</h3>
+
+    <p><a href="http://www.w3.org/TR/CSS2/syndata.html#uri">http://www.w3.org/TR/CSS2/syndata.html#uri</a></p>
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/uri">https://developer.mozilla.org/en-US/docs/Web/CSS/uri</a></p>
+    <p>It seems that literal spaces are allowed if quoted?</p>
+
+  <h3>#calc()</h3>
+
+    <p>Numerical calculations with operations like <code>+</code> and <code>/</code> to DRY up the CSS.</p>
+    <p>Give use variables and it will replace SASS.</p>
+
+  <h3>#toggle()</h3>
+
+    <p>TODO</p>
 
 <h2>#Elements</h2>
 
@@ -1677,31 +1726,38 @@ a
           It is possible to prevent resizing horizontally or vertically.
           through the <code>resize</code> property.
         </p>
-        <textarea style="width:50px; height:50px; resize:both;"       class="border">both</textarea>
-        <textarea style="width:50px; height:50px; resize:vertical;"   class="border">vertical</textarea>
-        <textarea style="width:50px; height:50px; resize:horizontal;" class="border">horizontal</textarea>
-        <textarea style="width:50px; height:50px; resize:none;"       class="border">none</textarea>
+        <textarea style="width:100px; height:100px; resize:both;"       class="border">both</textarea>
+        <textarea style="width:100px; height:100px; resize:vertical;"   class="border">vertical</textarea>
+        <textarea style="width:100px; height:100px; resize:horizontal;" class="border">horizontal</textarea>
+        <textarea style="width:100px; height:100px; resize:none;"       class="border">none</textarea>
 
         <p>Max / Min Width / Height are enforced on what the user can resize:</p>
         <textarea class="border" style="height:100px; min-width:50px; max-width:200px;
           min-height:50px; max-height:200px; resize:both; width:100px;"
         >min / max dimensions: 50px / 200px</textarea>
 
+        <p>Prevent textarea from wrapping words: <a href="http://stackoverflow.com/questions/657795/how-remove-word-wrap-from-textarea">http://stackoverflow.com/questions/657795/how-remove-word-wrap-from-textarea</a></p>
+        <p>TODO: not working.</p>
+        <textarea style="width:200px; height:100px; resize:none; overflow-x:scroll;
+            white-space:nowrap;" class="border">
+          a b c d e f g h i j k l m n o p
+        </textarea>
+
         <p>The following options do not seem possible without Javascript:</p>
         <ul>
           <li>
             Resize by dragging the bottom border / edge instead of bottom corner.
-            jQuery UI resizable seems like a good option.
-            Like JSFiddle, 4 textareas: <a href="http://stackoverflow.com/questions/8819328/how-to-adjust-the-size-of-multiple-adjacent-textareas-like-in-jsfiddle-net">http://stackoverflow.com/questions/8819328/how-to-adjust-the-size-of-multiple-adjacent-textareas-like-in-jsfiddle-net</a>
-            Likely what I want on all four corners: <a href="http://stackoverflow.com/questions/12808217/how-can-i-make-all-4-corners-of-my-div-have-resizable-handles-with-jquery">http://stackoverflow.com/questions/12808217/how-can-i-make-all-4-corners-of-my-div-have-resizable-handles-with-jquery</a>
-            Style jQuery UI resizable handle: <a href="http://stackoverflow.com/questions/6451285/jquery-ui-resizable-how-to-thicken-handle">http://stackoverflow.com/questions/6451285/jquery-ui-resizable-how-to-thicken-handle</a>
+            jQuery UI <code>resizable({'s'})</code> with some styling does the trick.
           </li>
           <li>
             Make the textarea always be as high as the content in it.
             <a href="stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize">stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize</a>
             jQuery possibility: <a href="https://github.com/jackmoore/autosize">https://github.com/jackmoore/autosize</a>
           </li>
-          <li>Resize elements other than textareas by dragging.</li>
+          <li>
+            Resize elements other than textareas by dragging.
+            jQuery UI <code>resizable</code> is perfect for it.
+          </li>
         </ul>
         <p>
           Great article including a bunch of useful things you may want to do with textareas:
@@ -1839,7 +1895,7 @@ a
       and comma <code>,</code> operators.
     </p>
     <p>Interesting properties include:</p>
-    <ul id="media-device">
+    <ul>
       <li>width, min-width, max-width: current window width</li>
       <li>
         device-width, min and max. Device capability. Less useful than width,
