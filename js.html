@@ -119,13 +119,26 @@
   <p>Official language name: ECMA-262, or ECMAScript.</p>
   <p>Versions are often abbreviated as: ES5, ES6, etc.</p>
   <p>
-    ECMAScript does not include objects which browsers add to Javascript such as `document`, `window`, `XMLHttpRequest`,
+    ECMAScript is developed by ECMA: it is therefore one of the few
+    key web standards not maintained by W3C.
+  </p>
+  <p>
+    The ECMA work group that develops Javascript is called T39.
+    They have a wiki at: <a href="http://wiki.ecmascript.org">http://wiki.ecmascript.org</a>
+    where they organize the proposals for the next version of the standard,
+    including features prior to approval on the strawman namespace
+    <a href="http://wiki.ecmascript.org/doku.php?do=index&id=strawman%3Astrawman">http://wiki.ecmascript.org/doku.php?do=index&id=strawman%3Astrawman</a>
+    The wiki is openly readable, but only writable by contributors.
+  </p>
+  <p>
+    ECMAScript does not include objects which browsers add to Javascript
+    such as `document`, `window`, `XMLHttpRequest`,
     although it does furnish some global objects like JSON.
     Such objects are typically specified in separate W3C specs.
   </p>
   <p>
     Browser objects are not directly available to Node.js, including useful ones such as `XMLHttpRequest`.
-    Some projects implement the browser interfaces as a Node javascript library, such as
+    Some projects implement the browser interfaces as a Node.js library, such as
     <a href="https://github.com/driverdan/node-XMLHttpRequest">https://github.com/driverdan/node-XMLHttpRequest</a>
     thus allowing to use such objects in Node.js / browser portable code./
   </p>
@@ -135,8 +148,17 @@
     <p>6, AKA #harmony</p>
     <p>Expected Dec 2014.</p>
     <p>
-      Official source: wiki editable only by contributors:
-      Unofficial draft by one of the contributors: <a href="http://people.mozilla.org/~jorendorff/es6-draft.html">http://people.mozilla.org/~jorendorff/es6-draft.html</a>
+      Official PDF drafts:
+      <a href="http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts">http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts</a>
+    </p>
+    <p>
+      Officially approved features list under the Harmony namespace of the official wiki:
+      <a href="http://wiki.ecmascript.org/doku.php?do=index&id=harmony%3Aharmony">http://wiki.ecmascript.org/doku.php?do=index&id=harmony%3Aharmony</a>
+    </p>
+    <p>
+      Unofficial HTML version of the draft by one of the contributors:
+      <a href="http://people.mozilla.org/~jorendorff/es6-draft.html">http://people.mozilla.org/~jorendorff/es6-draft.html</a>
+      The official versions are in PDF.
     </p>
     <p>Good cheat: <a href="https://github.com/lukehoban/es6features">https://github.com/lukehoban/es6features</a></p>
     <p>
@@ -553,11 +575,12 @@
       //void a = 0
     </script>
 
-    <h4>#javascript: URI scheme</h4>
+    <h4>#javascript: URI scheme #javascript:void(0); #javascript:;</h4>
 
       <p>
         Bad practice:
         <a href="http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean">http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean</a>
+        Only use links for links: for other things use styled spans.
       </p>
       <p>Evaluate Javascript and open it on the new page if the result is not <code>undefined</code>.</p>
       <p>TODO: W3C standard? Likely not, since not even in IANA.</p>
@@ -570,6 +593,7 @@
         which trigger scripts instead of opening pages. Used because the <code>href</code>
         attribute is mandatory for valid HTML.
       </p>
+      <p>TODO: vs <code>javascript:;</code></p>
       <p>
         Also used instead of straight <code>undefined</code> because <code>undefined</code>
         can be redefined to something else, while <code>void</code> can't.
@@ -578,10 +602,12 @@
         Major problem with that technique: middle click still opens up a new tab / window
         with address <code>javascript:void(0)</code> that shows nothing on the screen.
       </p>
-      <p>Yes, go head and type <code>javascript:something</code> on you browser URL, it will work.</p>
-      <a href="javascript:1+1">javascript:1+1</a><br/>
-      <a href="javascript:void(0)">javascript:void(0)</a><br/>
-      <a href="#">#</a>
+      <p>Yes, go ahead and type <code>javascript:something</code> on you browser URL, it will work.</p>
+      <div><a href="javascript:1+1">javascript:1+1</a></div>
+      <div><a href="javascript:void(0)">javascript:void(0)</a></div>
+      <div><a href="#">#</a></div>
+      <div><a href="javascript:;">javascript:;</a></div>
+      <div><a href="javascript:">javascript:</a></div>
 <script>
 // TODO: convert comments on this script to HTML
 
@@ -1489,6 +1515,18 @@
       s.add('b')
       assert_eq(s.size, 2)
       assert(s.has('a'))
+
+      var s = new Set()
+      var a = {}
+      var b = {}
+      var c = {}
+      s.add(a)
+      s.add(b)
+      s.add(b)
+      assert_eq(s.size, 2)
+      assert(s.has(a))
+      assert(s.has(b))
+      assert(!s.has(c))
     } else {
       document.write('<p>#Set not present</p>')
     }
@@ -2510,8 +2548,19 @@
 
     <h4>#href #redirect</h4>
 
-      <p>Same as: <code>window.location.assign('url')</code>.</p>
+      <p>For assignment, same as: <code>window.location.assign('url')</code>.</p>
       <p><button onclick="window.location.href='html2.html'" type="button">Redirect to html2.html!</button></p>
+
+    <h4>Get current URL #document.URL</h4>
+
+      <p><a href="http://stackoverflow.com/questions/1034621/get-current-url-with-javascript">http://stackoverflow.com/questions/1034621/get-current-url-with-javascript</a></p>
+      <p>
+        <code>document.URL</code>: readonly from when page was loaded
+        (not affected by Javascript operations like <code>replace</code>)
+      </p>
+      <p>
+        <code>window.location.href</code>: updated by Javascript operations.
+      </p>
 
     <h4>#hash</h4>
 
@@ -2662,7 +2711,7 @@
     </p>
     <p>
       To use arbitrary `Array` methods, first convert to an array with
-      Array.prototype.slice.call(elem.getElementsByClassName('class'))
+      <code>Array.prototype.slice.call(elem.getElementsByClassName('class'))</code>
     </p>
 
   <h3>#Selectors</h3>
@@ -3008,9 +3057,9 @@
           since there is no analogous boolean <code>error</code> indicator.
         </p>
 
-    <h4>#textarea</h4>
+    <h4>#textarea #input</h4>
 
-      <p>Get content with the <code>value</code> property.</p>
+      <p>Get or set the content with the <code>value</code> property.</p>
       <script>
         document.write(
           '<textarea id="textarea" onkeypress="textarea_func();">default</textarea>' +
