@@ -139,78 +139,148 @@
       <a href="http://stackoverflow.com/questions/1224133/is-it-possible-to-do-value-in-jquery">http://stackoverflow.com/questions/1224133/is-it-possible-to-do-value-in-jquery</a>
     </p>
 
+<h2>#attr</h2>
+
+<h2>#prop</h2>
+
+  <p><code>attr</code> is about the HTML, <code>prop</code> are the in-memory IDL attributes.</p>
+
+  <input id="prop-disabled" type="text" value="Disabled by jQuery."></input>
+  <script>
+    $('prop-disabled').prop('disabled', true)
+  </script>
+
 <h2>#jQuery UI</h2>
 
-  <h3>jQuery UI</h3>
+  <p>Has some cool out of the box functionality.</p>
 
-    <p>Has some cool out of the box functionality.</p>
+  <h3>#resizable</h3>
 
-    <h4>#resizable</h4>
+    <p>Drag resize any element.</p>
+    <p>Adds styleable handles to allow that.</p>
 
-      <p>Drag resize any element.</p>
-      <p>Adds styleable handles to allow that.</p>
+    <div id="resizable" class="border square"></div>
+    <script>$('#resizable').resizable()</script>
 
-      <div id="resizable" class="border square"></div>
-      <script>$('#resizable').resizable()</script>
+    <p>4 edge handles, no corners. Resizing on the top breaks the UI, so you should disable it.</p>
+    <div id="resizable-4handles" class="border square"></div>
+    <script>$('#resizable-4handles').resizable({handles:'n, e, s, w'})</script>
 
-      <p>4 edge handles, no corners. Resizing on the top breaks the UI, so you should disable it.</p>
-      <div id="resizable-4handles" class="border square"></div>
-      <script>$('#resizable-4handles').resizable({handles:'n, e, s, w'})</script>
+    <p>4 handles and corners:</p>
+    <div id="resizable-4handles-corners" class="border square"></div>
+    <script>$('#resizable-4handles-corners').resizable({handles:'all'})</script>
 
-      <p>4 handles and corners:</p>
-      <div id="resizable-4handles-corners" class="border square"></div>
-      <script>$('#resizable-4handles-corners').resizable({handles:'all'})</script>
+    <p>Individual corners with <code>ne</code> etc.</p>
 
-      <p>Individual corners with <code>ne</code> etc.</p>
+    <p><code>minHeight</code>, <code>minWidth</code> and max analogues:</p>
+    <div class="border" style="height:300px; width:300px; position:relative; border-color:green;">
+      <div class="border" style="height:100px; width:100px; position:absolute; top:0; left:0; border-color:red;"></div>
+      <div class="border" style="height:200px; width:200px; position:absolute; top:0; left:0; border:1px dotted black;"></div>
+      <div id="resizable-minmax" class="border" style="height:200px; width:200px; position:absolute; top:0; left:0;"></div>
+    </div>
+    <script>
+      $('#resizable-minmax').resizable({
+        minHeight:100,
+        maxHeight:300,
+        minWidth:100,
+        maxWidth:300,
+      })
+    </script>
 
-      <p><code>minHeight</code>, <code>minWidth</code> and max analogues:</p>
-      <div class="border" style="height:300px; width:300px; position:relative; border-color:green;">
-        <div class="border" style="height:100px; width:100px; position:absolute; top:0; left:0; border-color:red;"></div>
-        <div class="border" style="height:200px; width:200px; position:absolute; top:0; left:0; border:1px dotted black;"></div>
-        <div id="resizable-minmax" class="border" style="height:200px; width:200px; position:absolute; top:0; left:0;"></div>
+    <p>Remove diagonal grip:</p>
+    <div id="resizable-no-diag-grip" class="border square"></div>
+    <script>$('#resizable-no-diag-grip').resizable()</script>
+
+    <h4>#style resizable</h4>
+
+      <p>To style the elements, take a look at the generated divs with your browser's inspector.</p>
+      <p>For <code>div</code>s, the grippies are put inside the div.</p>
+      <p>
+        For <code>textarea</code>, a container <code>div</code>
+        is created that contains the text area and the grippie div.
+        This is probably done to overcome styling difficulties with textareas.
+      </p>
+
+    <p>Perfectly styled down resizeable textarea:</p>
+    <textarea id="resizable-textarea" class="square200"></textarea>
+    <script>$('#resizable-textarea').resizable({handles:'s', minHeight:50})</script>
+    <p>TODO: the right border of the grippie does not appear.</p>
+    <p>
+      TODO: how to get before::content to show? Where is it?
+    </p>
+    <p>
+      Good workaround: centered background image, possibly SVG with text.
+      TODO: how to stretch the SVG text to that the equals sign = becomes very wide to be more visible?
+    </p>
+
+  <h3>#draggable</h3>
+
+    <p>Drag elements around to any position positions.</p>
+    <p>The space occupied by the element does not change.</p>
+
+    <div id="draggable" class="border square"></div>
+    <script>$('#draggable').draggable()</script>
+
+  <h3>#tabs</h3>
+
+    <div id="tabs">
+      <ul>
+        <li><a href="#tab-one">One</a></li>
+        <li><a href="#tab-two">Two</a></li>
+        <li><a href="#tab-three">Three</a></li>
+      </ul>
+      <div id="tab-one">
+        <p>First tab is active by default.</p>
       </div>
-      <script>
-        $('#resizable-minmax').resizable({
-          minHeight:100,
-          maxHeight:300,
-          minWidth:100,
-          maxWidth:300,
-        })
-      </script>
+      <div id="tab-two">
+        Two.
+      </div>
+      <div id="tab-three">
+        Three.
+      </div>
+    </div>
+    <script>
+      $("#tabs").tabs()
+    </script>
 
-      <p>Remove diagonal grip:</p>
-      <div id="resizable-no-diag-grip" class="border square"></div>
-      <script>$('#resizable-no-diag-grip').resizable()</script>
+    <p>
+      Only the targeted tab links make tabs switch: linking to the fragment directly has no effect.
+      <a href="#tab-two">#tab-two</a>. So they could at least have used use buttons with <code>data</code>
+      attributes which doesn't take up the fragment...
+    </p>
 
-      <h5>#style resizable</h5>
+    <p>The tabs must be inside the tabs container or else it fails:</p>
+    <div id="tabs-out">
+      <ul>
+        <li><a href="#tab-out-one">One</a></li>
+        <li><a href="#tab-out-two">Two</a></li>
+      </ul>
+    </div>
+    <div id="tab-out-one">
+      <p>One.</p>
+    </div>
+    <div id="tab-out-two">
+      Two.
+    </div>
+    <script>
+      $("#tabs-out").tabs()
+    </script>
 
-        <p>To style the elements, take a look at the generated divs with your browser's inspector.</p>
-        <p>For <code>div</code>s, the grippies are put inside the div.</p>
-        <p>
-          For <code>textarea</code>, a container <code>div</code>
-          is created that contains the text area and the grippie div.
-          This is probably done to overcome styling difficulties with textareas.
-        </p>
+    <p>To get remote content simply add the path to the <code>href</code>.</p>
+    <p>TODO: get working.</p>
 
-      <p>Perfectly styled down resizeable textarea:</p>
-      <textarea id="resizable-textarea" class="square200"></textarea>
-      <script>$('#resizable-textarea').resizable({handles:'s', minHeight:50})</script>
-      <p>TODO: the right border of the grippie does not appear.</p>
-      <p>
-        TODO: how to get before::content to show? Where is it?
-      </p>
-      <p>
-        Good workaround: centered background image, possibly SVG with text.
-        TODO: how to stretch the SVG text to that the equals sign = becomes very wide to be more visible?
-      </p>
-
-    <h4>#draggable</h4>
-
-      <p>Drag elements around to any position positions.</p>
-      <p>The space occupied by the element does not change.</p>
-
-      <div id="draggable" class="border square"></div>
-      <script>$('#draggable').draggable()</script>
+    <div id="tabs-ajax">
+      <ul>
+        <li><a href="#tab-ajax-local">Local</a></li>
+        <li><a href="tab-ajax-remote">Ajax</a></li>
+      </ul>
+      <div id="tab-ajax-local">
+        <p>Local.</p>
+      </div>
+    </div>
+    <script>
+      $("#tabs-ajax").tabs()
+    </script>
 
 <h2>#plugins</h2>
 

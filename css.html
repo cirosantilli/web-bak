@@ -626,15 +626,6 @@
     <li>rgba function for the transparency: `rgb(0, 128, 256, 0.3)`</li>
   </ul>
 
-  <h3>#alpha #transparency</h3>
-
-    <div style="background-color:red;" class="border">
-      red
-      <div style="background-color:rgba(0, 255, 0, 0.0);" class="wide border">green 0.0</div>
-      <div style="background-color:rgba(0, 255, 0, 0.5);" class="wide border">green 0.5</div>
-      <div style="background-color:rgba(0, 255, 0, 1.0);" class="wide border">green 1.0</div>
-    </div>
-
   <h3>#currentColor</h3>
 
     <p>CSS3 color: <a href="http://www.w3.org/TR/css3-color/#currentcolor">http://www.w3.org/TR/css3-color/#currentcolor</a></p>
@@ -648,6 +639,29 @@
     </div>
     <p>Cannot be tricked to act as an arbitrary variable: <a href="http://css-tricks.com/currentcolor/">http://css-tricks.com/currentcolor/</a>.</p>
     <p>Used to be <code>-moz-use-text-color</code> before it was standardized in CSS3.</p>
+
+  <h3>#transparency</h3>
+
+  <h3>#alpha</h3>
+
+    <p>opacity vs rgba: <a href="http://stackoverflow.com/questions/13385492/css-opacity-vs-rgba-which-one-is-better">http://stackoverflow.com/questions/13385492/css-opacity-vs-rgba-which-one-is-better</a></p>
+
+    <h4>#opacity</h4>
+
+      <p>Affects the element, it's border and all of it's children, including inner text.</p>
+      <p>
+        If a parent has opacity <code>0.5</code> and the child also,
+        the effective opacity for the child is <code>0.25</code>.
+      </p>
+
+    <h4>#rgba</h4>
+
+      <div style="background-color:red;" class="border">
+        red
+        <div style="background-color:rgba(0, 255, 0, 0.0);" class="wide border">green 0.0</div>
+        <div style="background-color:rgba(0, 255, 0, 0.5);" class="wide border">green 0.5</div>
+        <div style="background-color:rgba(0, 255, 0, 1.0);" class="wide border">green 1.0</div>
+      </div>
 
 <h2>#Length specification units</h2>
 
@@ -702,6 +716,10 @@
 
     <p>First understand some font parameters:</p>
     <img src="typography-line-terms.svg" alt="typography-line-terms" style="height:200px;"/>
+
+    <h4>#color</h4>
+
+      <p>The color of the font.</p>
 
     <h4>#line-height</h4>
 
@@ -1117,8 +1135,8 @@ a
       <p>By default, width does not count padding, border and margin.<p>
       <p>CSS3 introduces the <code>box-sizing</code> property, which allows to determine what the width includes.<p>
       <ul>
-        <li>`border-box`:            include padding and border, *not* margin.</li>
-        <li>`content-box` (default): exclude padding, border and margin.</li>
+        <li><code>border-box</code>: padding and border, *not* margin.</li>
+        <li><code>content-box</code>: exclude padding, border and margin.</li>
       </ul>
       <p>There seems to be no way of also including the margin.</p>
 
@@ -1199,6 +1217,17 @@ a
       <a href="http://stackoverflow.com/questions/7725652/css-scrollbar-style-cross-browser">http://stackoverflow.com/questions/7725652/css-scrollbar-style-cross-browser</a>
     </p>
 
+    <h4>#block formatting context</h4>
+
+    <h4>#overflow:hidden magic</h4>
+
+      <p>
+        <code>overflow:hidden</code> is often used for a side-effect which has
+        no dedicated language feature: creating a <i>block formatting context</i>:
+        <a href="http://colinaarts.com/articles/the-magic-of-overflow-hidden">http://colinaarts.com/articles/the-magic-of-overflow-hidden</a>
+        <a href="http://stackoverflow.com/questions/6196725/how-does-the-css-block-formatting-context-work">http://stackoverflow.com/questions/6196725/how-does-the-css-block-formatting-context-work</a>
+      </p>
+
   <h3>#display</h3>
 
     <p>Transform block elements into inline ones, vice versa and more.</p>
@@ -1213,8 +1242,28 @@ a
 
     <p>
       Even if you transform the "inlineliness" of an element with CSS,
-      you still *cannot* put block elements inside inline ones and have valid HTML5.
+      you still *cannot* put block elements inside inline ones and have valid HTML5:
+      valid HTML5 rules are independent from CSS.
     </p>
+
+    <h4>#block</h4>
+
+      <p>span display:block height:100px. Looks exactly like a <code>div</code> without display:</p>
+      <p class="border" style="width:250px;">
+        asdf qwer asdf qwer asdf qwer
+        <span class="border" style="display:block; height:100px;">
+          <b>block</b>
+        </span>
+        qwer asdf qwer asdf qwer adsf qwer adsf qwer
+      </p>
+
+      <h5>Input display block</h5>
+
+        <p>
+          <code>display:block</code> on input has no effect apparently because it is a replaced element:
+          <a href="http://stackoverflow.com/questions/4567988/what-is-it-in-the-css-dom-that-prevents-an-input-box-with-display-block-from-ex">http://stackoverflow.com/questions/4567988/what-is-it-in-the-css-dom-that-prevents-an-input-box-with-display-block-from-ex</a>
+        </p>
+        <input type="text" style="display:block;"/>
 
     <h4>#inline-block</h4>
 
@@ -1242,15 +1291,6 @@ a
         </div>
         qwer asdf qwer asdf qwer adsf qwer adsf qwer
       </div>
-
-      <p>span display:block height:100px. Looks exactly like a `div` without display:</p>
-      <p class="border" style="width:250px;">
-        asdf qwer asdf qwer asdf qwer
-        <span class="border" style="display:block; height:100px;">
-          <b>block</b>
-        </span>
-        qwer asdf qwer asdf qwer adsf qwer adsf qwer
-      </p>
 
       <h5>Empty inline-block and vertical-align</h5>
 
@@ -1311,12 +1351,21 @@ a
 
     <h4>#none</h4>
 
-      <div>
+      <p>
         Hides the element. It does not occupy any space.
+      </p>
+
+      <div>
         Before display none span.
-        <span style="display:none;">Inside display none span.</span>
+        <span id="display-none" style="display:none;">Inside display none span.</span>
         After display none span.
       </div>
+
+      <p>
+        On Firefox 32 and Chrome 36, URL fragments that point to elements with
+        <code>display:none</code> don't lead the page to scroll to the element.
+        <a href="#display-none">#display-none</a>
+      </p>
 
   <h3>#visibility</h3>
 
@@ -1327,7 +1376,7 @@ a
       After hidden span.
     </p>
 
-  <h3>#float #clear</h3>
+  <h3>#float</h3>
 
     <p>Makes elements move horizontally as much as possible until they find:</p>
     <ul>
@@ -1351,69 +1400,84 @@ a
     <div class="border wide">
       <span class="border">before</span>
       <span class="border" style="float:left;">float left</span>
-      <span class="border red-back">after</span>
-    </div>
-
-    <ul>
-      <li>Even the content of block elements are displaced by a floating element.</li>
-      <li>Only elements that come after the block are displaced.</li>
-      <li>Only elements up to the height of the float are affected.</li>
-    </ul>
-    <div class="border wide">
-      <div class="border">before</div>
-      <div class="border" style="float:left;">float left</div>
-      <div class="border red-back">after red</div>
-      <div class="border">after2</div>
-    </div>
-    <br/>
-    <div class="border wide">
-      <div class="border">before</div>
-      <div class="border" style="float:left; height:50px;">float left</div>
-      <div class="border red-back">after red</div>
-      <div class="border">after2</div>
-    </div>
-
-    <p>The <code>clear</code> property can be used to prevent elements from being displaced by <code>float</code>:</p>
-    <div class="border wide">
-      <div class="border" style="clear:left;">clear before</div>
-      <div class="border" style="float:left;">float left</div>
-      <div class="border">after</div>
-    </div>
-
-    <div class="border wide">
-      <div class="border" style="clear:left;">clear before</div>
-      <div class="border" style="float:left;">float left</div>
-      <div class="border">after</div>
-      <div class="border">after2</div>
-    </div>
-
-    <p><code>clear</code> only works for block elements:</p>
-    <div class="border wide">
-      <span class="border" style="clear:left;">clear left span</span>
-      <span class="border" style="float:left;">float left span</span>
       <span class="border">after</span>
     </div>
 
+    <ul>
+      <li>
+        The floating element is removed from the normal flow.
+        It does not affect the borders of other block elements,
+        and overlaps with them, but it does occupy the space their text.
+      </li>
+      <li>Only elements that come after the floating block are affected by it.</li>
+    </ul>
+    <div class="border">
+      <div class="border">before</div>
+      <div class="border" style="background:rgba(0, 0, 255, 0.5); float:left; height:50px;">float left blue</div>
+      <div class="border" style="background:red;">after red</div>
+      <div class="border">after2</div>
+      <div class="border">after3</div>
+      <div class="border">after4</div>
+    </div>
+
+    <p>One way to prevent overlap is by using <code>overflow:hidden</code>:</p>
+    <div class="border">
+      <div class="border">before</div>
+      <div class="border" style="background:rgba(0, 0, 255, 0.5); float:left; height:50px;">float left blue</div>
+      <div class="border" style="background:red; overflow:hidden;">after red</div>
+      <div class="border">after2</div>
+      <div class="border">after3</div>
+      <div class="border">after4</div>
+    </div>
+
+
     <p>With text-align:right:</p>
-    <div class="border wide" style="text-align:right;">
+    <div class="border" style="text-align:right;">
       <div class="border">before</div>
       <div class="border" style="float:right;">float right</div>
       <div class="border">after</div>
     </div>
 
     <p>float both:</p>
-    <div class="border wide">
+    <div class="border">
       <div class="border">before</div>
       <div class="border" style="float:both;">float both</div>
       <div class="border">after</div>
     </div>
 
     <p>float right:</p>
-    <div class="border wide">
+    <div class="border">
       <div class="border">before</div>
-      <div class="border" style="float:right;">float right</div>
+      <div class="border" style="float:right; width: 30px;">float right</div>
       <div class="border">after</div>
     </div>
+
+    <h4>Make input occupy remaining horizontal space</h4>
+
+      <p><a href="http://stackoverflow.com/questions/7189608/how-do-i-make-an-input-element-occupy-all-remaining-horizontal-space">http://stackoverflow.com/questions/7189608/how-do-i-make-an-input-element-occupy-all-remaining-horizontal-space</a></p>
+
+      <p>Make an input occupy the remaining space: needs <code>overflow: hidden;</code> magic.</p>
+      <div class="border">
+        <div class="border">before</div>
+        <div class="border" style="float:left;">float left</div>
+        <div class="border" style="overflow:hidden;"><input type="text" style="width:100%;"/></div>
+      </div>
+
+      <p>
+        A direct attempt with <code>width:100%</code> fails because it
+        makes the input want to take the entire line so it gets displaced down by the float:
+      </p>
+      <div class="border">
+        <div class="border">before</div>
+        <div class="border" style="float:left;">float left</div>
+        <div class="border" style="width:100%;"><input type="text" style="width:100%;"/></div>
+      </div>
+
+      <p>
+        It does not work if you make the <code>input</code> block directly:
+        <a href="http://stackoverflow.com/questions/4567988/what-is-it-in-the-css-dom-that-prevents-an-input-box-with-display-block-from-ex">http://stackoverflow.com/questions/4567988/what-is-it-in-the-css-dom-that-prevents-an-input-box-with-display-block-from-ex</a>
+      </p>
+      <input type="text" style="display:block;"/>
 
     <h4>Occupy vertical space with float</h4>
 
@@ -1431,6 +1495,32 @@ a
       <p><code>overflow:auto;</code> does the trick for some mysterious reason.</p>
       <div class="border wide" style="margin-bottom:35px; overflow:auto;">
         <div class="border" style="float:right; height:30px;">float right div</div>
+      </div>
+
+    <h4>#clear</h4>
+
+      <p>
+        The <code>clear</code> property prevents elements
+        from being displaced by <code>float</code>:
+      </p>
+      <div class="border">
+        <div class="border" style="clear:left;">clear before</div>
+        <div class="border" style="float:left;">float left</div>
+        <div class="border">after</div>
+      </div>
+
+      <div class="border">
+        <div class="border" style="clear:left;">clear before</div>
+        <div class="border" style="float:left;">float left</div>
+        <div class="border">after</div>
+        <div class="border">after2</div>
+      </div>
+
+      <p><code>clear</code> only works for block elements:</p>
+      <div class="border">
+        <span class="border" style="clear:left;">clear left span</span>
+        <span class="border" style="float:left;">float left span</span>
+        <span class="border">after</span>
       </div>
 
   <h3>#vertical-align</h3>
@@ -1486,7 +1576,8 @@ a
     <h4>#center vertically</h4>
 
       <p>
-        Center vertically and horizontally: http://stackoverflow.com/questions/7720730/how-to-align-the-absolute-position-to-center
+        Center vertically and horizontally:
+        <a href="http://stackoverflow.com/questions/7720730/how-to-align-the-absolute-position-to-center">http://stackoverflow.com/questions/7720730/how-to-align-the-absolute-position-to-center</a>
       </p>
       <p>
         Why <code>margin: auto;</code> does not work vertically:
@@ -1828,7 +1919,7 @@ a
       </tr>
     </table>
 
-    <h4>Fit to content with width 100%</h4>
+    <h4>Shrink to fit column content with one column taking the rest of the space</h4>
 
       <p>
         Make cells fit to their content on a width:100% table, except for one large cell.

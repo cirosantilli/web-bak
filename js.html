@@ -1723,7 +1723,7 @@
       //x = 42;         // creates the property x on the global object
       //var y = 43;     // declares a new variable, y
 
-  // #number of #arguments
+  // #arguments
 
     // Any number of arguments can be passed to a function.
 
@@ -1746,25 +1746,39 @@
       assert_eq(f(0, 1, 2).b, 1)
       assert_eq(f(0, 1, 2).c, 2)
 
-    // `arguments` is an Array like object. It is not however an actual Array. It only contains the following properties:
+  // #splat
 
-    // - callee.
-    // - caller. Obsolete.
-    // - length.
+    // No convenient built-in support before ES6, probably direct support on ES6:
+    // <http://stackoverflow.com/questions/17380315/splat-operators-in-javascript-equivalent-to-args-and-kwargs-in-python>
 
-      var f = function() {
-        assert_eq(arguments.length, 2)
-        // TODO
-        //assert_eq(arguments.callee, this)
-      }
-      f(0, 1)
+    // before ES6
 
-    // To convert `arguments` to an Array use the following idiom:
+      // You can use `arguments` + `call`.
 
-      var f = function() {
-        return Array.prototype.slice.call(arguments, 0).sort()
-      }
-      assert_eq(f(1, 0)[0], 0)
+      // `arguments` is an Array-like object: it is **not** an actual Array.
+      // It only contains the following properties:
+
+      // - callee.
+      // - caller. Obsolete.
+      // - length.
+
+        var f = function() {
+          assert_eq(arguments.length, 2)
+          // TODO
+          //assert_eq(arguments.callee, this)
+        }
+        f(0, 1)
+
+      // To convert `arguments` to an Array use the following idiom:
+
+        var f = function() {
+          return Array.prototype.slice.call(arguments, 0).sort()
+        }
+        assert_eq(f(1, 0)[0], 0)
+
+    // Coffescript
+
+      // Supports splats, probably by wrapping the pre-ES6 idiom.
 
   // #this
 
@@ -1862,7 +1876,7 @@
           C.prototype.instanceMethodFail = function() {
             return takeCallback(function() {
               // AHA! Although this is inside an instance method,
-              // it is also inside a callback, and this will be overwritten when called!
+              // it is also inside a callback, and `this` will be overwritten when called!
               return this.instanceVariable
             })
           }
@@ -1881,19 +1895,19 @@
 
             var bind = function(func, thisValue) {
               return function() {
-                return func.apply(thisValue, arguments);
+                return func.apply(thisValue, arguments)
               }
             }
             obj = {}
             obj.f = function() { return this }
-            var boundF = bind(obj.f, obj);
+            var boundF = bind(obj.f, obj)
             assert_eq(boundF(), obj)
 
         // - an ES5 language feature, `bind` method for functions:
 
             obj = {}
             obj.f = function() { return this }
-            var boundF = obj.f.bind(obj);
+            var boundF = obj.f.bind(obj)
             assert_eq(boundF(), obj)
 
         // CoffeScript has a dedicated language feature to make binding super easy:
@@ -3095,6 +3109,20 @@
           </li>
         </ul>
 
+      <h5>#disabled</h5>
+
+        <p>Property to get or set the disabled state of a form control.</p>
+
+        <input id="prop-disabled" type="text" value="Disabled by Javascript."></input>
+        <script>
+          document.getElementById('prop-disabled').disabled = true;
+        </script>
+
+        <input id="prop-enabled" type="text" value="Enabeld by Javascript." disabled="disabled"></input>
+        <script>
+          document.getElementById('prop-enabled').disabled = false;
+        </script>
+
     <h4>#checkbox</h4>
 
       <h5>#checked</h5>
@@ -4053,5 +4081,24 @@
 
       <p>Simple examples demo: <a href="http://www.ringabell.org/en/un-simple-guide-pour-debuter-avec-requirejs/">http://www.ringabell.org/en/un-simple-guide-pour-debuter-avec-requirejs/</a></p>
       <p>Large multi file example: <a href="https://github.com/requirejs/example-multipage">https://github.com/requirejs/example-multipage</a></p>
+
+<h2>#Design patterns</h2>
+
+  <h3>Tabs</h3>
+
+    <p>Possibilities for Js-only tabs:</p>
+    <ul>
+      <li>buttons, not links. Downside: there is not URL that points to a given tab. Upside: clean URLs.</li>
+      <li>
+        fragment links. Implemented by jQuery UI. Downside: takes up your fragment.
+        Downside if badly implemented like in jQuery UI 1.11: no URLs that point to tabs.
+      </li>
+      <li>query parameter. Downside: uglier than fragments.</li>
+    </ul>
+
+    <p>
+      The only clean solution however is to integrate tabs with the server side,
+      and decide which tab is open based on the URL <code>path</code>.
+    </p>
 </body>
 </html>

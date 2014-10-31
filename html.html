@@ -1991,17 +1991,11 @@ iii</textarea></p>
     <ul>
       <li>negative: element is never focused. So only use <code>-1</code>.</li>
       <li>0: the element is reached at undefined order. So never use it.</li>
-      <li>positive: </li>
-    </ul>
-    <p>The tab order is:</p>
-    <ul>
-      <li><code>tabindex</code> 1</li>
-      <li><code>tabindex</code> 2</li>
-      <li>...</li>
+      <li>positive: 1, 2, ...</li>
       <li>elements without <code>tabindex</code></li>
     </ul>
     <p>
-      If multiple elements are on the same category,
+      If multiple elements are on the same precedence level,
       the one that comes first on the document tree goes first.
     </p>
     <p>Example:</p>
