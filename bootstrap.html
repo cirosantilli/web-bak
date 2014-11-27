@@ -7,7 +7,10 @@
     Use all components. It is possible to use only certain elements if desired.
   -->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Required -->
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-hover-dropdown/2.0.10/bootstrap-hover-dropdown.js"></script>
   <!-- #Font Awesome -->
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 		<style>
@@ -33,7 +36,7 @@
 <p><a href="http://getbootstrap.com/">http://getbootstrap.com/</a></p>
 <p>
   Twitter Bootstrap is a front end library:
-  it contains CSS and Javascript that is useful across a large variety of sites.
+  it contains CSS and JavaScript that is useful across a large variety of sites.
 </p>
 <p>The main advantages of using TBS are:</p>
 <ul>
@@ -133,51 +136,54 @@
       <span class="help-block">Please correct the error</span>
     </div>
 
-<h2>#navbar</h2>
+<h2>#Navigation</h2>
 
-  <p>Choosing the current button to highlight should be done server side.</p>
-  <div class="container">
-      <!-- Static navbar -->
-      <div class="navbar navbar-inverse" role="navigation">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Project name</a>
+  <h3>#navbar</h3>
+
+    <p>Choosing the current button to highlight should be done server side.</p>
+    <div class="container">
+        <div class="navbar navbar-inverse" role="navigation">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Project name</a>
+            </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Nav header</li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="./">Default</a></li>
+                <li><a href="../navbar-static-top/">Static top</a></li>
+                <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+              </ul>
+            </div>
           </div>
-          <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li class="dropdown-header">Nav header</li>
-                  <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li class="active"><a href="./">Default</a></li>
-              <li><a href="../navbar-static-top/">Static top</a></li>
-              <li><a href="../navbar-fixed-top/">Fixed top</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
+        </div>
       </div>
-    </div> <!-- /container -->
 
-  <h3>#tabs</h3>
+  <h3>#Tab navigation</h3>
+
+    <p>HTML + CSS, no action:</p>
 
     <ul class="nav nav-tabs" role="tablist">
       <li class="active"><a href="#">Tab 1</a></li>
@@ -185,20 +191,119 @@
       <li><a href="#">Tab 3</a></li>
     </ul>
 
-    <p>TODO: how do nav-tabs with buttons that look exactly like links?</p>
-    <p><a href="http://stackoverflow.com/questions/19981949/how-to-make-a-button-in-bootstrap-look-like-a-normal-link">http://stackoverflow.com/questions/19981949/how-to-make-a-button-in-bootstrap-look-like-a-normal-link</a></p>
+    <h4>#tab.js</h4>
 
-    <ul class="nav nav-tabs" role="tablist">
-      <li class="active"><button class="btn btn-default" type="button">Tab 1</button></li>
-      <li class="active"><button class="btn btn-default" type="button">Tab 2</button></li>
-      <li class="active"><button class="btn btn-default" type="button">Tab 3</button></li>
-    </ul>
+      <p><a href="http://getbootstrap.com/javascript/#tabs">http://getbootstrap.com/javascript/#tabs</a></p>
 
-    <ul class="nav nav-tabs" role="tablist">
-      <li class="active"><button class="btn btn-link" type="button">Tab 1</button></li>
-      <li class="active"><button class="btn btn-link" type="button">Tab 2</button></li>
-      <li class="active"><button class="btn btn-link" type="button">Tab 3</button></li>
-    </ul>
+      <div id="tab-js" role="tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#tab-js-0" aria-controls="tab-js-0" role="tab" data-toggle="tab">0</a></li>
+          <li role="presentation">               <a href="#tab-js-1" aria-controls="tab-js-1" role="tab" data-toggle="tab">1</a></li>
+          <li role="presentation">               <a href="#tab-js-2" aria-controls="tab-js-2" role="tab" data-toggle="tab">2</a></li>
+        </ul>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="tab-js-0">0</div>
+          <div role="tabpanel" class="tab-pane"        id="tab-js-1">1</div>
+          <div role="tabpanel" class="tab-pane"        id="tab-js-2">2</div>
+        </div>
+      </div>
+
+      <p>TODO: possible without IDs?</p>
+
+    <h4>TODO: how do nav-tabs with buttons that look exactly like links?</h4>
+
+      <p>
+        <a href="http://stackoverflow.com/questions/19981949/how-to-make-a-button-in-bootstrap-look-like-a-normal-link">http://stackoverflow.com/questions/19981949/how-to-make-a-button-in-bootstrap-look-like-a-normal-link</a>
+      </p>
+
+      <p>Failed attempts:</p>
+
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><button class="btn btn-default" type="button">Tab 1</button></li>
+        <li class="active"><button class="btn btn-default" type="button">Tab 2</button></li>
+        <li class="active"><button class="btn btn-default" type="button">Tab 3</button></li>
+      </ul>
+
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><button class="btn btn-link"    type="button">Tab 1</button></li>
+        <li class="active"><button class="btn btn-link"    type="button">Tab 2</button></li>
+        <li class="active"><button class="btn btn-link"    type="button">Tab 3</button></li>
+      </ul>
+
+  <h3>#dropdown.js</h3>
+
+    <p><a href="http://getbootstrap.com/javascript/#dropdowns">http://getbootstrap.com/javascript/#dropdowns</a></p>
+
+    <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+        Dropdown
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a tabindex="-1" href="0">0</a></li>
+        <li><a tabindex="-1" href="1">1</a></li>
+        <li><a tabindex="-1" href="2">2</a></li>
+      </ul>
+    </div>
+
+    <div class="dropdown">
+      <a class="shortcuts-commits dropdown-toggle" data-toggle="dropdown" href="/gitlab-org/gitlab-test/commits/master">Commits
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Compare</a>
+        </li>
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Branches</a>
+        </li>
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tags</a>
+        </li>
+      </ul>
+    </div>
+
+    <p>Split button dropdown. Bad for mobile since hard to click on the small button.</p>
+    <div class="btn-group">
+      <button type="button" class="btn btn-danger">Action</button>
+      <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </div>
+
+    <h3>#Hover dropdown</h3>
+
+      <p>
+        Not possible built-in:
+        <a href="https://github.com/CWSpear/bootstrap-hover-dropdown">https://github.com/CWSpear/bootstrap-hover-dropdown</a>
+        Sub-menus are WONTFIX because complicated and not useful for mobile:
+        <a href="https://github.com/CWSpear/bootstrap-hover-dropdown/issues/89">https://github.com/CWSpear/bootstrap-hover-dropdown/issues/89</a>
+      </p>
+
+      <span class="dropdown">
+        <a href="0" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="100">
+          Hover me
+          <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a tabindex="-1" href="1">1</a></li>
+          <li><a tabindex="-1" href="2">2</a></li>
+          <li><a tabindex="-1" href="3">3</a></li>
+        </ul>
+      </span>
+
+      <p>
+        A <code>data-delay</code> of <code>0</code> is problematic
+        because there is a gap between the button and the dropdown:
+      </p>
 
 <h2>#Font Awesome</h2>
 

@@ -143,7 +143,14 @@
 
 <h2>#prop</h2>
 
-  <p><code>attr</code> is about the HTML, <code>prop</code> are the in-memory IDL attributes.</p>
+  <p>
+    <code>attr</code> vs <code>prop</code>:
+    <a href="http://stackoverflow.com/questions/5874652/prop-vs-attr/24595458#24595458">http://stackoverflow.com/questions/5874652/prop-vs-attr/24595458</a>
+  </p>
+  <p>
+    <code>prop</code> are the in-memory IDL attributes,
+    <code>attr</code> is about the HTML, which may or may not modify the IDL attribute.
+  </p>
 
   <input id="prop-disabled" type="text" value="Disabled by jQuery."></input>
   <script>
@@ -281,6 +288,21 @@
     <script>
       $("#tabs-ajax").tabs()
     </script>
+
+<h2>#on</h2>
+
+  <p>Setup callbacks.</p>
+
+  <h3>#Event object</h3>
+
+    <p>
+      TODO: is it the same as the HTML event?
+      <a href="http://api.jquery.com/category/events/event-object/">http://api.jquery.com/category/events/event-object/</a>
+    </p>
+
+    <h4>#target</h4>
+
+      <p>The <code>event.target</code> is the bare </p>
 
 <h2>#plugins</h2>
 

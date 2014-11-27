@@ -146,3 +146,7 @@ Implementation status sources:
 A bunch of small examples, which is basically my approach in this repository.
 
 [HTML5 demos](https://github.com/remy/html5demos)
+
+## Security
+
+<https://code.google.com/p/browsersec/wiki/Main>, by a Google employee.

@@ -135,7 +135,8 @@ This seems not to be possible because of the cross site request:
 
       <p>Features that only exist in HTML and not in XML include:</p>
       <ul>
-        <li>self closing elements only exist in HTML</li>
+        <li>some closing tags can be omitted. E.g.: <code>p</code>.</li>
+        <li>some opening tags can be omitted, but still generate a specific DOM structure. E.g.: <code>body</code>.</li>
         <li>attributes without value</li>
         <li>attribute values without quotes</li>
         <li>hundreds of named character references, XML has only 5</li>
@@ -294,18 +295,19 @@ This seems not to be possible because of the cross site request:
             html, body and head *start and end* tags can be omitted!
           </li>
           <li>
-            p elements has by far the most complex rule. Quoting:
-            p element's end tag may be omitted if the p element is immediately followed by an
-            address, article, aside, blockquote, div, dl, fieldset, footer, form,
-            h1, h2, h3, h4, h5, h6, header, hgroup, hr, main, nav, ol, p, pre, section, table, or ul, element,
+            <code>p</code> elements has by far the most complex rule. Quoting:
+            <code>p</code> element's end tag may be omitted if the <code>p</code> element is immediately followed by an
+            <code>address</code>, <code>article</code>, <code>aside</code>, <code>blockquote</code>, <code>div</code>, <code>dl</code>,
+            <code>fieldset</code>, <code>footer</code>, <code>form</code>, <code>h1</code>, <code>h2</code>, <code>h3</code>, <code>h4</code>,
+            <code>h5</code>, <code>h6</code>, <code>header</code>, <code>hgroup</code>, <code>hr</code>, <code>main</code>, <code>nav</code>, <code>ol</code>, <code>p</code>, <code>pre</code>, <code>section</code>, <code>table</code>, or <code>ul</code>, <code>element</code>,
             or if there is no more content in the parent element and the parent element is not an element.
           </li>
           <li>
-            li element's end tag may be omitted if the li element is immediately followed by another li element
+            li element's end tag may be omitted if the <code>li</code> element is immediately followed by another <code>li</code> element
             or if there is no more content in the parent element.
           </li>
           <li>
-            div, ul, table and blockquote tags must have and end tag
+            <code>div</code>, <code>ul</code>, table and <code>blockquote</code> tags must have and end tag
           </li>
         </ul>
       </li>
@@ -322,197 +324,110 @@ This seems not to be possible because of the cross site request:
     <p>Such minimalism may break on IE8 as noted in the SO thread.</p>
     <p>A saner and more portable minimal template is <a href="main2.html">main2.html</a>.</p>
 
-<h2>#URL</h2>
+  <h3>#URL</h3>
 
-<h2>#valid URL</h2>
+  <h3>#valid URL</h3>
 
-  <p>HTML defines a valid URL as: <a href="http://url.spec.whatwg.org/">http://url.spec.whatwg.org/</a></p>
-  <p>
-    Valid URLs are required on all attributes that take URLs like <code>href</code> or <code>src</code>:
-    in particular you must escape special chars like spaces,
-    even if the parameter quotes would be enough to determine the URL.
-  </p>
-  <p>
-    However it seems that this definition of URL allows IRIs,
-    which allow many Unicode characters, to appear directly.
-    TODO check.
-    See:
-    <a href="http://stackoverflow.com/questions/2742852/unicode-characters-in-urls">http://stackoverflow.com/questions/2742852/unicode-characters-in-urls</a>
-    <a href="http://stackoverflow.com/questions/1547899/which-characters-make-a-url-invalid">http://stackoverflow.com/questions/1547899/which-characters-make-a-url-invalid</a>
-  </p>
-  <p><a href="你好">你好</a></p>.
-
-<h2>#doctype</h2>
-
-  <p>The first line determines the document type.</p>
-  <p>HTML5 has one single possibility: <code>&lt;!DOCTYPE html&gt;</code>. It is case insensitive.</p>
-  <p>HTML4 has multiple possibilities</p>
-  <p>XHTML5 has only accepts uppercase, so just stick to the uppercase version.</p>
-
-<h2>#html element</h2>
-
-  <p>Can be omitted: <a href="http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags">http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags</a></p>
-
-<h2>#head</h2>
-
-  <p>Contains document metadata.</p>
-  <p>
-    Can be omitted:
-    <a href="http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags">http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags</a>
-    TODO how toes HTML decide what is inside of it and what is inside the body? Can all head tags only be inside it?
-  </p>
-
-  <h3>#title</h3>
-
-    <p>Required.</p>
-    <p>On all modern browsers, appears on the tab name.</p>
-    <p>Has big importance to search engines.</p>
-
-  <h3>#meta</h3>
-
-    <p>As you may guess, contain document metadata.</p>
+    <p>HTML defines a valid URL as: <a href="http://url.spec.whatwg.org/">http://url.spec.whatwg.org/</a></p>
     <p>
-      Besides a few standard <code>name</code> arguments, HTML5 says that anyone
-      can recommend a new <code>name</code> usage:
-      <a href="http://wiki.whatwg.org/wiki/MetaExtensions">http://wiki.whatwg.org/wiki/MetaExtensions</a>.
-      For instance, Rails defines <code>csrf-param</code> and <code>csrf-token</code> there.
-    </p>
-
-    <h4>#charset</h4>
-
-      <p>Indicates the document's encoding.</p>
-      <p>Very important document wide, so it must be within the first 512 bytes of the document.</p>
-      <p>Keep your sanity and use UTF-8 *everywhere*.</p>
-      <p>
-        There seems to be no requirement at all that certain glyphs are available to user agents or not:
-        <a href="http://stackoverflow.com/questions/2702447/which-of-the-following-unicode-characters-should-be-used-in-html">http://stackoverflow.com/questions/2702447/which-of-the-following-unicode-characters-should-be-used-in-html</a>
-      </p>
-      <p>The only official recommendation we could find seems very vague: http://www.w3.org/TR/REC-html40/charset.html#h-5.4</p>
-
-    <h4>#http-equiv</h4>
-
-      <p>Set values of things that can be set on the HTTP headers.</p>
-
-      <p>
-        Only a few values a supported:
-        <a href="http://www.w3.org/TR/html51/document-metadata.html#attr-meta-http-equiv">http://www.w3.org/TR/html51/document-metadata.html#attr-meta-http-equiv</a>
-      </p>
-
-      <p><code>Content-Language</code> is deprecated in favor of the global <code>lang</code> attribute.</p>
-
-      <h5>#refresh</h5>
-
-        <p>Automatically refresh page after 1 second or redirect to another page!</p>
-        <p>This is a non standard HTTP header that is standard on HTML.</p>
-        <p>
-          Interesting way to automatically reload news feeds without Javascript,
-          reload modifications on this cheat, or just annoy your users to hell.
-        </p>
-        <p>Too annoying even for tests!</p>
-        <p>Redirect instead of refresh. Evil idea: HTML-only infinite loop of redirects!</p>
-
-<h2>#body</h2>
-
-  <p>Contains document "visible" content.</p>
-  <p>
-    Can be omitted:
-    <a href="http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags">http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags</a>
-  </p>
-
-  <h3>#lang attribute</h3>
-
-    <p>
-      It is recommended that you always set the <code>lang</code> attribute of the <code>html</code>
-      tag to help search engines.
+      Valid URLs are required on all attributes that take URLs like <code>href</code> or <code>src</code>:
+      in particular you must escape special chars like spaces,
+      even if the parameter quotes would be enough to determine the URL.
     </p>
     <p>
-      In HTML5, can be used on any tag an sets the language of the element,
-      but the most common place to put it by far is in the body element.
+      However it seems that this definition of URL allows IRIs,
+      which allow many Unicode characters, to appear directly.
+      TODO check.
+      See:
+      <a href="http://stackoverflow.com/questions/2742852/unicode-characters-in-urls">http://stackoverflow.com/questions/2742852/unicode-characters-in-urls</a>
+      <a href="http://stackoverflow.com/questions/1547899/which-characters-make-a-url-invalid">http://stackoverflow.com/questions/1547899/which-characters-make-a-url-invalid</a>
     </p>
-    <p><code>meta http-equiv="Content-Language"</code> is deprecated.</p>
+    <p><a href="你好">你好</a></p>.
 
-<h2>#Character references #Entities</h2>
+  <h3>#Entities</h3>
 
-  <p>
-    HTML5 uses only the term "Character references":
-    <a href="http://www.w3.org/TR/html5/syntax.html#character-references">http://www.w3.org/TR/html5/syntax.html#character-references</a>
-  </p>
-  <p>
-    The term "entity" is only used in XML, and has no exact analogue in HTML,
-    since XML entities can be defined in the document with the <code>!ENTITY</code> construct,
-    and can be defined to mean multiple characters, including other entities, which leads to the billion laughs vulnerability.
-    Even so, some authors informally say "Entity" when talking about HTML Characters references.
-  </p>
-  <p>The term entity is not used: it is only used for a similar concept in XML.</p>
-  <p>There are two kinds of entities:</p>
-  <ul>
-    <li>
-      <p>named. E.g.: &amp;gt; &gt;</p>
-      <p>Full list: <a href="http://www.w3.org/TR/html5/syntax.html#named-character-references">http://www.w3.org/TR/html5/syntax.html#named-character-references</a></p>
-      <p>There is a bunch of accents and mathematical characters.</p>
-      <p>XML on the other hand only defines the 5 that need to be escaped in some context: &amp; &lt; &gt; &quot; &apos;.</p>
-      <p>
-        HTML 4.1 did not have <code>&amp;apos;</code>: you had to use a numeric reference: &amp;#x27;.
-        It was introduced in HTML5. The insanity!
-      </p>
-    </li>
-    <li>
-      numeric: refers to Unicode code points. Starts with the number sign <code>#</code>.
-      <ul>
-        <li>decimal: &amp;#60;  &#60;</li>
-        <li>hex:     &amp;#x3C; &#x3C;</li>
-      </ul>
-    </li>
-  </ul>
+  <h3>#Character references</h3>
 
-  <p>HTML5 adopts exactly the same references as XML, but earlier versions do not, so watch out. TODO check.</p>
-  <p>Notably: &quot; is on the official list of valid HTML 4 entities, but &apos; is not.</p>
-  <p>Entities are considered in both data and attribute values.</p>
-
-  <p>Escape sequences are intended for characters that:</p>
-  <ul>
-    <li>
-      Have an specific meaning to HTML. Important ones:
-      <ul>
-        <li>greater than &amp;gt;  &gt;  Used in tags.</li>
-        <li>less than    &amp;lt;  &lt;  Used in tags.</li>
-        <li>ampersand    &amp;amp; &amp; Used in escape entities themselves.</li>
-      </ul>
-    </li>
-    <li>
-      <p>Not present in the current encoding, such as Unicode character in an ASCII encoded file.</p>
-      <p>Prefer Unicode for all non-whitespace characters.</p>
-      <p>Useful whitespace characters:</p>
-      <ul>
-        <li>nbsp</li>
-      </ul>
-    </li>
-  </ul>
-
-  <h3>#nbsp</h3>
-
-    <p>Similar to a regular space, but:</p>
+    <p>
+      HTML5 uses only the term "Character references":
+      <a href="http://www.w3.org/TR/html5/syntax.html#character-references">http://www.w3.org/TR/html5/syntax.html#character-references</a>
+    </p>
+    <p>
+      The term "entity" is only used in XML, and has no exact analogue in HTML,
+      since XML entities can be defined in the document with the <code>!ENTITY</code> construct,
+      and can be defined to mean multiple characters, including other entities, which leads to the billion laughs vulnerability.
+      Even so, some authors informally say "Entity" when talking about HTML Characters references.
+    </p>
+    <p>The term entity is not used: it is only used for a similar concept in XML.</p>
+    <p>There are two kinds of entities:</p>
     <ul>
       <li>
-        Lines cannot break at that point by default as they could with regular spaces.
-        Also see the <code>overflow-wrap</code> CSS property to allow breaks anywhere.
+        <p>named. E.g.: &amp;gt; &gt;</p>
+        <p>Full list: <a href="http://www.w3.org/TR/html5/syntax.html#named-character-references">http://www.w3.org/TR/html5/syntax.html#named-character-references</a></p>
+        <p>There is a bunch of accents and mathematical characters.</p>
+        <p>XML on the other hand only defines the 5 that need to be escaped in some context: &amp; &lt; &gt; &quot; &apos;.</p>
+        <p>
+          HTML 4.1 did not have <code>&amp;apos;</code>: you had to use a numeric reference: &amp;#x27;.
+          It was introduced in HTML5. The insanity!
+        </p>
       </li>
       <li>
-        Multiple consecutive nbsps characters are displayed.
-        Firefox copy to clipboard copies them as regular spaces.
+        numeric: refers to Unicode code points. Starts with the number sign <code>#</code>.
+        <ul>
+          <li>decimal: &amp;#60;  &#60;</li>
+          <li>hex:     &amp;#x3C; &#x3C;</li>
+        </ul>
       </li>
     </ul>
-    <p>
-      It seems to be the only whitespace with a named reference,
-      but other whitespace character width variations exist in Unicode:
-      <a href="http://en.wikipedia.org/wiki/Non-breaking_space#Width_variations">http://en.wikipedia.org/wiki/Non-breaking_space#Width_variations</a>
-      like the en and em spaces.
-    </p>
-    <p>Before&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After</p>
 
-  <h3>#apos</h3>
+    <p>HTML5 adopts exactly the same references as XML, but earlier versions do not, so watch out. TODO check.</p>
+    <p>Notably: &quot; is on the official list of valid HTML 4 entities, but &apos; is not.</p>
+    <p>Entities are considered in both data and attribute values.</p>
 
-    <p>Not in HTML4, so avoid it and use <code>&amp;quot;</code> instead. In HTML5 and XML.</p>
+    <p>Escape sequences are intended for characters that:</p>
+    <ul>
+      <li>
+        Have an specific meaning to HTML. Important ones:
+        <ul>
+          <li>greater than &amp;gt;  &gt;  Used in tags.</li>
+          <li>less than    &amp;lt;  &lt;  Used in tags.</li>
+          <li>ampersand    &amp;amp; &amp; Used in escape entities themselves.</li>
+        </ul>
+      </li>
+      <li>
+        <p>Not present in the current encoding, such as Unicode character in an ASCII encoded file.</p>
+        <p>Prefer Unicode for all non-whitespace characters.</p>
+        <p>Useful whitespace characters:</p>
+        <ul>
+          <li>nbsp</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>#nbsp</h4>
+
+      <p>Similar to a regular space, but:</p>
+      <ul>
+        <li>
+          Lines cannot break at that point by default as they could with regular spaces.
+          Also see the <code>overflow-wrap</code> CSS property to allow breaks anywhere.
+        </li>
+        <li>
+          Multiple consecutive nbsps characters are displayed.
+          Firefox copy to clipboard copies them as regular spaces.
+        </li>
+      </ul>
+      <p>
+        It seems to be the only whitespace with a named reference,
+        but other whitespace character width variations exist in Unicode:
+        <a href="http://en.wikipedia.org/wiki/Non-breaking_space#Width_variations">http://en.wikipedia.org/wiki/Non-breaking_space#Width_variations</a>
+        like the en and em spaces.
+      </p>
+      <p>Before&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After</p>
+
+    <h4>#apos</h4>
+
+      <p>Not in HTML4, so avoid it and use <code>&amp;quot;</code> instead. In HTML5 and XML.</p>
 
 <h2>#attributes</h2>
 
@@ -632,7 +547,102 @@ This seems not to be possible because of the cross site request:
       only changes the property, not the attribute.
     </p>
 
-<h2>#categories #flow content #phrasing #which element can contain which</h2>
+<h2>#doctype</h2>
+
+  <p>The first line determines the document type.</p>
+  <p>HTML5 has one single possibility: <code>&lt;!DOCTYPE html&gt;</code>. It is case insensitive.</p>
+  <p>HTML4 has multiple possibilities</p>
+  <p>XHTML5 has only accepts uppercase, so just stick to the uppercase version.</p>
+
+<h2>#html element</h2>
+
+  <p>Can be omitted: <a href="http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags">http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags</a></p>
+
+<h2>#head</h2>
+
+  <p>Contains document metadata.</p>
+  <p>
+    Can be omitted:
+    <a href="http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags">http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags</a>
+    TODO how toes HTML decide what is inside of it and what is inside the body? Can all head tags only be inside it?
+  </p>
+
+  <h3>#title</h3>
+
+    <p>Required.</p>
+    <p>On all modern browsers, appears on the tab name.</p>
+    <p>Has big importance to search engines.</p>
+
+  <h3>#meta</h3>
+
+    <p>As you may guess, contain document metadata.</p>
+    <p>
+      Besides a few standard <code>name</code> arguments, HTML5 says that anyone
+      can recommend a new <code>name</code> usage:
+      <a href="http://wiki.whatwg.org/wiki/MetaExtensions">http://wiki.whatwg.org/wiki/MetaExtensions</a>.
+      For instance, Rails defines <code>csrf-param</code> and <code>csrf-token</code> there.
+    </p>
+
+    <h4>#charset</h4>
+
+      <p>Indicates the document's encoding.</p>
+      <p>Very important document wide, so it must be within the first 512 bytes of the document.</p>
+      <p>Keep your sanity and use UTF-8 *everywhere*.</p>
+      <p>
+        There seems to be no requirement at all that certain glyphs are available to user agents or not:
+        <a href="http://stackoverflow.com/questions/2702447/which-of-the-following-unicode-characters-should-be-used-in-html">http://stackoverflow.com/questions/2702447/which-of-the-following-unicode-characters-should-be-used-in-html</a>
+      </p>
+      <p>The only official recommendation we could find seems very vague: http://www.w3.org/TR/REC-html40/charset.html#h-5.4</p>
+
+    <h4>#http-equiv</h4>
+
+      <p>Set values of things that can be set on the HTTP headers.</p>
+
+      <p>
+        Only a few values a supported:
+        <a href="http://www.w3.org/TR/html51/document-metadata.html#attr-meta-http-equiv">http://www.w3.org/TR/html51/document-metadata.html#attr-meta-http-equiv</a>
+      </p>
+
+      <p><code>Content-Language</code> is deprecated in favor of the global <code>lang</code> attribute.</p>
+
+      <h5>#refresh</h5>
+
+        <p>Automatically refresh page after 1 second or redirect to another page!</p>
+        <p>This is a non standard HTTP header that is standard on HTML.</p>
+        <p>
+          Interesting way to automatically reload news feeds without JavaScript,
+          reload modifications on this cheat, or just annoy your users to hell.
+        </p>
+        <p>Too annoying even for tests!</p>
+        <p>Redirect instead of refresh. Evil idea: HTML-only infinite loop of redirects!</p>
+
+<h2>#body</h2>
+
+  <p>Contains document "visible" content.</p>
+  <p>
+    Can be omitted:
+    <a href="http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags">http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags</a>
+  </p>
+
+  <h3>#lang attribute</h3>
+
+    <p>
+      It is recommended that you always set the <code>lang</code> attribute of the <code>html</code>
+      tag to help search engines.
+    </p>
+    <p>
+      In HTML5, can be used on any tag an sets the language of the element,
+      but the most common place to put it by far is in the body element.
+    </p>
+    <p><code>meta http-equiv="Content-Language"</code> is deprecated.</p>
+
+<h2>#flow content</h2>
+
+<h2>#phrasing content</h2>
+
+<h2>#Which element can contain which</h2>
+
+<h2>#Content model</h2>
 
   <p>HTML5 has many element categories.</p>
   <p>Flow content and phrasing are two of the most important categories.</p>
@@ -668,10 +678,69 @@ This seems not to be possible because of the cross site request:
       They can be put inside other inline elements.
     </p>
 
+<h2>#Sectioning content</h2>
+
+  <p><a href="http://www.w3.org/TR/html5/dom.html#sectioning-content-0">http://www.w3.org/TR/html5/dom.html#sectioning-content-0</a></p>
+  <p><a href="http://www.w3.org/TR/html5/sections.html#headings-and-sections">http://www.w3.org/TR/html5/sections.html#headings-and-sections</a></p>
+  <p>Organizes the structure of the document.</p>
+  <p>Mostly are only semantic and don't render specially in most browsers.</p>
+
+  <h3>#main</h3>
+
+    <p><a href="http://www.w3.org/TR/html5/grouping-content.html#the-main-element">http://www.w3.org/TR/html5/grouping-content.html#the-main-element</a></p>
+    <p>Authors must not include more than one main element in a document.</p>
+    <p>Authors must not include the main element as a descendant of an article, aside, footer, header or nav element.</p>
+    <p>Content can be either directly inside <code>main</code>, or inside <code>articles inside of it</code>.</p>
+
+  <h3>#aside</h3>
+
+  <h3>#article</h3>
+
+  <h3>#section</h3>
+
+    <p><a href="http://www.w3.org/TR/html5/sections.html#the-section-element">http://www.w3.org/TR/html5/sections.html#the-section-element</a></p>
+
+    <p>
+      Usually a child of <code>article</code> or <code>main</code>,
+      that contains a heading. Usually there are multiple sibling sections.
+    </p>
+
+    <p>Usually a sibling of <code>header</code>.</p>
+
+  <h3>#hgroup</h3>
+
+  <h3>#header</h3>
+
+  <h3>#footer</h3>
+
+    <p>
+      Can be inside any <code>article</code> or <code>main</code> or <code>body</code>,
+      so there can be multiple per document.
+    </p>
+
+    <p>
+      Can contain <code>h1</code>, <code>nav</code> and summaries,
+      although those elements can also be placed outside.
+    </p>
+
+    <p>Usually a sibling of <code>section</code>.</p>
+
+  <h3>#h1</h3>
+
+  <h3>#h2</h3>
+
+  <h3>#h3</h3>
+
+  <h3>#h4</h3>
+
+  <h3>#h5</h3>
+
+  <h3>#h6</h3>
+
 <h2>#pre</h2>
 
   <p>White spaces are taken into consideration when rendering.</p>
-  <p>Can only contain phrasing content elements like span or b.</p>
+  <p>Can only contain phrasing content elements like <code>span</code> or <code>b</code>.</p>
   <p>Since it can contain elements, smaller and greater than signs are *not* automatically escaped.</p>
   <p>
     A similar effect can be achieved with the CSS <code>white-space:pre;</code> attribute,
@@ -708,7 +777,7 @@ a
  b
 </pre>
 
-<h2>#text level semantics</h2>
+<h2>#Text level semantics</h2>
 
   <p>
     Term used in the spec to group tags that add semantics to text.
@@ -798,7 +867,7 @@ b</code></p>
     <pre><code>a
 b</code></pre>
 
-  <h3>#time</h3>
+  <h3>#time element</h3>
 
     <p>HTML5.</p>
     <p>Semantic for times.</p>
@@ -806,6 +875,8 @@ b</code></pre>
     <p>Can have the <code>datetime</code> attribute to specify time for inner content.</p>
     <p>No attribute: <time>10:00</time></p>
     <p><code>datetime</code> attribute <time datetime="2008-02-14">Valentine's day</time>.</p> 
+
+  <h3>#address element</h3>
 
 <h2>#Edits</h2>
 
@@ -834,8 +905,12 @@ b</code></pre>
 
     <h4>src</h4>
 
-      <p>Must be non empty or invalid HTML5:</p>
+      <p>Must be non-empty or invalid HTML5:</p>
       <!--<img src="" alt="empty"/>-->
+
+      <p>An image pointing to HTML:</p>
+
+      <img src="html2.html" alt="html2.html"/>
 
     <h4>Size</h4>
 
@@ -853,7 +928,8 @@ b</code></pre>
       <p>If:</p>
       <ul>
         <li>an image does not exist
-        <li>the format is not supported by the browser (<a href="http://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support">support list</a>)</li>
+        <li>the format is not supported by the browser. See:
+        <a href="http://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support">support list</a></li>
       </ul>
       <p>then alt the browser can show the alt text instead of the image</p>
       <p>
@@ -969,7 +1045,17 @@ b</code></pre>
 
     <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/object">https://developer.mozilla.org/en-US/docs/Web/HTML/Element/object</a></p>
     <p>HTML4, but lost many attributes when HTML5 was introduced.</p>
-    <p>TODO <code>iframe</code> and <code>embed</code>: <a href="http://stackoverflow.com/questions/16660559/difference-between-iframe-embed-and-object-elements">http://stackoverflow.com/questions/16660559/difference-between-iframe-embed-and-object-elements</a></p>
+    <p>
+      TODO <code>iframe</code> and <code>embed</code>:
+      <a href="http://stackoverflow.com/questions/16660559/difference-between-iframe-embed-and-object-elements">http://stackoverflow.com/questions/16660559/difference-between-iframe-embed-and-object-elements</a>
+    </p>
+
+    <h4>#param</h4>
+
+      <p>
+        Pass parameters to script running in <code>object</code>.
+        Can only be contained inside of <code>object</code>.
+      </p>
 
   <h3>#embed</h3>
 
@@ -1009,6 +1095,7 @@ b</code></pre>
     </svg>
 
     <p><code>img</code>:</p>
+
     <img src="svg.svg" alt="svg" class="border" style="height:100px; width:100px;"/>
     <p>
       Unlike the embedded version, <code>img</code> <code>svg</code> element
@@ -1037,7 +1124,7 @@ b</code></pre>
       <p>External:</p>
       <object type="image/svg+xml" data="svg-style-external.svg"  class="border" style="height:100px; width:100px;"></object>
 
-    <h4>Javascript in SVG</h4>
+    <h4>JavaScript in SVG</h4>
 
       <p>You can include script tags inside SVG and compliant browsers must execute it.</p>
       <p>This allows for interactive SVGs, but also XSS attacks, which is probably why GitHub does not server SVGs.
@@ -1051,6 +1138,27 @@ b</code></pre>
         <li>spec: <a href="http://www.w3.org/TR/SVG/script.html">http://www.w3.org/TR/SVG/script.html</a></li>
         <li>demo: <a href="http://www.w3.org/TR/SVG/images/script/script01.svg">http://www.w3.org/TR/SVG/images/script/script01.svg</a></li>
       </ul>
+
+      <p>Click for Js embedded:</p>
+      <svg width="200px" height="200px" viewBox="0 0 600 500"
+          xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <desc>Example script01 - invoke an ECMAScript function from an onclick event
+        </desc>
+        <!-- ECMAScript to change the radius with each click -->
+        <script type="application/ecmascript"> <![CDATA[
+          function circle_click(e) {
+            alert('js')
+          }
+        ]]> </script>
+        <rect x="1" y="1" width="598" height="498" fill="none" stroke="blue"/>
+        <circle onclick="circle_click(evt)" cx="300" cy="225" r="200" fill="red"/>
+      </svg>
+
+      <p>Click for Js <code>object</code>:</p>
+      <object type="image/svg+xml" data="svg-script.svg" class="border" style="height:200px; width:200px;"></object>
+
+      <p>Click for Js <code>img</code>:</p>
+      <img src="svg-script.svg" alt="svg" class="border" style="height:200px; width:200px;"/>
 
     <h4>XML vulnerabilities</h4>
 
@@ -1066,7 +1174,7 @@ b</code></pre>
     <p>The <code>rel</code> attribute specifies what is the type.</p>
     <p>
       One notable exception of external document that is not referred to via
-      link ref are scripts such as javascript, which must be referred to with script <code>href</code>.
+      link ref are scripts such as Javascript, which must be referred to with script <code>href</code>.
       Why? <a href="http://stackoverflow.com/questions/2631635/can-i-load-javascript-code-using-link-tag">http://stackoverflow.com/questions/2631635/can-i-load-javascript-code-using-link-tag</a>
     </p>
 
@@ -1080,11 +1188,14 @@ b</code></pre>
       <p>It is like an icon of a desktop application.</p>
       <p>A standard name for the icon image is <code>favicon.ico</code>.</p>
 
-<h2>#Links #Anchors</h2>
+<h2>#a</h2>
+
+<h2>#Links</h2>
+
+<h2>#Anchors</h2>
 
   <a href="#href">link to destination</a>
   <p id="href">link destination</p>
-  <p><code>a</code> cannot contain <code>a</code>.</p>
   <div><div></div></div>
   <a href="html2.html">
     <span>p</span>
@@ -1096,6 +1207,15 @@ b</code></pre>
     <a>I am an anchor without <code>href</code>!</a> There are situations
     in which one wants to use them as event generators.
   </p>
+
+  <h3>Nested anchors</h3>
+
+    <p>
+      Not possible:
+      <a href="http://stackoverflow.com/questions/9882916/are-you-allowed-to-nest-a-link-inside-of-a-link">http://stackoverflow.com/questions/9882916/are-you-allowed-to-nest-a-link-inside-of-a-link</a>
+      because anchor cannot have interactive content descendants, and anchor is interactive content.
+    </p>
+    <p><code>a</code> cannot contain <code>a</code>.</p>
 
   <h3>#nofollow</h3>
 
@@ -1124,7 +1244,14 @@ b</code></pre>
       For certain MIME types, in particular those that the browser cannot display,
       and possibly user configured, downloading may be the default browser action.
     </p>
-    <p>Download an HTML: <a download="newname.html" href="html2.html">html2.html</a>.</p>
+    <p>Download an HTML:
+      <a href="html2.html" download               >html2.html</a>
+      <a href="html2.html" download="newname.html">html2.html as newname</a>
+    </p>
+    <p>
+      Cannot be used of course for XSS protection if HTML pages may be downloaded:
+      TODO does HTTP <code>Content-Disposition</code> work for that?
+    </p>
 
 <h2>#URI schemes officially supported in HTML</h2>
 
@@ -1218,7 +1345,7 @@ b</code></pre>
         around groups of rows without a surrounding <code>tbody</code>.
         <a href="http://stackoverflow.com/questions/938083/why-do-browsers-insert-tbody-element-into-table-elements">http://stackoverflow.com/questions/938083/why-do-browsers-insert-tbody-element-into-table-elements</a>
       </p>
-      <p>Automatic addition can be verified with CSS, Javascript or Firebug like tools.</p>
+      <p>Automatic addition can be verified with CSS, JavaScript or Firebug like tools.</p>
       <p>
         However, the sanest thing to do is to only omit <code>tbody</code> for a trivial table where there is a single one:
         handle any more complex case explicitly with multiple <code>tbody</code> elements.
@@ -1295,11 +1422,16 @@ b</code></pre>
     <ul>
       <li><code>action</code>: where to send the request to</li>
       <li>
-        <code>method</code>: what HTTP method to use. Can only be:
+        <p><code>method</code>: what HTTP method to use. Can only be:</p>
         <ul>
-          <li>get: send data on the URL URL encoded, which has size limitations.</li>
-          <li>post: sends data on the body URL encoded.</li>
+          <li>GET: send data on the URL URL encoded, which has size limitations.</li>
+          <li>POST: sends data on the body URL encoded.</li>
         </ul>
+        <p>
+          Why this is so:
+          <a href="http://programmers.stackexchange.com/questions/114156/why-there-are-no-put-and-delete-methods-in-html-forms">http://programmers.stackexchange.com/questions/114156/why-there-are-no-put-and-delete-methods-in-html-forms</a>
+        </p>
+        <p>Rails gets around this by sending a POST with a <code>_method</code> param for other methods.</p>
       </li>
       <li>
         <code>enctype</code>: value of the <code>content-type</code> header:
@@ -1625,7 +1757,7 @@ b</code></pre>
     <p><code>maxlength="6" value="1234576"</code>. TODO: valid?:</p>
     <form action="#maxlength-value-conflict" id="maxlength-value-conflict" method="get">
       <input type="text" maxlength="6" name="name" value="1234567"/>
-      <button type="submit"/>Submit</button>
+      <button type="submit">Submit</button>
     </form>
 
   <h3>#minlength</h3>
@@ -1665,7 +1797,7 @@ iii</textarea></p>
 
       <p>TODO what does cols mean, since font widths vary with different characters?</p>
 
-  <h3>#file</h3>
+  <h3>#file type</h3>
 
     <p>
       Opens a file selector popup.
@@ -1680,6 +1812,11 @@ iii</textarea></p>
     <h4>#multiple attribute</h4>
 
       <p>Indicates that the input field takes multiple values.</p>
+      <p>
+        Introduced reasonably recently: only available on IE10+:
+        <a href="http://caniuse.com/#feat=input-file-multiple">http://caniuse.com/#feat=input-file-multiple</a>
+        So as of 2014 it is better to use libraries for that.
+      </p>
       <p>Currently only valid for file and email.</p>
       <p>
         Multiple files, control select multiple files in the popup and submits.
@@ -1690,6 +1827,40 @@ iii</textarea></p>
         <input type="file" name="file" multiple="multiple"/>
         <button type="submit">Submit</button>
       </form>
+
+    <h5>Operations not possible with HTML:</h5>
+
+      <p>
+        The following options seem not to be possible in HTML.
+        Some are possible with the File API,
+        others need JavaScript libraries that hide the file uploader and do
+        operations with divs and the File API.
+      </p>
+      <ul>
+        <li>
+          remove one of the files when <code>multiple</code> is used:
+          <a href="http://stackoverflow.com/questions/9337793/remove-selected-files-before-upload-with-javascript">http://stackoverflow.com/questions/9337793/remove-selected-files-before-upload-with-javascript</a>
+        </li>
+        <li>
+          rename file before upload
+        </li>
+        <li>
+          limit the number of files:
+          <a href="http://stackoverflow.com/questions/9813556/count-and-limit-the-number-of-files-uploaded-html-file-input">http://stackoverflow.com/questions/9813556/count-and-limit-the-number-of-files-uploaded-html-file-input</a>
+        </li>
+        <li>
+          max file size:
+          <a href="http://stackoverflow.com/questions/3717793/javascript-file-upload-size-validation">http://stackoverflow.com/questions/3717793/javascript-file-upload-size-validation</a>
+        </li>
+      </ul>
+      <p>
+        The only solution is to hide the file input, and create <code>div</code>s with Js.
+        Some good libraries include:
+      </p>
+      <ul>
+        <li><a href="https://github.com/FineUploader/fine-uploader">https://github.com/FineUploader/fine-uploader</a></li>
+        <li><a href="https://github.com/blueimp/jQuery-File-Upload">https://github.com/blueimp/jQuery-File-Upload</a></li>
+      </ul>
 
   <h3>#select #option #dropdown select</h3>
 
@@ -2000,7 +2171,7 @@ iii</textarea></p>
     </p>
     <p>Example:</p>
     <ul>
-      <li><input type="text" value="1"  tabindex="1 Start here." /></li>
+      <li><input type="text" value="1"  tabindex="1" /></li>
       <li><input type="text" value="3"  tabindex="3" /></li>
       <li><input type="text" value="2"  tabindex="2" /></li>
       <li><input type="text" value="0"  tabindex="0" /></li>

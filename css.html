@@ -5,33 +5,14 @@
   <title>CSS cheat</title>
   <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
 
-  <!--
-  Main CSS cheat.
-  -->
-
-  <!-- #external style -->
+  <!-- #External style -->
   <link rel="stylesheet" href="css.css"/>
 
   <style>
-  /*
-  #internal style #embedded
-
-    Affects a single file.
-
-    Before HTML5, must in theory be placed on the head element, and affect only current file.
-
-    Many browsers supported it in the body anyways, In both cases, the style affects the entire body.
-    This however may make the browser rerender things it has already rendered because of a change in style.
-
-    http://stackoverflow.com/questions/1303416/does-style-have-to-be-in-the-head-of-an-html-document
-
-    In HTML5, `style` tags with `scoped` attribute can be placed on the body, and affect only child elements.
-
-    The type="txt/css" used to be mandatory, but became the default on HTML5 since CSS prevailed.
-  */
+    /* #Internal style. */
 
     /*
-    #comments
+    #Comments
 
       Comments can only be of the `/ * * /` type.
 
@@ -268,21 +249,71 @@
 <h2>#location</h2>
 
   <p>The following CSS affects a document:</p>
+
   <ul>
     <li>
-      Author: rules written by the web designer. They can be either:
+      Author CSS: rules written by the web designer. They can be either:
       <ul>
-        <li style="color:red;">
-          #inline: put directly on the element it will affect.
+        <li style="color:red;"> inline: put directly on the element it will affect.
           Cannot contain selectors or parenthesis.
         </li>
-        <li class="internal">#internal / #embedded: put on the header or body. Affect only current document.</li>
-        <li class="external">#external: put on external files, used via the `link` tag.</li>
+        <li class="internal">internal / embedded</li>
+        <li class="external">
+          #external: put on external files, used via the <code>link</code> tag.
+        </li>
       </ul>
     </li>
     <li>User: a local stylesheet that the browser's user tells the browser where to find in the HD.</li>
     <li>User agent (most often the browser):a default internal stylesheet for the browser</li>
   </ul>
+
+  <h3>#external</h3>
+
+    <p>With <code>link</code> on the <code>head</code>.</p>
+    <p>Can be emulated with the <code>@import</code> at-rule.</p>
+    <p>
+      Why <code>link</code> and not <code>script src</code>:
+      <a href="http://stackoverflow.com/questions/7122492/why-script-src-min-js-script-but-link-rel-stylesheet-href-min-why-no">http://stackoverflow.com/questions/7122492/why-script-src-min-js-script-but-link-rel-stylesheet-href-min-why-no</a>
+    </p>
+
+  <h3>#embedded</h3>
+
+  <h3>#internal</h3>
+
+    <p>
+      Put on <code>head</code> inside a <code>script</code> element,
+      or since HTML5 in <code>body</code> if the <code>scoped</code> attribute is present.
+    </p>
+
+    <p>Affects a single file.</p>
+
+    <p>Before HTML5, must in theory be placed on the head element, and affect only current file.</p>
+
+    <p>
+      Many browsers supported it in the body anyways, In both cases, the style affects the entire body.
+      This however may make the browser re-render things it has already rendered because of a change in style.
+    </p>
+
+    <p>In HTML5, <code>style</code> tags with <code>scoped</code> attribute can be placed on the body, and affect only child elements.</p>
+
+    <p>The type="txt/css" used to be mandatory, but became the default on HTML5 since CSS prevailed.</p>
+
+    <h3>#scoped</h3>
+
+      <p>
+        Very low browser support as of 2013 but great thing: sets scope of a style block
+        in the body to only the parent element. Example:
+      </p>
+      <div>
+        <div>
+          <style scoped>* { color:red; }</style>
+          Red in scope.
+        </div>
+        <div>
+          Outside scope.
+        </div>
+      </div>
+      <p>You cannot include an external sheet directly with this, but you can do it with </p>
 
 <h2>#Precedence #Specificity</h2>
 
@@ -335,7 +366,7 @@
 
   Specificity is a quadruple (a,b,c,d) where each letter is the number of:
 
-  - a:inline (inside `style`) declarations of the property
+  - a:inline (inside <code>style</code>) declarations of the property
   - b:matching ID selectors
   - c:matching (class + attribute + class count) selectors
   - d:matching (type + element count) selectors
@@ -346,7 +377,7 @@
 
   - Combinators:+, &gt;, ~ don't count by themselves. Selectors on both of their sides do count equally.
   - The universal selector * does not count.
-  - `:not` itself does not count, only what is inside of it.
+  - <code>:not</code> itself does not count, only what is inside of it.
 
   Example:
 
@@ -411,6 +442,7 @@
   <h3>#[] #square brackets #attribute selector</h3>
 
     <p>Family of attribute based selectors:</p>
+
     <ul>
       <li><code>[attribute]</code>: has attribute</li>
       <li><code>[attribute="value"]</code>: has attribute with given value</li>
@@ -420,22 +452,6 @@
       <li><code>$=</code>: ends with value, preceded by space or hyphen</li>
       <li><code>*=</code>: ends with value, not necessarily preceded by space or hyphen</li>
     </ul>
-
-  <h3>#scoped</h3>
-
-    <p>
-      Very low browser support as of 2013 but great thing:sets scope of a style block
-      in the body to only the parent element. Example (turned off because of low support):
-    </p>
-    <div>
-      <div>
-        <!--<style scoped>* {color:red}</style>-->
-        In scope.
-      </div>
-      <div>
-        Outside scope.
-      </div>
-    </div>
 
   <h3>#pseudo element</h3>
 
@@ -479,7 +495,7 @@
 
     <h4>#hover</h4>
 
-      <div>`hover` can be used for any element, not just anchors:</div>
+      <div><code>hover</code> can be used for any element, not just anchors:</div>
       <div class="hover border">hover me to make me red!</div>
       <p>Possible to select elements based on hover status of another.</p>
       <p>
@@ -566,7 +582,7 @@
 
       <p>Selector that negates a property.</p>
       <p>As of CSS3, can only take *simple selectors*: http://www.w3.org/TR/css3-selectors/#negation</p>
-      <p>So for example, no: `a:not(div.nothere *)` to avoid targeting all elements inside a div: you have to duplicate code.</p>
+      <p>So for example, no: <code>a:not(div.nothere *)</code> to avoid targeting all elements inside a div: you have to duplicate code.</p>
       <p>Pseudo selectors are out too.</p>
 
     <h4>#target</h4>
@@ -619,11 +635,11 @@
 
   <p>Colors are used in many places across CSS, but all of them can take the same values:</p>
   <ul>
-    <li>named: `red`, `BurlyWood`, `transparent`. Case insensitive.</li>
-    <li>6 digit hex: `#RRGGBB`, `#0088FF`</li>
-    <li>3 digit hex: `#RGB`, `#08F`, same as `#RRGGBB`</li>
-    <li>rgb function: `rgb(0, 128, 256)`</li>
-    <li>rgba function for the transparency: `rgb(0, 128, 256, 0.3)`</li>
+    <li>named: <code>red</code>, <code>BurlyWood</code>, <code>transparent</code>. Case insensitive.</li>
+    <li>6 digit hex: <code>#RRGGBB</code>, <code>#0088FF</code></li>
+    <li>3 digit hex: <code>#RGB</code>, <code>#08F</code>, same as <code>#RRGGBB</code></li>
+    <li>rgb function: <code>rgb(0, 128, 256)</code></li>
+    <li>rgba function for the transparency: <code>rgb(0, 128, 256, 0.3)</code></li>
   </ul>
 
   <h3>#currentColor</h3>
@@ -663,7 +679,9 @@
         <div style="background-color:rgba(0, 255, 0, 1.0);" class="wide border">green 1.0</div>
       </div>
 
-<h2>#Length specification units</h2>
+<h2>#Measure units</h2>
+
+<h2>#Length units</h2>
 
   <ul>
     <li>#px: pixels</li>
@@ -673,7 +691,7 @@
       which is also equal to it's height in many fonts.
     </li>
     <li>
-      #ex: height of the `x` of current font == height of all lowercase letters in most fonts.
+      #ex: height of the <code>x</code> of current font == height of all lowercase letters in most fonts.
       1ex == 0.5em in many fonts. Some browsers just define it to be 0.5em.
       So don't rely on it.
     </li>
@@ -695,11 +713,21 @@
     like <code>font-size</code>'s <code>small</code> and <code>medium</code>.
   </p>
 
+  <h3>#vh</h3>
+
+  <h3>#vw</h3>
+
+  <h3>#vmin</h3>
+
+  <h3>#vmax</h3>
+
+    <p>Units relative to the viewport.</p>
+
 <h2>#properties</h2>
 
   <h3>#initial</h3>
 
-    <p>Any property can be set to its default CSS value by the `initial` special value.</p>
+    <p>Any property can be set to its default CSS value by the <code>initial</code> special value.</p>
 
   <h3>#inherit</h3>
 
@@ -882,12 +910,12 @@
     <h4>#white-space</h4>
 
       <pre>
-          New lines 	Spaces and tabs 	Text wrapping
-normal 	  Collapse 	  Collapse 	        Wrap
-pre 	    Preserve 	  Preserve 	        No wrap
-nowrap 	  Collapse 	  Collapse 	        No wrap
-pre-wrap 	Preserve 	  Preserve 	        Wrap
-pre-line 	Preserve 	  Collapse 	        Wrap
+          New lines  Spaces and tabs  Text wrapping
+normal    Collapse   Collapse         Wrap
+pre       Preserve   Preserve         No wrap
+nowrap    Collapse   Collapse         No wrap
+pre-wrap  Preserve   Preserve         Wrap
+pre-line  Preserve   Collapse         Wrap
       </pre>
 
       <div class="border" style="height:100px; width:100px; white-space:normal;">a     b c d e f g h i j k l m n o p q
@@ -905,7 +933,7 @@ pre-line 	Preserve 	  Collapse 	        Wrap
 
         <p>Achieves similar effect to the <code>pre</code> HTML element, but:</p>
         <ul>
-          <li><code>pre</code> ignores the first character if it is a newline, while <code>`white-space:pre</code> does not.</li>
+          <li><code>pre</code> ignores the first character if it is a newline, while <code>white-space:pre</code> does not.</li>
           <li>Firefox on copy paste does not preserve newlines for <code>white-space:pre</code>, but does for <code>pre</code>.
             <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=116083">https://bugzilla.mozilla.org/show_bug.cgi?id=116083</a>
           </li>
@@ -928,7 +956,9 @@ a
 
       <p>TODO</p>
 
-    <h4>#overflow-wrap #word-wrap</h4>
+    <h4>#overflow-wrap</h4>
+
+    <h4>#word-wrap</h4>
 
       <p>
         <code>word-wrap</code> is the old name of the property,
@@ -945,6 +975,24 @@ a
         </li>
       </ul>
 
+      <p>Normal:</p>
+      <div class="border" style="width:50px">mmmmmmmmmmmmmmmm</div>
+      <p><code>overflow-wrap:break-word</code>:</p>
+      <div class="border" style="overflow-wrap:break-word; width:50px">mmmmmmmmmmmmmmmm</div>
+      <p><code>word-wrap:break-word</code>:</p>
+      <div class="border" style="word-wrap:break-word; width:50px">mmmmmmmmmmmmmmmm</div>
+
+      <h4>#Select where the break may happen</h4>
+
+        <p>Use a</p>
+
+    <h4>#word-break</h4>
+
+      <p>
+        Apparently for CJK:
+        <a href="http://stackoverflow.com/questions/1795109/what-is-the-difference-between-word-break-break-all-versus-word-wrap-break">http://stackoverflow.com/questions/1795109/what-is-the-difference-between-word-break-break-all-versus-word-wrap-break</a>
+      </p>
+
   <h3>#background</h3>
 
     <h4>#background-image</h4>
@@ -953,7 +1001,7 @@ a
       <p>
         In many situations such as Icons, CSS background images are used instead of img tags. Discussion:
         <a href="http://stackoverflow.com/questions/492809/when-to-use-img-vs-css-background-image">CSS background images vs img</a>
-        If you are going to use CSS, then you will likely to use `background-size:contain; background-repeat:no-repeat;`
+        If you are going to use CSS, then you will likely to use <code>background-size:contain; background-repeat:no-repeat;</code>
         to control well the image size.
       </p>
       <p>CSS sprites:put many smaller images on a single image to make less HTTP requests</p>
@@ -1006,7 +1054,7 @@ a
 
     <p>Describes what are margins, borders and paddings.</p>
     <p>
-      `margin` and `padding` can take 1, 2, 3 or 4 arguments:http://www.htmldog.com/reference/cssproperties/margin/. 
+      <code>margin</code> and <code>padding</code> can take 1, 2, 3 or 4 arguments:http://www.htmldog.com/reference/cssproperties/margin/. 
       They are just shorthands for setting the four margins at once.
     </p>
 
@@ -1132,46 +1180,66 @@ a
 
     <h4>#box-sizing</h4>
 
-      <p>By default, width does not count padding, border and margin.<p>
-      <p>CSS3 introduces the <code>box-sizing</code> property, which allows to determine what the width includes.<p>
+      <p>
+        By default, the width does not include padding, border and margin
+        which are added separately to the total width taken by the element.
+      <p>
+      <p>
+        CSS3 introduces the <code>box-sizing</code> property,
+        which allows to determine what the width includes.
+      <p>
       <ul>
         <li><code>border-box</code>: padding and border, *not* margin.</li>
         <li><code>content-box</code>: exclude padding, border and margin.</li>
       </ul>
       <p>There seems to be no way of also including the margin.</p>
 
-    <h4>height #100%</h4>
+    <h4>#height 100%</h4>
 
       <p>Fill the parent.</p>
       <p>
         <b>Only works if the parent height fixed by CSS</b>,
         not automatically calculated from the content of other elements.
+        <a href="http://stackoverflow.com/questions/1575141/make-div-100-height-of-browser-window">http://stackoverflow.com/questions/1575141/make-div-100-height-of-browser-window</a>
       </p>
-
-      <p>Fixed height:</p>
-      <div style="border: 1px solid black; height:100px;">
-        <div style="background:red; display:inline-block; height:100%;">a</div>
-        <div style="background:blue; display:inline-block; height:100px;">a</div>
-      </div>
-
-      <p>Not fixed height:</p>
-      <div style="border: 1px solid black;">
-        <div style="background:red; display:inline-block; height:100%;">a</div>
-        <div style="background:blue; display:inline-block; height:100px;">a</div>
-      </div>
-
+      <p>
+        So for it to work on a descendant, all parents must have <code>100%</code>
+        set until an ancestor has a fixed height.
+      </p>
+      <p>
+        Also consider <code>vh</code> and <code>vw</code>
+        if you want to get a percentage of the entire window.
+      </p>
       <p>
         How to do it:
         <a href="http://stackoverflow.com/questions/1122381/how-to-force-child-div-to-100-of-parents-div-without-specifying-parents-heigh">http://stackoverflow.com/questions/1122381/how-to-force-child-div-to-100-of-parents-div-without-specifying-parents-heigh</a>
       </p>
 
-  <h3>#overflow #scroll</h3>
+      <p>Parent with fixed height:</p>
+      <div style="border: 1px solid black; height:100px;">
+        <div style="background:red;  display:inline-block; height:100%;" >100% </div>
+        <div style="background:blue; display:inline-block; height:100px;">100px</div>
+      </div>
+
+      <p>Not fixed height:</p>
+      <div style="border: 1px solid black;">
+        <div style="background:red;  display:inline-block; height:100%;" >100% </div>
+        <div style="background:blue; display:inline-block; height:100px;">100px</div>
+      </div>
+
+  <h3>#overflow</h3>
+
+  <h3>#scroll</h3>
 
     <p>Determines what happens when the inner content is larger than it's parent.</p>
-    <p>Has a level 3 module just for it: <a href="http://www.w3.org/TR/css-overflow-3/">http://www.w3.org/TR/css-overflow-3/</a></p>
     <p>
-      <code>overflow</code> appears in CSS2, <code>-x</code> and <code>-y</code> versions only in the level 3 module,
-      possibly because of potentially weird combinations of both: <a href="http://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue">http://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue</a>
+      Has a level 3 module just for it:
+      <a href="http://www.w3.org/TR/css-overflow-3/">http://www.w3.org/TR/css-overflow-3/</a>
+    </p>
+    <p>
+      <code>overflow</code> appears in CSS2, <code>-x</code> and <code>-y</code>
+      versions only in the level 3 module, possibly because of potentially weird combinations of both:
+      <a href="http://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue">http://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue</a>
     </p>
 
     <p>overflow-y:scroll: always show scrollbar. Only activate if inner larger.</p>
@@ -1207,7 +1275,7 @@ a
       test<br/>test<br/>test<br/>test<br/>test<br/>test<br/>
     </div>
 
-    <p>If no scroll, the overflow can be hidden with `overflow:hidden`</p>
+    <p>If no scroll, the overflow can be hidden with <code>overflow:hidden</code></p>
     <div style="width:200px; height:50px; padding:5px; overflow:hidden;" class="border">
       test<br/>test<br/>test<br/>test<br/>test<br/>test<br/>
     </div>
@@ -1227,6 +1295,21 @@ a
         <a href="http://colinaarts.com/articles/the-magic-of-overflow-hidden">http://colinaarts.com/articles/the-magic-of-overflow-hidden</a>
         <a href="http://stackoverflow.com/questions/6196725/how-does-the-css-block-formatting-context-work">http://stackoverflow.com/questions/6196725/how-does-the-css-block-formatting-context-work</a>
       </p>
+
+  <h3>#text-overflow</h3>
+
+    <p>
+      Tons of examples:
+      <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow">https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow</a>
+    </p>
+
+    <div class="border" style="width:100px;">012345678901234567890123456789</div>
+    <p><code>clip</code></p>
+    <div class="border" style="overflow:hidden; text-overflow:clip;     width:100px;">012345678901234567890123456789</div>
+    <p><code>ellipsis</code></p>
+    <div class="border" style="overflow:hidden; text-overflow:ellipsis; width:100px;">012345678901234567890123456789</div>
+    <p><code>'OOPS'</code></p>
+    <div class="border" style="overflow:hidden; text-overflow:'OOPS';   width:100px;">012345678901234567890123456789</div>
 
   <h3>#display</h3>
 
@@ -1295,7 +1378,7 @@ a
       <h5>Empty inline-block and vertical-align</h5>
 
         <p>
-          Empty inline-block with fixed `width`: for the default vertical-align:baseline
+          Empty inline-block with fixed <code>width</code>: for the default vertical-align:baseline
           alignment is done at the bottom of the element:
           http://stackoverflow.com/questions/8215638/difference-between-baseline-of-empty-and-non-empty-inline-blocks
         </p>
@@ -1369,12 +1452,15 @@ a
 
   <h3>#visibility</h3>
 
-    <p>
-      #hidden: occupies space but is invisible.
-      Before hidden span.
-      <span style="visibility:hidden;">Inside hidden span.</span>
-      After hidden span.
-    </p>
+    <ul>
+      <li><code>visible</code>: default</li>
+      <li>
+        #hidden: occupies space but is invisible.
+        Before hidden span.
+        <span style="visibility:hidden;">Inside hidden span.</span>
+        After hidden span.
+      </li>
+    </ul>
 
   <h3>#float</h3>
 
@@ -1407,7 +1493,7 @@ a
       <li>
         The floating element is removed from the normal flow.
         It does not affect the borders of other block elements,
-        and overlaps with them, but it does occupy the space their text.
+        and overlaps with them, but it does occupy the space of their text.
       </li>
       <li>Only elements that come after the floating block are affected by it.</li>
     </ul>
@@ -1562,7 +1648,7 @@ a
       <div style="display:inline-block; width:20px; height:20px; background-color:blue; position:absolute; right:100%;"></div>
     </div>
 
-    <h4>#center horizontally</h4>
+    <h4>#Center horizontally</h4>
 
       <p>Center horizontally: margin auto technique:</p>
       <div><div style="width:200px; background-color:red; margin:0px auto;">centered div</div></div>
@@ -1573,7 +1659,7 @@ a
       </p>
       <div style="text-align:center;"><span style="background-color:red;">centered span</span></div>
 
-    <h4>#center vertically</h4>
+    <h4>#Center vertically</h4>
 
       <p>
         Center vertically and horizontally:
@@ -1645,8 +1731,8 @@ a
     <h4>#z-index</h4>
 
       <p>
-        When you start playing with `position-relative`, you elements can hover one over another, and you will need to use
-        the `z-index` property to decide who is on top of whom.
+        When you start playing with <code>position-relative</code>, you elements can hover one over another, and you will need to use
+        the <code>z-index</code> property to decide who is on top of whom.
       </p>
 
       <p>
@@ -1657,7 +1743,7 @@ a
         Even a 0px width 1px border box can be selected and for that reason is not a good watermark.
         Currently it does not seem possible to make the hovering element not selectable in pure CSS:
         stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselectable
-        although many browsers support the non W3C `user-select: none`.
+        although many browsers support the non W3C <code>user-select: none</code>.
       </p>
 
       <div style="margin-left:100px; width:50px; height:50px; background-color:red; position:relative;">
@@ -1765,7 +1851,7 @@ a
 
   <h3>#lists</h3>
 
-    <p>No bullets via `list-style-type:none`:</p>
+    <p>No bullets via <code>list-style-type:none</code>:</p>
     <ul style="list-style-type:none;">
       <li>a</li>
       <li>b</li>
@@ -1775,8 +1861,8 @@ a
 
       <p>
         By default, positioning happens to the text, and bullets as absolutely positioned
-        In particular, this means that `margin-left` is relative to the text, *not* the bullets by default!
-        This can be changed by the `list-style-position:inside` property.
+        In particular, this means that <code>margin-left</code> is relative to the text, *not* the bullets by default!
+        This can be changed by the <code>list-style-position:inside</code> property.
       </p>
       <div>inside:</div>
       <ul class="list-style-position">
@@ -1944,58 +2030,109 @@ a
         </tr>
       </table>
 
-<h2>#media queries #@media</h2>
+    <h4>td width</h4>
 
-  <p>Determine (query) properties of the current device and set custom CSS rules for it.</p>
-  <p>
-    Cannot be used on inline style:
-    <a href="http://stackoverflow.com/questions/9808233/is-it-possible-to-put-css-media-rules-inline">http://stackoverflow.com/questions/9808233/is-it-possible-to-put-css-media-rules-inline</a>
-  </p>
+      <p>
+        <code>width</code> is ignored on <code>td</code>:
+        <a href="http://stackoverflow.com/questions/6658947/css-table-td-width-fixed-not-flexible">http://stackoverflow.com/questions/6658947/css-table-td-width-fixed-not-flexible</a>
+        TODO check?
+      </p>
+      <p>To work around it either:</p>
+      <ul>
+        <li>use <code>min-width</code></li>
+        <li>use <code>table-layout: fixed</code></li>
+      </ul>
 
-  <h3>Device type</h3>
+      <p>It seems that <code>width</code> is taken as <code>min-width</code></p>
+      <div class="table">
+        <table>
+          <tr>
+            <td style="width:200px;">200px</td>
+            <td style="width:100px;">100px</td>
+          </tr>
+          <tr>
+            <td style="width:100px;">100px</td>
+            <td style="width:200px;">200px</td>
+          </tr>
+        </table>
+      </div>
 
-    <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media">https://developer.mozilla.org/en-US/docs/Web/CSS/@media</a></p>
-    <p>Most devices are not implemented on Firefox, so don't rely much on this feature yet.</p>
-    <p>Important devices include (active will be red):</p>
-    <ul id="media-device">
-      <li class="all"   >all:    any device. Default.</li>
-      <li class="print" >print:
-        display must split into pages. Non-trivial.
-        Try telling your browser to print this with Ctrl + P to a PDF.
-        Firefox 30 shows it in red only in the PDF as expected.
-      </li>
-      <li class="screen">screen: most desktops and laptops</li>
-    </ul>
+      <h4>table-layout</h4>
 
-    <h4>#print media</h4>
+        <p><a href="http://stackoverflow.com/questions/6658947/css-table-td-width-fixed-not-flexible">http://stackoverflow.com/questions/6658947/css-table-td-width-fixed-not-flexible</a></p>
+        <p>2 possible values:</p>
+        <ul>
+          <li><code>auto</code> (default): automatically decide widths with a complicated algorithm</li>
+          <li><code>fixed</code> width of rows and columns is determined by that of the first row or column</li>
+        </ul>
 
-      <p>Tips on how to get it right. Very difficult.</p>
-      <p>Also show link destination on PDFs:</p>
-      <pre>
-        @media print {
-          a[href]:after {
-            content: " (" attr(href) ") ";
-          }
-        }
-      </pre>
+<h2>#at-rules</h2>
 
-  <h3>Device properties</h3>
+<h2>#@</h2>
 
+  <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule">https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule</a></p>
+
+  <h3>##media</h3>
+
+  <h3>##media query</h3>
+
+    <p>Determine (query) properties of the current device and set custom CSS rules for it.</p>
     <p>
-      It is possible to make complex queries with the <code>and</code>
-      and comma <code>,</code> operators.
+      Cannot be used on inline style:
+      <a href="http://stackoverflow.com/questions/9808233/is-it-possible-to-put-css-media-rules-inline">http://stackoverflow.com/questions/9808233/is-it-possible-to-put-css-media-rules-inline</a>
     </p>
-    <p>Interesting properties include:</p>
-    <ul>
-      <li>width, min-width, max-width: current window width</li>
-      <li>
-        device-width, min and max. Device capability. Less useful than width,
-        since a browser can be resized to, say, half screen size, and this won't change.
-      </li>
-    </ul>
-    <div class="border" id="media-width-rainbow">
-      <a href="#media-width-rainbow">This div changes color with your browser width. Go and resize it!</a>
-    </div>
+
+    <h4>Device type</h4>
+
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media">https://developer.mozilla.org/en-US/docs/Web/CSS/@media</a></p>
+      <p>Most devices are not implemented on Firefox, so don't rely much on this feature yet.</p>
+      <p>Important devices include (active will be red):</p>
+      <ul id="media-device">
+        <li class="all"   >all:    any device. Default.</li>
+        <li class="print" >print:
+          display must split into pages. Non-trivial.
+          Try telling your browser to print this with Ctrl + P to a PDF.
+          Firefox 30 shows it in red only in the PDF as expected.
+        </li>
+        <li class="screen">screen: most desktops and laptops</li>
+      </ul>
+
+      <h4>#print media</h4>
+
+        <p>Tips on how to get it right. Very difficult.</p>
+        <p>Also show link destination on PDFs:</p>
+        <pre>
+          @media print {
+            a[href]:after {
+              content: " (" attr(href) ") ";
+            }
+          }
+        </pre>
+
+    <h4>Device properties</h4>
+
+      <p>
+        It is possible to make complex queries with the <code>and</code>
+        and comma <code>,</code> operators.
+      </p>
+      <p>Interesting properties include:</p>
+      <ul>
+        <li>width, min-width, max-width: current window width</li>
+        <li>
+          device-width, min and max. Device capability. Less useful than width,
+          since a browser can be resized to, say, half screen size, and this won't change.
+        </li>
+      </ul>
+      <div class="border" id="media-width-rainbow">
+        <a href="#media-width-rainbow">This div changes color with your browser width. Go and resize it!</a>
+      </div>
+
+    <h4>Impossible detections</h4>
+
+      <ul>
+        <li><a href="http://stackoverflow.com/questions/11387805/touchscreen-media-queries">http://stackoverflow.com/questions/11387805/touchscreen-media-queries</a></li>
+        <li><a href="stackoverflow.com/questions/13803838/detecting-if-a-device-is-able-to-change-orientation-in-javascript">stackoverflow.com/questions/13803838/detecting-if-a-device-is-able-to-change-orientation-in-javascript</a></li>
+      </ul>
 
 <h2>#Combos and related techniques</h2>
 

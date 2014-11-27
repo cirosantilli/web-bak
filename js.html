@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <title>Javascript Cheatsheet</title>
+  <title>JavaScript Cheatsheet</title>
   <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
   <style>
    .border { border:1px solid black; }
@@ -24,7 +24,7 @@
   </script>
 </head>
 <body onload="document.getElementById('onload').innerHTML = 'onload'">
-<h1>Javascript Cheatsheet</h1>
+<h1>JavaScript Cheatsheet</h1>
 
 <ul data-toc></ul>
 
@@ -83,35 +83,35 @@
 
 <h2>#Introduction</h2>
 
-  <p>Javascript is a language originally designed to run in a browser.</p>
+  <p>JavaScript is a language originally designed to run in a browser.</p>
   <p>
     More recently, it has also been used outside of browsers, often server side, through Node.js.
     This cheat shall consider mostly a world without Node.js: for a Node.js cheat see:
     <a href="https://github.com/cirosantilli/nodejs">https://github.com/cirosantilli/nodejs</a>
   </p>
   <p>
-    It can be embedded on the HTML given by the server to the browser inside `script` tags.
-    It can also be given in separate `.js` files which are then included in the HTML header.
+    It can be embedded on the HTML given by the server to the browser inside <code>script</code> tags.
+    It can also be given in separate <code>.js</code> files which are then included in the HTML header.
   </p>
   <p>
-    One of the goals of Javascript is to restrict what the language can do to prevent malicious attacks.
-    Therefore, by design choice Javascript does not allows dangerous operations such as file IO
+    One of the goals of JavaScript is to restrict what the language can do to prevent malicious attacks.
+    Therefore, by design choice JavaScript does not allows dangerous operations such as file IO
     (this might be possible soon with: <a href="http://www.w3.org/TR/FileAPI/">the File API</a>)
-    Node.js adds such abilities to Javascript through its standard library.
+    Node.js adds such abilities to JavaScript through its standard library.
   </p>
   <p>
-    Javascript feels very Pythonic, but with less features and stdlib.
+    JavaScript feels very Pythonic, but with less features and stdlib.
     CoffeScript "Rubynises" it.
   </p>
   <h3>#CoffeeScript</h3>
     <p>
-      Javascript is known for having some weird quirks. CoffeScript, a language that transpiles to Javascript
+      JavaScript is known for having some weird quirks. CoffeScript, a language that transpiles to JavaScript
       but behaves more like Ruby, attempts to correct many of those quirks.
     </p>
   <h3>#TypeScript</h3>
     <p>
       Microsoft open source Js extension: every valid Js script also a valid TypeScript one.
-      Possible to compile it down to vanilla Javascript.
+      Possible to compile it down to vanilla JavaScript.
     </p>
 
 <h2>#Standards #ECMAScript</h2>
@@ -123,21 +123,21 @@
     key web standards not maintained by W3C.
   </p>
   <p>
-    The ECMA work group that develops Javascript is called T39.
+    The ECMA work group that develops JavaScript is called T39.
     They have a wiki at: <a href="http://wiki.ecmascript.org">http://wiki.ecmascript.org</a>
     where they organize the proposals for the next version of the standard,
     including features prior to approval on the strawman namespace
-    <a href="http://wiki.ecmascript.org/doku.php?do=index&id=strawman%3Astrawman">http://wiki.ecmascript.org/doku.php?do=index&id=strawman%3Astrawman</a>
+    <a href="http://wiki.ecmascript.org/doku.php?do=index&amp;id=strawman%3Astrawman">http://wiki.ecmascript.org/doku.php?do=index&amp;id=strawman%3Astrawman</a>
     The wiki is openly readable, but only writable by contributors.
   </p>
   <p>
-    ECMAScript does not include objects which browsers add to Javascript
-    such as `document`, `window`, `XMLHttpRequest`,
+    ECMAScript does not include objects which browsers add to JavaScript
+    such as <code>document</code>, <code>window</code>, <code>XMLHttpRequest</code>,
     although it does furnish some global objects like JSON.
     Such objects are typically specified in separate W3C specs.
   </p>
   <p>
-    Browser objects are not directly available to Node.js, including useful ones such as `XMLHttpRequest`.
+    Browser objects are not directly available to Node.js, including useful ones such as <code>XMLHttpRequest</code>.
     Some projects implement the browser interfaces as a Node.js library, such as
     <a href="https://github.com/driverdan/node-XMLHttpRequest">https://github.com/driverdan/node-XMLHttpRequest</a>
     thus allowing to use such objects in Node.js / browser portable code./
@@ -153,7 +153,7 @@
     </p>
     <p>
       Officially approved features list under the Harmony namespace of the official wiki:
-      <a href="http://wiki.ecmascript.org/doku.php?do=index&id=harmony%3Aharmony">http://wiki.ecmascript.org/doku.php?do=index&id=harmony%3Aharmony</a>
+      <a href="http://wiki.ecmascript.org/doku.php?do=index&amp;id=harmony%3Aharmony">http://wiki.ecmascript.org/doku.php?do=index&amp;id=harmony%3Aharmony</a>
     </p>
     <p>
       Unofficial HTML version of the draft by one of the contributors:
@@ -237,11 +237,11 @@
 
 <h2>#Minification</h2>
 
-  <p>Since Javascript is sent to browsers over the network, methods have been developed to make Javascript code smaller:</p>
+  <p>Since JavaScript is sent to browsers over the network, methods have been developed to make JavaScript code smaller:</p>
 
   <h3>#Compression</h3>
 
-    <p>Compress Javascript with gzip before sending. Notify browser with `Content-Encoding` HTTP header.</p>
+    <p>Compress JavaScript with gzip before sending. Notify browser with <code>Content-Encoding</code> HTTP header.</p>
 
   <h3>#Minification</h3>
 
@@ -262,25 +262,33 @@
       in this case by reducing the number of HTTP requests.
     </p>
     <p>
-      When writing Javascript code, you must be aware that this can happen, and that it may have consequences.
+      When writing JavaScript code, you must be aware that this can happen, and that it may have consequences.
       See for example the Semicolon before IIFE pattern.
     </p>
 
 <h2>#script element</h2>
 
+  <h3>Where JavaScript code can be placed</h3>
+
+    <ul>
+      <li>on external <code>.js</code> files and included with <code>script src=</code></li>
+      <li>inside a script element</li>
+      <li>on certain callback attributes like <code>onclick</code>, whose usage is discouraged.</li>
+    </ul>
+
   <h3>#script element</h3>
 
-    <p>`script` elements can appear either inside the head or of the body.</p>
+    <p><code>script</code> elements can appear either inside the head or of the body.</p>
     <p>
-      The most commonly recommended place is load all scripts just before the `body` tag,
+      The most commonly recommended place is load all scripts just before the closing <code>body</code> tag,
       so that the page can load before long scripts do, so it seems more responsive.
     </p>
     <p>
-      It is not valid to put scripts after the /body tag, as HTML specifies that only
+      It is not valid to put scripts after the <code>body</code> tag, as HTML specifies that only
       comments can be put there.
     </p>
 
-  <h3>#multiple script elements</h3>
+  <h3>#Multiple script elements</h3>
 
     <p>Scripts are executed in the order which they appear on the file.</p>
     <p>head scripts are executed before body ones.</p>
@@ -301,10 +309,18 @@
 
   <h3>#src attribute</h3>
 
-    <p>Source a script from a separate `.js` file.</p>
-    <p>In HTML5, the `script` tag *cannot* be self closing because it is neither `void` nor `foreign`.</p>
+    <p>Source a script from a separate <code>.js</code> file.</p>
     <p>
-      In HTML5 you cannot have <code>src</code> and a non empty <code>innerHTML</code>:
+      The included script behaves exactly as a script inside a <code>script</code> element:
+      it can for example get and set cookies. Therefore, when you include a third-party script you
+      must future-trust the source or they can hack your users away.
+    </p>
+    <p>
+      In HTML5, the <code>script</code> tag *cannot* be self closing
+      because it is neither void nor foreign.
+    </p>
+    <p>
+      In HTML5 you cannot have <code>src</code> and a non-empty <code>innerHTML</code>:
       <a href="http://stackoverflow.com/questions/6528325/what-does-a-script-tag-with-src-and-content-mean">http://stackoverflow.com/questions/6528325/what-does-a-script-tag-with-src-and-content-mean</a>
     </p>
     <script src="external.js"></script>
@@ -327,18 +343,52 @@
     </p>
     <p>In HTML5 js became the default, so the attribute is not needed anymore.</p>
 
-  <h3>Close script tag inside Javascript #/scr'+'ipt</h3>
+  <h3>#/scr'+'ipt</h3>
+
+  <h3>Close script tag inside string inside JavaScript</h3>
 
     <p>
       Any HTML tags can be included inside a script element except the closing script tag.
       The HTML parser just reads everything up to that and then passes it to the Js interpreter.
     </p>
     <p>
-      A common technique to write a literal &lt;/script&gt; string inside Javascript it to break it up
+      A common technique to write a literal &lt;/script&gt; string inside JavaScript it to break it up
       with concatenation as <code>/scr'+'ipt</code>
     </p>
 
-  <h3>#Strict mode #Use strict directive</h3>
+  <h3>#XSS helpers</h3>
+
+    <p>The goal is to insert:</p>
+
+    <!-- <script>alert('xss')</script> -->
+
+    <p>on the pages.</p>
+
+    <p>Firefox executes does not run a script with closing element.</p>
+
+    <!-- <script>alert('xss no closing') -->
+
+    <p>But it does execute if the <code>src</code> attribute is set.</p>
+
+    <!-- <script src="alert.js"> -->
+
+    <p>Script without <code>script</code> element via <code>onerror</code>:</p>
+
+    <!-- <img onerror="alert('xss img onerror');" src="not-image" alt="err" /> -->
+
+    <p>Inside SVG:</p>
+
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <script type="application/ecmascript">
+          // alert('xss svg')
+        </script>
+      </svg>
+
+    <p>Only works for embedded SVGs.</p>
+
+  <h3>#use strict directive</h3>
+
+  <h3>#Strict mode</h3>
 
     <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode</a></p>
     <p>ES5.</p>
@@ -467,7 +517,7 @@
   </p>
   <p>The first character is more restricted than the following ones, for example it cannot be a number.</p>
   <p>
-    Some libraries make extensive use of such variables, notably JQuery which uses the dollar sign `$`
+    Some libraries make extensive use of such variables, notably JQuery which uses the dollar sign <code>$</code>
     which is an alias for jQuery.
   </p>
   <p>Make sure to use <code>meta charset=UTF-8</code> if you really want to use non ASCII identifier chars.</p>
@@ -483,7 +533,7 @@
 
   <h3>#case</h3>
 
-    <p>Javascript is case sensitive.</p>
+    <p>JavaScript is case sensitive.</p>
     <script>
       var i = 1
       var I = 2
@@ -522,7 +572,7 @@
   <h3>#tilde operator #~</h3>
 
     <p>Binary negation.</p>
-    <p>Common application: transform `-1` into `0` on `indexOf` (jQuery `inArray`).</p>
+    <p>Common application: transform <code>-1</code> into <code>0</code> on <code>indexOf</code> (jQuery <code>inArray</code>).</p>
     <p>Works because number representation is fixed at 2's complement and in that case:</p>
     <ul>
       <li><code>~-1 == 0</code>~-1 == 0</li>
@@ -544,9 +594,9 @@
 
   <h3>#void operator</h3>
 
-    <p>Evaluates expression and returns `undefined`.</p>
+    <p>Evaluates expression and returns <code>undefined</code>.</p>
     <p>
-      TODO applications, besides golfing for `undefined`, specially on discouraged `javascript:void(0) hrefs: ?
+      TODO applications, besides golfing for <code>undefined</code>, specially on discouraged <code>javascript:void(0)</code> hrefs: ?
       <a href="http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean">http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean</a>
     </p>
 
@@ -582,7 +632,7 @@
         <a href="http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean">http://stackoverflow.com/questions/1291942/what-does-javascriptvoid0-mean</a>
         Only use links for links: for other things use styled spans.
       </p>
-      <p>Evaluate Javascript and open it on the new page if the result is not <code>undefined</code>.</p>
+      <p>Evaluate JavaScript and open it on the new page if the result is not <code>undefined</code>.</p>
       <p>TODO: W3C standard? Likely not, since not even in IANA.</p>
       <p>
         If <code>undefined</code>, do nothing, and unlike number sign URL,
@@ -612,6 +662,8 @@
 // TODO: convert comments on this script to HTML
 
 // #if
+
+  // http://www.ecma-international.org/ecma-262/5.1/#sec-12.5
 
     if (false) {
       assert(false)
@@ -714,11 +766,17 @@
 
   // TODO understand label form. Good examples: http://www.tutorialspoint.com/javascript/javascript_loop_control.htm
 
-// #primitive types #base types #mutable #immutable
+// #Primitive types
+
+// #Base types
+
+// #Mutable
+
+// #Immutable
 
   // http://javascriptweblog.wordpress.com/2010/09/27/the-secret-life-of-javascript-primitives/
 
-  // There are 5 primitive types in Javascript:
+  // There are 5 primitive types in JavaScript:
 
   // - undefined
   // - null
@@ -749,7 +807,7 @@
 
   // Unlike objects, primitives have no properties.
 
-  // Javascript does implicit coercion between primitives and corresponding types
+  // JavaScript does implicit coercion between primitives and corresponding types
   // whenever you try access a property of a primitive:
 
     assert_eq('abc'.length, 3)
@@ -762,17 +820,37 @@
     a.b = 1
     assert_eq(a.b, undefined)
 
-  // Operators behave as expected on primitives. In particular,
-  // `===` compares their values, not addresses, so for primitives it works as naively expected:
+  //#==
 
-    assert(true  === true)
-    assert(0     === 0)
-    assert('abc' === 'abc')
+    // http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3
 
-  // while it fails for objects, where address is considered:
+    // You never want to use this because it does insane conversions.
+    // Use `===` instead.
 
-    assert([] !== [])
-    assert({} !== {})
+      assert(null  == undefined)
+      assert(null !== undefined)
+
+      assert(1     == '1')
+      assert(1    !== '1')
+
+      assert(true   == 1)
+      assert(true   != 2)
+      assert(true  !== 1)
+      assert(true  !== 2)
+
+  //#===
+
+    // Operators behave as expected on primitives. In particular,
+    // `===` compares their values, not addresses, so for primitives it works as naively expected:
+
+      assert(true  === true)
+      assert(0     === 0)
+      assert('abc' === 'abc')
+
+    // while it fails for objects, where address is considered:
+
+      assert([] !== [])
+      assert({} !== {})
 
 // #undefined
 
@@ -789,25 +867,31 @@
 
     assert_eq({}.no_yet_defined, undefined)
 
+  //#Check if variable is undefined
+
     // Before ES5, it was possible to redefine `undefined` TODO check, in ES5?
     // so the safest way to check for undefined is via `typeof`:
 
-    ;(function() {
-      var global_undefined
-      // Safe all versions:
-      assert_eq(typeof global_undefined, 'undefined')
-      // Safe starting from JS5:
-      assert_eq(global_undefined, undefined)
-    })()
+      ;(function() {
+        var global_undefined
+        // Safe all versions:
+        assert_eq(typeof(global_undefined), 'undefined')
+        // Safe starting from JS5:
+        assert_eq(global_undefined, undefined)
+      })()
 
-  // Undefined can be assigned to: TODO true?
+    // Only `typeof` can be used however for variables that might be undeclared (`var`):
 
-    ;(function() {
-      var undefined = 0
-      assert_eq(undefined, 0)
-    })()
+      assert_eq(typeof(global_undeclared), 'undefined')
 
-  // If you ever to that, it's gone for good: TODO true?
+    // Undefined can be assigned to: TODO true?
+
+      ;(function() {
+        var undefined = 0
+        assert_eq(undefined, 0)
+      })()
+
+    // If you ever to that, it's gone for good: TODO true?
 
 // #null
 
@@ -860,13 +944,6 @@
       //var htmlString = `Say hello to
 //multi-line
 //strings!`
-
-  // #escape
-
-    // URL encode:
-
-      assert_eq(escape(' '), '%20')
-      assert_eq(unescape(escape(' ')), ' ')
 
   // #replace
 
@@ -925,11 +1002,18 @@
       assert_eq(String([0, 1]),     '0,1')
       assert_eq(String({a:0, b:1}), '[object Object]')
 
-  // #escape HTML
+  // #escape
 
-    // < to &lt;, etc.
+    // URL encode:
 
-    // Bo built-in solution: http://stackoverflow.com/questions/24816/escaping-html-strings-with-jquery
+      assert_eq(escape(' '), '%20')
+      assert_eq(unescape(escape(' ')), ' ')
+
+    // HTML anti XSS:
+
+      // < to &lt;, etc.
+
+      // No built-in solution: http://stackoverflow.com/questions/24816/escaping-html-strings-with-jquery
 
 // #dict #map #class
 
@@ -939,7 +1023,7 @@
   // This is an interesting design choice, since Objects in languages such as Python or Ruby
   // behave much like maps, so why not remove them entirely?
 
-  // Classes don't exist in Javascript: they are more of a design pattern with a little
+  // Classes don't exist in JavaScript: they are more of a design pattern with a little
   // syntax support than an integral part of the language.
 
   // #sources
@@ -2113,7 +2197,7 @@
 
   // Variables contain address of data.
   // `=` always takes the address of the data on the right and sets it to the variable on the left.
-  // Integers like `0` and `1` *do* have a single (because immutable) address in Javascript.
+  // Integers like `0` and `1` *do* have a single (because immutable) address in JavaScript.
 
     var a = 0
     var b = a
@@ -2137,35 +2221,40 @@
     assert_eq(a[0], 0)
     assert_eq(a[1], 'a')
 
-  // Arrays are hash objects: http://stackoverflow.com/questions/6445010/what-is-a-javascript-array
-  //
-  // Arrays are *not*:
-  //
-  // - contiguous chunks of data like in C
-  //     They could never be contiguous because their objects can have different sizes.
-  //
-  // - lists like in Python and Ruby, in which doing `a = [0, 1]; a[3] = 2` is an error.
-  //
-  // Length is updated whenever a key that is an integer is set and larger than current length.
-  //
-  // This makes length behave like an intuitive array.
-  //
-  // This allows us to do:
+  // Access last element: just do `a[a.length - 1]`
+  // http://stackoverflow.com/questions/3216013/get-the-last-item-in-an-array
 
-    var a = [1, 0]
-    //{0:1, 1:0, length:2}
-    a[9] = 2
-    //{0:1, 1:0, 9:2}
-    assert_eq(a[9], 2)
-    assert_eq(a.length, 10)
+  //#Arrays are hash objects
 
-  // The above does *not* occupy 10 memory slots: only one more.
+    // http://stackoverflow.com/questions/6445010/what-is-a-javascript-array
+    //
+    // Arrays are *not*:
+    //
+    // - contiguous chunks of data like in C
+    //     They could never be contiguous because their objects can have different sizes.
+    //
+    // - lists like in Python and Ruby, in which doing `a = [0, 1]; a[3] = 2` is an error.
+    //
+    // Length is updated whenever a key that is an integer is set and larger than current length.
+    //
+    // This makes length behave like an intuitive array.
+    //
+    // This allows us to do:
 
-  // If the new key is not an integer length is not updated:
+      var a = [1, 0]
+      //{0:1, 1:0, length:2}
+      a[9] = 2
+      //{0:1, 1:0, 9:2}
+      assert_eq(a[9], 2)
+      assert_eq(a.length, 10)
 
-    a['b'] = 3
-    assert_eq(a.b, 3)
-    assert_eq(a.length, 10)
+    // The above does *not* occupy 10 memory slots: only one more.
+
+    // If the new key is not an integer length is not updated:
+
+      a['b'] = 3
+      assert_eq(a.b, 3)
+      assert_eq(a.length, 10)
 
   // Like any other non primitive objects:
 
@@ -2400,7 +2489,7 @@
       Whitespace is preserved.
     </p>
     <p>
-      Often replaced by more flexible Javascript libraries or CSS <code>:target</code>.
+      Often replaced by more flexible JavaScript libraries or CSS <code>:target</code>.
       Bootstrap offers:
       <a href="http://getbootstrap.com/javascript/#modals">http://getbootstrap.com/javascript/#modals</a>
     </p>
@@ -2485,7 +2574,7 @@
 
     <p>Callback once after given number of milliseconds.</p>
     <p>Not part of ES5, but Node.js also implements an identical interface.</p>
-    <button>
+    <button type="button">
       Click me. Something will happen in 1 second.
     </button>
     <script>
@@ -2533,15 +2622,19 @@
         false
       )
     </script>
-    <p>TODO: what is the `name` parameter?</p>
+    <p>TODO: what is the <code>name</code> parameter?</p>
 
   <h3>#location</h3>
 
-    <p><a href="http://www.w3.org/TR/html5/browsers.html#location">http://www.w3.org/TR/html5/browsers.html#location</a></p>
     <p>
-      Note that it implements
+      <a href="http://www.w3.org/TR/html5/browsers.html#location">http://www.w3.org/TR/html5/browsers.html#location</a>
+    </p>
+    <p>
+      Implements
       <a href="http://www.w3.org/TR/html5/infrastructure.html#urlutils">http://www.w3.org/TR/html5/infrastructure.html#urlutils</a>
       which contains many properties like <code>href</code> and <code>hash</code>.
+      <code>urlutils</code> seems to be defined at:
+      <a href="https://url.spec.whatwg.org/#urlutils">https://url.spec.whatwg.org/#urlutils</a>
     </p>
 
     <h4>#reload</h4>
@@ -2568,44 +2661,61 @@
     <h4>Get current URL #document.URL</h4>
 
       <p><a href="http://stackoverflow.com/questions/1034621/get-current-url-with-javascript">http://stackoverflow.com/questions/1034621/get-current-url-with-javascript</a></p>
+
       <p>
         <code>document.URL</code>: readonly from when page was loaded
-        (not affected by Javascript operations like <code>replace</code>)
+        (not affected by JavaScript operations like <code>replace</code>)
       </p>
+
       <p>
-        <code>window.location.href</code>: updated by Javascript operations.
+        <code>window.location.href</code>: updated by JavaScript operations.
       </p>
 
     <h4>#hash</h4>
 
       <p>Same as: <code>window.location.assign('#fragment')</code>.</p>
+
       <ul>
         <li>page height jumps leaving the target ID at the top</li>
         <li>the URL is changed</li>
       </ul>
+
       <p><button onclick="window.location.hash='location-hash'" type="button">Go to <code>#location-hash</code>.</button></p>
+
       <p id="location-hash">My id is <code>location-hash</code>.</p>
 
   <h3>#history</h3>
 
     <p>HTML5</p>
+
     <p><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history">https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history</a></p>
+
     <p>Do not trigger <code>DOMContentLoaded</code>.</p>
+
     <p>
       Still not consistent across browsers. A popular alternative is the History.js library
       <a href="https://github.com/browserstate/history.js">https://github.com/browserstate/history.js</a>
       which provides the <code>History</code> object and a similar property interface to that of the standard.
     </p>
 
+    <p>
+      Apparently you can only get the last one for security reasons:
+      <a href="http://stackoverflow.com/questions/3528324/how-do-you-get-the-previous-url-in-javascript">http://stackoverflow.com/questions/3528324/how-do-you-get-the-previous-url-in-javascript</a>
+    </p>
+
     <h4>#Modify current URL without reloading the page</h4>
 
       <p><a href="http://stackoverflow.com/a/3503206/895245">http://stackoverflow.com/a/3503206/895245</a></p>
+
       <p>Great to store state while making AJAX or preloaded modifications.</p>
+
       <p>User can still go back to previous URLs because this history is being modified.</p>
+
       <p>
         May not work on <code>file:///</code> for security concerns.
         Try on <code>localhost</code> with <code>python -m SimpleHTTPServer</code>
       </p>
+
       <p>
         <span class="border" onclick="window.history.pushState('page1', 'Title1', '/new-url-1');">click me for new-url-1!</span>
         <span class="border" onclick="window.history.pushState('page2', 'Title2', '/new-url-2');">click me for new-url-2!</span>
@@ -2613,10 +2723,15 @@
 
   <h3>#non-standard attributes</h3>
 
-    <p>Just for fun.</p>
-    <ul>
-      <li>navigator: navigator metadata</li>
-    </ul>
+    <h4>#console</h4>
+
+      <p><a href="http://stackoverflow.com/questions/4539253/what-is-console-log">http://stackoverflow.com/questions/4539253/what-is-console-log</a></p>
+      <p>Widely implemented (but not necessarily uniformly).</p>
+      <p>On Firefox, logged messages appear under Console &gt; Logging </p>
+
+    <h4>#navigator</h4>
+
+      <p>Navigator metadata</p>
 
     <h4>#resizeTo</h4>
 
@@ -2648,40 +2763,23 @@
       </p>
       <p>Still in very early stage as of 2014.</p>
 
-<h2>#DOM</h2>
-
-  <p>Interface to interact with both HTML and XML elements from a tree point of view.</p>
-
-  <h3>Standards</h3>
-
-    <p>All HTML5 elements have a "DOM Interface IDL" section which specifies its available properties.</p>
-    <p>List of all DOM specs: <a href="http://www.w3.org/DOM/DOMTR">http://www.w3.org/DOM/DOMTR</a></p>
-    <p>The entire DOM spec is split across multiple modules. Latest REC is DOM level 3.</p>
-    <ul>
-      <li>core: <a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/">Core</a></li>
-      <li>events: <a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113/">Level 2 Events REC</a>.</li>
-      <li>xpath: </li>
-    </ul>
-    <p>
-      It is possible to access all DOM attributes of an element:
-      <a href="http://www.w3schools.com/jsref/dom_obj_all.asp">http://www.w3schools.com/jsref/dom_obj_all.asp</a>
-    </p>
-
-    <h4>#DOM0</h4>
-
-      <p>Informal name for pre W3C standard rules, specially those derived from Netscape behavior.</p>
-      <p>
-        Some still work widely across browsers, but have been superseded by a W3C standard method,
-        for instance returning <code>false</code> from <code>click</code> vs <code>preventDefault</code>.
-      </p>
-
   <h3>#document</h3>
 
-    <p>DOM3 spec: <a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html">http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html</a></p>
+    <p>
+      HTML5:
+      <a href="http://www.w3.org/TR/html5/dom.html#document">http://www.w3.org/TR/html5/dom.html#document</a>
+      which extends the DOM specification:
+      <a href="http://www.w3.org/TR/dom/#document">http://www.w3.org/TR/dom/#document</a>
+    </p>
+    <p>This section shall only describe the HTML5 extensions.</p>
 
-    <script>
-      assert_eq(document.constructor, HTMLDocument)
-    </script>
+    <h4>#HTMLDocument</h4>
+
+      <p>Constructor of the <code>window.document</code> object.</p>
+
+      <script>
+        assert_eq(document.constructor, HTMLDocument)
+      </script>
 
     <h4>#write</h4>
 
@@ -2709,26 +2807,147 @@
     <h4>#referrer</h4>
 
       <p>Last URL before current, if use clicked on a link to come here.</p>
+
       <p>
         May not always work?
         <a href="http://stackoverflow.com/questions/3528324/how-do-you-get-the-previous-url-in-javascript">http://stackoverflow.com/questions/3528324/how-do-you-get-the-previous-url-in-javascript</a>
       </p>
+
       <div><code>document.referrer</code> = </div>
       <script>previousElement().insertAdjacentHTML('beforeEnd', document.referrer)</script>
 
+      <p>See also: <code>window.history</code></p>
+
+<h2>#DOM</h2>
+
+  <p>Interface to interact with both HTML and XML elements from a tree point of view.</p>
+
+  <h3>Standards</h3>
+
+    <p>All HTML5 elements have a "DOM Interface IDL" section which specifies its available properties.</p>
+    <p>List of all DOM specs: <a href="http://www.w3.org/DOM/DOMTR">http://www.w3.org/DOM/DOMTR</a></p>
+    <p>Edge spec: <a href="http://www.w3.org/TR/dom/">http://www.w3.org/TR/dom/</a></p>
+    <p>The entire DOM spec is split across multiple modules. Latest REC is DOM level 3.</p>
+    <ul>
+      <li>core: <a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/">Core</a></li>
+      <li>events: <a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113/">Level 2 Events REC</a>.</li>
+    </ul>
+
+    <h4>#DOM0</h4>
+
+      <p>Informal name for pre W3C standard rules, specially those derived from Netscape behavior.</p>
+      <p>
+        Some still work widely across browsers, but have been superseded by a W3C standard method,
+        for instance returning <code>false</code> from <code>click</code> vs <code>preventDefault</code>.
+      </p>
+
+  <h3>#Node object</h3>
+
+    <p><a href="http://www.w3.org/TR/dom/#node">http://www.w3.org/TR/dom/#node</a></p>
+    <p>
+      Different from <code>Element</code>, which is a child class.
+    </p>
+
   <h3>#NodeList #HTMLCollection</h3>
 
+    <p><a href="http://www.w3.org/TR/dom/#nodelist">http://www.w3.org/TR/dom/#nodelist</a></p>
     <p>
-      Many DOM methods do not return an Array but `NodeList` or `HTMLCollecion` objects,
-      which are Array-like and support index access, but not all Array operations such as
-      `forEach`.
+      Many DOM methods that get multiple nodes like <code>getElementsByClassName</code> do not return
+      an <code>Array</code> but <code>NodeList</code> or <code>HTMLCollection</code> objects.
+      Those are Array-like and support index access, but not all Array operations such as <code>forEach</code>.
     </p>
     <p>
-      To use arbitrary `Array` methods, first convert to an array with
+      To use arbitrary <code>Array</code> methods, first convert to an array with
       <code>Array.prototype.slice.call(elem.getElementsByClassName('class'))</code>
     </p>
 
+  <h3>#nodeType</h3>
+
+    <p>
+      Apparently some node types have been deprecated:
+      <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeType">https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeType</a>
+    </p>
+
+    <ul>
+      <li>1 : <code>ELEMENT_NODE</code></li>
+      <li>2 : <code>ATTRIBUTE_NODE</code></li>
+      <li>3 : <code>TEXT_NODE</code></li>
+      <li>4 : <code>CDATA_SECTION_NODE</code></li>
+      <li>5 : <code>ENTITY_REFERENCE_NODE</code></li>
+      <li>6 : <code>ENTITY_NODE</code></li>
+      <li>7 : <code>PROCESSING_INSTRUCTION_NODE</code></li>
+      <li>8 : <code>COMMENT_NODE</code></li>
+      <li>9 : <code>DOCUMENT_NODE</code></li>
+      <li>10: <code>DOCUMENT_TYPE_NODE</code></li>
+      <li>11: <code>DOCUMENT_FRAGMENT_NODE</code></li>
+      <li>12: <code>NOTATION_NODE</code></li>
+    </ul>
+
+    <h4>#nodeName</h4>
+
+      <p>A string representing the <code>nodeType</code></p>
+
+    <h4>#tagName</h4>
+
+      <p>Only meant for nodes of type 1, AKA elements.</p>
+
+    <h4>Examples</h4>
+
+      <div class="a">a</div>
+      <script>
+        var e = previousElement()
+
+        node = e
+        assert_eq(node.nodeType, 1)
+        assert_eq(node.nodeName, 'DIV')
+        assert_eq(node.tagName, 'DIV')
+
+        node = e.getAttributeNode('class')
+        assert_eq(node.nodeType, 2)
+        assert_eq(node.nodeName, 'class')
+        assert_eq(node.tagName, undefined)
+
+        node = e.childNodes[0]
+        assert_eq(node.nodeType, 3)
+        assert_eq(node.nodeName, '#text')
+        assert_eq(node.tagName, undefined)
+      </script>
+
+  <h3>#nodeValue #innerHTML</h3>
+
+    <p>
+      *Don't* do <code>innerHTML += innerHTML + 'something'</code> unless you are sure it is only a string.
+      Otherwise, this would destroy events associated to elements in the <code>innerHTML</code>.
+      Use <code>insertAdjacentHTML</code> instead.
+    </p>
+    <script>
+      var elem = strToElement('<div>a<i>b</i>c</div>')
+      assert_eq(elem.firstChild.nodeValue, 'a')
+      assert_eq(elem.innerHTML,            'a<i>b</i>c')
+    </script>
+    <script>
+      assert_eq(strToElement('<button>Button innerHTML</button>').innerHTML, 'Button innerHTML')
+    </script>
+
+    <p>
+      TODO are multiple whitespaces preserved? Inconclusive question:
+      <a href="http://stackoverflow.com/questions/213845/javascript-removing-whitespace-when-it-shouldnt">http://stackoverflow.com/questions/213845/javascript-removing-whitespace-when-it-shouldnt</a>
+      Passing on Firefox 30 and Chromium 34, but maybe unspecified:
+      Same for <code>getAttribute</code>.
+    </p>
+    <script>
+      var elem = strToElement('<p>a  b</p>')
+      assert_eq(elem.innerHTML, 'a  b')
+    </script>
+    <p id="innerHTML">a  b</p>
+    <script>
+      var elem = document.getElementById('innerHTML')
+      assert_eq(elem.innerHTML, 'a  b')
+    </script>
+
   <h3>#Selectors</h3>
+
+    <p>Find elements inside other elements.</p>
 
     <h4>#querySelectorAll</h4>
 
@@ -2765,7 +2984,7 @@
 
       <p>
         Not implemented on IE8. Alternatives: http://stackoverflow.com/questions/3808808/how-to-get-element-by-class-in-javascript
-        IE8 alternatives: use `querySelectorAll` or JQuery.
+        IE8 alternatives: use <code>querySelectorAll</code> or JQuery.
       </p>
       <script>
         document.write('<div class="getElementsByClassName0 getElementsByClassName1">getElementsByClassName</div>')
@@ -2774,7 +2993,7 @@
       <p>
         The return can be either NodeList or HTMLCollection
         depending on browser versions and standard considered.
-        In particular, no `forEach` Array method.
+        In particular, no <code>forEach</code> Array method.
         Good article: https://developer.mozilla.org/en-US/docs/Web/API/Element.getElementsByTagName
       </p>
 
@@ -2794,70 +3013,19 @@
         assert_eq(document.currentScript.parentNode, document.body)
       </script>
 
-  <h3>#nodeType</h3>
+  <h3>#Element object</h3>
 
-    <ul>
-      <li>1 : <code>ELEMENT_NODE</code></li>
-      <li>2 : <code>ATTRIBUTE_NODE</code></li>
-      <li>3 : <code>TEXT_NODE</code></li>
-      <li>4 : <code>CDATA_SECTION_NODE</code></li>
-      <li>5 : <code>ENTITY_REFERENCE_NODE</code></li>
-      <li>6 : <code>ENTITY_NODE</code></li>
-      <li>7 : <code>PROCESSING_INSTRUCTION_NODE</code></li>
-      <li>8 : <code>COMMENT_NODE</code></li>
-      <li>9 : <code>DOCUMENT_NODE</code></li>
-      <li>10: <code>DOCUMENT_TYPE_NODE</code></li>
-      <li>11: <code>DOCUMENT_FRAGMENT_NODE</code></li>
-      <li>12: <code>NOTATION_NODE</code></li>
-    </ul>
+    <p><a href="http://www.w3.org/TR/dom/#element">http://www.w3.org/TR/dom/#element</a></p>
+    <p>Inherits <code>Node</code>.</p>
 
-    <script>
-      var parent = strToElement('<div>a<div>b</div>c</div>')
-      assert_eq(parent.nodeType, 1)
-      assert_eq(parent.childNodes[0].nodeType, 3)
-    </script>
+  <h3>#HTMLElement object</h3>
 
-  <h3>#tagName</h3>
-
-    <script>
-      assert_eq(strToElement('<div></div>').tagName, 'DIV')
-    </script>
-
-  <h3>#nodeValue #innerHTML</h3>
-
-    <p>
-      *Don't* do `innerHTML += innerHTML + 'something'` unless you are sure it is only a string.
-      Otherwise, this would destroy events associated to elements in the `innerHTML`.
-      Use `insertAdjacentHTML` instead.
-    </p>
-    <script>
-      var elem = strToElement('<div>a<i>b</i>c</div>')
-      assert_eq(elem.firstChild.nodeValue, 'a')
-      assert_eq(elem.innerHTML,            'a<i>b</i>c')
-    </script>
-    <script>
-      assert_eq(strToElement('<button>Button innerHTML</button>').innerHTML, 'Button innerHTML')
-    </script>
-
-    <p>
-      TODO are multiple whitespaces preserved? Inconclusive question:
-      <a href="http://stackoverflow.com/questions/213845/javascript-removing-whitespace-when-it-shouldnt">http://stackoverflow.com/questions/213845/javascript-removing-whitespace-when-it-shouldnt</a>
-      Passing on Firefox 30 and Chromium 34, but maybe unspecified:
-      Same for <code>getAttribute</code>.
-    </p>
-    <script>
-      var elem = strToElement('<p>a  b</p>')
-      assert_eq(elem.innerHTML, 'a  b')
-    </script>
-    <p id="innerHTML">a  b</p>
-    <script>
-      var elem = document.getElementById('innerHTML')
-      assert_eq(elem.innerHTML, 'a  b')
-    </script>
+    <p><a href="http://www.w3.org/TR/html5/dom.html#htmlelement">http://www.w3.org/TR/html5/dom.html#htmlelement</a></p>
+    <p>Extends element.</p>
 
   <h3>#outerHTML</h3>
 
-    <p>Like `innerHTML`, but also includes the tags. Less support than `innerHTML` but increasing.</p>
+    <p>Like <code>innerHTML</code>, but also includes the tags. Less support than <code>innerHTML</code> but increasing.</p>
     <script>
       assert_eq(strToElement('<div>a<i>b</i>c</div>').outerHTML, '<div>a<i>b</i>c</div>')
     </script>
@@ -2913,7 +3081,7 @@
     <h4>#insertBefore #appendChild</h4>
 
       <p>Insert an element before another.</p>
-      <p>Must work with elements: cannot insert string directly. Consider `insertAdjacentHTML` for that.</p>
+      <p>Must work with elements: cannot insert string directly. Consider <code>insertAdjacentHTML</code> for that.</p>
       <p>TODO what happens when element exists already? Copy of events? Probably.</p>
       <script>
         var parent = strToElement('<div id="insertBefore">a<i>b</i>c</div>')
@@ -2927,7 +3095,7 @@
     <h4>#insertAfter</h4>
 
       <p>
-        Does not exist, but easily defined with `insertBefore`.
+        Does not exist, but easily defined with <code>insertBefore</code>.
         http://stackoverflow.com/questions/4793604/how-to-do-insert-after-in-javascript-without-using-a-library
       </p>
 
@@ -3024,8 +3192,6 @@
 
         <p>
           <code>src</code> attribute: starts loading as soon as it is set.
-          Horrible interface based on side effects of equal operator <code>=</code>.
-          TODO: confirm standards and portability.
         </p>
         <button>Click me to set image.</button>
         <img src="i-dont-exist.jpg" alt="flower"/>
@@ -3113,12 +3279,12 @@
 
         <p>Property to get or set the disabled state of a form control.</p>
 
-        <input id="prop-disabled" type="text" value="Disabled by Javascript."></input>
+        <input id="prop-disabled" type="text" value="Disabled by JavaScript." />
         <script>
           document.getElementById('prop-disabled').disabled = true;
         </script>
 
-        <input id="prop-enabled" type="text" value="Enabeld by Javascript." disabled="disabled"></input>
+        <input id="prop-enabled" type="text" value="Enabeld by JavaScript." disabled="disabled" />
         <script>
           document.getElementById('prop-enabled').disabled = false;
         </script>
@@ -3143,7 +3309,7 @@
 
     <h4>#canvas</h4>
 
-      <p>The HTML canvas element was made to be drawn with Javascript and destroy Flash.</p>
+      <p>The HTML canvas element was made to be drawn with JavaScript and destroy Flash.</p>
       <script>
         document.write(
           '<h2>#canvas</h2>' +
@@ -3182,8 +3348,8 @@
       Allows to add an unlimited amount of handlers per event.
       Better choice than <code>on</code> attributes like <code>onload</code>.
     </p>
-    <p>Can be used together with `on` events. TODO check.</p>
-    <p>TODO do all events have a on version and an `addEventListener` one?</p>
+    <p>Can be used together with <code>on</code> events. TODO check.</p>
+    <p>TODO do all events have a on version and an <code>addEventListener</code> one?</p>
 
     <h4>#useCapture parameter #capture vs #bubble</h4>
 
@@ -3197,7 +3363,7 @@
         Prevent event from being listened on further listeners.
         http://stackoverflow.com/questions/4470417/how-do-i-consume-a-key-event-in-javascript-so-that-it-doesnt-propagate
       </p>
-      <p>Only implemented in recent IE. Consider jQuery's `preventDefault` and/or `stopPropagation` if you care.</p>
+      <p>Only implemented in recent IE. Consider jQuery's <code>preventDefault</code> and/or <code>stopPropagation</code> if you care.</p>
       <p>TODO example</p>
 
     <h4>#dispatchEvent #Trigger events programmatically.</h4>
@@ -3216,15 +3382,15 @@
   <h3>document vs window vs body events</h3>
 
     <p>
-      `document`, `window` and `body` have different possible events.
+      <code>document</code>, <code>window</code> and <code>body</code> have different possible events.
       TODO understand clearly.
       <a href="http://stackoverflow.com/questions/12045440/difference-between-document-addeventlistener-and-window-addeventlistener">http://stackoverflow.com/questions/12045440/difference-between-document-addeventlistener-and-window-addeventlistener</a>
       <a href="http://stackoverflow.com/questions/191157/window-onload-vs-body-onload">http://stackoverflow.com/questions/191157/window-onload-vs-body-onload</a>
     </p>
     <p>
-      You cannot attach events to the `body` element form scripts in the head,
+      You cannot attach events to the <code>body</code> element form scripts in the head,
       because the body is not yet part of the DOM!
-      Prefer to attach events to the `document` or `window` objects instead.
+      Prefer to attach events to the <code>document</code> or <code>window</code> objects instead.
     </p>
 
     <div>#FAIL</div>
@@ -3249,11 +3415,11 @@
 
       <p>HTML5 http://www.whatwg.org/specs/web-apps/current-work/multipage/the-end.html#the-end</p>
       <p>
-        `DOMContentLoaded` vs `document.onload`:
+        <code>DOMContentLoaded</code> vs <code>document.onload</code>:
         http://stackoverflow.com/questions/2414750/difference-between-domcontentloaded-and-load-events
         Former does not wait for external resources to load, later does.
       </p>
-      <p>Used by jQuery's `$(document).ready` method where supported.</p>
+      <p>Used by jQuery's <code>$(document).ready</code> method where supported.</p>
 
       <div>#FAIL</div>
       <script>
@@ -3286,14 +3452,14 @@
     <h4>#load</h4>
 
       <p>
-        Can only be used on `body` or elements that load remote sources such as
-        `img`, `link` or remote `script` tags.
-        Cannot be used on other elements such as `div`.
+        Can only be used on <code>body</code> or elements that load remote sources such as
+        <code>img</code>, <code>link</code> or remote <code>script</code> tags.
+        Cannot be used on other elements such as <code>div</code>.
       </p>
       <p>
         Both window and document objects have this event:
         http://stackoverflow.com/questions/588040/window-onload-vs-document-onload>
-        but `document`'s is probably more useful.
+        but <code>document</code>'s is probably more useful.
       </p>
       <p>
         On <code>body</code> and <code>document</code>, waits for all content to load,
@@ -3357,8 +3523,8 @@
 
       <script>
         var elem = strToElement('<p class="border" onclick="onclick_func(event)" style="height:100px;">onclick. Click here.</p>')
-        var onclick_func = function(even) {
-          even.target.innerHTML += ' click'
+        var onclick_func = function(e) {
+          e.target.innerHTML += ' click'
         }
         insertBeforeScript(elem)
       </script>
@@ -3367,8 +3533,8 @@
         var elem = strToElement('<p class="border" style="height:100px;">addEventListener click. Click here.</p>')
         elem.addEventListener(
           'click',
-          function(even) {
-            even.target.innerHTML += ' click'
+          function(e) {
+            e.target.innerHTML += ' click'
           },
           false
         )
@@ -3541,11 +3707,11 @@
   <p>Each browser stores its own cookies</p>
 
   <h3>Cookies in HTTP.</h3>
-  <h3>Cookies without Javascript.</h3>
+  <h3>Cookies without JavaScript.</h3>
 
-    <p>Cookies can also be set via headers using the `Set-Cookie` header key.</p>
-    <p>Cookies are automatically sent to servers by browsers via the `Cookie` header value.</p>
-    <p>Cookies are sent from servers to CGI scripts via the `HTTP_COOKIE` env var.</p>
+    <p>Cookies can also be set via headers using the <code>Set-Cookie</code> header key.</p>
+    <p>Cookies are automatically sent to servers by browsers via the <code>Cookie</code> header value.</p>
+    <p>Cookies are sent from servers to CGI scripts via the <code>HTTP_COOKIE</code> env var.</p>
     <p>These are the most reliable methods, there is no need to use js for cookies.</p>
 
   <h3>#session cookies</h3>
@@ -3650,7 +3816,7 @@
 
   // #higher level interface
 
-    // The Javascript cookie interface is very low level and inconvenient.
+    // The JavaScript cookie interface is very low level and inconvenient.
 
     // jquery-cookie <https://github.com/carhartl/jquery-cookie> is on popular and convenient cookie interface based on JQuery.
 
@@ -3691,7 +3857,11 @@
   document.write('<h2>cookies</h2>' + document.cookie + '<br>')
 </script>
 
-<h2>#XMLHttpRequest #XHR #AJAX</h2>
+<h2>#XHR</h2>
+
+<h2>#XMLHttpRequest</h2>
+
+<h2>#AJAX</h2>
 
   <p>Make server requests without reloading the current page.</p>
   <p>
@@ -3745,15 +3915,18 @@
         //}
       }
       //xmlhttp.send()
+
+      // POST data:
       //xmlhttp.send("fname=Henry&lname=Ford")
     }
   </script>
+  <p>TODO: is <code>Content-Length</code> required?</p>
 
   <h3>#open</h3>
 
     <p>Set basic request info. Does not send the request yet.</p>
-    <p>Open signature: `open(method,url,async)</p>
-    <p>Post data is set at `send`.</p>
+    <p>Open signature: <code>open(method,url,async)</code></p>
+    <p>Post data is set at <code>send</code>.</p>
 
   <h3>#setRequestHeader</h3>
 
@@ -3763,7 +3936,7 @@
   <h3>#response #onreadystatechange</h3>
 
     <p>Response should be used from a callback function on asynchronous mode.</p>
-    <p>`onreadystatechange` callback is called every time the <code>readyState</code> property changes.</p>
+    <p><code>onreadystatechange</code> callback is called every time the <code>readyState</code> property changes.</p>
     <p>Its possible values are:</p>
     <ul>
       <li>0: request not initialized</li>
@@ -3787,42 +3960,53 @@
 
     <p>Actually make the request.</p>
 
-  <h3>#Same origin policy #Cross origin XMLHttpRequest.</h3>
+  <h3>#Cross-origin XHR</h3>
 
+  <h3>#Same origin policy</h3>
+
+  <h3>#SOP</h3>
+
+    <p>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy">https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy</a>
+    </p>
     <p>
       For security reasons, browsers don't let you <b>read</b> HTTP requests
       to different locations other than the current one by default.
     </p>
     <p>
-      Otherwise, a malicious website could might be able to obtain your session cookies or
-      make requests using them. This is called the same origin policy:
-      <a href="http://en.wikipedia.org/wiki/Same_origin_policy">http://en.wikipedia.org/wiki/Same_origin_policy</a>
+      Simple attack examples:
+      <a href="http://stackoverflow.com/questions/14667189/simple-example-for-why-same-origin-policy-is-needed">http://stackoverflow.com/questions/14667189/simple-example-for-why-same-origin-policy-is-needed</a>
     </p>
+    <p>The most common things that this forbids are:</p>
+    <ul>
+      <li>making an XHR to another domain</li>
+      <li>reading the content of an <code>iframe</code> if it points to another domain</li>
+    </ul>
     <p>
       It is however perfectly possible to make cross site requests in HTML:
-      every external hyper link makes such <code>GET</code> request,
+      every external hyper link and image tag makes such <code>GET</code> request,
       and nothing prevents a form from doing a <code>POST</code> request across domains.
       Preventing such requests would make the web unusable: the only thing that <i>is</i> forbidden
-      is <b>reading</b> that information into Javascript.
+      is <b>reading</b> that information into JavaScript.
     </p>
     <p>
       The reason why it is not possible with XHR is that the <code>send</code>
-      always allows the Javascript to read the request response.
+      always allows the JavaScript to read the request response.
     </p>
     <p>
-      It is however possible to make <code>POST</code> requests from Javascript using
+      It is however possible to make requests from JavaScript using
       other techniques, which do not allow to read the response, and thus do not violate
       the SOP, in particular:
-      <ul>
-        <li>
-          create a form and trigger the submit with Javascript,
-          <a href="http://stackoverflow.com/questions/298745/how-do-i-send-a-cross-domain-post-request-via-javascript">http://stackoverflow.com/questions/298745/how-do-i-send-a-cross-domain-post-request-via-javascript</a>
-        </li>
-        <li>jQuery post() <a href="http://api.jquery.com/jquery.post/">http://api.jquery.com/jquery.post/</a></li>
-      </ul>
     </p>
+    <ul>
+      <li>
+        create a form in an <code>iframe</code> and trigger the submit with JavaScript,
+        <a href="http://stackoverflow.com/questions/298745/how-do-i-send-a-cross-domain-post-request-via-javascript">http://stackoverflow.com/questions/298745/how-do-i-send-a-cross-domain-post-request-via-javascript</a>
+      </li>
+      <li>if you control the remote server, CORS is the perfect option</li>
+    </ul>
     <p>
-      Since it is a security measure like "don't publicly post your password",
+      Since it is a security principle like "don't publicly post your password",
       there are not standards that specify it: only security best practices.
       <a href="http://stackoverflow.com/questions/11423682/cross-domain-form-posting">http://stackoverflow.com/questions/11423682/cross-domain-form-posting</a>
     </p>
@@ -3832,7 +4016,67 @@
       <a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet">https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet</a>
     </p>
     <p>Some browsers have an option to allow that to happen for testing purposes.</p>
-    <p>If this happens, you will get <code>xmlhttp.status == 0</code>.</p>
+    <p>If an <code>XHR</code> is blocked on SOP basis, you will get <code>xmlhttp.status == 0</code>.</p>
+
+    <h4>#iframe SOP example</h4>
+
+      <iframe id="iframe-other-origin" style="width:300px; height:300px;">Could not access example.com</iframe>
+      <iframe id="iframe-same-origin" src="html2.html" style="width:300px; height:300px;"></iframe>
+      <script>
+        // Fails on localhost
+        //document.getElementById('iframe-same-origin').addEventListener(
+        //  'load',
+        //  function(e) {
+        //    assert_neq(e.target.contentDocument.body.innerHTML, '')
+        //  }
+        //)
+        //assert_eq(document.getElementById('iframe-same-origin').contentDocument.body.innerHTML, '')
+
+        document.getElementById('iframe-other-origin').addEventListener(
+          'load',
+          function(e) {
+            assert_eq(e.target.contentDocument.body.innerHTML, '')
+          }
+        )
+      </script>
+
+    <h4>XHR SOP example</h4>
+
+      <p>On the Firefox inspector, those requests get logged under Console &gt; Security.</p>
+      <script>
+        var xmlhttp
+
+        // On file://, this exits `status == 0`, but security is not logged.
+
+        //xmlhttp = new XMLHttpRequest()
+        //xmlhttp.open('GET', 'html2.html', true)
+        //xmlhttp.onreadystatechange = function() {
+        //  if (xmlhttp.readyState == 4) {
+        //    assert_eq(xmlhttp.status, 200)
+        //  }
+        //}
+        //xmlhttp.send()
+
+        // TODO: if the non SOP is done, then the above request never happens. Why?
+
+        //xmlhttp = new XMLHttpRequest()
+        //xmlhttp.open('GET', 'http://example.com', true)
+        //xmlhttp.onreadystatechange = function() {
+        //  if (xmlhttp.readyState == 4) {
+        //    assert_eq(xmlhttp.status, 0)
+        //  }
+        //}
+        //xmlhttp.send()
+      </script>
+
+    <h4>#XHR on file:// protocol</h4>
+
+      <p>Apparently not possible.</p>
+      <p>
+        does not make much sense, since <code>file://</code>
+        does not take HTTP requests, and XHR stands for XML HTTP requests.
+      </p>
+      <p>On Firefox, <code>readyState</code> reaches 4, but <code>status</code> is 0.</p>
 
     <h4>#CORS #cross-origin resource sharing</h4>
 
@@ -3845,7 +4089,7 @@
       </p>
       <p>Promotional website: <a href="http://enable-cors.org/">http://enable-cors.org/</a></p>
       <p>
-        On the Javascript side nothing needs to be done on XHR2:
+        On the JavaScript side nothing needs to be done on XHR2:
         if the server supports CORS, you do nothing.
       </p>
       <p>
@@ -3936,7 +4180,7 @@
       </script>
 
       <p>Now try dragging the image into the drop area: <code>file</code> is now undefined.</p>
-      <img src="flower.jpg"/>
+      <img src="flower.jpg" alt="flower"/>
 
   <h3>Using the files</h3>
 
@@ -3973,7 +4217,7 @@
       so if the file is generated server side, the cleanest way is to make it available on a URL and use it.
     </p>
     <p>
-      If the file is generated by client on the browser by Javascript,
+      If the file is generated by client on the browser by JavaScript,
       things are complicated, and probably the best option is to use <a href="https://github.com/eligrey/FileSaver.js/">https://github.com/eligrey/FileSaver.js/</a>
     </p>
     <p>Possible but imperfect HTLM5 solutions include:</p>
@@ -4015,11 +4259,11 @@
 
 <h2>#Geolocation API</h2>
 
-  <p>Javascript access to the device's location, like GPS or other methods.</p>
+  <p>JavaScript access to the device's location, like GPS or other methods.</p>
   <p>W3C spec: <a href="http://www.w3.org/TR/geolocation-API/">http://www.w3.org/TR/geolocation-API/</a></p>
   <p>HTML5 intro: <a href="http://www.html5rocks.com/en/tutorials/geolocation/trip_meter/">http://www.html5rocks.com/en/tutorials/geolocation/trip_meter/</a></p>
   <p>
-    The browser may require your permission to give those informations to the Javascript.
+    The browser may require your permission to give those informations to the JavaScript.
     Firefox shows: "Would you like to share your location with the file ...?"
   </p>
   <p>Many sources can be used to get the location, including the IP address and a GPS if present.</p>
@@ -4041,11 +4285,35 @@
   <p>Accelerometers, gyroscopes and compasses, present specially in mobile devices like phones.</p>
   <p>HTML5 intro: <a href="http://www.html5rocks.com/en/tutorials/device/orientation/">http://www.html5rocks.com/en/tutorials/device/orientation/</a></p>
 
+<h2>#Notifications API</h2>
+
+  <p>Last call: <a href="http://www.w3.org/TR/notifications/">http://www.w3.org/TR/notifications/</a></p>
+  <p><a href="http://www.sitepoint.com/introduction-web-notifications-api/">http://www.sitepoint.com/introduction-web-notifications-api/</a></p>
+
+  <p>TODO get working on Chromium</p>
+  <button type="button">Generate notifications in 2 seconds. Try changing desktop windows in the meantime.</button>
+  <script>
+    previousElement().addEventListener(
+      'click',
+      function() {
+        window.setTimeout(
+          function() {
+            Notification.requestPermission(function() {
+              var notification = new Notification('Notification title', { body: 'Body' })
+              var notification2 = new Notification('Notification title 2', { body: 'Body 2' })
+            })
+          },
+          1000
+        )
+      }
+    )
+  </script>
+
 <h2>#Extensions</h2>
 
   <h3>#asm.js</h3>
 
-    <p>Mozilla subset of Javascript that can be compiled.</p>
+    <p>Mozilla subset of JavaScript that can be compiled.</p>
     <p>Work in progress, only implemented on very recent Firefox.</p>
     <p>
       Subset so small that although Turing complete it is not practical to write directly:
@@ -4054,16 +4322,25 @@
 
 <h2>#Third party</h2>
 
+  <h3>#cdnjs</h3>
+
+    <p><a href="https://cdnjs.com/">https://cdnjs.com/</a></p>
+    <p>
+      Very popular peer reviewed CDN. Source and discussions at:
+      <a href="https://github.com/cdnjs/cdnjs">https://github.com/cdnjs/cdnjs</a>
+    </p>
+    <p>Great way to search for new libraries when you need to do something.</p>
+
   <h3>#RequireJS #AMD #CommonJS #Browserify</h3>
 
     <p><a href="http://stackoverflow.com/questions/16521471/relation-between-commonjs-amd-and-requirejs">http://stackoverflow.com/questions/16521471/relation-between-commonjs-amd-and-requirejs</a></p>
     <p>
       AMD and CommonJS are specifications that besides other things describe
-      how to modularize Javascript code.
+      how to modularize JavaScript code.
     </p>
     <p>
       RequireJS is the major implementation of AMD.
-      If it a single file regular Javascript library.
+      If it a single file regular JavaScript library.
     </p>
     <p>Node.js implements CommonJS.</p>
     <p>AMD is a fork of CommonJS.</p>
