@@ -1168,6 +1168,19 @@ b</code></pre>
         <a href="https://code.google.com/p/chromium/issues/detail?id=231562">https://code.google.com/p/chromium/issues/detail?id=231562</a>
       </p>
 
+    <h4>HTML inside SVG</h4>
+
+      <p><a href="http://stackoverflow.com/questions/7458546/html-in-svg-in-html">http://stackoverflow.com/questions/7458546/html-in-svg-in-html</a></p>
+
+      <svg xmlns="http://www.w3.org/2000/svg" width="200" height="50" style="border:1px solid black;">
+        <foreignObject class="node" x="46" y="22" width="200" height="300">
+          <body xmlns="http://www.w3.org/1999/xhtml">
+            <h1>h1</h1>
+            <div>div</div>
+          </body>
+        </foreignObject>
+      </svg>
+
   <h3>#link</h3>
 
     <p>The link element links to different types of external documents.</p>
