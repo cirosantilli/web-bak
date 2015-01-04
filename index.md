@@ -15,7 +15,7 @@ Most useful cheats:
 
 Some Web frontend technologies require libraries to make tests with, and might be somewhere else:
 
-- **XPATH**: XML selector language. Cheat at:
+-   **XPATH**: XML selector language. Cheat at:
     <https://github.com/cirosantilli/rails-cheat/blob/98f582dce03d5643b2c301e8bb2788dd520df00f/app/test/integration/capybara_test.rb>
 
 Less useful cheats:
@@ -103,9 +103,7 @@ W3C tries to keep in touch, e.g. HTML5 has on WHATWG editor.
 
 Internet Engineering Task Force.
 
-Specifies mainly networking protocols, in particular HTTP, which is used at many points of W3C documentation.
-
-Such protocols shall not be covered here.
+Specifies mainly networking protocols, in particular HTTP, which is used at many points of W3C documentation, so will not be covered here.
 
 For an HTTP tutorial see: <https://github.com/cirosantilli/net/http.md>
 
@@ -127,7 +125,7 @@ Create and maintained by Chris Coyier <http://chriscoyier.net/>,
 now has articles by many. Very high quality techniques. Closed source apparently.
 
 [HTML5 rocks](http://www.html5rocks.com/en/). New web technologies in general, not just HTML:
-CSS, Javascript, server side, etc. Google sponsored. [Open source](https://github.com/html5rocks/www.html5rocks.com).
+CSS, JavaScript, server side, etc. Google sponsored. [Open source](https://github.com/html5rocks/www.html5rocks.com).
 
 [w3schools](http://www.w3schools.com) is fine for beginners,
 but not open source, and thus cannot update fast enough,

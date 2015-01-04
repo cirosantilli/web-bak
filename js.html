@@ -356,36 +356,6 @@
       with concatenation as <code>/scr'+'ipt</code>
     </p>
 
-  <h3>#XSS helpers</h3>
-
-    <p>The goal is to insert:</p>
-
-    <!-- <script>alert('xss')</script> -->
-
-    <p>on the pages.</p>
-
-    <p>Firefox executes does not run a script with closing element.</p>
-
-    <!-- <script>alert('xss no closing') -->
-
-    <p>But it does execute if the <code>src</code> attribute is set.</p>
-
-    <!-- <script src="alert.js"> -->
-
-    <p>Script without <code>script</code> element via <code>onerror</code>:</p>
-
-    <!-- <img onerror="alert('xss img onerror');" src="not-image" alt="err" /> -->
-
-    <p>Inside SVG:</p>
-
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-        <script type="application/ecmascript">
-          // alert('xss svg')
-        </script>
-      </svg>
-
-    <p>Only works for embedded SVGs.</p>
-
   <h3>#use strict directive</h3>
 
   <h3>#Strict mode</h3>
@@ -2790,7 +2760,7 @@
       <p>
         Scripts inserted like this will be executed.
         TODO which order?
-        http://stackoverflow.com/questions/94141/javascripts-document-write-inline-script-execution-order
+        <a href="http://stackoverflow.com/questions/94141/javascripts-document-write-inline-script-execution-order">http://stackoverflow.com/questions/94141/javascripts-document-write-inline-script-execution-order</a>
         Probably not a good idea to rely on such things.
       </p>
       <script>
@@ -2817,6 +2787,16 @@
       <script>previousElement().insertAdjacentHTML('beforeEnd', document.referrer)</script>
 
       <p>See also: <code>window.history</code></p>
+
+    <h4>#domain</h4>
+
+      <p>
+        <a href="http://www.w3.org/TR/html5/browsers.html#dom-document-domain">http://www.w3.org/TR/html5/browsers.html#dom-document-domain</a>
+      </p>
+      <p>Can always be read, and set with some SOP limitations.</p>
+
+      <div></div>
+      <script>previousElement().insertAdjacentHTML('beforeEnd', document.referrer)</script>
 
 <h2>#DOM</h2>
 
@@ -3733,6 +3713,19 @@
 <script>
 // TODO: convert comments on this script to HTML
 
+  // #Cookies and subdomains
+
+    // TODO By default, cookies can only be set and gotten for a given domain:
+
+    // - `www.example.com`
+    // - `example.com`
+
+    // TODO:
+
+    // - domains that start with dot `.`
+    // - HTTP cookie headers
+    // - document.domain
+
   // #path
 
     // Cookies can be set only for the **current** path and its parents.
@@ -3745,7 +3738,7 @@
 
   // #js interface
 
-    // #set values
+    // #Set values
 
       // Browser parses the strings.
 
@@ -3762,17 +3755,17 @@
 
       // Only `key2` is set. Only a single key can be set at a time.
 
-    // #get values
+    // #Get values
 
       // Not possible directly: must parse the `document.cookie` string.
 
-    // #delete values
+    // #Delete values
 
       // The simplest technique is to set a past expires date.
 
-  // #properties
+  // #Properties
 
-    // Are special key/value pairs that contain key metadata.
+    // Properties are special key/value pairs that contain key metadata.
 
     // #expires
 
@@ -3814,7 +3807,7 @@
 
         document.cookie = "keySafe=v;HttpOnly"
 
-  // #higher level interface
+  // #Higher level interface
 
     // The JavaScript cookie interface is very low level and inconvenient.
 
@@ -4308,6 +4301,23 @@
       }
     )
   </script>
+
+<h2>#Server sent events</h2>
+
+<h2>#SSE</h2>
+
+<h2>#Push notifications to browser</h2>
+
+<h2>#HTTP server push</h2>
+
+<h2>#HTTP streaming</h2>
+
+  <p><a href="http://www.w3.org/TR/eventsource/">http://www.w3.org/TR/eventsource/</a></p>
+  <p><a href="http://caniuse.com/#feat=eventsource">http://caniuse.com/#feat=eventsource</a></p>
+  <p><a href="http://en.wikipedia.org/wiki/Push_technology#HTTP_server_push">http://en.wikipedia.org/wiki/Push_technology#HTTP_server_push</a>/p>
+  <p><a href="http://en.wikipedia.org/wiki/Server-sent_events">http://en.wikipedia.org/wiki/Server-sent_events</a></p>
+  <p><a href="http://stackoverflow.com/questions/12352341/server-send-push-notification-to-client-browser-without-using-polling">http://stackoverflow.com/questions/12352341/server-send-push-notification-to-client-browser-without-using-polling</a></p>
+  <p><a href="http://stackoverflow.com/questions/1964494/how-to-make-all-connected-browsers-reload-initiated-by-a-server-side-event">http://stackoverflow.com/questions/1964494/how-to-make-all-connected-browsers-reload-initiated-by-a-server-side-event</a></p>
 
 <h2>#Extensions</h2>
 

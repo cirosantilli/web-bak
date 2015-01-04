@@ -581,15 +581,27 @@
     <h4>#not</h4>
 
       <p>Selector that negates a property.</p>
-      <p>As of CSS3, can only take *simple selectors*: http://www.w3.org/TR/css3-selectors/#negation</p>
-      <p>So for example, no: <code>a:not(div.nothere *)</code> to avoid targeting all elements inside a div: you have to duplicate code.</p>
+
+      <p>
+        As of CSS3, can only take *simple selectors*:
+        <a href="http://www.w3.org/TR/css3-selectors/#negation">http://www.w3.org/TR/css3-selectors/#negation</a>
+      </p>
+
+      <p>
+        So for example, no: <code>a:not(div.nothere *)</code> to avoid targeting all
+        elements inside a div: you have to duplicate code.
+      </p>
+
       <p>Pseudo selectors are out too.</p>
 
     <h4>#target</h4>
 
       <p>Matches only the element whose id matches the <code>#id</code> of the current URL.</p>
+
       <p><a href="#target1">target1</a> <span class="target" id="target1">target1</span></p>
+
       <p><a href="#target2">target2</a> <span class="target" id="target2">target2</span></p>
+
       <p>Major application: making modals</p>
 
     <h4>select by #content #contains</h4>
@@ -598,7 +610,9 @@
         As of CSS3 it is not possible to select by content:
         <a href="http://stackoverflow.com/questions/1520429/css-3-content-selector.">http://stackoverflow.com/questions/1520429/css-3-content-selector</a>
       </p>
+
       <p><code>:contains()</code> appeared in some CSS3 drafts but didn't make it, maybe in CSS4...</p>
+
       <p>One special case is possible however: <code>:empty</code>.</p>
 
     <h4>#empty</h4>
@@ -622,18 +636,27 @@
 
     <h4>Select #arbitrary elements when something happens</h4>
 
-      <p>No, it is not possible, only elements that have a direct child / sibling relationship with the selected one.</p>
+      <p>
+        No, it is not possible, only elements that have a direct child / sibling
+        relationship with the selected one.
+      </p>
+
       <p><a href="http://stackoverflow.com/questions/1824030/could-it-be-possible-to-make-css-selector-affect-other-elements-in-the-page-with">http://stackoverflow.com/questions/1824030/could-it-be-possible-to-make-css-selector-affect-other-elements-in-the-page-with</a></p>
+
       <p>Why someone might want to do it: when I hover element A, element B disappears.</p>
 
     <h4>#root</h4>
 
+    <h4>#:root</h4>
+
       <p>In HTML, always (TODO check: iframes?) refers to the root <code>html</code> element.</p>
+
       <p>However in SVG, it refers to the SVG root element.</p>
 
 <h2>#color specification</h2>
 
   <p>Colors are used in many places across CSS, but all of them can take the same values:</p>
+
   <ul>
     <li>named: <code>red</code>, <code>BurlyWood</code>, <code>transparent</code>. Case insensitive.</li>
     <li>6 digit hex: <code>#RRGGBB</code>, <code>#0088FF</code></li>
@@ -645,7 +668,9 @@
   <h3>#currentColor</h3>
 
     <p>CSS3 color: <a href="http://www.w3.org/TR/css3-color/#currentcolor">http://www.w3.org/TR/css3-color/#currentcolor</a></p>
+
     <p>Use the current text color.</p>
+
     <div style="color:red;">
       Before
       <span style="background-color:currentColor;">
@@ -653,7 +678,9 @@
       </span>
       After
     </div>
+
     <p>Cannot be tricked to act as an arbitrary variable: <a href="http://css-tricks.com/currentcolor/">http://css-tricks.com/currentcolor/</a>.</p>
+
     <p>Used to be <code>-moz-use-text-color</code> before it was standardized in CSS3.</p>
 
   <h3>#transparency</h3>
@@ -683,35 +710,94 @@
 
 <h2>#Length units</h2>
 
-  <ul>
-    <li>#px: pixels</li>
-    <li>#75%, 125%: multiplies the would be font size by a percentage</li>
-    <li>
-      #em: height of current font. Historically, width of letter <code>M</code>,
-      which is also equal to it's height in many fonts.
-    </li>
-    <li>
-      #ex: height of the <code>x</code> of current font == height of all lowercase letters in most fonts.
-      1ex == 0.5em in many fonts. Some browsers just define it to be 0.5em.
-      So don't rely on it.
-    </li>
-    <li>
-      <p>#ch: width of the character <code>0</code> of the font.</p>
-      <p>Low support as of 2014: http://www.quirksmode.org/css/units-values/.</p>
-      <p>Most useful with mono-space fonts styles, where all the widths are equal.</p>
-      <p>
-        Good workaround: use content to set the number of chars,
-        put it on background so that the chars are not selectable,
-        and set the front div transparent.
-      </p>
-    </li>
-  </ul>
+  <p><a href="http://css-tricks.com/the-lengths-of-css/">http://css-tricks.com/the-lengths-of-css/</a></p>
+
   <p>The value <code>0</code> does not need an unit.</p>
+
   <p>
     In addition to the common <code>length</code> measures,
     some properties can also have special keyword values,
     like <code>font-size</code>'s <code>small</code> and <code>medium</code>.
   </p>
+
+  <h3>#px</h3>
+
+    <p>
+      Avoid them at all costs: use percentage or font relative units instead
+      as those scale better across devices.
+    </p>
+
+    <p>
+      <a href="http://stackoverflow.com/questions/20298221/using-cm-in-responsive-media-queries">http://stackoverflow.com/questions/20298221/using-cm-in-responsive-media-queries</a>
+      This used to correspond to the actual hardware pixel width,
+      but this is changing with new hardware that has higher pixel densities.
+      See also <code>device-pixel-ratio</code>.
+    </p>
+
+    <p>#75%, 125%: multiplies the would be font size by a percentage</p>
+
+  <h3>Physical units</h3>
+
+    <h4>#in</h4>
+
+    <h4>#cm</h4>
+
+    <h4>#mm</h4>
+
+      <p>Defined in terms of pixels. Never use them.</p>
+
+  <h3>Font relative units</h3>
+
+    <p>You should always use those.</p>
+
+    <h4>#em</h4>
+
+      <p>
+        Height of current font. Historically, width of letter <code>M</code>,
+        which is also equal to it's height in many fonts.
+      </p>
+
+    <h4>#rem</h4>
+
+      <p>Like <code>em</code> but always relative to the root element <code>:root</code>.</p>
+
+    <h4>#ex</h4>
+
+      <p>
+        Height of the <code>x</code> of current font == height of all lowercase letters in most fonts.
+        1ex == 0.5em in many fonts. Some browsers just define it to be 0.5em.
+        So don't rely on it.
+      </p>
+
+    <h4>#ch</h4>
+
+      <p>#ch: width of the character <code>0</code> of the font.</p>
+
+      <p>Low support as of 2014: http://www.quirksmode.org/css/units-values/.</p>
+
+      <p>Most useful with mono-space fonts styles, where all the widths are equal.</p>
+
+      <p>
+        Good workaround: use content to set the number of chars,
+        put it on background so that the chars are not selectable,
+        and set the front div transparent.
+      </p>
+
+    <h4>#Point</h4>
+
+    <h4>#pt</h4>
+
+      <p>1/72 inch.</p>
+
+      <p>How is this font-relative then?</p>
+
+    <h4>#Pica</h4>
+
+    <h4>#pc</h4>
+
+      <p>1/12 point.</p>
+
+  <h3>#px</h3>
 
   <h3>#vh</h3>
 
@@ -735,14 +821,18 @@
       Some properties are inherited by default, others not.
       If this property is given, it forces to inherit the value.
     </p>
+
     <p>Example: <code>border</code> is not inherited by default:</p>
+
     <div class="border">outside span <span                        >inside span</span></div>
     <div class="border">outside span <span style="border:inherit;">inside span</span></div>
+
     <p>Good way to DRY things out in pure CSS.</p>
 
   <h3>#text #font properties</h3>
 
     <p>First understand some font parameters:</p>
+
     <img src="typography-line-terms.svg" alt="typography-line-terms" style="height:200px;"/>
 
     <h4>#color</h4>
@@ -752,11 +842,15 @@
     <h4>#line-height</h4>
 
       <p>Minimum vertical space lines occupy.</p>
+
       <p>Unitless means percentage of current font size.</p>
+
       <p>Characters are centered vertically on the line height.</p>
+
       <p>Default value: around 1.2, can vary slightly with the font.</p>
+
       <p>It is better to always use unit less values.</p>
-      <p></p>
+
       <div class="border" style="line-height:50px;">50px</div>
       <div class="border" style="line-height:100px;">100px</div>
 
@@ -764,6 +858,7 @@
         font-size larger than line-height: occupied space is given by line-height,
         font overflows neighbouring elements / lines:
       </p>
+
       <div class="border" style="font-size:50px; line-height:25px; width:250px;">
                                  font-size:50px; line-height:25px;
       </div>
@@ -790,6 +885,7 @@
         At <code>line-height:1</code>, baseline can overflow slightly to lower div,
         but a small margin is left at the top.
       </p>
+
       <div style="margin-bottom: 50px; position:relative;">
         <div class="border inline-block" style="height:50px; line-height:50px; position:absolute; width:100%;">
           50px
@@ -812,6 +908,7 @@
       </div>
 
       <p>In addition to the standard length measures, the font size can also be one of the following keywords:</p>
+
       <ul>
         <li>
           Absolute size: <code>xx-small | x-small | small | medium | large | x-large | xx-large</code>.
@@ -822,10 +919,12 @@
           Move to the next / previous font size relative to the current one.
         </li>
       </ul>
+
       <p>
         TODO check: the value is absolute, not relative to current size.
         The multiplier is relative to the browser's defaults?
       </p>
+
       <p>
         It is probably a better idea to just stick to <code>em</code> everywhere,
         and then set the absolute value once on the root element.
@@ -834,19 +933,23 @@
     <h4>#font-weight</h4>
 
       <p>How thick the characters are.</p>
+
       <p style="font-weight:bold;">font-weight bold</p>
+
       <p style="font-weight:normal;">font-weight normal</p>
+
       <p style="font-weight:900;">font-weight 900</p>
 
     <h4>#font-family</h4>
 
       <p>List of fonts, if first not present, fall back to next.</p>
+
       <p>
         Fonts can either be precise font names, or generic families.
         Start with the more specific and then let fall back to more general ones.
       </p>
+
       <p style='font-family:"Courier New",Courier,monospace,"Times New Roman",Georgia,Serif;'>font-family Courier New</p>
-      <p></p>
 
     <h4>Font loading</h4>
 
@@ -861,7 +964,9 @@
         Stretch the font horizontally. Only a few keywords are possible,
         and if not present in the font it may happen that nothing changes.
       </p>
+
       <p style="font-stretch:ultra-condensed;">ultra-condensed</p>
+
       <p style="font-stretch:ultra-stretched;">ultra-stretched</p>
 
     <h4>#text-decoration</h4>
@@ -882,6 +987,7 @@
     <h4>#text-align</h4>
 
       <p>Set the horizontal alignment for inner text and inline elements.</p>
+
       <div class="border" style="width:300px; height:50px; text-align:left;">left</div>
       <div class="border" style="width:300px; height:50px; text-align:center;">center</div>
       <div class="border" style="width:300px; height:50px; text-align:right;">right</div>
@@ -892,20 +998,25 @@
 
       <h5>Center text vertically</h5>
 
-        <p>http://stackoverflow.com/questions/8865458/how-to-align-text-vertical-center-in-div-with-css</p>
+        <p><a href="http://stackoverflow.com/questions/8865458/how-to-align-text-vertical-center-in-div-with-css">http://stackoverflow.com/questions/8865458/how-to-align-text-vertical-center-in-div-with-css</a></p>
+
         <p>
           <code>line-height</code> == <code>height</code>. Good implementation status.
           Not DRY, but can be made so with SASS.
         </p>
+
         <div class="border" style="width:100px; height:100px; line-height:100px;">center</div>
 
         <p>
           <code>display:table-cell</code> + <code>vertical-align:middle</code>.
           Lower browser support, but dry. Makes the element like <code>display:inline-block</code>.
         </p>
+
         <div class="border" style="width:100px; height:100px; text-align:left;   display:table-cell; vertical-align:middle;">left</div>
         <div class="border" style="width:100px; height:100px; text-align:center; display:table-cell; vertical-align:middle;">center</div>
         <div class="border" style="width:100px; height:100px; text-align:right;  display:table-cell; vertical-align:middle;">right</div>
+
+    <h4>#wrap</h4>
 
     <h4>#white-space</h4>
 
@@ -932,15 +1043,18 @@ pre-line  Preserve   Collapse         Wrap
       <h5>#white-space:pre</h5>
 
         <p>Achieves similar effect to the <code>pre</code> HTML element, but:</p>
+
         <ul>
           <li><code>pre</code> ignores the first character if it is a newline, while <code>white-space:pre</code> does not.</li>
           <li>Firefox on copy paste does not preserve newlines for <code>white-space:pre</code>, but does for <code>pre</code>.
             <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=116083">https://bugzilla.mozilla.org/show_bug.cgi?id=116083</a>
           </li>
         </ul>
+
         <p>Just because of the Firefox "bug", it is better to use <code>pre</code> elements instead of the CSS.</p>
 
         <p>Newline before and after style="white-space:pre"</p>
+
         <div class="border" style="white-space:pre">
 a
  b
@@ -950,6 +1064,7 @@ a
     <h4>#tab-size</h4>
 
       <p>Specify the size of the tab character.</p>
+
       <p>Default value: 8.</p>
 
     <h4>#white-space-collapse #bikeshedding</h4>
@@ -964,8 +1079,11 @@ a
         <code>word-wrap</code> is the old name of the property,
         which was in older CSS3 drafts and has been widely implemented.
       </p>
+
       <p><code>overflow-wrap</code> is the current name in the CSS3 draft.</p>
+
       <p>Values:</p>
+
       <ul>
         <li><code>normal</code>: lines can only wrap at the default points like spaces.</li>
         <li>
@@ -982,9 +1100,12 @@ a
       <p><code>word-wrap:break-word</code>:</p>
       <div class="border" style="word-wrap:break-word; width:50px">mmmmmmmmmmmmmmmm</div>
 
-      <h4>#Select where the break may happen</h4>
+      <h4>#hyphen</h4>
 
-        <p>Use a</p>
+        <p>
+          <code>word-hyphen</code> that adds hyphens. CSS L3 working draft as of 2014:
+          <a href="http://www.w3.org/TR/css3-text/#hyphenation">http://www.w3.org/TR/css3-text/#hyphenation</a>.
+        </p>
 
     <h4>#word-break</h4>
 
@@ -1054,13 +1175,17 @@ a
 
     <p>Describes what are margins, borders and paddings.</p>
     <p>
-      <code>margin</code> and <code>padding</code> can take 1, 2, 3 or 4 arguments:http://www.htmldog.com/reference/cssproperties/margin/. 
+      <code>margin</code> and <code>padding</code> can take 1, 2, 3 or 4 arguments:
+      http://www.htmldog.com/reference/cssproperties/margin/.
       They are just shorthands for setting the four margins at once.
     </p>
 
     <h4>#collapse margins</h4>
 
-      <p>If two vertical margins are adjacent, only the largest one is used:http://www.w3.org/TR/CSS2/box.html</p>
+      <p>
+        If two vertical margins are adjacent, only the largest one is used:
+        http://www.w3.org/TR/CSS2/box.html
+      </p>
       <p>TODO make example work. First need to better understand vertical align...</p>
       <div style="vertical-align:top;">
         <div class="border" style="display:table-cell; width:100px; height:100px; margin:0px; text-align:center;">
@@ -1263,27 +1388,32 @@ a
         100x50
       </div>
     </div>
-    <div style="width:200px; height:100px;  padding:5px; overflow-y:auto;" class="border">
+    <div style="width:200px; height:100px; padding:5px; overflow-y:auto;" class="border">
       200x100
       <div style="width:100px; height:200px; background:linear-gradient(red,blue);" class="border">
         100x200
       </div>
     </div>
 
-    <p>Initial value: <code>visible</code>. If inner element is larger than outer, it just falls out:</p>
-    <div style="width:200px; height:50px; padding:5px;" class="border">
-      test<br/>test<br/>test<br/>test<br/>test<br/>test<br/>
-    </div>
+    <h4>#Visible</h4>
 
-    <p>If no scroll, the overflow can be hidden with <code>overflow:hidden</code></p>
-    <div style="width:200px; height:50px; padding:5px; overflow:hidden;" class="border">
-      test<br/>test<br/>test<br/>test<br/>test<br/>test<br/>
-    </div>
+      <p>Initial value: <code>visible</code>. If inner element is larger than outer, it just falls out:</p>
+      <div style="width:200px; height:50px; padding:5px;" class="border">
+        test<br/>test<br/>test<br/>test<br/>test<br/>test<br/>
+      </div>
 
-    <p>
-      Scrollbar style:
-      <a href="http://stackoverflow.com/questions/7725652/css-scrollbar-style-cross-browser">http://stackoverflow.com/questions/7725652/css-scrollbar-style-cross-browser</a>
-    </p>
+    <h4>#hidden</h4>
+
+      <p>If no scroll, the overflow can be hidden with <code>overflow:hidden</code></p>
+      <div style="width:200px; height:50px; padding:5px; overflow:hidden;" class="border">
+        test<br/>test<br/>test<br/>test<br/>test<br/>test<br/>
+      </div>
+
+    <h4>#Scrollbar style</h4>
+
+      <p>
+        <a href="http://stackoverflow.com/questions/7725652/css-scrollbar-style-cross-browser">http://stackoverflow.com/questions/7725652/css-scrollbar-style-cross-browser</a>
+      </p>
 
     <h4>#block formatting context</h4>
 
@@ -2074,7 +2204,7 @@ a
 
   <h3>##media</h3>
 
-  <h3>##media query</h3>
+  <h3>##Media query</h3>
 
     <p>Determine (query) properties of the current device and set custom CSS rules for it.</p>
     <p>
@@ -2082,7 +2212,7 @@ a
       <a href="http://stackoverflow.com/questions/9808233/is-it-possible-to-put-css-media-rules-inline">http://stackoverflow.com/questions/9808233/is-it-possible-to-put-css-media-rules-inline</a>
     </p>
 
-    <h4>Device type</h4>
+    <h4>Media type</h4>
 
       <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media">https://developer.mozilla.org/en-US/docs/Web/CSS/@media</a></p>
       <p>Most devices are not implemented on Firefox, so don't rely much on this feature yet.</p>
@@ -2097,7 +2227,11 @@ a
         <li class="screen">screen: most desktops and laptops</li>
       </ul>
 
-      <h4>#print media</h4>
+      <h5>#all</h5>
+
+        <p>Default media type so can be omitted.</p>
+
+      <h5>#print media</h5>
 
         <p>Tips on how to get it right. Very difficult.</p>
         <p>Also show link destination on PDFs:</p>
@@ -2109,23 +2243,45 @@ a
           }
         </pre>
 
-    <h4>Device properties</h4>
+    <h4>#Media Features</h4>
 
-      <p>
-        It is possible to make complex queries with the <code>and</code>
-        and comma <code>,</code> operators.
-      </p>
-      <p>Interesting properties include:</p>
-      <ul>
-        <li>width, min-width, max-width: current window width</li>
-        <li>
+      <h5>#max-width</h5>
+
+        <p>
+          It is possible to make complex queries with the <code>and</code>
+          and comma <code>,</code> operators.
+        </p>
+
+        <h4>#max-width media query</h4>
+
+        <h4>#min-width media query</h4>
+
+          <p>width, min-width, max-width: current window width</p>
+
+          <div class="border" id="media-width-rainbow">
+            <a href="#media-width-rainbow">This div changes color with your browser width. Go and resize it!</a>
+          </div>
+
+      <h5>#device-width-max</h5>
+
+        <p>
           device-width, min and max. Device capability. Less useful than width,
           since a browser can be resized to, say, half screen size, and this won't change.
-        </li>
-      </ul>
-      <div class="border" id="media-width-rainbow">
-        <a href="#media-width-rainbow">This div changes color with your browser width. Go and resize it!</a>
-      </div>
+          Strongly discouraged by
+          <a href="https://developers.google.com/web/fundamentals/layouts/rwd-fundamentals/use-media-queries?hl=en#a-note-on-min-device-width">https://developers.google.com/web/fundamentals/layouts/rwd-fundamentals/use-media-queries?hl=en#a-note-on-min-device-width</a>
+        </p>
+
+      <h5>#device-pixel-ratio</h5>
+
+        <p>TODO</p>
+
+      <h5>#min-resolution</h5>
+
+        <p>TODO</p>
+
+      <h5>#orientation</h5>
+
+        <p>See: <a href="orientation.html">orientation.html</a></p>
 
     <h4>Impossible detections</h4>
 
@@ -2138,30 +2294,52 @@ a
 
   <h3>#Triangles</h3>
 
+    <p>
+      Works because orthogonal borders split linearly angles,
+      thus 45 degrees for equal width borders.
+    </p>
+
     <div class="triangle-up"></div>
-    <p>Works because orthogonal borders split linearly angles, thus 45 degrees for equal width borders.</p>
     <div style="height:100px; width:100px; border-bottom:20px solid blue; border-right:40px solid green;"></div>
 
   <h3>#Modals</h3>
 
     <p>
-      Modals are dialogs that block the window that actions originated them, like Javascript <code>alert</code>:
+      Modals are dialogs that block the window that actions originated them, like JavaScript <code>alert</code>:
       <a href="http://en.wikipedia.org/wiki/Modal_window">http://en.wikipedia.org/wiki/Modal_window</a>
     </p>
 
-    <p>It is possible to make modals without Javascript with only CSS through the <code>target</code> property.</p>
+    <p>It is possible to make modals without JavaScript with only CSS through the <code>target</code> property.</p>
 
     <h4>#Lightbox</h4>
-    <p>
-      Lightbox is a modal for displaying images.
-      It was originally the name of a plugin, which became so popular
-      that the term has since been used to describe the type of effect in general.
-      <a href="http://en.wikipedia.org/wiki/Lightbox_%28JavaScript%29">http://en.wikipedia.org/wiki/Lightbox_%28JavaScript%29</a>
-    </p>
+
+      <p>
+        Lightbox is a modal for displaying images.
+        It was originally the name of a plugin, which became so popular
+        that the term has since been used to describe the type of effect in general.
+        <a href="http://en.wikipedia.org/wiki/Lightbox_%28JavaScript%29">http://en.wikipedia.org/wiki/Lightbox_%28JavaScript%29</a>
+      </p>
 
   <h3>#Color palette from image</h3>
 
     <p><a href="http://lifehacker.com/5153828/create-a-color-palette-from-a-single-image">http://lifehacker.com/5153828/create-a-color-palette-from-a-single-image</a></p>
+
     <p>Get dominant colors from a picture, so you can design using those colors for uniformity.</p>
+
+  <h3>#Mobile</h3>
+
+    <p>Getting sizes right on mobile may be a pain at first because of different pixel densities. See also:</p>
+
+    <ul>
+      <li><a href="http://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html">http://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html</a></li>
+      <li>CSS's <code>device-pixel-width</code> media query</li>
+      <li>HTML's <code>viewport</code> <code>meta</code> tag</li>
+    </ul>
+
+<h2>#Design</h2>
+
+  <p>Mobile finger minimal target size recommendation: Apple 44px, Microsoft 36px, Nokia 28px.</p>
+
+  <p>Where to put media share buttons: <a href="http://coschedule.com/blog/social-media-buttons/">http://coschedule.com/blog/social-media-buttons/</a></p>
 </body>
 </html>
