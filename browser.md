@@ -16,22 +16,29 @@ Starts with disabled extensions in case they are causing a crash:
 
     firefox -safe-mode
 
-Fundamental shortcuts:
+### Keyboard shortcuts
 
 - `'`: search for link text. Enter click will go to the destination.
 - `Ctrl + L`: location bar
 - `Ctrl + K`: search bar
+- `F6`: web page
 
-Development shortcuts:
+Development:
 
 -   `Ctrl + Shift + C`: open inspector on element selection mode.
     Hover over elements to analyse them
 
 -   `Ctrl + Shift + I`: toggle inspector
 
-Tools without shortcut:
+### Tools without shortcut
 
 -   <http://stackoverflow.com/questions/13158083/take-a-full-page-screenshot-with-firefox>
+
+### Preferences
+
+Restore old linear search engines interface:
+<https://support.mozilla.org/en-US/questions/1033968>
+on `about:config` set `browser.search.showOneOffButtons` to `False`
 
 #### Developer tools
 
