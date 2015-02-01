@@ -3,18 +3,31 @@
 <head>
   <meta charset="utf-8"/>
   <title>HTML Cheatsheet</title>
+
   <!-- #meta -->
+
     <meta name="description" content="Desctiption 0" />
     <meta name="keywords" content="keyword0,keyword1,keyword2" />
     <meta name="author" content="First Last" />
     <!--<meta http-equiv="refresh" content="1">-->
     <!--<meta http-equiv="refresh" content="5; url=http://example.com/">-->
+
+    <!-- Invalid. -->
+    <!--<meta name="custom-name" content="custom-content" />-->
+
+    <meta property="custom-property" content="custom-content" />
+    <meta id="meta-id" content="meta-id-content" />
+
+  <!-- #link -->
+
+    <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
+    <!--<link rel="custom-rel" type="custom-type" href="flower.jpg" />-->
+
+  <!-- Not part of the cheat: only to improve usability. TODO factor out without breaking pre Jekyll HTLM -->
+
     <style>
       .border { border:1px solid black; }
     </style>
-    <link rel="shortcut icon" type="image/x-icon" href="flower.jpg" />
-
-  <!-- Not part of the cheat: only to improve usability. TODO factor out without breaking pre Jekyll HTLM -->
 
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="/assets/jquery.toc.js"></script>
@@ -72,7 +85,10 @@ This seems not to be possible because of the cross site request:
   </script>
 -->
 <div style="float:right;">
-  Validation of <b>live</b> site (<b>not</b> localhost one):<br/>
+  <p>
+    Validation of <b>live</b> site (<b>not</b> localhost one).
+    As of 25 Jan 2015, 6 errors are SVG validator bugs.<br/>
+  </p>
   <iframe src="http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html"
       style="width:600px; height:600px;"></iframe>
 </div>
@@ -537,11 +553,30 @@ This seems not to be possible because of the cross site request:
         After hidden.
       </p>
 
+    <h4>#property</h4>
+
+      <p>Often used with the <code>meta</code> attribute.</p>
+
+      <p>Used for RDFa.</p>
+
+      <p>Many proprietary values are used.</p>
+
+      <p>
+        TODO vs <code>property</code>?
+        <a href="http://stackoverflow.com/questions/22350105/whats-the-difference-between-meta-name-and-meta-property">http://stackoverflow.com/questions/22350105/whats-the-difference-between-meta-name-and-meta-property</a>
+      </p>
+
+    <h4>#RDFa</h4>
+
+      <p><a href="http://www.w3.org/TR/rdfa-lite">http://www.w3.org/TR/rdfa-lite</a></p>
+      <p>Allows to add arbitrary metadata do a document.</p>
+      <p>TODO: vs meta?</p>
+
   <h3>#IDL attribute vs #content attribute</h3>
 
     <p>
       Not content attributes that are written in HTML tags,
-      but rather internal properties that are accessible through Javascript
+      but rather internal properties that are accessible through JavaScript
       properties of the DOM model.
       For this reason they are often called properties.
     </p>
@@ -565,6 +600,7 @@ This seems not to be possible because of the cross site request:
 <h2>#head</h2>
 
   <p>Contains document metadata.</p>
+
   <p>
     Can be omitted:
     <a href="http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags">http://stackoverflow.com/questions/5641997/is-it-necessary-to-write-head-body-and-html-tags</a>
@@ -574,25 +610,54 @@ This seems not to be possible because of the cross site request:
   <h3>#title</h3>
 
     <p>Required.</p>
+
     <p>On all modern browsers, appears on the tab name.</p>
+
     <p>Has big importance to search engines.</p>
 
   <h3>#meta</h3>
 
-    <p>As you may guess, contain document metadata.</p>
+    <p>Document metadata.</p>
+
+    <p>The <code>property</code> global attribute is often used on it.</p>
+
     <p>
-      Besides a few standard <code>name</code> arguments, HTML5 says that anyone
-      can recommend a new <code>name</code> usage:
-      <a href="http://wiki.whatwg.org/wiki/MetaExtensions">http://wiki.whatwg.org/wiki/MetaExtensions</a>.
-      For instance, Rails defines <code>csrf-param</code> and <code>csrf-token</code> there.
+      <code>meta</code> must have at least one of the following attributes:
+      <code>http-equiv</code>, <code>itemprop</code>, <code>name</code>, <code>property</code>.
     </p>
 
-    <h4>#description</h4>
+    <h4>#name</h4>
+
+    <h4>#content</h4>
 
       <p>
-        An important metadata, as it is likely to show on search engine result snippets.
-        <a href="https://support.google.com/webmasters/answer/35624?hl=en">https://support.google.com/webmasters/answer/35624?hl=en</a>
+        <code>meta</code> can be used to define a key value dictionary,
+        where the keys are stored in the <code>name</code> attribute,
+        and the value on the <code>content</code> attribute.
       </p>
+
+      <p>
+        Besides a few standard <code>name</code> arguments, HTML5 says that anyone
+        can recommend a new <code>name</code> usage:
+        <a href="http://wiki.whatwg.org/wiki/MetaExtensions">http://wiki.whatwg.org/wiki/MetaExtensions</a>.
+        For instance, Rails defines <code>csrf-param</code> and <code>csrf-token</code> there.
+      </p>
+
+      <p>
+        However, for the validator to pass you must add your <code>name</code> value to the WHATWG wiki,
+        which is peer reviewed. The validator parses the wiki every time for the validation.
+      </p>
+
+      <p>Many proprietary values are registered, e.g. from Twitter.</p>
+
+      <p>Commented out failing example: <code>custom-name</code>.</p>
+
+      <h5>#description</h5>
+
+        <p>
+          An important metadata, as it is likely to show on search engine result snippets.
+          <a href="https://support.google.com/webmasters/answer/35624?hl=en">https://support.google.com/webmasters/answer/35624?hl=en</a>
+        </p>
 
     <h4>#charset</h4>
 
@@ -1211,16 +1276,22 @@ b</code></pre>
   <h3>#link</h3>
 
     <p>The link element links to different types of external documents.</p>
-    <p>The <code>rel</code> attribute specifies what is the type.</p>
     <p>
       One notable exception of external document that is not referred to via
-      link ref are scripts such as Javascript, which must be referred to with script <code>href</code>.
+      link ref are scripts such as JavaScript, which must be referred to with script <code>href</code>.
       Why? <a href="http://stackoverflow.com/questions/2631635/can-i-load-javascript-code-using-link-tag">http://stackoverflow.com/questions/2631635/can-i-load-javascript-code-using-link-tag</a>
     </p>
 
-    <h4>#import</h4>
+    <h3>#rel</h3>
 
-      <p><a href="http://www.html5rocks.com/en/tutorials/webcomponents/imports/">http://www.html5rocks.com/en/tutorials/webcomponents/imports/</a></p>
+      <p>The <code>rel</code> attribute specifies what is the main meaning of the linked element.</p>
+      <p>
+        Only the white-listed <code>rel</code> values generate valid HTML5,
+        although major websites use invalid extensions, e.g. GitHub uses <code>xhr-socket</code>.
+      </p>
+      <p>Vendors have also created extensions, e.g. <code>apple-touch-icon</code> from Apple.</p>
+
+    <h3>#rel</h3>
 
     <h4>#shortcut icon</h4>
 
@@ -1229,6 +1300,10 @@ b</code></pre>
       <p>The image will show on most browsers on the tab before the title.</p>
       <p>It is like an icon of a desktop application.</p>
       <p>A standard name for the icon image is <code>favicon.ico</code>.</p>
+
+    <h4>#import</h4>
+
+      <p><a href="http://www.html5rocks.com/en/tutorials/webcomponents/imports/">http://www.html5rocks.com/en/tutorials/webcomponents/imports/</a></p>
 
 <h2>#a</h2>
 
