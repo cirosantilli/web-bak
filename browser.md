@@ -40,6 +40,12 @@ Restore old linear search engines interface:
 <https://support.mozilla.org/en-US/questions/1033968>
 on `about:config` set `browser.search.showOneOffButtons` to `False`
 
+Useful `about:config` options:
+
+- `toolkit.scrollbox.verticalScrollDistance`: change how much the down key scrolls up and down. Default `3` was too little for me: `10` was good.
+
+Disable `Ctrl + Q` from closing the app: <http://askubuntu.com/questions/10880/disable-ctrlq-in-firefox-without-keyconfig-extension> Only seems possible with extensions. There is an extension just to do it: <https://addons.mozilla.org/en-US/firefox/addon/disable-ctrl-q-shortcut/>
+
 #### Developer tools
 
 ##### Tamper data
@@ -60,6 +66,19 @@ because the authenticity tokens and cookies are all there.
 Automatically reload page if local file was modified.
 
 Great for previewing HTML output from lightweight markups like Markdown.
+
+### Plugins
+
+#### Mouseless browsing
+
+<https://addons.mozilla.org/en-us/firefox/addon/mouseless-browsing/>
+
+Permanently show little unique numeric ID boxes for each link.
+
+You can configure:
+
+- which characters can be used for the IDs.
+- only show link numbers on a given key press. Tip: use the same key that you use to open the links, e.g. Ctrl or Alt.
 
 ### Chrome
 
