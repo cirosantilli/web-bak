@@ -16,7 +16,6 @@
     <!--<meta name="custom-name" content="custom-content" />-->
 
     <meta property="custom-property" content="custom-content" />
-    <meta id="meta-id" content="meta-id-content" />
 
   <!-- #link -->
 
@@ -91,7 +90,8 @@ This seems not to be possible because of the cross site request:
 <div style="float:right;">
   <p>
     Validation of <b>live</b> site (<b>not</b> localhost one).
-    As of 25 Jan 2015, 6 errors are SVG validator bugs.<br/>
+    6 errors are SVG validator bugs.
+  <br/>
   </p>
   <iframe src="http://validator.w3.org/check?uri=http%3A%2F%2Fcirosantilli.github.io%2Fweb%2Fhtml.html"
       style="width:600px; height:600px;"></iframe>
@@ -102,7 +102,7 @@ This seems not to be possible because of the cross site request:
 </p>
 <p>Considers both W3C standards and browser support.</p>
 
-<ul data-toc></ul>
+<ol data-toc></ol>
 
 <h2>#Standards</h2>
 
@@ -1920,9 +1920,9 @@ b</code></pre>
       <form action="#datalist" id="datalist">
         <input list="datalist-id" name="name">
         <datalist id="datalist-id">
-          <option value="abcdef">
-          <option value="defghi">
-          <option value="ghijkl">
+          <option value="abc">abc</option>
+          <option value="def">def</option>
+          <option value="ghi">ghi</option>
         </datalist>
         <button type="submit">Submit</button>
       </form>
