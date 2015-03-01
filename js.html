@@ -13,15 +13,19 @@
    }
   </style>
   <script src="assert.js"></script>
-  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script src="/assets/jquery.toc.js"></script>
-  <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-  <script>
-    $('#toc').toc({
-      content: 'div.content',
-      headings: 'h1,h2,h3,h4,h5,h6'
-    });
-  </script>
+
+  <!-- Not part of the cheat: only to improve usability. -->
+
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="jquery.toc.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script>
+      $('#toc').toc({
+        content: 'div.content',
+        headings: 'h1,h2,h3,h4,h5,h6'
+      });
+    </script>
+    <link rel="stylesheet" href="/assets/header-link.css"/>
 </head>
 <body onload="document.getElementById('onload').innerHTML = 'onload'">
 <h1>JavaScript Cheatsheet</h1>
