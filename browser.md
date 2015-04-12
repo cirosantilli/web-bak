@@ -12,9 +12,15 @@ Search with default engine:
 
     firefox -search asdf
 
-Starts with disabled extensions in case they are causing a crash:
+## Trouble shooting
 
-    firefox -safe-mode
+Update to the latest version.
+
+Starts with disabled extensions in case they are causing problems:
+
+    firefox --safe-mode
+
+Do a "Firefox Refresh":
 
 ### Keyboard shortcuts
 
@@ -25,10 +31,8 @@ Starts with disabled extensions in case they are causing a crash:
 
 Development:
 
--   `Ctrl + Shift + C`: open inspector on element selection mode.
-    Hover over elements to analyse them
-
--   `Ctrl + Shift + I`: toggle inspector
+- `Ctrl + Shift + C`: open inspector on element selection mode. Hover over elements to analyse them
+- `Ctrl + Shift + I`: toggle inspector
 
 ### Tools without shortcut
 
@@ -36,9 +40,7 @@ Development:
 
 ### Preferences
 
-Restore old linear search engines interface:
-<https://support.mozilla.org/en-US/questions/1033968>
-on `about:config` set `browser.search.showOneOffButtons` to `False`
+Restore old linear search engines interface: <https://support.mozilla.org/en-US/questions/1033968> on `about:config` set `browser.search.showOneOffButtons` to `False`
 
 Useful `about:config` options:
 
@@ -52,12 +54,9 @@ Disable `Ctrl + Q` from closing the app: <http://askubuntu.com/questions/10880/d
 
 <https://addons.mozilla.org/en-US/firefox/addon/tamper-data/>
 
-Allows you to view and modify a request after triggering it on the website,
-but before it gets sent: a popup opens, the and request waits for you to modify it.
+Allows you to view and modify a request after triggering it on the website, but before it gets sent: a popup opens, the and request waits for you to modify it.
 
-Great to try and hack websites.
-Better than curl when there is authentication
-because the authenticity tokens and cookies are all there.
+Great to try and hack websites. Better than curl when there is authentication because the authenticity tokens and cookies are all there.
 
 ##### Auto Reload
 
