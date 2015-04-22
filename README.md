@@ -1,4 +1,3 @@
-Web frontend cheatsheets: HTML, CSS, JavaScript: <http://www.cirosantilli.com/web>
+# Web
 
-Submodule for: <https://github.com/cirosantilli/cirosantilli.github.io>,
-but most of the files here are pure HTML and can be run directly.
+Renamed to: <https://github.com/cirosantilli/web-cheat>
